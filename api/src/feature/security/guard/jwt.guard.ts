@@ -1,4 +1,3 @@
-
 import {JwtService} from '@nestjs/jwt';
 import {from, Observable} from 'rxjs';
 import {NoTokenFoundedException, TokenExpiredException} from '../security.exception';
