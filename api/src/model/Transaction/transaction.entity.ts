@@ -1,34 +1,36 @@
 import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Cryptomoney } from '../Cryptomoney/cryptomoney.entity';
-import { User } from '../User/user.entity';
-import { Wallet } from '../Wallet/wallet.entity';
+import { User } from 'model/User/user.entity'; // Assurez-vous du chemin correct vers User
 
 @Entity()
 export class Transaction {
+
   @PrimaryGeneratedColumn({ name: 'transaction_id' })
   id_transaction: number;
 
-  @Column()
-  type: string;
+  @Column({ name: 'type_transaction' })
+  typeTransaction: string;
 
-  @Column()
-  amount: number;
+  @Column({ name: 'amount_transaction' })
+  amount_transaction: number;
 
-  @Column({ name: 'cryptomoney_id' }) // Assuming this column name matches the actual column name in the Cryptomoney table
-  cryptomoneyId: number;
+  @Column({ name: 'transaction_currency_type' })
+  type_money_transaction: number;
 
-  @ManyToOne(() => Cryptomoney, cryptomoney => cryptomoney.transactions)
-  cryptomoney: Cryptomoney;
+  @Column({ name: 'date_transaction' })
+  date_transaction: Date;
 
-  @Column({ name: 'wallet_id' }) // Assuming this column name matches the actual column name in the Wallet table
-  walletId: number;
+  @Column({ name: 'time_transaction' })
+  time_transaction: Date;
 
-  @ManyToOne(() => Wallet, wallet => wallet.transactions)
-  wallet: Wallet;
+  @Column({ type: 'decimal', precision: 10, scale: 2, name: 'transaction_cost' })
+  transaction_cost: number;
 
-  @Column({ name: 'user_id' }) // Assuming this column name matches the actual column name in the User table
-  userId: number;
+  @Column({ name: 'id_user_fk' })
+  id_user_fk: number;
 
   @ManyToOne(() => User, user => user.transactions)
   user: User;
+  transaction_currency_type: string;
+
+
 }

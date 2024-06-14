@@ -3,7 +3,6 @@ import { Credential, RefreshTokenPayload, Token } from "../data";
 import { JwtService } from "@nestjs/jwt";
 import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
-
 import { Builder } from "builder-pattern";
 import { configManager } from "@common/config/config.manager";
 import { ConfigKey } from "@common/config/enum";

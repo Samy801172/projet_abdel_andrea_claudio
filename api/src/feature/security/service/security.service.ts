@@ -13,6 +13,7 @@ import {ulid} from 'ulid';
 
 
 @Injectable()
+
 export class SecurityService {
 
  private readonly logger = new Logger(SecurityService.name);
@@ -58,6 +59,7 @@ export class SecurityService {
     const result: Credential | null = await this.repository.findOneBy({username:
       payload.username});
     if (!isNil(result)) {
+
       throw new UserAlreadyExistException();
     }
     try {
@@ -73,6 +75,7 @@ export class SecurityService {
           .build());
     } catch (e) {
       this.logger.error(e);
+
       throw new SignupException();
     }
   }

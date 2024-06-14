@@ -1,22 +1,21 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
-import { ForumService } from './forum.service';
-import { CreateForumDto } from './create-forum.dto';
+import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
+import { UpdateForumDto } from './dto/update-forum.dto';
+import { CreateForumDto } from './dto/create-forum.dto';
+import { ForumService } from './forum.service'; // Make sure to import ForumService
 
-// The controller for forum-related endpoints
 @Controller('forum')
 export class ForumController {
-  // Injecting the ForumService
-  constructor(private readonly forumService: ForumService) {}
+  constructor(private readonly forumService: ForumService) {} // Inject ForumService here
 
-  // Endpoint to create a new forum entry
   @Post()
   async create(@Body() createForumDto: CreateForumDto) {
     return this.forumService.create(createForumDto);
   }
-
   // Endpoint to retrieve all forum entries
   @Get()
   async findAll() {
     return this.forumService.findAll();
   }
+  // PUT endpoint to update an existing forum entry
+
 }

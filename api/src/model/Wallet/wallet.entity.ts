@@ -1,5 +1,5 @@
-import { User } from '../User/user.entity'
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from '../User/user.entity';
 
 @Entity()
 export class Wallet {
@@ -7,40 +7,14 @@ export class Wallet {
   id_wallet: number;
 
   @Column()
-  typeTransaction: string;
+  type_wallet: string;
 
-  @Column({ name: 'amount_transaction' })
-  amount_transaction: number;
-
-  @Column({ name: 'type_money_transaction' })
-  type_money_transaction: string;
+  @Column('decimal')
+  balance_wallet: number;
 
   @Column()
-  date_transaction: Date;
+  id_user_fk: number;
 
-  @Column()
-  hour_transaction: Date;
-
-  @Column()
-  price_transaction: number;
-
-  @Column({ name: 'user_id_fk' })
-  user_id_fk: number;
-
-  @ManyToMany(() => User, user => user.wallets)
-  @JoinTable({
-    name: 'user_wallets',
-    joinColumn: {
-      name: 'id_wallet',
-      referencedColumnName: 'id_wallet'
-    },
-    inverseJoinColumn: {
-      name: 'id_user',
-      referencedColumnName: 'id_user'
-    }
-  })
-  users: User[];
-
-  // Assurez-vous de définir transactions si nécessaire
-  transactions: any;
+  @ManyToOne(() => User, user => user.wallets)
+  user: User;
 }

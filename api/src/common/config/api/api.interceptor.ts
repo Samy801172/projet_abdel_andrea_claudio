@@ -28,6 +28,7 @@ export class ApiInterceptor implements NestInterceptor {
       .filter(s => s.length > 0)
       .slice(0, 2)
       .map(s => s.toUpperCase());
+
     console.log(`codeResponse: ${part.join('_')}_SUCCESS`);
     const code = ApiCodeResponse[`${part.join('_')}_SUCCESS` as keyof typeof
       ApiCodeResponse];

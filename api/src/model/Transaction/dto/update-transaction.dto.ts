@@ -1,4 +1,4 @@
-import { IsNumber, IsOptional } from 'class-validator';
+import { IsOptional, IsNumber, IsDateString } from 'class-validator';
 
 export class UpdateTransactionDto {
   @IsOptional()
@@ -12,10 +12,12 @@ export class UpdateTransactionDto {
   type_money_transaction?: string;
 
   @IsOptional()
-  date_transaction?: Date;
+  @IsDateString()
+  date_transaction?: string;
 
   @IsOptional()
-  hour_transaction?: Date;
+  @IsDateString()
+  hour_transaction?: string;
 
   @IsOptional()
   @IsNumber()

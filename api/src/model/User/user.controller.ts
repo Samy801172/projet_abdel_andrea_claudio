@@ -1,17 +1,10 @@
-// user/user.controller.ts
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-
-import { User } from './user.entity';
+import { Controller, Get, Post, Put, Delete, Param, Body, NotFoundException } from '@nestjs/common';
 import { UserService } from './ user.service';
+import { User } from './user.entity';
 
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
-
-  @Post()
-  async create(@Body() user: User): Promise<User> {
-    return this.userService.create(user);
-  }
 
   @Get()
   async findAll(): Promise<User[]> {
@@ -20,16 +13,25 @@ export class UserController {
 
   @Get(':id')
   async findOne(@Param('id') id: number): Promise<User> {
-    return this.userService.findOne(id);
+    const user = await this.userService.findOne(id);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
+  }
+
+  @Post()
+  async create(@Body() user: User): Promise<User> {
+    return this.userService.create(user);
   }
 
   @Put(':id')
-  async update(@Param('id') id: number, @Body() user: Partial<User>): Promise<User> {
-    return this.userService.update(id, user);
+  async update(@Param('id') id: number, @Body() user: User): Promise<void> {
+    await this.userService.update(id, user);
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: number): Promise<void> {
-    return this.userService.delete(id);
+  async remove(@Param('id') id: number): Promise<void> {
+    await this.userService.remove(id);
   }
 }
