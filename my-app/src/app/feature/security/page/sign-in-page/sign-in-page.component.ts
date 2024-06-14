@@ -33,7 +33,7 @@ export class SignInPageComponent {
   };
 
   public formGroup: FormGroup = new FormGroup({
-    username: new FormControl(this.signInPayload.username, [Validators.maxLength(15), Validators.required]),
+    //username: new FormControl(this.signInPayload.username, [Validators.maxLength(15), Validators.required]),
     password: new FormControl(this.signInPayload.password, [Validators.required])
   });
 
