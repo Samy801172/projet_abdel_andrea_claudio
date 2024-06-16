@@ -1,17 +1,25 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, ValidationPipe } from '@nestjs/common';
 import { SubscriptionService } from './subscription.service';
 import { Subscription } from './subscription.entity';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { CreateSubscriptionDto } from './dto/create-subscription.dto';
 
-@Controller('subscriptions')
+
+@ApiTags('subscription')
+@Controller('subscription')
 export class SubscriptionController {
   subscriptionRepository: any;
-  constructor(private readonly subscriptionService: SubscriptionService) {}
 
-// Endpoint to create a new subscription
-  @Post()
-  async create(@Body() subscription: Subscription): Promise<Subscription> {
-    return this.subscriptionService.create(subscription);
+  constructor(private readonly subscriptionService: SubscriptionService) {
   }
+
+  @Post()
+  @ApiResponse({ status: 201, description: 'The subscription has been successfully created.', type: Subscription })
+  @ApiResponse({ status: 400, description: 'Invalid input data.' })
+  async create(@Body(ValidationPipe) createSubscriptionDto: CreateSubscriptionDto) {
+    return this.subscriptionRepository.save(Subscription);
+  }
+
 // Endpoint to get all subscriptions
   @Get()
   async findAll(): Promise<Subscription[]> {
