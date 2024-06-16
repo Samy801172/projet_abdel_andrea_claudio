@@ -1,4 +1,5 @@
 
+import {JwtService} from '@nestjs/jwt';
 import {from, Observable} from 'rxjs';
 import {NoTokenFoundedException, TokenExpiredException} from '../security.exception';
 import {Reflector} from '@nestjs/core';
@@ -9,13 +10,8 @@ import { Credential } from '@feature/security/data';
 
 import { SecurityService } from '../service';
 import { CanActivate, ExecutionContext, Injectable, Logger } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-
 @Injectable()
-
-
 export class JwtGuard implements CanActivate {
-
   private readonly logger = new Logger(JwtGuard.name);
   constructor(private readonly jwtService: JwtService, private readonly securityService:
     SecurityService, private reflector: Reflector) {

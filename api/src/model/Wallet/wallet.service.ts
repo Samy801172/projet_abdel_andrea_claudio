@@ -11,25 +11,16 @@ export class WalletService {
     private readonly walletRepository: Repository<Wallet>,
   ) {}
 
-  async create(createWalletDto: CreateWalletDto): Promise<Wallet> {
+  async createWallet(createWalletDto: CreateWalletDto): Promise<Wallet> {
     const wallet = this.walletRepository.create(createWalletDto);
     return this.walletRepository.save(wallet);
   }
 
-  async findAll(): Promise<Wallet[]> {
+  async getWalletById(id: number): Promise<Wallet> {
+    return this.walletRepository.findOne({ where: { id_wallet: id } });
+  }
+
+  async getAllWallets(): Promise<Wallet[]> {
     return this.walletRepository.find();
-  }
-
-  async findOne(id: number): Promise<Wallet> {
-    return this.walletRepository.findOne({ where: { id_wallet: id } });
-  }
-
-  async update(id: number, updateWalletDto: Partial<CreateWalletDto>): Promise<Wallet> {
-    await this.walletRepository.update(id, updateWalletDto);
-    return this.walletRepository.findOne({ where: { id_wallet: id } });
-  }
-
-  async delete(id: number): Promise<void> {
-    await this.walletRepository.delete(id);
   }
 }

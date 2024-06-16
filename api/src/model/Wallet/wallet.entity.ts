@@ -1,19 +1,18 @@
+// src/entities/wallet.entity.ts
+import { User } from 'model/User/user.entity';
 import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { User } from '../User/user.entity';
+
 
 @Entity()
 export class Wallet {
   @PrimaryGeneratedColumn()
   id_wallet: number;
 
-  @Column()
+  @Column({ type: 'varchar', length: 255 })
   type_wallet: string;
 
-  @Column('decimal')
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
   balance_wallet: number;
-
-  @Column()
-  id_user_fk: number;
 
   @ManyToOne(() => User, user => user.wallets)
   user: User;

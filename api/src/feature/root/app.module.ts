@@ -7,15 +7,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { APP_GUARD } from '@nestjs/core';
 import { UserModule } from 'model/User/user.module';
 import { WalletModule } from 'model/Wallet/wallet.module';
-import { SubscriptionModule } from 'model/Subscription/subscription.module';
-import { CryptocurrencyModule } from '../../model/Cryptocurrency/cryptocurrency.module';
-import { ForumModule } from '../../model/Forum/forum.module';
-import { TransactionModule } from '../../model/Transaction/transaction.module';
-
-
 @Module({
   imports: [
-    TypeOrmModule.forRoot(configManager.getTypeOrmConfig()),
+    TypeOrmModule.forRoot(configManager.getTypeOrmConfig(),),
     SecurityModule,
     UserModule,
     WalletModule,

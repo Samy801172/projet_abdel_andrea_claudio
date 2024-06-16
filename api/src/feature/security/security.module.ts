@@ -1,4 +1,4 @@
-import { JwtModule } from '@nestjs/jwt';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
 
@@ -8,6 +8,8 @@ import { SecurityService, TokenService } from './service';
 
 import { configManager } from '@common/config';
 import { ConfigKey } from '@common/config/enum';
+import { JwtGuard } from './guard';
+import { Reflector } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -19,7 +21,8 @@ import { ConfigKey } from '@common/config/enum';
     }),
   ],
   exports: [SecurityService],
-  providers: [SecurityService, TokenService],
+  providers: [SecurityService, TokenService,JwtGuard, JwtService,Reflector],
   controllers: [SecurityController],
+
 })
 export class SecurityModule {}

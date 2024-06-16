@@ -7,9 +7,9 @@ export class Cryptocurrency {
   @PrimaryGeneratedColumn()
   id_crypto: number;
 
-  @Column()
+  @Column({ type: 'varchar', length: 255 })
   name_crypto: string;
 
-  @Column()
+  @Column('float')
   value_crypto: number;
 }

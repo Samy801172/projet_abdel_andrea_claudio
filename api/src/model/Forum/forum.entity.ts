@@ -9,10 +9,10 @@ export class Forum {
   @PrimaryGeneratedColumn()
   id_forum: number ;
 
-  @Column()
+  @Column('timestamp')
   date_message_forum: Date;
 
-  @Column()
+  @Column('time')
   hour_message_forum: Date ;
 
   @ManyToMany(() => User, user => user.forums)

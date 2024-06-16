@@ -10,13 +10,14 @@ export class Subscription {
   @Column()
   name_subscription: string;
 
-  @Column()
+
+  @Column('float')
   price_subscription: number;
 
-  @Column()
+  @Column({ type: 'text' })
   description_subscription: string;
 
-  @Column()
+  @Column('int')
   duration_subscription_d: number;
 
   @OneToMany(() => User, user => user.subscription)

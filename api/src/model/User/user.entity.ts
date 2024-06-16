@@ -1,5 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { Subscription } from '../Subscription/subscription.entity';
+// src/entities/user.entity.ts
+import { Subscription } from 'model/Subscription/subscription.entity';
+import { Wallet } from 'model/Wallet/wallet.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from 'typeorm';
+
 
 @Entity()
 export class User {
@@ -29,7 +32,10 @@ export class User {
 
   @ManyToOne(() => Subscription, subscription => subscription.users, { cascade: true, eager: true })
   subscription: Subscription;
-  wallets: any;
+
+  @OneToMany(() => Wallet, wallet => wallet.user)
+  wallets: Wallet[];
+  password: string;
   transactions: any;
   forums: any;
 }
