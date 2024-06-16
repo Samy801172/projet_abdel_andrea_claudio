@@ -53,4 +53,5 @@ export class User {
     inverseJoinColumn: { name: 'id_forum_fk', referencedColumnName: 'id_forum' }
   })
   forums: Forum[];
+  password_user: string;
 }

@@ -3,9 +3,16 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import * as bcrypt from 'bcrypt';
+import { CreateUserDto } from './dto/createUser.dto';
 
 @Injectable()
 export class UserService {
+  createUser(createUserDto: CreateUserDto) {
+      throw new Error('Method not implemented.');
+  }
+  save(createUserDto: CreateUserDto): User | PromiseLike<User> {
+      throw new Error('Method not implemented.');
+  }
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
@@ -31,7 +38,7 @@ export class UserService {
 
   async update(id: number, user: Partial<User>): Promise<User> {
     await this.userRepository.update(id, user);
-    return this.findOne(id); // Retourne le user mis à jour
+    return this.findOne(id);
   }
 
   async delete(id: number): Promise<void> {

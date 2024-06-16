@@ -11,9 +11,13 @@ import { SubscriptionModule } from '../../model/Subscription/subscription.module
 import { TransactionModule } from '../../model/Transaction/transaction.module';
 import { CryptocurrencyModule } from '../../model/Cryptocurrency/cryptocurrency.module';
 import { ForumModule } from '../../model/Forum/forum.module';
+import { User } from 'model';
+import { UserService } from 'model/User/ user.service';
+
 @Module({
   imports: [
     TypeOrmModule.forRoot(configManager.getTypeOrmConfig(),),
+    TypeOrmModule.forFeature([User]),
     SecurityModule,
     UserModule,
     WalletModule,
