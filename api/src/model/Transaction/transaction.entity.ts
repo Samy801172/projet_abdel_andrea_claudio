@@ -1,5 +1,7 @@
-import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { User } from 'model/User/user.entity'; // Assurez-vous du chemin correct vers User
+import { Entity, Column, ManyToOne, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
+import { User } from 'model/User/user.entity';
+import { Wallet } from 'model/Wallet/wallet.entity';
+import { Cryptocurrency } from '../Cryptocurrency/cryptocurrency.entity';
 
 @Entity()
 export class Transaction {
@@ -28,9 +30,15 @@ export class Transaction {
   @Column({ name: 'id_user_fk' })
   id_user_fk: number;
 
-  @ManyToOne(() => User, user => user.transactions)
-  user: User;
-  transaction_currency_type: string;
+  @ManyToMany(() => User, user => user.transactions)
+  user: User ;
 
+  @ManyToMany(() => Wallet, wallet => wallet.transactions)
+  wallet: Wallet ;
 
+  @ManyToMany(() => Cryptocurrency, (cryptocurrency: any) => Cryptocurrency.transactions)
+  cryptocurrency: Cryptocurrency ;
 }
+
+
+

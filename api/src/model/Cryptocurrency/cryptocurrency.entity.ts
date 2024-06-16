@@ -1,6 +1,7 @@
 // src/model/Cryptocurrency/cryptocurrency.entity.ts
 
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Transaction } from 'model/Transaction/transaction.entity';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany,JoinTable } from 'typeorm';
 
 @Entity()
 export class Cryptocurrency {
@@ -12,4 +13,19 @@ export class Cryptocurrency {
 
   @Column('float')
   value_crypto: number;
+  @ManyToMany(() => Transaction, Transaction => Transaction.cryptocurrency)
+  @JoinTable({
+    name: 'cryptocurrency_transaction',
+    joinColumn: {
+      name: 'id_crypto',
+      referencedColumnName: 'id_crypto'
+    },
+    inverseJoinColumn: {
+      name: 'id_transaction',
+      referencedColumnName: 'id_transaction'
+    }
+  })
+  transactions: Transaction[] | undefined;
+  static transactions: any;
+
 }
