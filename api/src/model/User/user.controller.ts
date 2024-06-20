@@ -1,9 +1,9 @@
-import { Controller, Get, Param, Post, Body, NotFoundException, ValidationPipe } from '@nestjs/common';
+import { Controller, Get,Put, Delete, Param, Post, Body, NotFoundException, ValidationPipe } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-
 import { User } from './user.entity';
-;
-import { CreateUserDto } from './dto/createUser.dto';
+import { CreateUserDto} from './dto/createUser.dto';
+import { UpdateUserDto } from './dto/updateUser.dto';
+
 import { UserService } from './ user.service';
 
 @ApiTags('users')
@@ -28,7 +28,7 @@ export class UserController {
     return user;
   }
 
-  @Post()
+  @Post('creat')
   @ApiResponse({ status: 201, description: 'The user has been successfully created.', type: User })
   @ApiResponse({ status: 400, description: 'Invalid input data.' })
   async create(@Body(ValidationPipe) createUserDto: CreateUserDto): Promise<User> {
@@ -42,5 +42,23 @@ export class UserController {
     user.password_user = createUserDto.password;
 
     return this.userService.create(user);
+  }
+  @Put(':id')
+  @ApiResponse({ status: 200, description: 'The user has been successfully updated.', type: User })
+  @ApiResponse({ status: 404, description: 'User not found.' })
+  async update(@Param('id') id: number, @Body(ValidationPipe) updateUserDto: Partial<User>): Promise<User> {
+    const user = await this.userService.update(id, updateUserDto);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
+  }
+
+
+  @Delete(':id')
+  @ApiResponse({ status: 204, description: 'The user has been successfully deleted.' })
+  @ApiResponse({ status: 404, description: 'User not found.' })
+  async delete(@Param('id') id: number): Promise<void> {
+    await this.userService.delete(id);
   }
 }

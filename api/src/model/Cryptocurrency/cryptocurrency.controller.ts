@@ -6,7 +6,7 @@ import { Cryptocurrency } from './cryptocurrency.entity';
 import { CreateCryptocurrencyDto } from './dto/create-cryptocurrency.dto';
 import { UpdateCryptocurrencyDto } from './dto/update-cryptocurrency.dto';
 
-@Controller('cryptocurrencies')
+@Controller('cryptocurrency')
 export class CryptocurrencyController {
   constructor(private readonly cryptocurrencyService: CryptocurrencyService) {}
 
