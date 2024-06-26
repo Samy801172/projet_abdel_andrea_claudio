@@ -1,16 +1,18 @@
-import { TestBed } from '@angular/core/testing';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import {CreateUserDto} from '../models/create-user.dto';
 
-import { UserService } from './user.service';
 
-describe('UserService', () => {
-  let service: UserService;
+@Injectable({
+  providedIn: 'root'
+})
+export class UserService {
+  private apiUrl = 'http://localhost:2024/api/users';
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(UserService);
-  });
+  constructor(private http: HttpClient) {}
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-});
+  createUser(user: CreateUserDto): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/create`, user);
+  }
+}
