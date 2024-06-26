@@ -1,19 +1,26 @@
-import {Component, Input} from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+// app.component.ts
+import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import {DashboardRouterComponent} from '../feature/dashboard/router';
-import {InputComponent} from "../shared";
-import {DashboardHomePageComponent} from "../feature/dashboard/router/page";
-import { SecurityFormComponent } from 'app/feature/security/component/security-form/security-form.component';
+import { routes } from './app.routes';
+import {UserComponent} from '../components/user/user.component';
+import {WalletComponent} from '../components/wallet/wallet.component';
+import {HomeComponent} from '../components/home/home.component'; // Importez vos routes ici
+
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, DashboardRouterComponent, InputComponent, DashboardHomePageComponent,SecurityFormComponent, CommonModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    UserComponent,
+    WalletComponent,
+    HomeComponent
+  ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent {}
 
-
-}

@@ -27,7 +27,7 @@ export class SignInPageComponent {
   private apiService: ApiService = inject(ApiService);
 
   public signInPayload = {
-    username: 'Kikou lol',
+    username: 'hello',
     password: '',
     socialLogin: false
   };
