@@ -24,7 +24,7 @@ export class CryptocurrencyComponent implements OnInit {
   constructor(private cryptocurrencyService: CryptocurrencyService) {}
 
   ngOnInit() {
-    this.getCryptocurrencies();
+    //this.getCryptocurrencies();
   }
 
   getCryptocurrencies() {

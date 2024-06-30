@@ -7,7 +7,7 @@ import { JwtGuard } from '@feature/security';
 
 @ApiTags('wallet')
 @Controller('wallet')
-
+@UseGuards(JwtGuard)
 export class WalletController {
   constructor(private readonly walletService: WalletService) {}
 
