@@ -4,9 +4,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Transaction } from './transaction.entity';
 import { TransactionService } from './transaction.service';
 import { TransactionController } from './ transaction.controller';
+import { SecurityModule } from '@feature/security';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Transaction])],
+  imports: [SecurityModule,TypeOrmModule.forFeature([Transaction])],
   providers: [TransactionService],
   controllers: [TransactionController],
 })

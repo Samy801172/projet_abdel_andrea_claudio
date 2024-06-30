@@ -1,13 +1,16 @@
-import { Controller, Get,Put, Delete, Param, Post, Body, NotFoundException, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Put, Delete, Param, Post, Body, NotFoundException, ValidationPipe, BadRequestException, UseGuards } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { User } from './user.entity';
-import { CreateUserDto} from './dto/createUser.dto';
+import * as bcrypt from 'bcrypt';
+import { CreateUserDto } from './dto/createUser.dto';
 import { UpdateUserDto } from './dto/updateUser.dto';
-
 import { UserService } from './ user.service';
+import { User } from './user.entity';
+import { JwtGuard } from '@feature/security';
 
 @ApiTags('users')
 @Controller('users')
+@UseGuards(JwtGuard)
+
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -28,21 +31,24 @@ export class UserController {
     return user;
   }
 
-  @Post('creat')
+  @Post('create')
   @ApiResponse({ status: 201, description: 'The user has been successfully created.', type: User })
   @ApiResponse({ status: 400, description: 'Invalid input data.' })
   async create(@Body(ValidationPipe) createUserDto: CreateUserDto): Promise<User> {
-    // Transform createUserDto into a User entity
-    const user = new User();
-    user.firstName = createUserDto.firstName;
-    user.lastName = createUserDto.lastName;
-    user.email = createUserDto.email;
-    user.phone = createUserDto.phone;
-    user.type_user = createUserDto.type_user;
-    user.password_user = createUserDto.password;
 
-    return this.userService.create(user);
+    // Vérifiez si le mot de passe est défini
+    if (!createUserDto.password) {
+      throw new BadRequestException('Le mot de passe est requis');
+    }
+
+    // Hash and salt the password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(createUserDto.password, salt);
+    createUserDto.password = hashedPassword;
+
+    return this.userService.create(createUserDto);
   }
+
   @Put(':id')
   @ApiResponse({ status: 200, description: 'The user has been successfully updated.', type: User })
   @ApiResponse({ status: 404, description: 'User not found.' })
@@ -53,7 +59,6 @@ export class UserController {
     }
     return user;
   }
-
 
   @Delete(':id')
   @ApiResponse({ status: 204, description: 'The user has been successfully deleted.' })

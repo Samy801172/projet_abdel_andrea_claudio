@@ -1,1 +1,76 @@
-<p>transaction works!</p>
+<div *ngIf="successMessage" class="alert alert-success">
+  {{ successMessage }}
+</div>
+
+<div *ngIf="errorMessage" class="alert alert-danger">
+  {{ errorMessage }}
+</div>
+
+<form (ngSubmit)="submitTransaction(transactionForm.value)" #transactionForm="ngForm">
+  <div class="form-group">
+    <label for="typeTransaction">Type de Transaction</label>
+    <input type="text" id="typeTransaction" name="typeTransaction" ngModel required class="form-control" #typeTransaction="ngModel">
+    <div *ngIf="typeTransaction.invalid && typeTransaction.touched" class="alert alert-danger">
+      Le type de transaction est requis.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="amount_transaction">Montant</label>
+    <input type="number" id="amount_transaction" name="amount_transaction" ngModel required class="form-control" #amountTransaction="ngModel">
+    <div *ngIf="amountTransaction.invalid && amountTransaction.touched" class="alert alert-danger">
+      Le montant est requis et doit être un nombre.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="type_money_transaction">Type de Monnaie</label>
+    <input type="text" id="type_money_transaction" name="type_money_transaction" ngModel required class="form-control" #typeMoneyTransaction="ngModel">
+    <div *ngIf="typeMoneyTransaction.invalid && typeMoneyTransaction.touched" class="alert alert-danger">
+      Le type de monnaie est requis.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="date_transaction">Date</label>
+    <input type="date" id="date_transaction" name="date_transaction" ngModel required class="form-control" #dateTransaction="ngModel">
+    <div *ngIf="dateTransaction.invalid && dateTransaction.touched" class="alert alert-danger">
+      La date est requise.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="hour_transaction">Heure</label>
+    <input type="time" id="hour_transaction" name="hour_transaction" ngModel required class="form-control" #hourTransaction="ngModel">
+    <div *ngIf="hourTransaction.invalid && hourTransaction.touched" class="alert alert-danger">
+      L'heure est requise.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="price_transaction">Prix</label>
+    <input type="number" id="price_transaction" name="price_transaction" ngModel required class="form-control" #priceTransaction="ngModel">
+    <div *ngIf="priceTransaction.invalid && priceTransaction.touched" class="alert alert-danger">
+      Le prix est requis et doit être un nombre.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="user_id_fk">ID Utilisateur</label>
+    <input type="number" id="user_id_fk" name="user_id_fk" ngModel required class="form-control" #userIdFk="ngModel">
+    <div *ngIf="userIdFk.invalid && userIdFk.touched" class="alert alert-danger">
+      L'ID utilisateur est requis et doit être un nombre.
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Créer Transaction</button>
+</form>
+
+<button (click)="getTransactions()" class="btn btn-info mt-3">Récupérer les Transactions</button>
+
+<ul>
+  <li *ngFor="let transaction of transactions">
+    {{ transaction.typeTransaction }} - {{ transaction.amount_transaction }} € - {{ transaction.date_transaction | date }} - {{ transaction.hour_transaction | date:'shortTime' }}
+    <button (click)="deleteTransaction(transaction.id_transaction)" class="btn btn-danger">Supprimer</button>
+  </li>
+</ul>

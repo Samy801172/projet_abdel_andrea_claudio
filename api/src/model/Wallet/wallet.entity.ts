@@ -1,4 +1,4 @@
-// src/entities/wallet.entity.ts
+
 import { User } from 'model/User/user.entity';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
 

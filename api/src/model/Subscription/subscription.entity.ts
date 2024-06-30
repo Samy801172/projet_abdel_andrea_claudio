@@ -1,4 +1,4 @@
-// src/entities/subscription.entity.ts
+
 import { User } from '../User/user.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
@@ -21,6 +21,6 @@ export class Subscription {
   duration_subscription_d: number;
 
   @OneToMany(() => User, user => user.subscription)
-  users: User[] | undefined;
+  users: User[] ;
 }
 

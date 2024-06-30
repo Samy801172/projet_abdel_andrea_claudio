@@ -1,4 +1,4 @@
-// src/entities/user.entity.ts
+
 import { Forum } from 'model/Forum/forum.entity';
 import { Subscription } from 'model/Subscription/subscription.entity';
 import { Transaction } from 'model/Transaction/transaction.entity';
@@ -29,12 +29,11 @@ export class User {
   @Column()
   type_user: string;
 
-  @Column()
+  @Column({ nullable: false }) // This ensures the column does not accept NULL values
   password: string;
 
-  @ManyToOne(() => Subscription, (subscription) => subscription.users, { cascade: true, eager: true })
+  @ManyToOne(() => Subscription, { eager: true })
   subscription: Subscription;
-
   @OneToMany(() => Wallet, (wallet) => wallet.user)
   wallets: Wallet[];
 

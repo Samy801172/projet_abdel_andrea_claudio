@@ -1,27 +1,32 @@
 import { NestFactory } from '@nestjs/core';
-import { ApiInterceptor, HttpExceptionFilter, ValidationException, swaggerConfiguration } from '@common/config';
-import { AppModule } from '@feature/root';
-import { BadRequestException, ValidationError, ValidationPipe } from '@nestjs/common';
-import { configManager } from '@common/config/config.manager';
+import { ApiInterceptor, HttpExceptionFilter, swaggerConfiguration } from '@common/config';
+import { ValidationPipe, Logger, BadRequestException } from '@nestjs/common';
+import { WalletService } from './model/Wallet/wallet.service';
+import { configManager } from '@common/config';
 import { ConfigKey } from '@common/config/enum';
-import { Logger } from '@nestjs/common';
-import { WalletService } from 'model/Wallet/wallet.service';
+import { AppModule } from './feature';
+
+
 
 const bootstrap = async () => {
   const app = await NestFactory.create(AppModule);
   app.useGlobalFilters(new HttpExceptionFilter());
   app.enableCors();
-  const walletService = app.get(WalletService); // <--- Get the WalletService instance
-  app.useGlobalInterceptors(new ApiInterceptor(walletService)); // <--- Pass the WalletService instance to the ApiInterceptor
 
+
+  const walletService = app.get(WalletService);
+
+
+  app.useGlobalInterceptors(new ApiInterceptor(walletService));
+  app.useGlobalFilters(new HttpExceptionFilter());
   app.setGlobalPrefix(configManager.getValue(ConfigKey.APP_BASE_URL));
   app.useGlobalPipes(
     new ValidationPipe({
-      exceptionFactory: (validationErrors: ValidationError[] = []) => {
-        const messages = validationErrors.map(error => error['message']).join(', ');
+      exceptionFactory: (validationErrors = []) => {
+        const messages = validationErrors.map(error => error.toString()).join(', ');
         throw new BadRequestException(messages);
       }
-    }),
+    })
   );
 
   swaggerConfiguration.config(app);

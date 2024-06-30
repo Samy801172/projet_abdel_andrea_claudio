@@ -1,1 +1,64 @@
-<p>user works!</p>
+<div class="container">
+  <h2>Users</h2>
+  <ul>
+    <li *ngFor="let user of users">
+      {{ user.firstName }} {{ user.lastName }} - {{ user.email }}
+    </li>
+  </ul>
+
+
+  <div *ngIf="successMessage" class="alert alert-success" role="alert">
+    {{ successMessage }}
+  </div>
+
+  <h3>Create User</h3>
+  <form (ngSubmit)="createUser()">
+    <div>
+      <label for="firstName">First Name:</label>
+      <input id="firstName" [(ngModel)]="newUser.firstName" name="firstName" required>
+    </div>
+    <div>
+      <label for="lastName">Last Name:</label>
+      <input id="lastName" [(ngModel)]="newUser.lastName" name="lastName" required>
+    </div>
+    <div>
+      <label for="email">Email:</label>
+      <input id="email" [(ngModel)]="newUser.email" name="email" required>
+    </div>
+    <div>
+      <label for="phone">Phone:</label>
+      <input id="phone" [(ngModel)]="newUser.phone" name="phone" required>
+    </div>
+    <div>
+      <label for="statut_verif_identite_user">Statut Verif Identite User:</label>
+      <input id="statut_verif_identite_user" [(ngModel)]="newUser.statut_verif_identite_user" name="statut_verif_identite_user" required>
+    </div>
+    <div>
+      <label for="type_user">Type User:</label>
+      <input id="type_user" [(ngModel)]="newUser.type_user" name="type_user" required>
+    </div>
+    <div>
+      <label for="password">Password:</label>
+      <input id="password" [(ngModel)]="newUser.password" name="password" required>
+    </div>
+    <div>
+      <label for="subscriptionId">Subscription ID:</label>
+      <input id="subscriptionId" [(ngModel)]="newUser.subscriptionId" name="subscriptionId" required>
+    </div>
+    <button type="submit">Create User</button>
+  </form>
+
+  <!-- Alerte de succès pour la suppression d'utilisateur -->
+  <div *ngIf="successDeleteMessage" class="alert alert-success" role="alert">
+    {{ successDeleteMessage }}
+  </div>
+
+  <h3>Delete User</h3>
+  <form (ngSubmit)="deleteUser()">
+    <div>
+      <label for="userIdToDelete">User ID:</label>
+      <input id="userIdToDelete" [(ngModel)]="userIdToDelete" name="userIdToDelete" required>
+    </div>
+    <button type="submit">Delete User</button>
+  </form>
+</div>

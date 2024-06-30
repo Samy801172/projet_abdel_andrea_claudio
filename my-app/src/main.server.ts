@@ -4,6 +4,6 @@ import {config} from "rxjs";
 
 
 
-const bootstrap = () => bootstrapApplication(AppComponent, config);
+const bootstrap = () => bootstrapApplication(AppComponent);
 
 export default bootstrap;

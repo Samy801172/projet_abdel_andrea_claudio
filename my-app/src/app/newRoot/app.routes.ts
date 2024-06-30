@@ -1,29 +1,22 @@
 import { Routes } from '@angular/router';
-import { AppNode } from '@shared-router';
-import { CanActivateFn, Router } from '@angular/router';
-import { inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-const TestGuard: CanActivateFn = () => {const isAuthenticated: boolean = true;
-const router: Router = inject(Router);
+import { UserComponent } from '../components/user/user.component';
+import { WalletComponent } from '../components/wallet/wallet.component';
+import { HomeComponent } from '../components/home/home.component';
+import { CryptocurrencyComponent } from '../components/cryptocurrency/cryptocurrency.component';
+import { TransactionComponent } from '../components/transaction/transaction.component';
+import { ForumComponent } from '../components/forum/forum.component';
+import { SubscriptionComponent } from 'app/components/subscription/subscription.component';
 
-  console.log('isAuthenticated:', isAuthenticated);
-
-  return isAuthenticated || router.createUrlTree([AppNode.PUBLIC]);
-};
+export const DEFAULT_ROUTE = '/home';
 
 export const routes: Routes = [
-  {
-    path: '',
-    redirectTo: AppNode.PUBLIC,
-    pathMatch: 'full'
-  },
-  {
-    path: AppNode.PUBLIC,
-    loadChildren: () => import('../feature/security/security.routes').then(m => m.securityRoutes)
-  },
-  {
-    path: '**',
-    redirectTo: AppNode.PUBLIC,
-    pathMatch: 'full'
-  }
+  { path: 'home', component: HomeComponent },
+  { path: 'user', component: UserComponent },
+  { path: 'wallet', component: WalletComponent },
+  { path: 'cryptocurrency', component: CryptocurrencyComponent },
+  { path: 'transaction', component: TransactionComponent },
+  { path: 'subscription', component: SubscriptionComponent },
+  { path: 'forum', component: ForumComponent },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '**', redirectTo: '/home', pathMatch: 'full' }
 ];

@@ -1,12 +1,16 @@
-// src/model/Cryptocurrency/cryptocurrency.controller.ts
 
-import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, Delete, UseGuards } from '@nestjs/common';
 import { CryptocurrencyService } from './cryptocurrency.service';
 import { Cryptocurrency } from './cryptocurrency.entity';
 import { CreateCryptocurrencyDto } from './dto/create-cryptocurrency.dto';
 import { UpdateCryptocurrencyDto } from './dto/update-cryptocurrency.dto';
+import { ApiTags } from '@nestjs/swagger';
+import { JwtGuard } from '@feature/security';
 
+
+@ApiTags('cryptocurrency')
 @Controller('cryptocurrency')
+@UseGuards(JwtGuard)
 export class CryptocurrencyController {
   constructor(private readonly cryptocurrencyService: CryptocurrencyService) {}
 

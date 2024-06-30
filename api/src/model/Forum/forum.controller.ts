@@ -1,9 +1,14 @@
-import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards } from '@nestjs/common';
 import { UpdateForumDto } from './dto/update-forum.dto';
 import { CreateForumDto } from './dto/create-forum.dto';
-import { ForumService } from './forum.service'; // Make sure to import ForumService
+import { ForumService } from './forum.service';
+import { ApiTags } from '@nestjs/swagger'; // Make sure to import ForumService
+import { JwtGuard } from '@feature/security';
 
+
+@ApiTags('forum')
 @Controller('forum')
+@UseGuards(JwtGuard)
 export class ForumController {
   constructor(private readonly forumService: ForumService) {} // Inject ForumService here
 

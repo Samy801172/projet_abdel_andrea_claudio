@@ -18,5 +18,6 @@ export enum ApiCodeResponse{
   ACCOUNT_SIGNUP_SUCCESS = 'api.feature.security.success.signup',
   USERNAME_IS_NOT_EMPTY = 'api.feature.security.error.signup.username-is-not-empty',
   USERNAME_MIN_LENGTH = 'api.feature.security.error.signup.username-min-length',
+  COMMON_ERROR = "COMMON_ERROR",
 
 }

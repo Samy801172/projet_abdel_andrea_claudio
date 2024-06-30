@@ -3,33 +3,36 @@ import { ApiCodeResponse } from "./enum";
 import { configManager } from '@common/config';
 import { ConfigKey } from "../enum";
 import { isNil } from "lodash";
-import { Observable, map } from "rxjs";
+import { Observable, map, catchError, of } from "rxjs";
 import { WalletService } from "model/Wallet/wallet.service";
 
-
 @Injectable()
-
 export class ApiInterceptor implements NestInterceptor {
   private readonly logger = new Logger(ApiInterceptor.name);
   constructor(private readonly walletService: WalletService) {}
 
-
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-
     const ctx = context.switchToHttp();
     const path = ctx.getRequest().route.path;
+    const req = ctx.getRequest();
 
     return next
       .handle()
-
       .pipe(
-        map((response: any) => {
-
-          const wallet = this.walletService.getWalletById(ctx.getRequest().user.walletId);
+        map(async (response: any) => {
+          let wallet = null;
+          if (req.user && req.user.walletId) {
+            wallet = await this.walletService.getWalletById(req.user.walletId);
+          }
           return { code: this.map(path), data: response, result: true, wallet };
+        }),
+        catchError((error) => {
+          this.logger.error(error);
+          return of({ code: ApiCodeResponse.COMMON_ERROR, data: null, result: false, wallet: null });
         })
       );
   }
+
   map(path: String): ApiCodeResponse {
     this.logger.log(`path ${path}`);
     const part = path
@@ -40,11 +43,7 @@ export class ApiInterceptor implements NestInterceptor {
       .map(s => s.toUpperCase());
 
     console.log(`codeResponse: ${part.join('_')}_SUCCESS`);
-    const code = ApiCodeResponse[`${part.join('_')}_SUCCESS` as keyof typeof
-      ApiCodeResponse];
+    const code = ApiCodeResponse[`${part.join('_')}_SUCCESS` as keyof typeof ApiCodeResponse];
     return isNil(code) ? ApiCodeResponse.COMMON_SUCCESS : code;
   }
 }
-
-
-

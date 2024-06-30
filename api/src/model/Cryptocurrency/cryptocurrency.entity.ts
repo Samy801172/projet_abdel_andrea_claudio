@@ -1,4 +1,3 @@
-// src/model/Cryptocurrency/cryptocurrency.entity.ts
 
 import { Transaction } from 'model/Transaction/transaction.entity';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany,JoinTable } from 'typeorm';

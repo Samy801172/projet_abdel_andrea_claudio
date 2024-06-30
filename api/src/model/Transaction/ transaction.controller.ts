@@ -1,12 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
 import { TransactionService } from './transaction.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { Transaction } from './transaction.entity';
+import { JwtGuard } from '@feature/security';
 
 @ApiTags('transaction')
 @Controller('transaction')
+@UseGuards(JwtGuard)
 export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
 
@@ -21,7 +23,7 @@ export class TransactionController {
   @ApiResponse({ status: 200, description: 'Return all transactions.', type: [Transaction] })
   async findAll(@Query() query: any): Promise<Transaction[]> {
     return this.transactionService.findAll(query);
-  }
+  }cd
 
   @Get(':id')
   @ApiResponse({ status: 200, description: 'The transaction has been successfully retrieved.', type: Transaction })
