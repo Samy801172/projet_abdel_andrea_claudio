@@ -1,5 +1,4 @@
 import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards } from '@nestjs/common';
-import { UpdateForumDto } from './dto/update-forum.dto';
 import { CreateForumDto } from './dto/create-forum.dto';
 import { ForumService } from './forum.service';
 import { ApiTags } from '@nestjs/swagger'; // Make sure to import ForumService

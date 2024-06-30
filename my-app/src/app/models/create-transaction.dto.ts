@@ -1,35 +1,47 @@
-import { IsString, IsNumber, IsDateString } from 'class-validator';
+import {IsDateString, IsNotEmpty, IsNumber } from "class-validator";
 
 export class CreateTransactionDto {
-  @IsString()
+  @IsNotEmpty()
+
   typeTransaction: string;
 
+  @IsNotEmpty()
   @IsNumber()
+
   amount_transaction: number;
 
-  @IsString()
+  @IsNotEmpty()
+
   type_money_transaction: string;
 
+  @IsNotEmpty()
   @IsDateString()
+
   date_transaction: string;
 
-  @IsString()
+  @IsNotEmpty()
+  @IsDateString()
+
   hour_transaction: string;
 
+  @IsNotEmpty()
   @IsNumber()
+
   price_transaction: number;
 
+  @IsNotEmpty()
   @IsNumber()
+
   user_id_fk: number;
 
   constructor(
-    typeTransaction: string,
-    amount_transaction: number,
-    type_money_transaction: string,
-    date_transaction: string,
-    hour_transaction: string,
-    price_transaction: number,
-    user_id_fk: number
+    typeTransaction: string = '',
+    amount_transaction: number = 0,
+    type_money_transaction: string = '',
+    date_transaction: string = '',
+    hour_transaction: string = '',
+    price_transaction: number = 0,
+    user_id_fk: number = 0
   ) {
     this.typeTransaction = typeTransaction;
     this.amount_transaction = amount_transaction;
