@@ -24,6 +24,7 @@ export const dashboardRoutes: Routes = [
         loadChildren: () => import('../member/member.routes').then(m => m.memberRoutes)
       },
       {
+<<<<<<< HEAD
         path: 'user',
         component: UserComponent
       },
@@ -32,6 +33,16 @@ export const dashboardRoutes: Routes = [
         component: WalletComponent
       },
 
+=======
+        path: 'user', // Ajout de la route User
+        component: UserComponent
+      },
+      {
+        path: 'wallet', // Ajout de la route Wallet
+        component: WalletComponent
+      },
+      // Ajoutez d'autres routes si nécessaire
+>>>>>>> 475c5921b4662d1c07777e2a99e1bb21ef9f7673
     ]
   }
 ];

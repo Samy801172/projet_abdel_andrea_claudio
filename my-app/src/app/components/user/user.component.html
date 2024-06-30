@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="container">
   <h2>Users</h2>
   <ul>
@@ -62,3 +63,30 @@
     <button type="submit">Delete User</button>
   </form>
 </div>
+=======
+
+<h1>User Dashboard</h1>
+<p>Manage your account and view your activity here.</p>
+
+//lIST OFF USERS
+<ul>
+  <li *ngFor="let transaction of transactions">{{ transaction }}</li>
+</ul>
+<h2>Create a new user</h2>
+<form #userForm="ngForm" (ngSubmit)="createUser(userForm)">
+  <div>
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" name="firstName" [(ngModel)]="user.firstName" required>
+  </div>
+  <div>
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" name="lastName" [(ngModel)]="user.lastName" required>
+  </div>
+  <div>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" [(ngModel)]="user.email" required>
+  </div>
+  <!-- Ajoutez d'autres champs pour d'autres propriétés de l'utilisateur -->
+  <button type="submit" [disabled]="!userForm.valid">Create User</button>
+</form>
+>>>>>>> 475c5921b4662d1c07777e2a99e1bb21ef9f7673

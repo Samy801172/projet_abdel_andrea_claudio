@@ -8,12 +8,15 @@ import {CreateUserDto} from '../models/create-user.dto';
   providedIn: 'root'
 })
 export class UserService {
+<<<<<<< HEAD
   getUsers() {
       throw new Error('Method not implemented.');
   }
   deleteUser(userIdToDelete: number) {
       throw new Error('Method not implemented.');
   }
+=======
+>>>>>>> 475c5921b4662d1c07777e2a99e1bb21ef9f7673
   private apiUrl = 'http://localhost:2024/api/users';
 
   constructor(private http: HttpClient) {}
