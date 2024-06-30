@@ -9,7 +9,7 @@ import { JwtGuard } from '@feature/security';
 
 @ApiTags('users')
 @Controller('users')
-
+@UseGuards(JwtGuard)
 
 export class UserController {
   constructor(private readonly userService: UserService) {}
