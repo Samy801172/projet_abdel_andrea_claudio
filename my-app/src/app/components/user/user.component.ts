@@ -45,8 +45,15 @@ export class UserComponent implements OnInit {
       }
     });
   }
-
   createUser() {
+    if (this.newUser.subscriptionId !== undefined) {
+      this.newUser.subscriptionId = parseInt(this.newUser.subscriptionId as any, 10);
+      if (isNaN(this.newUser.subscriptionId)) {
+        console.error('subscriptionId must be a valid number');
+        return;
+      }
+    }
+
     this.userService.createUser(this.newUser).subscribe({
       next: (response: any) => {
         this.successMessage = 'Utilisateur créé avec succès!';
@@ -62,6 +69,9 @@ export class UserComponent implements OnInit {
     });
   }
 
+
+
+
   deleteUser() {
     this.userService.deleteUser(this.userIdToDelete).subscribe({
       next: () => {
@@ -70,7 +80,7 @@ export class UserComponent implements OnInit {
         console.log('User deleted:', this.userIdToDelete);
         setTimeout(() => {
           this.successDeleteMessage = '';
-        }, 3000); // Réinitialise le message après 3 secondes
+        }, 3000);
       },
       error: (error: any) => {
         console.error('Error deleting user:', error);

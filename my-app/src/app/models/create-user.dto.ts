@@ -1,3 +1,5 @@
+import {IsNumber, IsOptional } from "class-validator";
+
 export class CreateUserDto {
   firstName?: string;
   lastName?: string;
@@ -6,6 +8,9 @@ export class CreateUserDto {
   statut_verif_identite_user?: string;
   type_user?: string;
   password?: string;
-  subscriptionId?: number ;
+  @IsNumber()
+  @IsOptional()
+  subscriptionId?: number;
+
 
 }

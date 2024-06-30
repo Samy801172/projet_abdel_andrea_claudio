@@ -31,6 +31,7 @@ export class UpdateUserDto {
   password?: string;
 
 
+  subscriptionId?: number;
   @ApiProperty()
   subscription?: { id: number };// Assuming you update subscription using its ID
 }
