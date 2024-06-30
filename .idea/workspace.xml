@@ -1,124 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="6804b772-3a05-41d7-a59f-54a7ade89d72" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/api - Raccourci.lnk" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/src/common/config/typeorm.config.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/src/model/Subscription/subscription-validation.pipe.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/src/model/Wallet/dto/update-wallet.dto.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/src/root/app.controller.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/src/root/app.controller.spec.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/src/root/app.controller.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/src/root/app.exception.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/src/root/app.exception.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/src/root/app.module.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/src/root/app.module.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/src/root/app.service.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/src/root/app.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/src/root/app.swagger.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/src/root/app.swagger.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/src/root/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/src/root/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/components/home/home.component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/components/home/home.component.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/components/home/home.component.spec.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/components/home/home.component.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/components/user/idnex.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/models/create-createCryptocurrency.dto.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/models/create-subscription.dto.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/models/create-transaction.dto.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/models/create-user.dto.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/models/create-wallet.dto.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/models/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/models/update-wallet.dto.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/services/cryptocurrency.service.spec.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/services/cryptocurrency.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/services/forum.service.spec.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/services/forum.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/services/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/services/subscription.service.spec.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/services/subscription.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/services/transaction.service.spec.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/services/transaction.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/services/user.service.spec.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/services/user.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/services/wallet.service.spec.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/services/wallet.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/bain_ser_pdw_2024_group_3_Lemkadem_Abdeljalil_Bouillot_Xavier.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/bain_ser_pdw_2024_group_3_Lemkadem_Abdeljalil_Bouillot_Xavier_Final.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/api/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/api/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/auth/ auth.controller.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/auth/auth.module.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/auth/auth.service.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/auth/jwt-auth.guard.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/auth/jwt.strategy.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/auth/local-auth.guard.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/common/config/api/api.interceptor.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/common/config/api/api.interceptor.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/common/config/api/enum/api-code.response.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/common/config/api/enum/api-code.response.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/feature/root/app.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/feature/root/app.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/feature/root/app.exception.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/feature/root/app.exception.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/feature/root/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/feature/root/app.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/feature/root/app.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/feature/root/app.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/feature/root/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/feature/root/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/feature/security/guard/jwt.guard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/feature/security/guard/jwt.guard.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/feature/security/service/security.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/feature/security/service/security.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/model/Cryptocurrency/cryptocurrency.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Cryptocurrency/cryptocurrency.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/model/Cryptocurrency/cryptocurrency.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Cryptocurrency/cryptocurrency.entity.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/model/Cryptocurrency/cryptocurrency.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Cryptocurrency/cryptocurrency.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/model/Cryptocurrency/cryptocurrency.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Cryptocurrency/cryptocurrency.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/model/Cryptocurrency/dto/create-cryptocurrency.dto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Cryptocurrency/dto/create-cryptocurrency.dto.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/src/model/Forum/dto/create-forum.dto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Forum/dto/create-forum.dto.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/model/Forum/forum.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Forum/forum.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/model/Forum/forum.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Forum/forum.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/model/Subscription/subscription.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Subscription/subscription.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/model/Subscription/subscription.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Subscription/subscription.entity.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/model/Subscription/subscription.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Subscription/subscription.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/model/Subscription/subscription.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Subscription/subscription.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/model/Transaction/ transaction.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Transaction/ transaction.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/model/Transaction/transaction.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Transaction/transaction.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/model/User/ user.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/User/ user.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/model/User/dto/createUser.dto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/User/dto/createUser.dto.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/model/User/user.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/User/user.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/model/User/user.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/User/user.entity.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/model/User/user.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/User/user.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/model/Wallet/dto/create-wallet.dto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Wallet/dto/create-wallet.dto.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/model/Wallet/wallet.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Wallet/wallet.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/model/Wallet/wallet.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Wallet/wallet.entity.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/model/Wallet/wallet.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Wallet/wallet.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/model/Wallet/wallet.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Wallet/wallet.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/model/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/angular.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/components/cryptocurrency/cryptocurrency.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/components/cryptocurrency/cryptocurrency.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my-app/src/app/components/cryptocurrency/cryptocurrency.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/components/cryptocurrency/cryptocurrency.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/components/forum/forum.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/components/forum/forum.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/components/subscription/subscription.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/components/subscription/subscription.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/components/subscription/subscription.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/components/subscription/subscription.component.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/components/subscription/subscription.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/components/subscription/subscription.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/components/home/home.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/components/home/home.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/components/home/home.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/components/home/home.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my-app/src/app/components/transaction/transaction.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/components/transaction/transaction.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my-app/src/app/components/transaction/transaction.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/components/transaction/transaction.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my-app/src/app/components/user/user.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/components/user/user.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my-app/src/app/components/user/user.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/components/user/user.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my-app/src/app/components/wallet/wallet.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/components/wallet/wallet.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/components/wallet/wallet.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/components/wallet/wallet.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/dashboard.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/dashboard.routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/feature/security/page/sign-in-page/sign-in-page.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/feature/security/page/sign-in-page/sign-in-page.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/models/create-user.dto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/models/create-user.dto.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my-app/src/app/newRoot/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/newRoot/app.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/newRoot/app.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/newRoot/app.component.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my-app/src/app/newRoot/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/newRoot/app.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my-app/src/app/newRoot/app.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/newRoot/app.config.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my-app/src/app/newRoot/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/newRoot/app.routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/main.server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/main.server.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/services/cryptocurrency.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/services/cryptocurrency.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/services/subscription.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/services/subscription.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/services/transaction.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/services/transaction.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/services/user.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/services/user.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/services/wallet.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/services/wallet.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my-app/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/styles.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -164,7 +71,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1719766074925</updated>
-      <workItem from="1719766079092" duration="404000" />
+      <workItem from="1719766079092" duration="1266000" />
     </task>
     <servers />
   </component>

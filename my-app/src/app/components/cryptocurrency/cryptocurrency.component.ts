@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Component, OnInit } from '@angular/core';
 import { CreateCryptocurrencyDto } from 'app/models/create-createCryptocurrency.dto';
 import { CryptocurrencyService } from 'app/services/cryptocurrency.service';
@@ -8,15 +7,6 @@ import {NgForOf, NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-cryptocurrency',
-=======
-import { Component } from '@angular/core';
-import {CommonModule} from '@angular/common';
-
-@Component({
-  selector: 'app-cryptocurrency',
-  standalone: true,
-  imports: [CommonModule],
->>>>>>> 475c5921b4662d1c07777e2a99e1bb21ef9f7673
   templateUrl: './cryptocurrency.component.html',
   standalone: true,
   imports: [
