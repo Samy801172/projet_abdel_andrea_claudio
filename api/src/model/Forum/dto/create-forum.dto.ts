@@ -4,16 +4,16 @@ import { ApiProperty } from '@nestjs/swagger';
 export class CreateForumDto {
 
   @ApiProperty()
-  name: string | undefined;
+  name: string;
 
 
   @ApiProperty()
-  description: string | undefined;
+  description: string;
 
 
   @ApiProperty()
-  date_message: Date | undefined;
+  date_message: Date;
 
   @ApiProperty()
-  hour_message: Date | undefined;
+  hour_message: Date;
 }

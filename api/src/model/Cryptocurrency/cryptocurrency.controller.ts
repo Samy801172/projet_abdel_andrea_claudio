@@ -10,7 +10,7 @@ import { JwtGuard } from '@feature/security';
 
 @ApiTags('cryptocurrency')
 @Controller('cryptocurrency')
-@UseGuards(JwtGuard)
+
 export class CryptocurrencyController {
   constructor(private readonly cryptocurrencyService: CryptocurrencyService) {}
 

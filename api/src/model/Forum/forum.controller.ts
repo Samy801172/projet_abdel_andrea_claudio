@@ -8,7 +8,7 @@ import { JwtGuard } from '@feature/security';
 
 @ApiTags('forum')
 @Controller('forum')
-@UseGuards(JwtGuard)
+
 export class ForumController {
   constructor(private readonly forumService: ForumService) {} // Inject ForumService here
 
