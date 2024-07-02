@@ -7,7 +7,7 @@ import { JwtGuard } from '@feature/security';
 
 @ApiTags('subscription')
 @Controller('subscription')
-@UseGuards(JwtGuard)
+
 export class SubscriptionController {
   constructor(private readonly subscriptionService: SubscriptionService) {}
 

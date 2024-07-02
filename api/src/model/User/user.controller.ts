@@ -1,5 +1,5 @@
 import { Controller, Get, Put, Delete, Param, Post, Body, NotFoundException, ValidationPipe, BadRequestException, UseGuards } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from './dto/createUser.dto';
 import { UpdateUserDto } from './dto/updateUser.dto';
@@ -9,7 +9,7 @@ import { JwtGuard } from '@feature/security';
 
 @ApiTags('users')
 @Controller('users')
-//@UseGuards(JwtGuard)
+@ApiBearerAuth('access-token')
 
 export class UserController {
   constructor(private readonly userService: UserService) {}

@@ -31,10 +31,10 @@ export class SubscriptionComponent implements OnInit {
     this.subscriptionService.getSubscriptions().subscribe({
       next: (response) => {
         if (response.result && response.data) {
-          this.subscriptions = response.data;
+          this.subscriptions = response.data;//here stock data
           console.log('Subscriptions retrieved:', this.subscriptions);
         } else {
-          console.error('Invalid response format:', response);
+          console.error('Invalid response format:', response);// 404...
         }
       },
       error: (error) => {

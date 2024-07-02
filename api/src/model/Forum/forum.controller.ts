@@ -1,13 +1,13 @@
 import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards } from '@nestjs/common';
 import { CreateForumDto } from './dto/create-forum.dto';
 import { ForumService } from './forum.service';
-import { ApiTags } from '@nestjs/swagger'; // Make sure to import ForumService
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'; // Make sure to import ForumService
 import { JwtGuard } from '@feature/security';
 
 
 @ApiTags('forum')
 @Controller('forum')
-@UseGuards(JwtGuard)
+@ApiBearerAuth('access-token')
 export class ForumController {
   constructor(private readonly forumService: ForumService) {} // Inject ForumService here
 

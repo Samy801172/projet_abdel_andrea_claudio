@@ -4,7 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6804b772-3a05-41d7-a59f-54a7ade89d72" name="Changes" comment="" />
+    <list default="true" id="6804b772-3a05-41d7-a59f-54a7ade89d72" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/Cryptocurrency/cryptocurrency.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Cryptocurrency/cryptocurrency.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/Forum/forum.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Forum/forum.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/Subscription/subscription.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Subscription/subscription.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/Transaction/ transaction.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Transaction/ transaction.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/User/user.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/User/user.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/Wallet/wallet.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Wallet/wallet.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/components/subscription/subscription.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/components/subscription/subscription.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/guard/dashboard.guard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/guard/dashboard.guard.ts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -25,7 +35,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/Abdeljalil/bain_ser_pdw_2024_group_3_Lemkadem_Abdeljalil_Bouillot_Xavier_Final/my-app",
+    "last_opened_file_path": "C:/Users/Abdeljalil/bain_ser_pdw_2024_group_3_Lemkadem_Abdeljalil_Bouillot_Xavier_Final",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -51,6 +61,7 @@
       <updated>1719766074925</updated>
       <workItem from="1719766079092" duration="6057000" />
       <workItem from="1719820224156" duration="290000" />
+      <workItem from="1719927642918" duration="684000" />
     </task>
     <servers />
   </component>

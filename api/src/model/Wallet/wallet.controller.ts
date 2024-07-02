@@ -1,13 +1,13 @@
 import { Controller, UseGuards, Get, Post, Put, Delete, Body, Param, HttpException, HttpStatus } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { WalletService } from './wallet.service';
 import { Wallet } from './wallet.entity';
 import { CreateWalletDto } from './dto/create-wallet.dto';
 import { JwtGuard } from '@feature/security';
-
+@ApiBearerAuth('access-token')
 @ApiTags('wallet')
 @Controller('wallet')
-@UseGuards(JwtGuard)
+
 export class WalletController {
   constructor(private readonly walletService: WalletService) {}
 
