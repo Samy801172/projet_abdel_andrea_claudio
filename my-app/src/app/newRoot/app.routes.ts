@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
-import { UserComponent } from '../components/user/user.component';
-import { WalletComponent } from '../components/wallet/wallet.component';
-import { HomeComponent } from '../components/home/home.component';
-import { CryptocurrencyComponent } from '../components/cryptocurrency/cryptocurrency.component';
-import { TransactionComponent } from '../components/transaction/transaction.component';
-import { ForumComponent } from '../components/forum/forum.component';
+import { UserComponent } from '../components';
+import { WalletComponent } from '../components';
+import { HomeComponent } from '../components';
+import { CryptocurrencyComponent } from '../components';
+import { TransactionComponent } from '../components';
+import { ForumComponent } from '../components';
 import { SubscriptionComponent } from 'app/components/subscription/subscription.component';
 
 export const DEFAULT_ROUTE = '/home';

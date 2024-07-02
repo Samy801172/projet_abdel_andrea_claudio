@@ -1,4 +1,4 @@
-// subscription.component.ts
+
 import { Component, OnInit } from '@angular/core';
 import { SubscriptionService } from 'app/services/subscription.service';
 import { FormsModule } from '@angular/forms';
