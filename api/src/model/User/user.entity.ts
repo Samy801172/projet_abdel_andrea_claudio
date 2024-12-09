@@ -1,56 +1,30 @@
-
-import { Forum } from 'model/Forum/forum.entity';
-import { Subscription } from 'model/Subscription/subscription.entity';
-import { Transaction } from 'model/Transaction/transaction.entity';
-import { Wallet } from 'model/Wallet/wallet.entity';
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
-
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
+import { Client } from '../Client/client.entity';
+import { Administrator } from '../Administrator/administrator.entity';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  id_user: number;
+  userId: number;
 
   @Column()
   firstName: string;
-
   @Column()
   lastName: string;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Column()
-  phone: string;
-
-  @Column({ nullable: true })
-  statut_verif_identite_user?: string;
-
-  @Column()
-  type_user: string;
-
-  @Column({ nullable: false }) // This ensures the column does not accept NULL values
   password: string;
+  @Column({ default: false }) // par défaut, l'utilisateur n'est pas admin
+  isAdmin: boolean;
 
-  @ManyToOne(() => Subscription, { eager: true })
-  subscription: Subscription;
-  @OneToMany(() => Wallet, (wallet) => wallet.user)
-  wallets: Wallet[];
+  // Relation avec Client
+  @OneToOne(() => Client, (client) => client.user, { nullable: true }) // Nullable au cas où l'utilisateur serait un admin
+  client: Client;
 
-  @ManyToMany(() => Transaction)
-  @JoinTable({
-    name: 'user_transactions',
-    joinColumn: { name: 'id_user', referencedColumnName: 'id_user' },
-    inverseJoinColumn: { name: 'id_transaction_fk', referencedColumnName: 'id_transaction' }
-  })
-  transactions: Transaction[];
-
-  @ManyToMany(() => Forum)
-  @JoinTable({
-    name: 'user_forums',
-    joinColumn: { name: 'id_user', referencedColumnName: 'id_user' },
-    inverseJoinColumn: { name: 'id_forum_fk', referencedColumnName: 'id_forum' }
-  })
-  forums: Forum[];
-  password_user: string;
+  // Relation avec Administrator
+  @OneToOne(() => Administrator, (admin) => admin.user, { nullable: true }) // Nullable au cas où l'utilisateur serait un client
+  administrator: Administrator;
 }

@@ -1,32 +1,51 @@
 
-.p-3 {
+header {
   padding: 1rem;
+  background-color: #f8f9fa;
+  margin-bottom: 2rem;
+}
 
-  .nav {
-    display: flex;
-    justify-content: flex-start;
-    list-style: none;
-    margin: 0;
-    padding: 0;
+h1 {
+  margin-bottom: 1rem;
+}
 
-    .nav-pills {
-      .btn {
-        &.btn-outline-primary {
-          border: 1px solid #007bff;
-          color: #007bff;
-          background-color: transparent;
-          margin-left: 0.5rem;
+.nav {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+}
 
-          &:hover {
-            color: #fff;
-            background-color: #007bff;
-          }
-        }
-      }
-    }
+.nav-link {
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-blue {
+  background-color: #007bff;
+  color: white;
+
+  &:hover {
+    background-color: #0056b3;
   }
 }
 
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
 
+  &:hover {
+    background-color: #c82333;
+  }
+}
 
+.active {
+  background-color: #0056b3;
+  color: white;
+}
 
+main {
+  padding: 1rem;
+}

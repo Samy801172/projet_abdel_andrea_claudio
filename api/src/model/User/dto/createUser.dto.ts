@@ -1,44 +1,21 @@
+// src/dto/create-user.dto.ts
+import { ApiProperty} from '@nestjs/swagger';
 import { IsNotEmpty, IsString, IsEmail, IsNumber, IsOptional } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { Column } from 'typeorm';
 
 export class CreateUserDto {
-  @IsNotEmpty()
-  @IsString()
   @ApiProperty()
-  firstName: string;
-
   @IsNotEmpty()
-  @IsString()
+
+  firstName: string;
   @ApiProperty()
   lastName: string;
-
-  @IsNotEmpty()
-  @IsEmail()
   @ApiProperty()
   email: string;
-
-  @IsNotEmpty()
-  @IsString()
   @ApiProperty()
-  phone: string;
-
-  @IsNotEmpty()
-  @IsString()
+  password: string;// Le mot de passe normal, il sera haché dans le service
+  @Column({ default: false }) // par défaut, l'utilisateur n'est pas admin
   @ApiProperty()
-  statut_verif_identite_user: string;
-
-  @IsNotEmpty()
-  @IsString()
-  @ApiProperty()
-  type_user: string;
-
-  @IsNotEmpty()
-  @IsString()
-  @ApiProperty()
-  password: string;
-
-
-  @IsNumber()
-  @IsOptional()
-  subscriptionId?: number;
+  isAdmin: boolean;
 }
+

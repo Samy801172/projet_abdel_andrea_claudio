@@ -1,7 +1,7 @@
-export * from './create-user.dto';
-export * from './create-wallet.dto';
-export * from './update-wallet.dto';
-export * from './create-createCryptocurrency.dto';
-export * from './create-transaction.dto';
+export * from './user/create-user.dto';
+export * from './product/create-product.dto';
+
+export * from './client/create-client.dto';
+export * from './admin/create-admin.dto';
 
 

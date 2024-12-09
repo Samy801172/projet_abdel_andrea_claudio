@@ -4,36 +4,29 @@ import { configManager } from '@common/config';
 import { ConfigKey } from "../enum";
 import { isNil } from "lodash";
 import { Observable, map, catchError, of } from "rxjs";
-import { WalletService } from "model/Wallet/wallet.service";
 
 @Injectable()
 export class ApiInterceptor implements NestInterceptor {
   private readonly logger = new Logger(ApiInterceptor.name);
-  constructor(private readonly walletService: WalletService) {}
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const ctx = context.switchToHttp();
     const path = ctx.getRequest().route.path;
-    const req = ctx.getRequest();
 
     return next
       .handle()
       .pipe(
-        map(async (response: any) => {
-          let wallet = null;
-          if (req.user && req.user.walletId) {
-            wallet = await this.walletService.getWalletById(req.user.walletId);
-          }
-          return { code: this.map(path), data: response, result: true, wallet };
+        map((response: any) => {
+          return { code: this.map(path), data: response, result: true };
         }),
         catchError((error) => {
           this.logger.error(error);
-          return of({ code: ApiCodeResponse.COMMON_ERROR, data: null, result: false, wallet: null });
+          return of({ code: ApiCodeResponse.COMMON_ERROR, data: null, result: false });
         })
       );
   }
 
-  map(path: String): ApiCodeResponse {
+  map(path: string): ApiCodeResponse {
     this.logger.log(`path ${path}`);
     const part = path
       .replace(configManager.getValue(ConfigKey.APP_BASE_URL), '')

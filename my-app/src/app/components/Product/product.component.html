@@ -1,0 +1,55 @@
+<div class="product-management">
+  <h2>Ajouter un produit</h2>
+  <form [formGroup]="productForm" (ngSubmit)="addProduct()" class="product-form">
+    <div class="form-group">
+      <label>Nom du produit:</label>
+      <input formControlName="name" type="text" placeholder="Entrez le nom du produit" required>
+      <div *ngIf="productForm.get('name').invalid && productForm.get('name').touched">
+        <small class="text-danger">Le nom du produit est requis.</small>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Description:</label>
+      <input formControlName="description" type="text" placeholder="Entrez la description" required>
+      <div *ngIf="productForm.get('description').invalid && productForm.get('description').touched">
+        <small class="text-danger">La description est requise.</small>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Prix:</label>
+      <input formControlName="price" type="number" placeholder="Entrez le prix" min="0" required>
+      <div *ngIf="productForm.get('price').invalid && productForm.get('price').touched">
+        <small class="text-danger">Le prix est requis et doit être supérieur ou égal à 0.</small>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Quantité:</label>
+      <input formControlName="stock" type="number" placeholder="Entrez la quantité" min="0" required>
+      <div *ngIf="productForm.get('stock').invalid && productForm.get('stock').touched">
+        <small class="text-danger">La quantité est requise et doit être supérieure ou égale à 0.</small>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Image:</label>
+      <input type="file" (change)="onFileSelected($event)" multiple accept="image/*">
+    </div>
+    <button type="submit" [disabled]="productForm.invalid">Ajouter Produit</button>
+    <div *ngIf="errorMessage" class="text-danger">
+      {{ errorMessage }}
+    </div>
+  </form>
+
+  <h2>Liste des produits</h2>
+  <ul>
+    <li *ngFor="let product of products">
+      <h3>{{ product.name }}</h3>
+      <p>Description: {{ product.description }}</p>
+      <p>Prix: {{ product.price }} EUR</p>
+      <p>Quantité: {{ product.stock }}</p>
+      <div *ngIf="product.imageUrls?.length">
+        <h4>Images:</h4>
+        <img *ngFor="let url of product.imageUrls" [src]="url" alt="{{ product.name }}" style="width: 100px; height: auto;">
+      </div>
+    </li>
+  </ul>
+</div>

@@ -3,7 +3,7 @@ import { inject } from '@angular/core';
 
 export function DashboardGuard(isPublic: boolean = false, redirectRoute: string = ''): CanActivateFn {
   return () => {
-    const isAuthenticated: boolean= false; // determine authentication status
+    const isAuthenticated: boolean= true; // determine authentication status
     const router: Router = inject(Router);
 
     console.log('isPublic:', isPublic);

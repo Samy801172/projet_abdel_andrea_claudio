@@ -1,14 +1,20 @@
-import { Module } from '@nestjs/common';
+// src/model/User/user.module.ts
+import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { UserService } from './ user.service';
+
+import { ClientController } from '../Client/client.controller';
 import { UserController } from './user.controller';
+import { AdministratorModule } from 'model/Administrator/administrator.module';
 import { SecurityModule } from '@feature/security';
+import { ClientService } from '../Client/client.service';
+import { ClientModule } from 'model/Client/client.module';
+import { UserService } from './user.service';
 
 @Module({
-  imports: [SecurityModule, TypeOrmModule.forFeature([User])],
-  providers: [UserService],
+  imports: [TypeOrmModule.forFeature([User]),forwardRef(() => AdministratorModule),SecurityModule, ClientModule,],
   controllers: [UserController],
-  exports: [UserService],
+  providers: [UserService],
+  exports: [UserService, TypeOrmModule,], // Assurez-vous d'exporter TypeOrmModule
 })
 export class UserModule {}

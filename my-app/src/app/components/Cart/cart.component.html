@@ -1,0 +1,27 @@
+<!-- cart.component.html -->
+<div class="cart-container">
+  <div *ngIf="cartItems.length === 0" class="empty-cart">
+    <p>Votre panier est vide</p>
+  </div>
+  <div *ngIf="cartItems.length > 0" class="cart-items">
+    <div *ngFor="let item of cartItems; trackBy: trackByProductId" class="cart-item">
+      <div class="item-details">
+        <h3>{{ item.productName }}</h3>
+        <p class="price">{{ item.price | currency: 'EUR' }}</p>
+        <div class="quantity-controls">
+          <button (click)="updateQuantity(item, -1)">-</button>
+          <span>{{ item.quantity }}</span>
+          <button (click)="updateQuantity(item, 1)">+</button>
+        </div>
+      </div>
+      <button class="remove-btn" (click)="removeItem(item)">
+        <i class="fas fa-trash"></i>
+      </button>
+    </div>
+  </div>
+  <div *ngIf="cartItems.length > 0" class="cart-footer">
+    <div class="total">Total: {{ getTotal() | currency: 'EUR' }}</div>
+    <button class="checkout-btn" (click)="checkout()">Procéder au paiement</button>
+    <button class="clear-btn" (click)="clearCart()">Vider le panier</button>
+  </div>
+</div>

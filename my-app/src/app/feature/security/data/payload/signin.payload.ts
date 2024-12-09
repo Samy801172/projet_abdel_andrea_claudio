@@ -1,7 +1,13 @@
-export interface SignInPayload{
-  username : string;
-  password : string;
-  googleHash?: string;
-  facebookHash?: string;
-  socialLogin: boolean;
+export class SigninPayload {
+
+  username: string;
+  password: string;
+  facebookHash?: string; // Optionnel pour les connexions sociales
+  googleHash?: string;   // Optionnel pour les connexions sociales
+  constructor() {
+    this.username = '';
+    this.password = '';
+    this.facebookHash = '';
+    this.googleHash = '';
+  }
 }

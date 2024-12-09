@@ -14,7 +14,7 @@ export class Credential {
   facebookHash: string;
   @Column({nullable: true, unique: false})
   googleHash: string;
-  @Column({default:false})
+  @Column({default:true})
   isAdmin:boolean;
   @Column({default: true})
   active: boolean;

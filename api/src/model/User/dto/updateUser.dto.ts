@@ -1,37 +1,19 @@
-import { ApiProperty } from '@nestjs/swagger';
-
-
+import { IsString, IsEmail, IsOptional } from 'class-validator';
 
 export class UpdateUserDto {
+  @IsString()
+  @IsOptional()
+  nom?: string;
 
-  @ApiProperty()
-  firstName?: string;
+  @IsString()
+  @IsOptional()
+  prenom?: string;
 
-
-  @ApiProperty()
-  lastName?: string;
-
-
-  @ApiProperty()
+  @IsEmail()
+  @IsOptional()
   email?: string;
 
-  @ApiProperty()
-  phone?: string;
-
-
-  @ApiProperty()
-  statut_verif_identite_user?: string;
-
-
-  @ApiProperty()
-  type_user?: string;
-
-
-  @ApiProperty()
-  password?: string;
-
-
-  subscriptionId?: number;
-  @ApiProperty()
-  subscription?: { id: number };// Assuming you update subscription using its ID
+  @IsString()
+  @IsOptional()
+  mot_de_passe?: string;
 }

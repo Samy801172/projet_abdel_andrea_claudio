@@ -1,22 +1,37 @@
 import { Routes } from '@angular/router';
-import { UserComponent } from '../components';
-import { WalletComponent } from '../components';
-import { HomeComponent } from '../components';
-import { CryptocurrencyComponent } from '../components';
-import { TransactionComponent } from '../components';
-import { ForumComponent } from '../components';
-import { SubscriptionComponent } from 'app/components/subscription/subscription.component';
-
-export const DEFAULT_ROUTE = '/home';
+import { LoginComponent } from '../components/Login/login.component';
+import { RegisterComponent } from '../components/Register/register.component';
+import { NoAuthGuard } from '../feature/Dashboard/guard/no-auth.guard';
+import { AuthGuard } from '../feature/Dashboard/guard/auth.guard';
+import { AdminGuard } from '../feature/Dashboard/guard/admin.guard';
+import { HomeComponent } from '../components/Home/home.component';
 
 export const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'user', component: UserComponent },
-  { path: 'wallet', component: WalletComponent },
-  { path: 'cryptocurrency', component: CryptocurrencyComponent },
-  { path: 'transaction', component: TransactionComponent },
-  { path: 'subscription', component: SubscriptionComponent },
-  { path: 'forum', component: ForumComponent },
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: '**', redirectTo: '/home', pathMatch: 'full' }
+  {
+    path: '',
+    component: HomeComponent,
+    canActivate: [NoAuthGuard]
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+    canActivate: [NoAuthGuard]
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+    canActivate: [NoAuthGuard]
+  },
+  {
+    path: 'client',
+    loadChildren: () => import('../feature/Dashboard/DashboardComponent/client/client.routes')
+      .then(m => m.clientRoutes),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'admin',
+    loadChildren: () => import('../feature/Dashboard/DashboardComponent/admin/admin.routes')
+      .then(m => m.adminRoutes),
+    canActivate: [AuthGuard, AdminGuard]
+  }
 ];
