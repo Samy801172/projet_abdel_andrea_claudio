@@ -35,8 +35,16 @@ export interface Order {
     lastName: string;
     address: string;
   };
+
+  promotions?: {
+    id: number;
+    description: string;
+    discount: number;
+  }[];
+  subtotal?: number;
   status?: string;
 }
+
 
 
 export interface OrderDetail {

@@ -49,7 +49,7 @@ export class AppointmentComponent implements OnInit {
   appointments: Appointment[] = [];
 
   constructor(private appointmentService: AppointmentsService) {}
-
+// pour initialiser le composant on utilse la methode ngOnInit()
   ngOnInit(): void {
     this.loadAppointments();
   }

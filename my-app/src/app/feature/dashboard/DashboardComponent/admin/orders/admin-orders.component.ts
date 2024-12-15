@@ -115,9 +115,13 @@ interface OrderStatusType {
                 </tr>
                 </tbody>
                 <tfoot>
-                <tr>
-                  <td colspan="3" class="text-right">Total</td>
-                  <td colspan="2">{{order.montant_total | currency:'EUR'}}</td>
+                <tr *ngIf="order.promotions?.length">
+                  <td colspan="3" class="text-right">Promotions appliquées</td>
+                  <td colspan="2">
+                    <div *ngFor="let promo of order.promotions">
+                      {{promo.description}} : -{{promo.discount}}%
+                    </div>
+                  </td>
                 </tr>
                 </tfoot>
               </table>
@@ -407,9 +411,15 @@ export class AdminOrdersComponent implements OnInit {
     [OrderStatus.Pending]: [OrderStatus.Processing, OrderStatus.Cancelled],
     [OrderStatus.Processing]: [OrderStatus.Shipped, OrderStatus.Cancelled],
     [OrderStatus.Shipped]: [OrderStatus.Delivered, OrderStatus.Cancelled],
-    [OrderStatus.Delivered]: [],
-    [OrderStatus.Cancelled]: []
+    [OrderStatus.Delivered]: [], // Statut final
+    [OrderStatus.Cancelled]: []  // Statut final
   };
+
+// Ajouter une méthode de validation
+  private isValidTransition(currentStatus: OrderStatus, newStatus: OrderStatus): boolean {
+    const allowedTransitions = this.validTransitions[currentStatus];
+    return allowedTransitions.includes(newStatus);
+  }
   constructor(
     private orderService: OrderService,
     private notificationService: NotificationService
@@ -538,6 +548,11 @@ export class AdminOrdersComponent implements OnInit {
   updateOrderStatus(order: Order): void {
     const newStatus = this.newStatuses[order.id_order];
     if (newStatus === undefined) return;
+
+    if (!this.isValidTransition(order.id_statut, newStatus)) {
+      this.notificationService.error('Cette transition de statut n\'est pas autorisée');
+      return;
+    }
 
     this.orderService.updateOrderStatus(order.id_order, newStatus).subscribe({
       next: () => {

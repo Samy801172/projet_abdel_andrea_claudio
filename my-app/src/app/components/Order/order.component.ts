@@ -1,15 +1,16 @@
 // components/order/order.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OrderService } from '../../services/order/order.service';
+import { OrderService } from '../../services';
 import { Order } from '../../models/order/order.model';
 import { NotificationService } from '../../services/notification/notification.service';
 import { AuthService } from '../../services/auth/auth.service';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-order',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   template: `
     <div class="orders-container">
       <h2 class="text-2xl font-bold mb-6">Mes Commandes</h2>
