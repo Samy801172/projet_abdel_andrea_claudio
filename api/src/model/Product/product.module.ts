@@ -6,12 +6,11 @@ import { ProductController } from './product.controller';
 import { Product } from './product.entity';
 import { Type,} from '../Type/type.entity';
 import { Promotion } from '../Promotion/promotion.entity';
+import { ProductPromotionModule } from 'model/ProductPromotion/productPromotion.module';
 
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Product, Type, Promotion])
-  ],
+  imports: [ProductPromotionModule, TypeOrmModule.forFeature([Product, Type, Promotion])],
   controllers: [ProductController],
   providers: [ProductService],
   exports: [ProductService]

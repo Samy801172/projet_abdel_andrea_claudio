@@ -7,10 +7,22 @@ export interface Product {
   stock: number;
   active: boolean;
   imageUrls: string[];
-  quantity?: number;
-  isPromoted?: boolean;
-  promotionPrice?: number;
-  typeId?: number; // Pour lier le produit à un type
+  typeId?: number;
+  promotion?: {
+    id_promotion: number;
+    description: string;
+    discountPercentage: number;
+    startDate: Date;
+    endDate: Date;
+  };
+}
+
+export interface Promotion {
+  id_promotion: number;
+  description: string;
+  discountPercentage: number;
+  startDate: Date;
+  endDate: Date;
 }
 
 export interface NewProduct {
@@ -28,7 +40,8 @@ export interface ProductWithPromotion extends Product {
     id_promotion: number;
     description: string;
     discountPercentage: number;
+    startDate: Date;
+    endDate: Date;
   };
-  selectedPromotionId?: number;
   promotionPrice?: number;
 }

@@ -24,6 +24,8 @@ import { InvoiceModule } from 'model/Invoice/invoice.module';
 import { Service } from 'model/Service/service.entity';
 import { Appointment } from 'model/Appointment/appointment.entity';
 import { OrderDetailModule } from 'model/Order/OrderDetail/order-detail.module';
+import { ProductPromotion } from '../../model/ProductPromotion/productPromotion.entity';
+import { ProductPromotionModule } from '../../model/ProductPromotion/productPromotion.module';
 
 @Module({
   imports: [
@@ -44,6 +46,7 @@ import { OrderDetailModule } from 'model/Order/OrderDetail/order-detail.module';
     TypeModule,
     CartModule,
     PromotionModule,
+
 
     // Modules commandes et facturation
     OrderModule,

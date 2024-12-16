@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, BeforeUpdate } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, BeforeUpdate, ManyToMany, JoinTable } from 'typeorm';
 import { Type } from '../Type/type.entity';
 import { Cart } from '../Cart/cart.entity';
 import { ProductPromotion } from 'model/ProductPromotion/productPromotion.entity';
@@ -50,4 +50,15 @@ export class Product {
 
     }
   }
+
+  @ManyToMany(() => Promotion)
+  @JoinTable({
+    name: 'product_promotion',
+    joinColumn: { name: 'product_id', referencedColumnName: 'id_product' },
+    inverseJoinColumn: { name: 'promotion_id', referencedColumnName: 'id_promotion' }
+  })
+  promotions: Promotion[];
+
+
 }
+

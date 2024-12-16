@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
-import { Product } from '../../models/product/product.model';
+import {Product, ProductWithPromotion} from '../../models/product/product.model';
 import {ProductService} from '../../services/product/product.service';
 import {NotificationService} from '../../services/notification/notification.service';
 
@@ -27,22 +27,21 @@ import {NotificationService} from '../../services/notification/notification.serv
             <p class="description">{{ product.description }}</p>
 
             <div class="price-section">
-              <p class="price" [class.promoted]="product.isPromoted">
-                @if (product.isPromoted) {
+              <p class="price" [class.promoted]="product.activePromotion">
+                @if (product.activePromotion) {
                   <span class="original-price">
-                    {{ product.price | currency:'EUR' }}
-                  </span>
+                {{ product.price | currency:'EUR' }}
+              </span>
                   <span class="promotion-price">
-                    {{ product.promotionPrice | currency:'EUR' }}
-                  </span>
+                {{ product.promotionPrice | currency:'EUR' }}
+              </span>
                 } @else {
                   <span class="current-price">
-                    {{ product.price | currency:'EUR' }}
-                  </span>
+                {{ product.price | currency:'EUR' }}
+              </span>
                 }
               </p>
             </div>
-
             <p class="stock" [class.low-stock]="product.stock < 5">
               Stock disponible: {{ product.stock }}
             </p>
@@ -203,14 +202,22 @@ import {NotificationService} from '../../services/notification/notification.serv
   `]
 })
 export class ProductDetailComponent implements OnInit {
-  product: Product | null = null;
+  product?: ProductWithPromotion;
+
 
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService,
   private notificationService: NotificationService  // Ajout du service
   ) {}
+  // Vérification de sécurité si nécessaire
+  hasActivePromotion(): boolean {
+    return !!this.product && !!this.product.activePromotion;
+  }
 
+  getPromotionalPrice(): number | undefined {
+    return this.product?.promotionPrice;
+  }
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id) {

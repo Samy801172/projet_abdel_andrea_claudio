@@ -1,18 +1,24 @@
-// src/model/productPromotion.entity.ts
-import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
-import { Product } from '../Product/product.entity'; // Produit
-import { Promotion } from '../Promotion/promotion.entity'; // Promotion
+import { Product } from "model/Product/product.entity";
+import { Promotion } from "model/Promotion/promotion.entity";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('product_promotion')
 export class ProductPromotion {
   @PrimaryGeneratedColumn()
-  id_product_promotion: number; // Identifiant unique pour cette relation
+  id_product_promotion: number;
 
-  @ManyToOne(() => Product, (product) => product.productPromotions)
-  @JoinColumn({ name: 'id_product' })
-  product: Product; // Clé étrangère vers le produit
+  @Column({ name: 'id_product', type: 'int' })  // Assurez-vous que le nom correspond
+  id_product: number;
 
-  @ManyToOne(() => Promotion, (promotion) => promotion.productPromotions)
+  @Column({ name: 'id_promotion', type: 'int' })
+  id_promotion: number;
+
+  @ManyToOne(() => Product)
+  @JoinColumn({ name: 'id_product' })  // Utilisez le même nom que la colonne
+  product: Product;
+
+  @ManyToOne(() => Promotion)
   @JoinColumn({ name: 'id_promotion' })
-  promotion: Promotion; // Clé étrangère vers la promotion
+  promotion: Promotion;
 }
+

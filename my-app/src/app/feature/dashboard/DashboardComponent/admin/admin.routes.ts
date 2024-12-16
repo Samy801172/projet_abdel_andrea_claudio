@@ -4,7 +4,7 @@ import { AdminOrdersComponent } from './orders/admin-orders.component';
 import { AdminClientsComponent } from './clients/admin-clients.component';
 import { AdminServicesComponent } from './services/admin-service.component';
 import { AdminAppointmentsComponent } from './appointments/admin-appointments.component';
-import { AdminProductFormComponent } from './products/product-form/product-form.component';
+import { AdminProductFormComponent } from './products/product-form/admin-product-form.component';
 import { AdminProductsComponent } from './products/admin-products.component';
 import { AdminTypeFormComponent } from './type/type-form/admin-type-form.component';
 import { AdminTypesComponent } from './type/admin-types.component';

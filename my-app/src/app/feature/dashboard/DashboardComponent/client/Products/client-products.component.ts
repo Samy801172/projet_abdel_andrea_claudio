@@ -28,7 +28,6 @@ export interface Type {
         <h2>Nos Produits</h2>
 
         <div class="filter-container">
-          <!-- Filtre par type -->
           <select
             [(ngModel)]="selectedType"
             (change)="filterProducts()"
@@ -39,7 +38,6 @@ export interface Type {
             </option>
           </select>
 
-          <!-- Tri par prix -->
           <select
             [(ngModel)]="sortOrder"
             (change)="sortProducts()"
@@ -58,14 +56,20 @@ export interface Type {
           <div class="product-image">
             <img [src]="'assets/' + getImageFilename(product.name)" [alt]="product.name">
 
-            <!-- Badge promotion -->
-            @if (product.activePromotion) {
-              <div class="promo-badge">
-                -{{product.activePromotion.discountPercentage}}%
+            @if (product.activePromotion && isPromotionActive(product.activePromotion)) {
+              <div class="promo-container">
+                <div class="promo-badge">
+                  -{{product.activePromotion.discountPercentage}}%
+                </div>
+                @if (isPromotionActive(product.activePromotion)) {
+                  <div class="promo-duration"
+                       [class]="getPromotionStatus(product.activePromotion).type">
+                    {{ getPromotionStatus(product.activePromotion).message }}
+                  </div>
+                }
               </div>
             }
 
-            <!-- Badge stock -->
             @if (product.stock < 5 && product.stock > 0) {
               <div class="stock-badge">Stock limité</div>
             }
@@ -75,33 +79,57 @@ export interface Type {
             <h3>{{ product.name }}</h3>
             <p class="description">{{ product.description }}</p>
 
-            <!-- Prix avec/sans promo -->
-            <  <div class="product-details">
-            <div class="price-container">
-              @if (product.activePromotion && isPromotionActive(product.activePromotion)) {
-                <span class="original-price">{{ product.price | currency:'EUR' }}</span>
-                <span class="promo-price">{{ product.promotionPrice | currency:'EUR' }}</span>
-              } @else {
-                <span class="price">{{ product.price | currency:'EUR' }}</span>
-              }
+            <div class="product-details">
+              <div class="price-container">
+                @if (product.activePromotion) {
+                  <div class="prices">
+                    <span class="original-price">{{ product.price | currency:'EUR' }}</span>
+                    <span class="promo-price">{{ product.promotionPrice | currency:'EUR' }}</span>
+                    <div class="promo-badge">
+                      -{{ product.activePromotion.discountPercentage }}%
+                    </div>
+                  </div>
+                } @else {
+                  <span class="price">{{ product.price | currency:'EUR' }}</span>
+                }
+              </div>
             </div>
 
-              <span class="stock" [class.low-stock]="product.stock < 5">
-                Stock: {{ product.stock }}
-              </span>
+
+              <div class="stock-info">
+                <span class="stock" [class.low-stock]="product.stock < 5">
+                  Stock: {{ product.stock }}
+                </span>
+                @if (product.stock < 5 && product.stock > 0) {
+                  <span class="stock-warning">Plus que {{ product.stock }} en stock!</span>
+                }
+              </div>
             </div>
 
             <button
               (click)="addToCart(product)"
               [disabled]="!isProductAvailable(product)"
               class="add-to-cart-btn"
+              [class.disabled]="!isProductAvailable(product)"
             >
-              {{ !isProductAvailable(product) ? 'Rupture de stock' : 'Ajouter au panier' }}
+              <span class="button-content">
+                @if (!isProductAvailable(product)) {
+                  <span class="out-of-stock">Rupture de stock</span>
+                } @else {
+                  <span class="add-to-cart">Ajouter au panier</span>
+                }
+              </span>
             </button>
           </div>
         </div>
+
+        @if (products.length === 0) {
+          <div class="no-products">
+            <p>Aucun produit disponible</p>
+          </div>
+        }
       </div>
-    </div>
+
   `,
   styles: [`
     // Container principal
@@ -109,6 +137,68 @@ export interface Type {
       padding: 20px;
       max-width: 1200px;
       margin: 0 auto;
+    }
+
+    .prices {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .original-price {
+      text-decoration: line-through;
+      color: #6b7280;
+      font-size: 0.9em;
+    }
+
+    .promo-price {
+      color: #dc2626;
+      font-weight: bold;
+      font-size: 1.25rem;
+    }
+    .price-container {
+      .prices {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        .original-price {
+          text-decoration: line-through;
+          color: #6b7280;
+          font-size: 0.9rem;
+        }
+
+        .promo-price {
+          color: #dc2626;
+          font-weight: bold;
+          font-size: 1.25rem;
+        }
+
+        .promo-badge {
+          background: #dc2626;
+          color: white;
+          padding: 0.25rem 0.5rem;
+          border-radius: 0.25rem;
+          font-size: 0.875rem;
+          display: inline-block;
+        }
+      }
+
+      .price {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #4f46e5;
+      }
+    }
+    .promo-label {
+      background: #dc2626;
+      color: white;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      display: inline-block;
+      margin-top: 0.25rem;
     }
 
     // En-tête avec filtres
@@ -124,7 +214,40 @@ export interface Type {
       display: flex;
       gap: 1rem;
     }
+    .promo-container {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: flex-end;
+    }
 
+    .promo-duration {
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+
+      &.ending-soon {
+        background: #f59e0b;
+        font-weight: bold;
+      }
+
+      &.last-day {
+        background: #dc2626;
+        font-weight: bold;
+        animation: pulse 2s infinite;
+      }
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.6; }
+      100% { opacity: 1; }
+    }
     // Style commun pour les selects
     .type-filter, .price-filter {
       padding: 8px 12px;
@@ -273,6 +396,35 @@ export interface Type {
         cursor: not-allowed;
       }
     }
+
+    .product-details {
+      margin: 1rem 0;
+    }
+
+    .prices {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .original-price {
+      text-decoration: line-through;
+      color: #6b7280;
+      font-size: 0.9em;
+    }
+
+    .promo-price {
+      color: #dc2626;
+      font-weight: bold;
+      font-size: 1.25rem;
+    }
+
+    .price-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
   `]
 })
 export class ClientProductsComponent implements OnInit {
@@ -419,5 +571,49 @@ export class ClientProductsComponent implements OnInit {
       return Number((product.price - discountAmount).toFixed(2));
     }
     return product.price;
+  }
+
+  getEndDateFormatted(promotion: any): string {
+    if (!promotion || !promotion.endDate) {
+      return '';
+    }
+
+    const endDate = new Date(promotion.endDate);
+    const options: Intl.DateTimeFormatOptions = {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    };
+
+    return endDate.toLocaleDateString('fr-FR', options);
+  }
+
+  getPromotionStatus(promotion: any): { type: 'normal' | 'ending-soon' | 'last-day', message: string } {
+    if (!promotion || !this.isPromotionActive(promotion)) {
+      return { type: 'normal', message: '' };
+    }
+
+    const now = new Date();
+    const endDate = new Date(promotion.endDate);
+    const diffDays = Math.ceil((endDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+
+    if (diffDays <= 1) {
+      return {
+        type: 'last-day',
+        message: 'Dernier jour !'
+      };
+    }
+
+    if (diffDays <= 3) {
+      return {
+        type: 'ending-soon',
+        message: `Plus que ${diffDays} jours !`
+      };
+    }
+
+    return {
+      type: 'normal',
+      message: `Jusqu'au ${this.getEndDateFormatted(promotion)}`
+    };
   }
 }

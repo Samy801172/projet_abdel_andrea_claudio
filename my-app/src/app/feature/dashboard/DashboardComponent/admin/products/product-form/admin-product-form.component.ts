@@ -1,4 +1,4 @@
-// feature/Dashboard/DashboardComponent/admin/products/product-form/admin-product-form.component.ts
+// feature/Dashboard/DashboardComponent/admin/products/product-form/admin-admin-product-form.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
@@ -7,6 +7,7 @@ import { ProductService } from '../../../../../../services/product/product.servi
 import { TypeService } from '../../../../../../services/type/type.service';
 import { Type } from '../../../../../../models/type/type.model';
 import { firstValueFrom } from 'rxjs';
+import {Product} from '../../../../../../models/product/product.model';
 
 @Component({
   selector: 'app-admin-product-form',
@@ -337,28 +338,33 @@ import { firstValueFrom } from 'rxjs';
   `]
 })
 export class AdminProductFormComponent implements OnInit {
-  productForm: FormGroup = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(3)]],
-    description: ['', [Validators.required]],
-    price: [0, [Validators.required, Validators.min(0)]],
-    stock: [0, [Validators.required, Validators.min(0)]],
-    typeId: ['', Validators.required],
-    active: [true]
-  });
-  types: Type[] = [];
+  productForm: FormGroup = this.initForm();
   isLoading = false;
-  errorMessage = '';
   isEditMode = false;
+  errorMessage = '';
   selectedFile: File | null = null;
   currentImage: string | null = null;
+  types: Type[] = [];
 
   constructor(
     private fb: FormBuilder,
     private productService: ProductService,
     private typeService: TypeService,
-    private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
+
+  private initForm(): FormGroup {
+    return this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      description: ['', Validators.required],
+      price: [0, [Validators.required, Validators.min(0)]],
+      stock: [0, [Validators.required, Validators.min(0)]],
+      active: [true],
+      typeId: [null, Validators.required],
+      requiresPrescription: [false]
+    });
+  }
 
   ngOnInit(): void {
     this.loadTypes();
@@ -368,28 +374,64 @@ export class AdminProductFormComponent implements OnInit {
   private loadTypes(): void {
     this.typeService.getTypes().subscribe({
       next: (types) => this.types = types,
-      error: (error) => this.errorMessage = 'Erreur lors du chargement des types'
+      error: () => this.errorMessage = 'Erreur lors du chargement des types'
     });
   }
 
-  private checkEditMode(): void {
+  private async checkEditMode(): Promise<void> {
     const id = this.route.snapshot.params['id'];
     if (id) {
       this.isEditMode = true;
-      this.loadProduct(id);
+      await this.loadProduct(Number(id));
     }
   }
 
   private async loadProduct(id: number): Promise<void> {
-    this.isLoading = true;
     try {
       const product = await firstValueFrom(this.productService.getProductById(id));
-      if (product) {
-        this.productForm.patchValue(product);
-        this.currentImage = product.imageUrls?.[0] ?? null;
-      }
+      this.productForm.patchValue({
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        stock: product.stock,
+        active: product.active,
+        typeId: product.typeId,
+        requiresPrescription: false // valeur par défaut
+      });
+      this.currentImage = product.imageUrls?.[0] ?? null;
     } catch (error) {
-      this.errorMessage = 'Erreur lors du chargement du produit';
+      this.errorMessage = "Erreur lors du chargement du produit";
+    }
+  }
+
+  async onSubmit(): Promise<void> {
+    if (this.productForm.invalid || this.isLoading) return;
+
+    this.isLoading = true;
+    try {
+      const formValue = this.productForm.value;
+      const productData: Product = {
+        id_product: this.isEditMode ? Number(this.route.snapshot.params['id']) : 0,
+        name: formValue.name,
+        description: formValue.description,
+        price: formValue.price,
+        stock: formValue.stock,
+        active: formValue.active,
+        typeId: formValue.typeId,
+        imageUrls: this.currentImage ? [this.currentImage] : []
+      };
+
+      if (this.isEditMode) {
+        await firstValueFrom(
+          this.productService.updateProduct(productData.id_product, productData)
+        );
+      } else {
+        await firstValueFrom(this.productService.createProduct(productData));
+      }
+
+      this.router.navigate(['/admin/products']);
+    } catch (error) {
+      this.errorMessage = "Erreur lors de l'enregistrement du produit";
     } finally {
       this.isLoading = false;
     }
@@ -412,37 +454,7 @@ export class AdminProductFormComponent implements OnInit {
     return !!field && field.invalid && (field.dirty || field.touched);
   }
 
-  async onSubmit(): Promise<void> {
-    if (this.productForm.invalid || this.isLoading) return;
 
-    this.isLoading = true;
-    this.errorMessage = '';
-
-    try {
-      const formValue = this.productForm.value;
-      const productData = {
-        ...formValue,
-        imageUrls: this.selectedFile ? [URL.createObjectURL(this.selectedFile)] : []
-      };
-
-      if (this.isEditMode) {
-        await firstValueFrom(
-          this.productService.updateProduct(
-            this.route.snapshot.params['id'],
-            productData
-          )
-        );
-      } else {
-        await firstValueFrom(this.productService.createProduct(productData));
-      }
-
-      this.router.navigate(['/admin/products']);
-    } catch (error) {
-      this.errorMessage = 'Erreur lors de l\'enregistrement du produit';
-    } finally {
-      this.isLoading = false;
-    }
-  }
 
   goBack(): void {
     this.router.navigate(['/admin/products']);

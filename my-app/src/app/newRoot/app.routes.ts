@@ -5,6 +5,7 @@ import { NoAuthGuard } from '../feature/Dashboard/guard/no-auth.guard';
 import { AuthGuard } from '../feature/Dashboard/guard/auth.guard';
 import { AdminGuard } from '../feature/Dashboard/guard/admin.guard';
 import { HomeComponent } from '../components/Home/home.component';
+import {OrderConfirmationComponent} from '../components/order-confirmation/order-confirmation.component';
 
 export const routes: Routes = [
   {
@@ -16,6 +17,11 @@ export const routes: Routes = [
     path: 'login',
     component: LoginComponent,
     canActivate: [NoAuthGuard]
+  },
+  {
+    path: 'order-confirmation/:id',
+    component: OrderConfirmationComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'register',

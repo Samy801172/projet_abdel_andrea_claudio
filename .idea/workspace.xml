@@ -5,7 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e06bfdf-6874-4b79-bf09-89d441a8c4a9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/my-app/src/app/components/order-confirmation/order-confirmation.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-app/src/app/components/payment/payment.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/Product/product.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Product/product.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/Product/product.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Product/product.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/newRoot/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/newRoot/app.routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/services/checkout/checkout.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/services/checkout/checkout.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/services/product/product.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/services/product/product.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +34,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "D:/recap03_12/bain_ser_pdw_2024_group_3_Lemkadem_Abdeljalil_Final/my-app",
+    "last_opened_file_path": "D:/recap03_12/bain_ser_pdw_2024_group_3_Lemkadem_Abdeljalil_Final",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -53,6 +60,7 @@
       <updated>1733776048156</updated>
       <workItem from="1733776049503" duration="1328000" />
       <workItem from="1733827849049" duration="4089000" />
+      <workItem from="1734254694483" duration="1702000" />
     </task>
     <servers />
   </component>
