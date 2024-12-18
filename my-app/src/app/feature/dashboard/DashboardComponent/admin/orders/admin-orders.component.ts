@@ -399,11 +399,11 @@ export class AdminOrdersComponent implements OnInit {
   processing = false;  // Ajout de cette propriété
 
   orderStatuses = [
-    { id_statut: OrderStatus.Pending, label: 'En attente' },
-    { id_statut: OrderStatus.Processing, label: 'En cours' },
-    { id_statut: OrderStatus.Shipped, label: 'Expédié' },
-    { id_statut: OrderStatus.Delivered, label: 'Livré' },
-    { id_statut: OrderStatus.Cancelled, label: 'Annulé' }
+    {id_statut: OrderStatus.Pending, label: 'En attente'},
+    {id_statut: OrderStatus.Processing, label: 'En cours'},
+    {id_statut: OrderStatus.Shipped, label: 'Expédié'},
+    {id_statut: OrderStatus.Delivered, label: 'Livré'},
+    {id_statut: OrderStatus.Cancelled, label: 'Annulé'}
   ];
 
 
@@ -420,10 +420,12 @@ export class AdminOrdersComponent implements OnInit {
     const allowedTransitions = this.validTransitions[currentStatus];
     return allowedTransitions.includes(newStatus);
   }
+
   constructor(
     private orderService: OrderService,
     private notificationService: NotificationService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.loadOrders();
@@ -472,6 +474,7 @@ export class AdminOrdersComponent implements OnInit {
     const status = this.orderStatuses.find(s => s.id_statut === statusId);
     return status?.label || 'Inconnu';
   }
+
   getAvailableStatuses(order: Order): OrderStatusType[] {
     const currentStatus = order.id_statut as OrderStatus;
     const allowedTransitions = this.validTransitions[currentStatus] || [];
@@ -526,30 +529,36 @@ export class AdminOrdersComponent implements OnInit {
       return;
     }
 
-    if (!confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')) return;
-
-    this.orderService.deleteOrderDetail(detailId).subscribe({
-      next: () => {
-        const order = this.orders.find(o => o.id_order === orderId);
-        if (order) {
-          order.orderDetails = order.orderDetails.filter(d => d.id_order_detail !== detailId);
-          this.updateOrderTotal(orderId);
+    if (confirm('Êtes-vous sûr de vouloir supprimer ce produit de la commande ?')) {
+      this.orderService.deleteOrderDetail(detailId).subscribe({
+        next: () => {
+          // Mettre à jour la liste locale
+          const order = this.orders.find(o => o.id_order === orderId);
+          if (order) {
+            order.orderDetails = order.orderDetails.filter(d => d.id_order_detail !== detailId);
+            this.updateOrderTotal(orderId);
+            this.notificationService.success('Produit supprimé avec succès');
+          }
+        },
+        error: (error) => {
+          console.error('Erreur lors de la suppression:', error);
+          this.notificationService.error('Erreur lors de la suppression du produit');
         }
-        this.notificationService.success('Produit supprimé avec succès');
-      },
-      error: (error) => {
-        console.error('Erreur:', error);
-        this.notificationService.error('Erreur lors de la suppression');
-      }
-    });
+      });
+    }
   }
 
 
+  // Mise à jour du statut
+  // Mise à jour du statut
   updateOrderStatus(order: Order): void {
     const newStatus = this.newStatuses[order.id_order];
-    if (newStatus === undefined) return;
+    if (!newStatus) {
+      return;
+    }
 
-    if (!this.isValidTransition(order.id_statut, newStatus)) {
+    // Vérifier si la transition est valide
+    if (!this.isValidTransition(order.id_statut as OrderStatus, newStatus as OrderStatus)) {
       this.notificationService.error('Cette transition de statut n\'est pas autorisée');
       return;
     }
@@ -558,7 +567,8 @@ export class AdminOrdersComponent implements OnInit {
       next: () => {
         order.id_statut = newStatus;
         delete this.newStatuses[order.id_order];
-        this.notificationService.success('Statut mis à jour');
+        this.notificationService.success('Statut mis à jour avec succès');
+        this.loadOrders(); // Recharger les commandes
       },
       error: (error) => {
         console.error('Erreur:', error);
@@ -567,104 +577,36 @@ export class AdminOrdersComponent implements OnInit {
     });
   }
 
+
+
+  // Ajouter cette méthode
   canCancel(order: Order): boolean {
+    // Vérifier si la commande peut être annulée
+    // Une commande ne peut pas être annulée si elle est déjà livrée ou déjà annulée
     return order.id_statut !== OrderStatus.Delivered &&
       order.id_statut !== OrderStatus.Cancelled;
   }
 
+// Mettre à jour la méthode cancelOrder
   cancelOrder(order: Order): void {
-    if (!this.canCancel(order)) return;
-    if (!confirm('Êtes-vous sûr de vouloir annuler cette commande ?')) return;
+    // Vérifier si la commande peut être annulée
+    if (!this.canCancel(order)) {
+      this.notificationService.error('Cette commande ne peut pas être annulée');
+      return;
+    }
 
-    this.orderService.updateOrderStatus(order.id_order, OrderStatus.Cancelled)
-      .subscribe({
+    if (confirm('Êtes-vous sûr de vouloir annuler cette commande ?')) {
+      this.orderService.updateOrderStatus(order.id_order, OrderStatus.Cancelled).subscribe({
         next: () => {
           order.id_statut = OrderStatus.Cancelled;
-          this.notificationService.success('Commande annulée');
+          this.notificationService.success('Commande annulée avec succès');
+          this.loadOrders(); // Recharger la liste des commandes
         },
         error: (error) => {
-          console.error('Erreur:', error);
-          this.notificationService.error('Erreur lors de l\'annulation');
-        }
-      });
-  }
-
-  // Helpers
-  trackByOrderId(_: number, order: Order): number {
-    return order.id_order;
-  }
-
-  trackByDetailId(_: number, detail: OrderDetail): number {
-    return detail.id_order_detail;
-  }
-  removeProduct(detail: OrderDetail): void {
-    // Debug pour voir la structure du détail
-    console.log('Detail à supprimer:', detail);
-
-    // Modification de la vérification de l'ID
-    if (!detail || detail.id_order_detail === undefined) {
-      console.error('Détail de commande invalide:', detail);
-      this.notificationService.error('Impossible de supprimer : ID du détail manquant');
-      return;
-    }
-
-    // On vérifie aussi l'orderId qui est obligatoire selon votre interface
-    if (!detail.id_order_detail) {
-      console.error('OrderId manquant:', detail);
-      this.notificationService.error('Erreur : ID de commande manquant');
-      return;
-    }
-
-    if (confirm('Êtes-vous sûr de vouloir supprimer ce produit de la commande ?')) {
-      this.processing = true;
-
-      // Utilisation de l'ID vérifié
-      const detailId = detail.id_order_detail;
-
-      this.orderService.deleteOrderDetail(detailId).subscribe({
-        next: () => {
-          if (this.selectedOrder) {
-            // Mise à jour de la liste des détails
-            this.selectedOrder.orderDetails = this.selectedOrder.orderDetails.filter(
-              d => d.id_order_detail !== detailId
-            );
-            // Recalcul du total
-            this.updateTotal();
-            this.notificationService.success('Produit supprimé avec succès');
-            this.loadOrders(); // Recharger les données
-          }
-        },
-        error: (error) => {
-          console.error('Erreur lors de la suppression:', error);
-          this.notificationService.error('Erreur lors de la suppression du produit');
-        },
-        complete: () => {
-          this.processing = false;
+          console.error('Erreur lors de l\'annulation:', error);
+          this.notificationService.error('Erreur lors de l\'annulation de la commande');
         }
       });
     }
-  }
-  // Méthode mise à jour avec les types corrects
-  updateTotal(): void {
-    if (!this.selectedOrder) return;
-
-    this.selectedOrder.montant_total = this.selectedOrder.orderDetails.reduce(
-      (total: number, detail: OrderDetail) => total + (detail.quantity * detail.unit_price),
-      0
-    );
-  }
-
-  // Mettre à jour la méthode qui sélectionne une commande
-  openOrderDetails(order: Order): void {
-    this.selectedOrderId = order.id_order;
-    this.selectedOrder = order;  // Mise à jour de selectedOrder
-    this.newStatuses = {};
-  }
-
-  // Mettre à jour la méthode de fermeture
-  closeOrderDetails(): void {
-    this.selectedOrderId = null;
-    this.selectedOrder = null;  // Réinitialisation de selectedOrder
-    this.processing = false;
   }
 }

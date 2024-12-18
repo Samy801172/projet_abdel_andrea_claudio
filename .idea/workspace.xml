@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6e06bfdf-6874-4b79-bf09-89d441a8c4a9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/components/order-confirmation/order-confirmation.component.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/components/payment/payment.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/model/Product/product.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Product/product.entity.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/model/Product/product.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Product/product.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/newRoot/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/newRoot/app.routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/services/checkout/checkout.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/services/checkout/checkout.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/services/product/product.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/services/product/product.service.ts" afterDir="false" />
-    </list>
+    <list default="true" id="6e06bfdf-6874-4b79-bf09-89d441a8c4a9" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,19 +21,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "D:/recap03_12/bain_ser_pdw_2024_group_3_Lemkadem_Abdeljalil_Final",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/recap03_12/bain_ser_pdw_2024_group_3_Lemkadem_Abdeljalil_Final&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -61,6 +52,7 @@
       <workItem from="1733776049503" duration="1328000" />
       <workItem from="1733827849049" duration="4089000" />
       <workItem from="1734254694483" duration="1702000" />
+      <workItem from="1734379690908" duration="547000" />
     </task>
     <servers />
   </component>

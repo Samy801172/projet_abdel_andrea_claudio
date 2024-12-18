@@ -183,5 +183,21 @@ export class OrderService {
       })
     );
   }
-
+// order.service.ts
+  cancelOrder(orderId: number): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.put(
+      `${this.baseUrl}/${orderId}/status`,
+      { statusId: 5 }, // 5 est le statut CANCELLED
+      { headers }
+    ).pipe(
+      tap(() => {
+        this.notificationService.success('Commande annulée avec succès');
+      }),
+      catchError(error => {
+        this.notificationService.error('Erreur lors de l\'annulation de la commande');
+        return throwError(() => error);
+      })
+    );
+  }
 }

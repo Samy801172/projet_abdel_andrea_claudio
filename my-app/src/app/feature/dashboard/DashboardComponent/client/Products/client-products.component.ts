@@ -52,83 +52,62 @@ export interface Type {
       </header>
 
       <div class="products-grid">
-        <div *ngFor="let product of products" class="product-card">
-          <div class="product-image">
-            <img [src]="'assets/' + getImageFilename(product.name)" [alt]="product.name">
+        @for (product of products; track product.id_product) {
+          <div class="product-card">
+            <div class="product-image">
+              <img [src]="'assets/' + getImageFilename(product.name)" [alt]="product.name">
 
-            @if (product.activePromotion && isPromotionActive(product.activePromotion)) {
-              <div class="promo-container">
-                <div class="promo-badge">
-                  -{{product.activePromotion.discountPercentage}}%
+              @if (product.activePromotion) {
+                <div class="promo-container">
+                  <div class="promo-badge">
+                    -{{product.activePromotion.discountPercentage}}%
+                  </div>
+                  <div class="promo-duration">
+                    Jusqu'au {{ getEndDateFormatted(product.activePromotion) }}
+                  </div>
                 </div>
-                @if (isPromotionActive(product.activePromotion)) {
-                  <div class="promo-duration"
-                       [class]="getPromotionStatus(product.activePromotion).type">
-                    {{ getPromotionStatus(product.activePromotion).message }}
-                  </div>
-                }
-              </div>
-            }
+              }
 
-            @if (product.stock < 5 && product.stock > 0) {
-              <div class="stock-badge">Stock limité</div>
-            }
-          </div>
+              @if (product.stock < 5 && product.stock > 0) {
+                <div class="stock-badge">Stock limité</div>
+              }
+            </div>
 
-          <div class="product-info">
-            <h3>{{ product.name }}</h3>
-            <p class="description">{{ product.description }}</p>
+            <div class="product-info">
+              <h3>{{ product.name }}</h3>
+              <p class="description">{{ product.description }}</p>
 
-            <div class="product-details">
-              <div class="price-container">
-                @if (product.activePromotion) {
-                  <div class="prices">
-                    <span class="original-price">{{ product.price | currency:'EUR' }}</span>
-                    <span class="promo-price">{{ product.promotionPrice | currency:'EUR' }}</span>
-                    <div class="promo-badge">
-                      -{{ product.activePromotion.discountPercentage }}%
+              <div class="product-details">
+                <div class="price-container">
+                  @if (product.activePromotion) {
+                    <div class="prices">
+                      <span class="original-price">{{ product.price | currency:'EUR' }}</span>
+                      <span class="promo-price">{{ product.promotionPrice | currency:'EUR' }}</span>
                     </div>
-                  </div>
-                } @else {
-                  <span class="price">{{ product.price | currency:'EUR' }}</span>
-                }
+                  } @else {
+                    <span class="price">{{ product.price | currency:'EUR' }}</span>
+                  }
+                </div>
+
+                <div class="stock-info">
+                  <span class="stock" [class.low-stock]="product.stock < 5">
+                    Stock: {{ product.stock }}
+                  </span>
+                </div>
               </div>
+
+              <button
+                class="add-to-cart-btn"
+                [disabled]="!isProductAvailable(product)"
+                (click)="addToCart(product)"
+              >
+                {{ !isProductAvailable(product) ? 'Rupture de stock' : 'Ajouter au panier' }}
+              </button>
             </div>
-
-
-              <div class="stock-info">
-                <span class="stock" [class.low-stock]="product.stock < 5">
-                  Stock: {{ product.stock }}
-                </span>
-                @if (product.stock < 5 && product.stock > 0) {
-                  <span class="stock-warning">Plus que {{ product.stock }} en stock!</span>
-                }
-              </div>
-            </div>
-
-            <button
-              (click)="addToCart(product)"
-              [disabled]="!isProductAvailable(product)"
-              class="add-to-cart-btn"
-              [class.disabled]="!isProductAvailable(product)"
-            >
-              <span class="button-content">
-                @if (!isProductAvailable(product)) {
-                  <span class="out-of-stock">Rupture de stock</span>
-                } @else {
-                  <span class="add-to-cart">Ajouter au panier</span>
-                }
-              </span>
-            </button>
-          </div>
-        </div>
-
-        @if (products.length === 0) {
-          <div class="no-products">
-            <p>Aucun produit disponible</p>
           </div>
         }
       </div>
+    </div>
 
   `,
   styles: [`
@@ -497,6 +476,7 @@ export class ClientProductsComponent implements OnInit {
     const name = productName.toLowerCase();
     if (name.includes('paracétamol')) return 'paracetamol.jpg';
     if (name.includes('ibuprofène')) return 'ibuprofene.jpg';
+    if (name.includes('antibiotique')) return 'antibiotique.jpg';
     return 'default-product.jpg';
   }
 
@@ -540,38 +520,22 @@ export class ClientProductsComponent implements OnInit {
       });
     });
   }
-  isPromotionActive(promotion: any): boolean {
-    if (!promotion) return false;
-    const now = new Date();
-    const startDate = new Date(promotion.startDate);
-    const endDate = new Date(promotion.endDate);
-    return now >= startDate && now <= endDate;
-  }
 
   loadProducts(): void {
     this.productService.getAllProducts().subscribe({
       next: (products) => {
-        this.allProducts = products.map(product => ({
-          ...product,
-          promotionPrice: this.getDiscountedPrice(product)
-        }));
+        console.log('Products received in component:', products);
+        this.allProducts = products;
         this.products = [...this.allProducts];
         this.filterProducts();
       },
       error: (error) => {
-        console.error('Erreur de chargement:', error);
+        console.error('Error loading products:', error);
         this.notificationService.error('Erreur lors du chargement des produits');
       }
     });
   }
 
-  getDiscountedPrice(product: ProductWithPromotion): number {
-    if (product.activePromotion && this.isPromotionActive(product.activePromotion)) {
-      const discountAmount = product.price * (product.activePromotion.discountPercentage / 100);
-      return Number((product.price - discountAmount).toFixed(2));
-    }
-    return product.price;
-  }
 
   getEndDateFormatted(promotion: any): string {
     if (!promotion || !promotion.endDate) {
@@ -615,5 +579,20 @@ export class ClientProductsComponent implements OnInit {
       type: 'normal',
       message: `Jusqu'au ${this.getEndDateFormatted(promotion)}`
     };
+  }
+  isPromotionActive(promotion: any): boolean {
+    if (!promotion) return false;
+    const now = new Date();
+    const startDate = new Date(promotion.startDate);
+    const endDate = new Date(promotion.endDate);
+    return now >= startDate && now <= endDate;
+  }
+
+  getDiscountedPrice(product: ProductWithPromotion): number {
+    if (product.activePromotion && this.isPromotionActive(product.activePromotion)) {
+      const discountAmount = product.price * (product.activePromotion.discountPercentage / 100);
+      return Number((product.price - discountAmount).toFixed(2));
+    }
+    return product.price;
   }
 }

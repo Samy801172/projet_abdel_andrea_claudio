@@ -127,15 +127,32 @@ export class ProductService {
   // product.service.ts
   getAllProducts(): Observable<ProductWithPromotion[]> {
     return this.http.get<any[]>(this.API_URL).pipe(
-      tap(products => console.log('Raw products:', products)),
-      map(products => products.map(product => ({
-        ...product,
-        activePromotion: product.activePromotion,
-        promotionPrice: product.activePromotion ?
-          product.price * (1 - product.activePromotion.discountPercentage / 100) :
-          product.price
-      }))),
-      tap(mappedProducts => console.log('Mapped products:', mappedProducts))
+      tap(rawProducts => console.log('Raw products:', rawProducts)), // Debug
+      map(products => products.map(product => {
+        // Log pour déboguer
+        console.log('Mapping product:', product);
+
+        if (product.promotion) {
+          const discountedPrice = product.price * (1 - product.promotion.discountPercentage / 100);
+          return {
+            ...product,
+            activePromotion: {
+              id_promotion: product.promotion.id_promotion,
+              description: product.promotion.description,
+              discountPercentage: product.promotion.discountPercentage,
+              startDate: product.promotion.startDate,
+              endDate: product.promotion.endDate
+            },
+            promotionPrice: Number(discountedPrice.toFixed(2))
+          };
+        }
+        return {
+          ...product,
+          activePromotion: null,
+          promotionPrice: product.price
+        };
+      })),
+      tap(mappedProducts => console.log('Mapped products:', mappedProducts)) // Debug
     );
   }
   private mapProductPromotion(product: any): ProductWithPromotion {
