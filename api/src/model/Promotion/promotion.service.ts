@@ -10,7 +10,8 @@ export class PromotionService {
   constructor(
     @InjectRepository(Promotion)
     private promotionRepository: Repository<Promotion>
-  ) {}
+  ) {
+  }
 
   async create(createPromotionDto: CreatePromotionDto): Promise<Promotion> {
     const promotion = this.promotionRepository.create(createPromotionDto);
@@ -51,19 +52,14 @@ export class PromotionService {
     await this.promotionRepository.remove(promotion);
   }
 
-
   async getActivePromotions(): Promise<Promotion[]> {
     const now = new Date();
-    console.log('Recherche des promotions actives à la date:', now);
 
-    const promotions = await this.promotionRepository
+    return this.promotionRepository
       .createQueryBuilder('promotion')
-      .where('promotion.startDate <= :now', { now })
-      .andWhere('promotion.endDate >= :now', { now })
+      .where('DATE(promotion.startDate) <= DATE(:now)', { now })
+      .andWhere('DATE(promotion.endDate) >= DATE(:now)', { now })
       .getMany();
-
-    console.log('Promotions trouvées:', promotions);
-    return promotions;
   }
 
   async createPromotion(createPromotionDto: CreatePromotionDto): Promise<Promotion> {
@@ -76,5 +72,4 @@ export class PromotionService {
 
     return await this.promotionRepository.save(promotion);
   }
-
 }

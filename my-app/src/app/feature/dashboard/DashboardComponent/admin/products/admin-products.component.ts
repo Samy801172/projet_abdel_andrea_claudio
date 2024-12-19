@@ -455,27 +455,24 @@ export class AdminProductsComponent implements OnInit {
     });
   }
 
+  // admin-products.component.ts
   applyPromotion(product: ProductWithPromotion, promotionId: number | undefined | null) {
     if (promotionId === undefined || promotionId === null) return;
 
-    const selectedPromotion = this.availablePromotions.find(promo => promo.id_promotion === promotionId);
-
-    if (selectedPromotion) {
-      product.activePromotion = {
-        id_promotion: selectedPromotion.id_promotion,
-        description: selectedPromotion.description,
-        discountPercentage: selectedPromotion.discountPercentage
-      };
-    }
+    console.log('Applying promotion:', { product, promotionId });
 
     this.productService.applyPromotion(product.id_product, promotionId).subscribe({
-      next: () => {
+      next: (updatedProduct) => {
+        console.log('Promotion applied successfully:', updatedProduct);
         this.notificationService.success('Promotion appliquée avec succès');
         this.loadProducts();
       },
       error: (error) => {
-        console.error('Erreur lors de l\'application de la promotion:', error);
-        this.notificationService.error('Erreur lors de l\'application de la promotion');
+        console.error('Error applying promotion:', error);
+        this.notificationService.error(
+          'Erreur lors de l\'application de la promotion: ' +
+          (error.error?.message || 'Une erreur est survenue')
+        );
       }
     });
   }
