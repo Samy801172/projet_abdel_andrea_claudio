@@ -1,4 +1,63 @@
-<!-- cart.component.html -->
+<div class="cart-container">
+  <h2>Mon Panier</h2>
+
+  <div *ngIf="items.length === 0" class="empty-cart">
+    Votre panier est vide
+  </div>
+
+  <div *ngIf="items.length > 0" class="cart-items">
+    <div *ngFor="let item of items" class="cart-item">
+      <div class="item-info">
+        <h3>{{ item.product.name }}</h3>
+        <p>Prix: {{ getPrice(item.product.price) | currency:'EUR' }}</p>
+
+        <div class="quantity-controls">
+          <button
+            (click)="decrementQuantity(item)"
+            [disabled]="item.quantity <= 1"
+            class="quantity-btn"
+          >
+            -
+          </button>
+          <span class="quantity">{{ item.quantity }}</span>
+          <button
+            (click)="incrementQuantity(item)"
+            [disabled]="item.quantity >= item.product.stock"
+            class="quantity-btn"
+          >
+            +
+          </button>
+        </div>
+
+        <p>Sous-total: {{ getSubTotal(item) | currency:'EUR' }}</p>
+      </div>
+
+      <button (click)="removeItem(item)" class="remove-btn">
+        Supprimer
+      </button>
+    </div>
+
+    <div class="cart-summary">
+      <p class="total">Total: {{ total | currency:'EUR' }}</p>
+      <button (click)="clearCart()" class="clear-btn">
+        Vider le panier
+      </button>
+      <button (click)="proceedToCheckout()" class="checkout-btn">
+        Commander
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<!-- CE QUI AVAIT AVANT
+- cart.component.html -
 <div class="cart-container">
   <div *ngIf="cartItems.length === 0" class="empty-cart">
     <p>Votre panier est vide</p>
@@ -25,3 +84,4 @@
     <button class="clear-btn" (click)="clearCart()">Vider le panier</button>
   </div>
 </div>
+-->
