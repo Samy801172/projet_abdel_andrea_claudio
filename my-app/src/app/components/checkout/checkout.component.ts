@@ -12,65 +12,9 @@ import { AuthService } from '../../services/auth/auth.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './checkout.component.html',
-  styles: [`
-    .checkout-container {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 1rem;
-    }
-
-    .order-summary {
-      background: white;
-      border-radius: 0.5rem;
-      padding: 1.5rem;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    }
-
-    .item {
-      display: flex;
-      justify-content: space-between;
-      padding: 1rem 0;
-      border-bottom: 1px solid #e5e7eb;
-    }
-
-    .order-total {
-      margin-top: 2rem;
-      padding-top: 1rem;
-      border-top: 2px solid #e5e7eb;
-      display: flex;
-      justify-content: space-between;
-      font-weight: bold;
-      font-size: 1.25rem;
-    }
-
-    .actions {
-      display: flex;
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-
-    .back-btn, .confirm-btn {
-      padding: 0.75rem 1.5rem;
-      border: none;
-      border-radius: 0.375rem;
-      cursor: pointer;
-    }
-
-    .back-btn {
-      background: #e5e7eb;
-    }
-
-    .confirm-btn {
-      background: #059669;
-      color: white;
-    }
-
-    .confirm-btn:disabled {
-      background: #9ca3af;
-      cursor: not-allowed;
-    }
-  `]
+  styleUrls: ['./checkout.component.css'],
 })
+
 export class CheckoutComponent implements OnInit {
   cartItems: CartItem[] = [];
   total: number = 0;
