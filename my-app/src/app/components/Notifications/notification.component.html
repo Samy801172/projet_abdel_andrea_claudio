@@ -1,0 +1,20 @@
+<div class="notifications-container">
+  <div
+    *ngFor="let notification of notifications; trackBy: trackById"
+    class="notification"
+    [class]="notification.type"
+  >
+        <span class="icon">
+          <ng-container [ngSwitch]="notification.type">
+            <i *ngSwitchCase="'success'" class="fas fa-check-circle"></i>
+            <i *ngSwitchCase="'error'" class="fas fa-exclamation-circle"></i>
+            <i *ngSwitchCase="'warning'" class="fas fa-exclamation-triangle"></i>
+            <i *ngSwitchCase="'info'" class="fas fa-info-circle"></i>
+          </ng-container>
+        </span>
+    <span class="message">{{ notification.message }}</span>
+    <button class="close-btn" (click)="removeNotification(notification)">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+</div>
