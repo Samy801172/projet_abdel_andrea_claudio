@@ -1,0 +1,40 @@
+<div class="checkout-container">
+  <h2>Validation de la commande</h2>
+
+  <div class="order-summary">
+    <h3>Récapitulatif de votre commande</h3>
+
+    <div *ngIf="cartItems.length === 0">
+      <p class="empty-cart">Votre panier est vide</p>
+    </div>
+
+    <div *ngIf="cartItems.length > 0">
+      <div class="items-list">
+        <div *ngFor="let item of cartItems; trackBy: trackItem" class="item">
+          <span class="item-name">{{ item.product.name }}</span>
+          <span class="item-quantity">Quantité: {{ item.quantity }}</span>
+          <span class="item-price">
+                {{ getItemTotal(item) | currency:'EUR' }}
+              </span>
+        </div>
+      </div>
+
+      <div class="order-total">
+        <span class="total-label">Total:</span>
+        <span class="total-amount">{{ total | currency:'EUR' }}</span>
+      </div>
+
+      <div class="actions">
+        <button class="back-btn" (click)="backToCart()">Retour au panier</button>
+        <button
+          class="confirm-btn"
+          [disabled]="isProcessing"
+          (click)="confirmOrder()"
+        >
+          Confirmer la commande
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`,
