@@ -1,12 +1,11 @@
-// src/controllers/orderStatus.controller.ts
-import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
+// src/model/OrderStatus/orderStatus.controller.ts
+import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
 import { OrderStatusService } from './orderStatus.service';
 import { CreateOrderStatusDto } from './dto/create-orderStatus.dto';
 import { UpdateOrderStatusDto } from './dto/update-orderStatus.dto';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('order-status')
-@ApiBearerAuth('access-token')
 @Controller('order-status')
 export class OrderStatusController {
   constructor(private readonly orderStatusService: OrderStatusService) {}

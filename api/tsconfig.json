@@ -1,4 +1,6 @@
-{ "strict": true,
+{  "scripts": {
+  "start:dev": "nest start --watch"
+},
   "compilerOptions": {
     "module": "commonjs",
 

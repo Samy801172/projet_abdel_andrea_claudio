@@ -1,8 +1,6 @@
-// src/model/Order/dto/order-line.dto.ts
-import { IsNumber, IsPositive, Min } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { IsNumber, IsOptional, Min } from "class-validator";
 
-// order-line.dto.ts
+// DTO pour chaque ligne de commande
 export class OrderLineDto {
   @IsNumber()
   id_product: number;
@@ -12,6 +10,10 @@ export class OrderLineDto {
   quantity: number;
 
   @IsNumber()
-  @Min(0)
-  unit_price: number;
+  @IsOptional()
+  unit_price?: number;
+
+  @IsNumber()
+  @IsOptional()
+  original_price?: number;
 }

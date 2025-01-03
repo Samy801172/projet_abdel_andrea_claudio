@@ -4,7 +4,109 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6e06bfdf-6874-4b79-bf09-89d441a8c4a9" name="Changes" comment="" />
+    <list default="true" id="b7d382ad-49c7-432b-86f3-9d0a39a078e1" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/api/src/model/OrderStatus/dto/order-status.enum.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/model/Paypal/dto/paypal-capture.dto.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/model/Paypal/dto/paypal-response.dto.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/model/Paypal/dto/paypal.dto.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/model/Paypal/dto/paypalOrder.dto.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/model/Paypal/paypal.controller.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/model/Paypal/paypal.entity.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/model/Paypal/paypal.module.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/model/Paypal/paypal.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/model/Stock/dto/stock-alert.dto.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/model/Stock/stock.controller.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/model/Stock/stock.entity.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/model/Stock/stock.module.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/model/Stock/stock.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-app/src/app/components/Notifications/Login/login.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-app/src/app/components/Notifications/Login/login.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-app/src/app/components/Notifications/Login/login.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-app/src/app/components/Notifications/Login/login.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-app/src/app/components/PayPal/paypal-button.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-app/src/app/components/checkout/checkout.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-app/src/app/components/checkout/checkout.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-app/src/app/components/payment/payment-success.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/admin/stock/stock-management.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-app/src/app/services/home/home.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-app/src/app/services/payement/ payment.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-app/src/app/services/paypal/paypal.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-app/src/app/services/paypal/paypal.types.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-app/src/app/services/promotion/product-promotion/product-promotion.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-app/src/app/services/stock/stock.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-app/src/app/types/paypal.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-app/src/environments/environment.prod.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-app/src/environments/environment.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/bain_ser_pdw_2024_group_3_Lemkadem_Abdeljalil_Final.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/.env" beforeDir="false" afterPath="$PROJECT_DIR$/api/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/api/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/api/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/feature/root/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/feature/root/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/migrations/1699288000001-CreateOrderTables.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/migrations/1706826000000-CreateClientTable.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/migrations/InsertOrderStatuses.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/Cart/cart.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Cart/cart.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/Cart/cart.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Cart/cart.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/Cart/cart.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Cart/cart.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/Order/OrderDetail/order-detail.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Order/OrderDetail/order-detail.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/Order/dto/create-order.dto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Order/dto/create-order.dto.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/Order/dto/order-line.dto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Order/dto/order-line.dto.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/Order/dto/update-order-.dto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Order/dto/update-order-.dto.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/Order/order.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Order/order.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/Order/order.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Order/order.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/Order/order.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Order/order.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/Order/order.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Order/order.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/OrderStatus/dto/create-orderStatus.dto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/OrderStatus/dto/create-orderStatus.dto.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/OrderStatus/dto/update-orderStatus.dto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/OrderStatus/dto/update-orderStatus.dto.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/OrderStatus/orderStatus.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/OrderStatus/orderStatus.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/OrderStatus/orderStatus.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/OrderStatus/orderStatus.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/OrderStatus/orderStatus.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/OrderStatus/orderStatus.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/OrderStatus/orderStatus.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/OrderStatus/orderStatus.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/Payment/dto/create-payment.dto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Payment/dto/create-payment.dto.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/Payment/payment.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Payment/payment.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/Payment/payment.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Payment/payment.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/Payment/payment.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Payment/payment.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/Payment/payment.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Payment/payment.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/Product/dto/update-product.dto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Product/dto/update-product.dto.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/Product/product.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Product/product.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/Product/product.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Product/product.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/ProductPromotion/productPromotion.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/ProductPromotion/productPromotion.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/model/Promotion/promotion.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Promotion/promotion.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/api/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/components/Cart/cart.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/components/Cart/cart.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/components/Cart/cart.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/components/Cart/cart.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/components/Cart/cart.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/components/Cart/cart.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/components/Order/order.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/components/Order/order.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/components/Product/product.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/components/Product/product.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/components/Product/product.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/components/Product/product.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/components/checkout/checkout.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/components/checkout/checkout.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/components/home/home.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/components/home/home.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/components/payment/payment.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/components/payment/payment.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/admin/orders/admin-orders.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/admin/orders/admin-orders.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/admin/products/admin-products.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/admin/products/admin-products.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/client/Products/client-products.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/client/Products/client-products.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/client/orders/client-orders.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/client/orders/client-orders.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/models/cart/cart-item.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/models/cart/cart-item.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/models/order/order.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/models/order/order.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/models/product/product.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/models/product/product.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/models/promotion/promotion.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/models/promotion/promotion.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/newRoot/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/newRoot/app.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/newRoot/app.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/newRoot/app.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/newRoot/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/newRoot/app.routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/services/cart/cart.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/services/cart/cart.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/services/checkout/checkout.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/services/checkout/checkout.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/services/order/order.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/services/order/order.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/services/product/product.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/services/product/product.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/shared/enums/orderstatus.enum.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/shared/enums/orderstatus.enum.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/index.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,27 +115,27 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 6
-}</component>
-  <component name="ProjectId" id="2pzjxq2IJLxwXxQLGCzzMrfmbQq" />
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 8
+}]]></component>
+  <component name="ProjectId" id="2r5MvxxiZ3bP7XkbkrElTimmzon" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/recap03_12/bain_ser_pdw_2024_group_3_Lemkadem_Abdeljalil_Final&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/ReacpNôel/bain_ser_pdw_2024_group_3_Lemkadem_Abdeljalil_Final",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -44,15 +146,12 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="6e06bfdf-6874-4b79-bf09-89d441a8c4a9" name="Changes" comment="" />
-      <created>1733776048156</created>
+      <changelist id="b7d382ad-49c7-432b-86f3-9d0a39a078e1" name="Changes" comment="" />
+      <created>1735844721319</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1733776048156</updated>
-      <workItem from="1733776049503" duration="1328000" />
-      <workItem from="1733827849049" duration="4089000" />
-      <workItem from="1734254694483" duration="1702000" />
-      <workItem from="1734379690908" duration="547000" />
+      <updated>1735844721319</updated>
+      <workItem from="1735844722665" duration="1611000" />
     </task>
     <servers />
   </component>
@@ -72,28 +171,14 @@
         <option value="$PROJECT_DIR$/api/src/common/config/api/model/api.exception.js" />
         <option value="$PROJECT_DIR$/api/src/common/config/documentation/index.js" />
         <option value="$PROJECT_DIR$/api/src/common/config/documentation/swagger.configuration.js" />
+        <option value="$PROJECT_DIR$/api/src/feature/root/app.module.js" />
         <option value="$PROJECT_DIR$/api/src/feature/index.js" />
         <option value="$PROJECT_DIR$/api/src/feature/root/app.service.js" />
         <option value="$PROJECT_DIR$/api/src/feature/root/app.controller.js" />
         <option value="$PROJECT_DIR$/api/src/feature/root/index.js" />
         <option value="$PROJECT_DIR$/api/src/feature/root/app.exception.js" />
         <option value="$PROJECT_DIR$/api/src/feature/root/app.swagger.js" />
-        <option value="$PROJECT_DIR$/api/src/feature/root/app.module.js" />
       </list>
     </option>
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
 </project>

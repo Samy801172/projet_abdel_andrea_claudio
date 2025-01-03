@@ -24,8 +24,9 @@ import { InvoiceModule } from 'model/Invoice/invoice.module';
 import { Service } from 'model/Service/service.entity';
 import { Appointment } from 'model/Appointment/appointment.entity';
 import { OrderDetailModule } from 'model/Order/OrderDetail/order-detail.module';
-import { ProductPromotion } from '../../model/ProductPromotion/productPromotion.entity';
-import { ProductPromotionModule } from '../../model/ProductPromotion/productPromotion.module';
+import { StockModule } from 'model/Stock/stock.module';
+import { PaymentModule } from '../../model/Payment/payment.module';
+import { PrescriptionModule } from '../../model/Prescription/prescription.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { ProductPromotionModule } from '../../model/ProductPromotion/productProm
 
     // Module de sécurité
     SecurityModule,
+    ClientModule,
 
     // Modules utilisateurs
     UserModule,
@@ -46,6 +48,10 @@ import { ProductPromotionModule } from '../../model/ProductPromotion/productProm
     TypeModule,
     CartModule,
     PromotionModule,
+    StockModule,
+    PaymentModule,
+    PrescriptionModule,
+
 
 
     // Modules commandes et facturation

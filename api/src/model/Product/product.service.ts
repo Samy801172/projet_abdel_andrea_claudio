@@ -1,5 +1,5 @@
 // src/model/Product/product.service.ts
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Product } from './product.entity';
@@ -46,14 +46,20 @@ export class ProductService {
   }
 
   // Récupérer un produit par son ID
-  async findOne(id: number): Promise<Product> {
-    const product = await this.productRepository.findOne({
-      where: { id_product: id },
-      relations: ['type', 'promotion']
-    });
+  async findOne(id: number) {
+    if (!id || isNaN(id)) {
+      throw new BadRequestException('ID produit invalide');
+    }
+
+    const product = await this.productRepository
+      .createQueryBuilder('product')
+      .leftJoinAndSelect('product.productPromotions', 'productPromotions')
+      .leftJoinAndSelect('productPromotions.promotion', 'promotion')
+      .where('product.id_product = :id', { id })
+      .getOne();
 
     if (!product) {
-      throw new NotFoundException(`Product with ID ${id} not found`);
+      throw new NotFoundException(`Produit #${id} non trouvé`);
     }
 
     return product;

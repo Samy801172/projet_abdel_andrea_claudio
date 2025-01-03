@@ -217,7 +217,7 @@ export class OrderComponent implements OnInit {
   get filteredOrders(): Order[] {
     return this.orders.filter(order => {
       const matchesSearch = !this.searchTerm ||
-        order.orderId.toString().includes(this.searchTerm) ||
+        order.id_order.toString().includes(this.searchTerm) ||
         order.orderDetails.some(detail =>
           detail.product.name.toLowerCase().includes(this.searchTerm.toLowerCase())
         );
@@ -234,7 +234,7 @@ export class OrderComponent implements OnInit {
   }
 
   updateOrderStatus(orderId: number, newStatus: string): void {
-    const updatedOrder = this.orders.find(o => o.orderId === orderId);
+    const updatedOrder = this.orders.find(o => o.id_order === orderId);
     if (!updatedOrder) return;
 
     this.orderService.updateOrder(orderId, {...updatedOrder, status: newStatus}).subscribe({

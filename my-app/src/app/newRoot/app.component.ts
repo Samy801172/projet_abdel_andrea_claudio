@@ -11,66 +11,93 @@ import { NotificationComponent } from '../components/Notifications/notification.
 import { CardComponent } from '../shared';
 import { HttpClientModule } from '@angular/common/http';
 import { CartService, OrderService } from '../services';
-import {FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import {PaymentComponent} from '../components/payment/payment.component';
+import {CheckoutComponent} from '../components/checkout/checkout.component';
+import {PaypalService} from '../services/paypal/paypal.service';
 
+// Décorateur @Component définissant les métadonnées du composant.
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  providers: [CartService, OrderService],
-  imports: [FormsModule,
+  selector: 'app-root', // Le sélecteur utilisé dans le HTML pour inclure ce composant.
+  standalone: true, // Définit ce composant comme autonome (sans besoin d'AppModule).
+  providers: [CartService, OrderService], // Fournisseurs de services injectables spécifiques à ce composant.
+  imports: [
+    // Liste des modules et composants nécessaires pour ce composant.
+    FormsModule,
     CommonModule,
-    RouterOutlet,
-    NavbarComponent,
-    HttpClientModule,
-    RouterModule,
-    ServiceComponent,
-    AppointmentComponent,
-    ClientComponent,
-    AdminComponent,
-    NotificationComponent,
-    CardComponent,
+    RouterOutlet, // Directive utilisée pour gérer les routes enfants via un espace réservé.
+    NavbarComponent, // Composant pour la barre de navigation.
+    HttpClientModule, // Module HTTP pour les appels API.
+    RouterModule, // Nécessaire pour les fonctionnalités de routage.
+    ServiceComponent, // Composant pour afficher les services.
+    AppointmentComponent, // Composant pour gérer les rendez-vous.
+    ClientComponent, // Composant pour gérer les clients.
+    AdminComponent, // Composant pour les fonctionnalités administratives.
+    NotificationComponent, // Composant pour afficher les notifications.
+    CardComponent ,// Composant pour afficher des cartes d'informations.
+    PaymentComponent,
+    CheckoutComponent
 
   ],
   template: `
+    <!-- Template HTML pour structurer l'interface utilisateur principale. -->
     <div class="app-container">
-      <app-navbar></app-navbar>
-      <app-notification></app-notification>
+      <app-navbar></app-navbar> <!-- Barre de navigation principale. -->
+      <app-notification></app-notification> <!-- Notifications globales. -->
 
       <main class="main-content">
+        <!-- Espace réservé pour les composants enfants basés sur les routes. -->
+        <!-- RouterOutlet est une directive Angular utilisée comme un point d'ancrage
+          pour afficher les composants liés à une route spécifique.
+          Lorsqu'une route est activée, Angular remplace <router-outlet>
+          par le composant associé à cette route.
+
+          Par exemple :
+          - Si la route active est '/admin', le composant AdminComponent sera affiché ici.
+          - Si la route active est '/client', le composant ClientComponent sera affiché ici.
+
+          Cela permet de gérer dynamiquement les vues sans recharger la page.
+     -->
         <router-outlet></router-outlet>
       </main>
     </div>
   `,
-  styles: [`
-    .app-container {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+  styles: [
+    // Styles CSS spécifiques à ce composant.
+    `
+      .app-container {
+        min-height: 100vh; /* Hauteur minimale : pleine hauteur de la fenêtre. */
+        display: flex; /* Flexbox pour structurer le layout. */
+        flex-direction: column; /* Orientation des éléments en colonne. */
+      }
 
-    .main-content {
-      flex: 1;
-      padding: 20px;
-      background-color: #f5f6fa;
-    }
+      .main-content {
+        flex: 1; /* Prend tout l'espace disponible. */
+        padding: 20px; /* Espacement interne. */
+        background-color: #f5f6fa; /* Couleur de fond. */
+      }
 
-    :host {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      color: #333;
-      box-sizing: border-box;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-  `]
+      :host {
+        /* Styles globaux du composant. */
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        color: #333; /* Couleur principale du texte. */
+        box-sizing: border-box; /* Bordures incluses dans la taille des éléments. */
+        -webkit-font-smoothing: antialiased; /* Lissage des polices sur WebKit. */
+        -moz-osx-font-smoothing: grayscale; /* Lissage des polices sur macOS. */
+      }
+    `
+  ]
 })
 export class AppComponent implements OnInit {
+  // Constructeur injectant le service de journalisation et le routeur.
   constructor(
-    private loggingService: LoggingService,
-    private router: Router
+    private loggingService: LoggingService, // Service pour consigner les événements.
+    private router: Router // Service pour gérer les routes.
   ) {}
 
+  // Hook du cycle de vie Angular appelé lors de l'initialisation du composant.
   ngOnInit() {
-    this.loggingService.logNavigationEvents();
-    console.log('Routes configurées:', this.router.config);
+    this.loggingService.logNavigationEvents(); // Démarre la journalisation des événements de navigation.
+    console.log('Routes configurées:', this.router.config); // Affiche les configurations de routes dans la console.
   }
 }

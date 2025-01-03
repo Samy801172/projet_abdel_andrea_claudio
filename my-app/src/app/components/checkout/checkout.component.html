@@ -1,0 +1,28 @@
+<div class="payment-container">
+  <h3 class="title">Paiement sécurisé</h3>
+  <div class="amount">Total à payer: {{ amount | currency:'EUR' }}</div>
+
+  <div class="cart-summary">
+    <h4>Résumé de la commande</h4>
+    <div *ngFor="let item of cartItems" class="cart-item-summary">
+      <span>{{ item.product.name }} x{{ item.quantity }}</span>
+      <span>
+        <ng-container *ngIf="hasActivePromotion(item)">
+          <span class="original-price">{{ item.product.price | currency:'EUR' }}</span>
+          <span class="discount-price">{{ calculateDiscountedPrice(item) | currency:'EUR' }}</span>
+        </ng-container>
+        <ng-container *ngIf="!hasActivePromotion(item)">
+          {{ item.product.price | currency:'EUR' }}
+        </ng-container>
+      </span>
+    </div>
+  </div>
+  <!-- Bouton PayPal -->
+  <app-paypal-button [amount]="amount"></app-paypal-button>
+  <!-- Boutons de paiement -->
+  <div class="btn-group">
+    <button class="btn primary">Payer par Carte</button>
+    <button class="btn primary">Virement Bancaire</button>
+    <button routerLink="/client/cart" class="btn secondary">Retour au panier</button>
+  </div>
+</div>

@@ -1,11 +1,16 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {Router, RouterModule} from '@angular/router';
+
+import {HomeService} from '../../services/home/home.service';
+import {Product, ProductWithPromotion} from '../../models/product/product.model';
+import {PromotionTimerComponent} from '../Promotion/promotion-timer.component';
+
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule,PromotionTimerComponent],
   template: `
     <div class="home-container">
       <!-- Hero Section -->
@@ -40,6 +45,56 @@ import {Router, RouterModule} from '@angular/router';
             <a routerLink="/login" class="btn-primary">Se connecter</a>
             <a routerLink="/register" class="btn-secondary">S'inscrire</a>
           </div>
+        </div>
+      </section>
+      <!-- Après la section hero -->
+
+      <section class="promotions">
+        <h2>Promotions du Mois</h2>
+
+
+        <div class="promo-grid">
+          @for (promo of activePromotions; track promo.id_product) {
+            <div class="promo-card">
+              <div class="product-image">
+                <img [src]="'assets/' + (promo.imageUrls[0] || 'default-product.jpg')" [alt]="promo.name">
+
+              </div>
+              <div class="product-details">
+                <h3>{{promo.name}}</h3>
+                <p>{{promo.description}}</p>
+                <div class="price-container">
+                  <span class="original-price">{{promo.price}}€</span>
+                  <span class="discounted-price" *ngIf="promo.promotionPrice">
+            {{promo.promotionPrice}}€
+          </span>
+                </div>
+                <!-- Sécurisation de l'accès à endDate -->
+                @if (promo.activePromotion && promo.activePromotion.endDate) {
+                  <app-promotion-timer [endDate]="promo.activePromotion.endDate">
+                  </app-promotion-timer>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </section>
+
+      <section class="new-products">
+        <h2>Nouveaux Médicaments</h2>
+        <div class="products-grid">
+          @for (product of newProducts; track product.id_product) {
+            <div class="product-card">
+              <div class="product-image">
+                <img [src]="'assets/' + getImageFilename(product.name)" [alt]="product.name">
+              </div>
+              <div class="product-details">
+                <h3>{{product.name}}</h3>
+                <p>{{product.description}}</p>
+                <span class="price">{{product.price}}€</span>
+              </div>
+            </div>
+          }
         </div>
       </section>
 
@@ -84,11 +139,117 @@ import {Router, RouterModule} from '@angular/router';
     </footer>
   `,
   styles: [`
+
+    .new-products {
+      .product-image {
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        background-color: #f3f4f6;
+
+        img {
+          width:90%;
+          height:100%;
+          object-fit: cover;
+          transition: transform 0.3s ease;
+        }
+      }
+
+      .product-card {
+        background: white;
+        border-radius: 8px;
+        padding: 1rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: transform 0.2s ease;
+
+        &:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+
+          img {
+            transform: scale(1.05);
+          }
+        }
+      }
+
+      .product-details {
+        h3 {
+          font-size: 1.25rem;
+          font-weight: 600;
+          color: #1f2937;
+          margin-bottom: 0.5rem;
+        }
+
+        p {
+          color: #6b7280;
+          font-size: 0.875rem;
+          line-height: 1.4;
+          margin-bottom: 1rem;
+        }
+
+        .price {
+          display: block;
+          font-size: 1.25rem;
+          font-weight: 600;
+          color: #4f46e5;
+        }
+      }
+    }
     .home-container {
       min-height: 100vh;
       background: linear-gradient(to bottom, #f3f4f6, #ffffff);
     }
+    .countdown-container {
+      display: inline-flex;
+      align-items: center;
+      background: #ef4444;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 4px;
+      position: relative;
+      margin-top: 1rem;
+      width: fit-content;
+    }
 
+    .time-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 8px;
+      min-width: 40px;
+    }
+
+    .time-number {
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 2px;
+    }
+
+    .time-label {
+      font-size: 0.7rem;
+      opacity: 0.9;
+    }
+
+    .time-separator {
+      opacity: 0.7;
+      font-weight: 200;
+      margin-top: -8px;
+    }
+
+    .promo-badge {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: #fbbf24;
+      color: #000;
+      padding: 2px 6px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
     .hero {
       height: 80vh;
       display: flex;
@@ -97,6 +258,162 @@ import {Router, RouterModule} from '@angular/router';
       text-align: center;
       background: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9));
       padding: 2rem;
+    }
+
+    .promo-card {
+      background: white;
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: relative;
+      transition: all 0.3s ease;
+      border: 1px solid #e5e7eb;
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .product-details {
+        h3 {
+          font-size: 1.5rem;
+          color: #1f2937;
+          margin-bottom: 1rem;
+        }
+
+        p {
+          color: #6b7280;
+          line-height: 1.5;
+          margin-bottom: 1.5rem;
+        }
+      }
+
+      .price-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+
+        .original-price {
+          text-decoration: line-through;
+          color: #9ca3af;
+          font-size: 1rem;
+        }
+
+        .discounted-price {
+          color: #dc2626;
+          font-size: 1.75rem;
+          font-weight: bold;
+        }
+      }
+
+      .discount-badge {
+        position: absolute;
+        top: -12px;
+        right: -12px;
+        background: #dc2626;
+        color: white;
+        padding: 0.75rem;
+        border-radius: 9999px;
+        font-weight: bold;
+        font-size: 1.25rem;
+        box-shadow: 0 2px 4px rgba(220, 38, 38, 0.3);
+      }
+    }
+
+    .promotions {
+      background: linear-gradient(to bottom, #f3f4f6, white);
+      padding: 4rem 2rem;
+
+      h2 {
+        text-align: center;
+        font-size: 2.5rem;
+        color: #1f2937;
+        margin-bottom: 3rem;
+        font-weight: bold;
+      }
+    }
+
+    .promo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .promotions, .new-products {
+      padding: 4rem;
+      background: #f9fafb;
+    }
+
+    .promo-grid, .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 2rem auto;
+      max-width: 1200px;
+    }
+    .countdown {
+      font-size: 0.9rem;
+      color: #4f46e5;
+      font-weight: bold;
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      background: #f3f4f6;
+      border-radius: 0.25rem;
+    }
+
+    .expired {
+      color: #ef4444;
+      font-weight: bold;
+    }
+    .promo-card, .product-card {
+      background: white;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: relative;
+      transition: transform 0.2s;
+
+      &:hover {
+        transform: translateY(-4px);
+      }
+    }
+
+    .discount-badge {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: #ef4444;
+      color: white;
+      padding: 0.5rem;
+      border-radius: 9999px;
+      font-weight: bold;
+    }
+
+    .price-container {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      margin: 1rem 0;
+    }
+
+    .original-price {
+      text-decoration: line-through;
+      color: #6b7280;
+    }
+
+    .discounted-price {
+      color: #ef4444;
+      font-weight: bold;
+      font-size: 1.25rem;
+    }
+
+    .promo-dates {
+      font-size: 0.875rem;
+      color: #6b7280;
     }
 
     .hero-content {
@@ -277,10 +594,57 @@ import {Router, RouterModule} from '@angular/router';
     }
   `]
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   currentYear = new Date().getFullYear();
+  activePromotions: ProductWithPromotion[] = [];
+  newProducts: Product[] = [];
 
-  constructor(private router: Router) {}
+  constructor(
+    private homeService: HomeService,
+    private router: Router // Ajout du Router
+  ) {}
+
+  ngOnInit() {
+    this.loadPromotions();
+    this.loadNewProducts();
+  }
+
+  loadPromotions() {
+    this.homeService.getActiveProductPromotions().subscribe({
+      next: (promotions: ProductWithPromotion[]) => {
+        console.log('Promotions reçues:', promotions);
+        this.activePromotions = promotions;
+      },
+      error: (error) => {
+        console.error('Erreur chargement promotions:', error);
+      }
+    });
+  }
+
+  loadNewProducts() {
+    this.homeService.getNewProducts().subscribe({
+      next: (products) => {
+        this.newProducts = products;
+      },
+      error: (error) => {
+        console.error('Erreur chargement nouveaux produits:', error);
+      }
+    });
+  }
+  getTimeRemaining(endDate: string) {
+    const end = new Date(endDate).getTime();
+    const now = new Date().getTime();
+    const distance = end - now;
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+    return {
+      days,
+      hours,
+      expired: distance < 0
+    };
+  }
 
   navigateToLogin() {
     this.router.navigate(['/login']);
@@ -289,6 +653,23 @@ export class HomeComponent {
   navigateToRegister() {
     this.router.navigate(['/register']);
   }
+
+  // Dans la classe HomeComponent, ajoutez cette méthode
+  getImageFilename(productName: string): string {
+    const name = productName.toLowerCase();
+    if (name.includes('paracétamol')) return 'paracetamol.jpg';
+    if (name.includes('ibuprofène')) return 'ibuprofene.jpg';
+    if (name.includes('amoxicilline')) return 'antibiotique.jpg';
+    if (name.includes('vitamine')) return 'vitamine-d.jpg';
+    if (name.includes('omega')) return 'omega.jpg';
+    return 'default-product.jpg';
+  }
+  getDefaultEndDate(): Date {
+    const date = new Date();
+    date.setDate(date.getDate() + 15); // Promotion par défaut de 15 jours
+    return date;
+  }
+
   services = [
     {
       title: 'Médicaments sur Ordonnance',

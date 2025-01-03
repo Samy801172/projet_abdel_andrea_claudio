@@ -13,7 +13,8 @@ export interface Product {
     description: string;
     discountPercentage: number;
     startDate: Date;
-    endDate: Date;
+    endDate: Date
+    promotion?: Promotion;  // Promotion actuelle du produit
   };
 }
 

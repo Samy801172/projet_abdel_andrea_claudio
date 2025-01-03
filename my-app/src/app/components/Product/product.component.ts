@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {CommonModule, CurrencyPipe} from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-
 import {Product, ProductWithPromotion} from '../../models/product/product.model';
 import { TypeService } from '../../services/type/type.service';
 import { Type } from '../../models/type/type.model';

@@ -2,25 +2,14 @@
 import {Client} from '../client/client.model';
 
 export interface NewOrder {
-  id_client: number;
-  id_statut: number;
-  date_order: Date;
+  clientId: number;
+  date_order: string;
   orderLines: Array<{
-    id_product: number;  // Changé de productId pour correspondre au backend
+    id_product: number;
     quantity: number;
     unit_price: number;
   }>;
-}
-
-
-export interface OrderDetail {
-  id_order_detail: number;
-  quantity: number;
-  unit_price: number;
-  product: {
-    id_product: number;
-    name: string;
-  };
+  paymentInfo?: any;
 }
 
 export interface Order {
@@ -45,6 +34,14 @@ export interface Order {
   status?: string;
 }
 
+export interface OrderProduct {
+  id_product: number;
+  name: string;
+  price: number;
+  description?: string;
+  stock?: number;
+  active?: boolean;
+}
 
 
 export interface OrderDetail {
@@ -53,8 +50,5 @@ export interface OrderDetail {
   product_id: number;
   quantity: number;
   unit_price: number;
-  product: {
-    id_product: number;
-    name: string;
-  };
+  product: OrderProduct;
 }

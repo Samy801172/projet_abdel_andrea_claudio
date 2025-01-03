@@ -18,6 +18,8 @@ export class OrderDetail {
 
   @Column('decimal', { precision: 10, scale: 2 })
   unit_price: number;
+  @Column('decimal', { precision: 10, scale: 2 })
+  original_price: number;
 
   @ManyToOne(() => Order)
   @JoinColumn({ name: 'order_id' })

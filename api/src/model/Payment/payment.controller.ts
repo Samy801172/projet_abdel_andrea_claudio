@@ -1,56 +1,62 @@
 // src/model/Payment/payment.controller.ts
-import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
+import { Controller, Post, Put, Body, Param, HttpException, HttpStatus } from '@nestjs/common';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { PaymentService } from './payment.service';
-import { CreatePaymentDto } from './dto/create-payment.dto';
-import { UpdatePaymentDto } from './dto/update-payment.dto';
+import { PaypalService } from '../Paypal/paypal.service';
+import { OrderService } from '../Order/order.service';
+
+import { PaymentStatusEnum } from './dto/create-payment.dto';
+import { PaypalOrderDto } from 'model/Paypal/dto/paypalOrder.dto';
 
 @ApiTags('payments')
-@Controller('api/payments')
+@Controller('payments')
 export class PaymentController {
-  constructor(private readonly paymentService: PaymentService) {}
+  constructor(
+    private readonly paymentService: PaymentService,
+    private readonly paypalService: PaypalService,
+    private readonly orderService: OrderService
+  ) {}
 
-  @Post()
-  @ApiOperation({ summary: 'Créer un nouveau paiement' })
-  @ApiResponse({ status: 201, description: 'Le paiement a été créé avec succès.' })
-  @ApiResponse({ status: 400, description: 'Données invalides.' })
-  @ApiBody({ type: CreatePaymentDto })
-  create(@Body() createPaymentDto: CreatePaymentDto) {
-    return this.paymentService.create(createPaymentDto);
+  @Post('paypal/create')
+  @ApiOperation({ summary: 'Créer un ordre PayPal' })
+  @Post('paypal/create')
+  async createPaypalOrder(@Body() data: { amount: number, clientId: number }) {
+    try {
+      const order = await this.orderService.createOrderFromCart(data.clientId);
+      return await this.paypalService.createOrder(data.amount, order.id_order);
+    } catch (error) {
+      console.error('PayPal create order error:', error);
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
-  @Get()
-  @ApiOperation({ summary: 'Récupérer tous les paiements' })
-  @ApiResponse({ status: 200, description: 'Liste des paiements récupérée avec succès.' })
-  findAll() {
-    return this.paymentService.findAll();
+  @Post('paypal/capture/:orderId')
+  @ApiOperation({ summary: 'Capturer un paiement PayPal' })
+  async capturePayment(@Param('orderId') orderId: string) {
+    try {
+      const result = await this.paypalService.capturePayment(orderId);
+      console.log('Capture result:', result);
+      return result;
+    } catch (error) {
+      console.error('Capture error:', error);
+      throw new HttpException('Erreur lors de la capture', HttpStatus.BAD_REQUEST);
+    }
   }
 
-  @Get(':id')
-  @ApiOperation({ summary: 'Récupérer un paiement par ID' })
-  @ApiParam({ name: 'id', type: 'number', description: 'ID du paiement' })
-  @ApiResponse({ status: 200, description: 'Paiement trouvé.' })
-  @ApiResponse({ status: 404, description: 'Paiement non trouvé.' })
-  findOne(@Param('id') id: string) {
-    return this.paymentService.findOne(+id);
-  }
 
-  @Put(':id')
-  @ApiOperation({ summary: 'Mettre à jour un paiement' })
-  @ApiParam({ name: 'id', type: 'number', description: 'ID du paiement' })
-  @ApiBody({ type: UpdatePaymentDto })
-  @ApiResponse({ status: 200, description: 'Paiement mis à jour avec succès.' })
-  @ApiResponse({ status: 404, description: 'Paiement non trouvé.' })
-  update(@Param('id') id: string, @Body() updatePaymentDto: UpdatePaymentDto) {
-    return this.paymentService.update(+id, updatePaymentDto);
-  }
-
-  @Delete(':id')
-  @ApiOperation({ summary: 'Supprimer un paiement' })
-  @ApiParam({ name: 'id', type: 'number', description: 'ID du paiement' })
-  @ApiResponse({ status: 200, description: 'Paiement supprimé avec succès.' })
-  @ApiResponse({ status: 404, description: 'Paiement non trouvé.' })
-  remove(@Param('id') id: string) {
-    return this.paymentService.remove(+id);
+  @Put('paypal/status/:orderId')
+  @ApiOperation({ summary: 'Mettre à jour le statut d\'un paiement' })
+  async updatePaymentStatus(
+    @Param('orderId') orderId: string,
+    @Body('status') status: PaymentStatusEnum
+  ) {
+    try {
+      return await this.paymentService.updatePaymentStatus(orderId, status);
+    } catch (error) {
+      throw new HttpException(
+        'Erreur lors de la mise à jour du statut',
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
   }
 }

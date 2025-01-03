@@ -7,6 +7,8 @@ import { CartService } from '../../../../../services';
 import { NotificationService } from '../../../../../services/notification/notification.service';
 import {FormsModule} from '@angular/forms';
 import {take} from 'rxjs';
+import {PromotionService} from '../../../../../services/promotion/promotion.service';
+import {PromotionTimerComponent} from '../../../../../components/Promotion/promotion-timer.component';
 
 
 export interface Type {
@@ -21,7 +23,7 @@ export interface Type {
 @Component({
   selector: 'app-client-products',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, PromotionTimerComponent],
   template: `
     <div class="products-container">
       <header class="page-header">
@@ -56,15 +58,11 @@ export interface Type {
           <div class="product-card">
             <div class="product-image">
               <img [src]="'assets/' + getImageFilename(product.name)" [alt]="product.name">
-
               @if (product.activePromotion) {
                 <div class="promo-container">
-                  <div class="promo-badge">
-                    -{{product.activePromotion.discountPercentage}}%
-                  </div>
-                  <div class="promo-duration">
-                    Jusqu'au {{ getEndDateFormatted(product.activePromotion) }}
-                  </div>
+
+                  <app-promotion-timer [endDate]="product.activePromotion.endDate">
+                  </app-promotion-timer>
                 </div>
               }
 
@@ -414,25 +412,26 @@ export class ClientProductsComponent implements OnInit {
 
   // Options de tri et filtres
   typeOptions = [
-    { value: 'tous', label: 'Tous les produits' },
-    { value: 'promos', label: 'En promotion' },
-    { value: '1', label: 'Médicaments sans ordonnance' },
-    { value: '2', label: 'Médicaments sur ordonnance' },
-    { value: '3', label: 'Matériel médical' },
-    { value: '4', label: 'Compléments alimentaires' },
-    { value: '5', label: 'Hygiène et soins' },
-    { value: '6', label: 'Premiers secours' },
-    { value: '7', label: 'Préparations magistrales' },
-    { value: '8', label: 'Orthopédie' },
-    { value: '9', label: 'Maternité et bébé' },
-    { value: '10', label: 'Maintien à domicile' }
+    {value: 'tous', label: 'Tous les produits'},
+    {value: 'promos', label: 'En promotion'},
+    {value: '1', label: 'Médicaments sans ordonnance'},
+    {value: '2', label: 'Médicaments sur ordonnance'},
+    {value: '3', label: 'Matériel médical'},
+    {value: '4', label: 'Compléments alimentaires'},
+    {value: '5', label: 'Hygiène et soins'},
+    {value: '6', label: 'Premiers secours'},
+    {value: '7', label: 'Préparations magistrales'},
+    {value: '8', label: 'Orthopédie'},
+    {value: '9', label: 'Maternité et bébé'},
+    {value: '10', label: 'Maintien à domicile'}
   ];
 
   constructor(
     private productService: ProductService,
     private cartService: CartService,
     private notificationService: NotificationService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.loadProducts();
@@ -458,7 +457,7 @@ export class ClientProductsComponent implements OnInit {
       const priceA = a.activePromotion ? this.getDiscountedPrice(a) : a.price;
       const priceB = b.activePromotion ? this.getDiscountedPrice(b) : b.price;
 
-      switch(this.sortOrder) {
+      switch (this.sortOrder) {
         case 'prixCroissant':
           return priceA - priceB;
         case 'prixDecroissant':
@@ -479,7 +478,6 @@ export class ClientProductsComponent implements OnInit {
     if (name.includes('antibiotique')) return 'antibiotique.jpg';
     return 'default-product.jpg';
   }
-
 
 
   // Vérification de la disponibilité
@@ -554,7 +552,7 @@ export class ClientProductsComponent implements OnInit {
 
   getPromotionStatus(promotion: any): { type: 'normal' | 'ending-soon' | 'last-day', message: string } {
     if (!promotion || !this.isPromotionActive(promotion)) {
-      return { type: 'normal', message: '' };
+      return {type: 'normal', message: ''};
     }
 
     const now = new Date();
@@ -580,6 +578,7 @@ export class ClientProductsComponent implements OnInit {
       message: `Jusqu'au ${this.getEndDateFormatted(promotion)}`
     };
   }
+
   isPromotionActive(promotion: any): boolean {
     if (!promotion) return false;
     const now = new Date();
@@ -595,4 +594,6 @@ export class ClientProductsComponent implements OnInit {
     }
     return product.price;
   }
+
+
 }

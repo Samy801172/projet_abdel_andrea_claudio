@@ -1,14 +1,25 @@
 // src/model/OrderStatus/orderStatus.entity.ts
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Order } from '../Order/order.entity';
+import { OrderStatus } from './dto/order-status.enum';
+
+
+
 
 @Entity('order_status')
-export class OrderStatus {
+export class OrderStatusEntity {
   @PrimaryGeneratedColumn()
   statusId: number;
 
+  @Column({
+    type: 'enum',
+    enum: OrderStatus,
+    default: OrderStatus.PENDING
+  })
+  label: OrderStatus;
+
   @Column()
-  label: string;
+  description: string;
 
   @OneToMany(() => Order, order => order.status)
   orders: Order[];
