@@ -1,28 +1,3 @@
-@if (appointments.length > 0) {
-  <div class="appointments-list">
-    <h2>Mes Rendez-vous</h2>
-    <ul>
-      @for (appointment of appointments; track appointment.appointmentId) {
-        <li class="appointment-item">
-          <div class="appointment-time">
-            {{appointment.appointmentDate | date:'dd/MM/yyyy'}} à {{appointment.time}}
-          </div>
-          <div class="appointment-status">
-            {{appointment.status}}
-          </div>
-        </li>
-      }
-    </ul>
-  </div>
-} @else {
-  <div class="no-appointments">
-    <p>Aucun rendez-vous programmé</p>
-  </div>
-}
-
-
-
-<!-- HTML d'avant
 <div class="appointments-container">
   @if (appointments.length > 0) {
     <h2>Liste des Rendez-vous</h2>
@@ -38,4 +13,3 @@
     <p class="no-data">Aucun rendez-vous trouvé.</p>
   }
 </div>
--->

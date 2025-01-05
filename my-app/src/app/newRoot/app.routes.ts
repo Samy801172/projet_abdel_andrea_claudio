@@ -6,12 +6,26 @@ import { AuthGuard } from '../feature/Dashboard/guard/auth.guard';
 import { AdminGuard } from '../feature/Dashboard/guard/admin.guard';
 import { HomeComponent } from '../components/Home/home.component';
 import {OrderConfirmationComponent} from '../components/order-confirmation/order-confirmation.component';
+import {StockManagementComponent} from '../feature/Dashboard/DashboardComponent/admin/stock/stock-management.component';
+import {PaymentSuccessComponent} from '../components/payment/payment-success.component';
+
 
 export const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
     canActivate: [NoAuthGuard]
+  },
+  {
+    path: 'payment-success',
+
+  component: OrderConfirmationComponent,
+  canActivate: [AuthGuard]
+  },
+  {
+    path: 'admin/stock',
+    component: StockManagementComponent,
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: 'login',
@@ -33,6 +47,10 @@ export const routes: Routes = [
     loadChildren: () => import('../feature/Dashboard/DashboardComponent/client/client.routes')
       .then(m => m.clientRoutes),
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'payment-success',
+    component: PaymentSuccessComponent
   },
   {
     path: 'admin',

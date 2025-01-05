@@ -1,28 +1,22 @@
-// src/model/Order/dto/create-order.dto.ts
-import { Type } from 'class-transformer';
-import { IsArray, IsDate, IsNumber, IsPositive, ValidateNested } from 'class-validator';
+import { IsNotEmpty, IsNumber, Min } from "class-validator";
 import { ApiProperty } from '@nestjs/swagger';
-import { OrderLineDto } from './order-line.dto';
 
+// src/model/Order/dto/create-order.dto.ts
 export class CreateOrderDto {
-  @ApiProperty({ description: 'ID du client' })
+
+  @ApiProperty()
+  @IsNotEmpty()
+  clientId: number;
+  @ApiProperty()
   @IsNumber()
-  @IsPositive()
-  id_client: number;
-
-  @ApiProperty({ description: 'ID du statut' })
+  @IsNotEmpty()
+  productId: number;
+  @ApiProperty()
   @IsNumber()
-  @IsPositive()
-  id_statut: number;
-
-  @ApiProperty({ description: 'Date de la commande' })
-  @IsDate()
-  @Type(() => Date)
-  date_order: Date;
-
-  @ApiProperty({ description: 'Lignes de commande', type: [OrderLineDto] })
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => OrderLineDto)
-  orderLines: OrderLineDto[];
+  @Min(1)
+  quantity: number;
+  @ApiProperty()
+  @IsNumber()
+  @Min(0)
+  unitPrice: number;
 }

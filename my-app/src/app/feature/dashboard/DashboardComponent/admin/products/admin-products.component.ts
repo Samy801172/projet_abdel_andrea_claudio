@@ -9,11 +9,15 @@ import { Product } from '../../../../../models/product/product.model';
 import { Type } from '../../../../../models/type/type.model';
 import { Promotion } from '../../../../../models/promotion/promotion.model';
 
+// Dans admin-products.component.ts
 interface ProductWithPromotion extends Product {
   activePromotion?: {
     id_promotion: number;
     description: string;
     discountPercentage: number;
+    // Ajout des dates manquantes
+    startDate: string | Date;
+    endDate: string | Date;
   };
   selectedPromotionId?: number;
   promotionPrice?: number;
@@ -427,22 +431,32 @@ export class AdminProductsComponent implements OnInit {
   updateProduct(): void {
     if (!this.editingProduct) return;
 
+    // Convertir les valeurs numériques
     const updatedProduct: Product = {
       ...this.newProduct,
       id_product: this.editingProduct.id_product,
-      imageUrls: this.editingProduct.imageUrls
+      price: Number(this.newProduct.price),
+      stock: Number(this.newProduct.stock),
+      typeId: Number(this.newProduct.typeId),
+      imageUrls: this.editingProduct.imageUrls || []
     };
 
+    console.log('Updating product with data:', updatedProduct);
+
     this.productService.updateProduct(this.editingProduct.id_product, updatedProduct).subscribe({
-      next: () => {
+      next: (response) => {
+        console.log('Product updated successfully:', response);
         this.notificationService.success('Produit mis à jour avec succès');
         this.loadProducts();
         this.toggleAddForm();
       },
-      error: () => this.notificationService.error('Erreur lors de la mise à jour')
+      error: (error) => {
+        console.error('Error updating product:', error);
+        this.notificationService.error('Erreur lors de la mise à jour: ' +
+          (error.error?.message || 'Une erreur est survenue'));
+      }
     });
   }
-
   loadPromotions() {
     this.promotionService.getActivePromotions().subscribe({
       next: (promotions) => {
@@ -455,30 +469,11 @@ export class AdminProductsComponent implements OnInit {
     });
   }
 
-  // admin-products.component.ts
-  applyPromotion(product: ProductWithPromotion, promotionId: number | undefined | null) {
-    if (promotionId === undefined || promotionId === null) return;
 
-    console.log('Applying promotion:', { product, promotionId });
-
-    this.productService.applyPromotion(product.id_product, promotionId).subscribe({
-      next: (updatedProduct) => {
-        console.log('Promotion applied successfully:', updatedProduct);
-        this.notificationService.success('Promotion appliquée avec succès');
-        this.loadProducts();
-      },
-      error: (error) => {
-        console.error('Error applying promotion:', error);
-        this.notificationService.error(
-          'Erreur lors de l\'application de la promotion: ' +
-          (error.error?.message || 'Une erreur est survenue')
-        );
-      }
-    });
-  }
 
   editProduct(product: Product): void {
-    this.editingProduct = product;
+    console.log('Editing product:', product);
+    this.editingProduct = {...product};
     this.newProduct = {
       name: product.name,
       description: product.description,
@@ -502,19 +497,82 @@ export class AdminProductsComponent implements OnInit {
     }
   }
 
+
   loadProducts() {
     this.productService.getAllProducts().subscribe({
       next: (products) => {
-        this.products = products.map(product => ({
-          ...product,
-          activePromotion: undefined,
-          selectedPromotionId: undefined
-        }));
+        console.log('Products received:', products);
+        this.products = products.map(product => {
+          // Vérifier si le produit a une promotion active
+          const hasActivePromotion = product.promotion && this.isPromotionActive(product.promotion);
+
+          return {
+            ...product,
+            activePromotion: hasActivePromotion && product.promotion ? {
+              id_promotion: product.promotion.id_promotion,
+              description: product.promotion.description,
+              discountPercentage: product.promotion.discountPercentage,
+              startDate: product.promotion.startDate,
+              endDate: product.promotion.endDate
+            } : undefined,
+            selectedPromotionId: hasActivePromotion && product.promotion ?
+              product.promotion.id_promotion :
+              undefined
+          };
+        });
+        console.log('Mapped products:', this.products);
       },
-      error: () => this.notificationService.error('Erreur lors du chargement des produits')
+      error: (error) => {
+        console.error('Error loading products:', error);
+        this.notificationService.error('Erreur lors du chargement des produits');
+      }
     });
   }
 
+  isPromotionActive(promotion: ProductWithPromotion['promotion']): boolean {
+    if (!promotion) return false;
+    const now = new Date();
+    const startDate = new Date(promotion.startDate);
+    const endDate = new Date(promotion.endDate);
+    return now >= startDate && now <= endDate;
+  }
+
+  applyPromotion(product: ProductWithPromotion, promotionId: number | undefined | null) {
+    if (!promotionId) return;
+
+    console.log('Applying promotion:', { product, promotionId });
+
+    this.productService.applyPromotion(product.id_product, promotionId).subscribe({
+      next: () => {
+        // Trouver la promotion sélectionnée
+        const selectedPromotion = this.availablePromotions.find(
+          p => p.id_promotion === promotionId
+        );
+
+        if (selectedPromotion) {
+          product.activePromotion = {
+            id_promotion: selectedPromotion.id_promotion,
+            description: selectedPromotion.description,
+            discountPercentage: selectedPromotion.discountPercentage,
+            startDate: selectedPromotion.startDate,
+            endDate: selectedPromotion.endDate
+          };
+          product.promotionPrice = product.price * (1 - selectedPromotion.discountPercentage / 100);
+        }
+
+        this.notificationService.success('Promotion appliquée avec succès');
+        this.loadProducts();
+      },
+      error: (error) => {
+        console.error('Error applying promotion:', error);
+        this.notificationService.error(
+          'Erreur lors de l\'application de la promotion: ' +
+          (error.error?.message || 'Une erreur est survenue')
+        );
+        product.selectedPromotionId = undefined;
+      }
+    });
+  }
   resetForm(): void {
     this.editingProduct = null;
     this.newProduct = {

@@ -61,7 +61,7 @@ export class OrderController {
     @Body() createOrderDto: CreateOrderDto
   ) {
     // Vérifier que l'utilisateur crée une commande pour lui-même
-    if (createOrderDto.id_client !== clientId) {
+    if (createOrderDto.clientId !== clientId) {
       throw new BadRequestException('Vous ne pouvez créer une commande que pour vous-même');
     }
     return this.orderService.createOrder(createOrderDto);
@@ -135,26 +135,7 @@ export class OrderController {
   }
 
   // Mettre à jour le statut d'une commande (admin uniquement)
-  @Put(':id/status')
-  @ApiOperation({ summary: "Mettre à jour le statut d'une commande" })
-  async updateStatus(
-    @User('isAdmin') isAdmin: boolean,
-    @Param('id') orderId: string,
-    @Body() statusInfo: { statusId: number }
-  ) {
-    if (!isAdmin) {
-      throw new BadRequestException('Seul un administrateur peut modifier le statut commande');
-    }
 
-    try {
-      const updatedOrder = await this.orderService.updateOrderStatus(+orderId, statusInfo.statusId);
-      this.logger.debug(`Statut de la commande ${orderId} mis à jour avec succès`);
-      return updatedOrder;
-    } catch (error) {
-      this.logger.error(`Erreur lors de la mise à jour du statut de la commande ${orderId}:`, error);
-      throw error;
-    }
-  }
   // Valider le paiement d'une commande
   @Post(':id/payment')
   @ApiOperation({ summary: "Valider le paiement d'une commande" })
@@ -165,5 +146,51 @@ export class OrderController {
   ) {
     return this.orderService.validatePayment(+orderId, clientId, paymentInfo);
   }
+  @Delete('details/:detailId')
+  @ApiOperation({ summary: "Supprimer un détail de commande" })
+  async deleteOrderDetail(
+    @User('isAdmin') isAdmin: boolean,
+    @Param('detailId') detailId: string
+  ) {
+    if (!isAdmin) {
+      throw new BadRequestException('Seul un administrateur peut supprimer un détail de commande');
+    }
+    return this.orderService.deleteOrderDetail(+detailId);
+  }
 
+  @Put('details/:detailId')
+  @ApiOperation({ summary: "Mettre à jour un détail de commande" })
+  async updateOrderDetail(
+    @User('isAdmin') isAdmin: boolean,
+    @Param('detailId') detailId: string,
+    @Body() updateData: { quantity: number }
+  ) {
+    if (!isAdmin) {
+      throw new BadRequestException('Seul un administrateur peut modifier un détail de commande');
+    }
+    return this.orderService.updateOrderDetail(+detailId, updateData.quantity);
+  }
+  @Put(':id/status')
+  async updateStatus(
+    @User('isAdmin') isAdmin: boolean,
+    @Param('id') orderId: string,
+    @Body() statusInfo: { statusId: number }
+  ): Promise<any> {
+    if (!isAdmin) {
+      throw new BadRequestException('Seul un administrateur peut modifier le statut commande');
+    }
+
+    try {
+      const updatedOrder = await this.orderService.updateOrderStatus(
+        +orderId,
+        statusInfo.statusId
+      );
+
+      this.logger.debug(`Statut de la commande ${orderId} mis à jour avec succès`);
+      return updatedOrder;
+    } catch (error) {
+      this.logger.error(`Erreur lors de la mise à jour du statut de la commande ${orderId}:`, error);
+      throw error;
+    }
+  }
 }

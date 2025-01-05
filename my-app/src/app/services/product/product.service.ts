@@ -4,193 +4,183 @@ import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Product, ProductWithPromotion } from '../../models/product/product.model';
 import { NotificationService } from '../notification/notification.service';
+import { environment } from '../../../environments/environment';
 
-// Interface pour les éléments du panier
+// Interface représentant un élément du panier
 export interface CartItem {
   productId: number; // Identifiant du produit
-  quantity: number; // Quantité ajoutée au panier
+  quantity: number;  // Quantité ajoutée au panier
   product?: Product; // Détails du produit (facultatif)
 }
 
 @Injectable({
-  providedIn: 'root' // Fournit le service au niveau racine de l'application
+  providedIn: 'root'
 })
 export class ProductService {
-  // URL de l'API pour les produits
-  private readonly API_URL = 'http://localhost:2024/api/products';
-
-  // State pour gérer les articles du panier (Observable)
-  private cartItems = new BehaviorSubject<CartItem[]>([]);
+  private readonly API_URL = `${environment.apiUrl}${environment.endpoints.products}`; // URL de base pour les requêtes produits
+  private cartItems = new BehaviorSubject<CartItem[]>([]); // Gestion réactive des éléments du panier
 
   constructor(
     private http: HttpClient, // Service HTTP pour les appels API
-    private notificationService: NotificationService // Service pour les notifications
+    private notificationService: NotificationService // Service de notifications
   ) {}
 
-  /**
-   * Créer un produit via une requête POST
-   */
+  // Méthode pour créer un nouveau produit
   createProduct(product: Product): Observable<Product> {
     return this.http.post<Product>(this.API_URL, product).pipe(
       catchError(error => {
-        this.notificationService.error('Erreur lors de la création du produit');
-        return throwError(() => error);
+        this.notificationService.error('Erreur lors de la création du produit'); // Notification en cas d'erreur
+        return throwError(() => error); // Retourne une erreur observable
       })
     );
   }
 
-  /**
-   * Mettre à jour un produit via son identifiant
-   */
-  updateProduct(id: number, product: Product): Observable<Product> {
-    return this.http.put<Product>(`${this.API_URL}/${id}`, product).pipe(
+  // Met à jour un produit existant en envoyant uniquement les champs nécessaires
+  updateProduct(id: number, updateData: Partial<Product>): Observable<Product> {
+    console.log(`Updating product ${id} with data:`, updateData);
+    return this.http.put<Product>(`${this.API_URL}/${id}`, updateData).pipe(
+      tap(response => console.log('Update response:', response)), // Log de la réponse en cas de succès
       catchError(error => {
-        this.notificationService.error('Erreur lors de la mise à jour du produit');
-        return throwError(() => error);
+        console.error('Error in updateProduct:', error);
+        return throwError(() => error); // Gestion d'erreur
       })
     );
   }
 
-  /**
-   * Supprimer un produit via son identifiant
-   */
+  // Supprime un produit par son ID
   deleteProduct(id: number): Observable<void> {
     return this.http.delete<void>(`${this.API_URL}/${id}`).pipe(
       catchError(error => {
-        this.notificationService.error('Erreur lors de la suppression du produit');
+        this.notificationService.error('Erreur lors de la suppression du produit'); // Notification d'erreur
         return throwError(() => error);
       })
     );
   }
 
-  /**
-   * Ajouter un produit au panier
-   */
+  // Ajoute un produit au panier
   addToCart(product: Product, quantity: number): Observable<void> {
     const cartItem: CartItem = {
       productId: product.id_product, // ID du produit
-      product: product, // Détails du produit
-      quantity: quantity // Quantité ajoutée
+      product: product,             // Détails du produit
+      quantity: quantity            // Quantité ajoutée
     };
 
-    const currentCart = this.cartItems.value; // Récupérer l'état actuel du panier
+    const currentCart = this.cartItems.value; // Récupération du panier actuel
     const existingItem = currentCart.find(item => item.productId === product.id_product);
 
-    // Si le produit est déjà dans le panier, mettre à jour la quantité
     if (existingItem) {
-      existingItem.quantity += quantity;
+      existingItem.quantity += quantity; // Augmente la quantité si le produit est déjà dans le panier
     } else {
-      currentCart.push(cartItem); // Sinon, ajouter le produit au panier
+      currentCart.push(cartItem); // Ajoute un nouvel élément sinon
     }
 
-    // Mettre à jour l'état du panier
-    this.cartItems.next([...currentCart]);
-    this.saveCartToLocalStorage();
+    this.cartItems.next([...currentCart]); // Mise à jour réactive du panier
+    this.saveCartToLocalStorage();        // Sauvegarde dans le localStorage
 
-    // Retourner un Observable complété
     return new Observable<void>(observer => {
-      observer.next();
+      observer.next();   // Notification de succès
       observer.complete();
     });
   }
 
-  /**
-   * Sauvegarder le panier dans le localStorage
-   */
+  // Sauvegarde le panier dans le localStorage du navigateur
   private saveCartToLocalStorage(): void {
     localStorage.setItem('cart', JSON.stringify(this.cartItems.value));
   }
 
-  /**
-   * Ajouter un produit (via un endpoint spécifique)
-   */
+  // Ajoute un produit via une API (route spécifique `/add`)
   addProduct(product: Product): Observable<Product> {
     return this.http.post<Product>(`${this.API_URL}/add`, product);
   }
 
-  /**
-   * Retirer une promotion d'un produit
-   */
+  // Supprime une promotion associée à un produit
   removePromotion(productId: number): Observable<void> {
     return this.http.delete<void>(`${this.API_URL}/${productId}/promotions`).pipe(
       catchError(error => {
         console.error('Erreur suppression promotion:', error);
-        throw error;
+        throw error; // Relance l'erreur pour gestion ultérieure
       })
     );
   }
 
-  /**
-   * Appliquer une promotion à un produit
-   */
+  // Applique une promotion à un produit donné
   applyPromotion(productId: number, promotionId: number): Observable<any> {
     return this.http.post(`${this.API_URL}/${productId}/apply-promotion`, { promotionId }).pipe(
-      tap(() => console.log('Promotion appliquée avec succès')),
+      tap(() => console.log('Promotion appliquée avec succès')), // Log en cas de succès
       catchError(error => {
         console.error('Erreur lors de l\'application de la promotion:', error);
         this.notificationService.error('Erreur lors de l\'application de la promotion');
-        return throwError(() => error);
+        return throwError(() => error); // Gestion d'erreur
       })
     );
   }
 
-  /**
-   * Obtenir un produit par son identifiant
-   */
+  // Récupère un produit par son ID
   getProductById(id: number): Observable<Product> {
     return this.http.get<Product>(`${this.API_URL}/${id}`).pipe(
       map(product => ({
         ...product,
-        imageUrls: product.imageUrls || [] // S'assurer que imageUrls est toujours un tableau
+        imageUrls: product.imageUrls || [] // Garantit un tableau pour les images, même si vide
       })),
       catchError(error => {
-        this.notificationService.error('Erreur lors du chargement du produit');
+        this.notificationService.error('Erreur lors du chargement du produit'); // Notification d'erreur
         return throwError(() => error);
       })
     );
   }
 
-  /**
-   * Récupérer tous les produits avec les promotions actives
-   */
+  // Récupère tous les produits en incluant les promotions actives
   getAllProducts(): Observable<ProductWithPromotion[]> {
     return this.http.get<any[]>(this.API_URL).pipe(
-      tap(rawProducts => console.log('Raw products:', rawProducts)), // Log pour débogage
-      map(products => products.map(product => {
-        console.log('Mapping product:', product); // Déboguer chaque produit
-
-        if (product.promotion) {
-          const discountedPrice = product.price * (1 - product.promotion.discountPercentage / 100);
-          return {
-            ...product,
-            activePromotion: {
-              id_promotion: product.promotion.id_promotion,
-              description: product.promotion.description,
-              discountPercentage: product.promotion.discountPercentage,
-              startDate: product.promotion.startDate,
-              endDate: product.promotion.endDate
-            },
-            promotionPrice: Number(discountedPrice.toFixed(2))
-          };
-        }
-        return {
-          ...product,
-          activePromotion: null,
-          promotionPrice: product.price
-        };
-      })),
-      tap(mappedProducts => console.log('Mapped products:', mappedProducts)) // Déboguer les produits mappés
+      tap(products => console.log('Products from API:', products)), // Log des produits reçus
+      map(products => products.map(product => this.mapProductWithPromotion(product))), // Mapping des produits avec promotions
+      tap(mappedProducts => console.log('Products with promotions:', mappedProducts))
     );
   }
 
-  /**
-   * Vérifier si une promotion est active
-   */
+  // Met à jour le stock d'un produit
+  updateStock(productId: number, newStock: number) {
+    return this.http.patch(`${this.API_URL}/products/${productId}/stock`, { stock: newStock });
+  }
+
+  // Vérifie si une promotion est active
   private isPromotionActive(promotion: any): boolean {
-    if (!promotion) return false;
+    if (!promotion) return false; // Pas de promotion
     const now = new Date();
     const startDate = new Date(promotion.startDate);
     const endDate = new Date(promotion.endDate);
-    return now >= startDate && now <= endDate;
+    return now >= startDate && now <= endDate; // Vérifie les dates
+  }
+
+  // Mappe un produit pour inclure les informations de promotion
+  private mapProductWithPromotion(product: any): ProductWithPromotion {
+    const now = new Date();
+
+    if (product.promotion) {
+      const startDate = new Date(product.promotion.startDate);
+      const endDate = new Date(product.promotion.endDate);
+
+      if (now >= startDate && now <= endDate) {
+        const discountedPrice = product.price * (1 - product.promotion.discountPercentage / 100);
+        return {
+          ...product,
+          activePromotion: {
+            id_promotion: product.promotion.id_promotion,
+            description: product.promotion.description,
+            discountPercentage: product.promotion.discountPercentage,
+            startDate: product.promotion.startDate,
+            endDate: product.promotion.endDate
+          },
+          promotionPrice: Number(discountedPrice.toFixed(2)) // Prix réduit
+        };
+      }
+    }
+
+    // Retourne le produit sans promotion active
+    return {
+      ...product,
+      activePromotion: null,
+      promotionPrice: product.price
+    };
   }
 }

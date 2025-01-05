@@ -1,26 +1,35 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
-import { Client } from '../Client/client.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { Product } from '../Product/product.entity';
+import { Client } from '../Client/client.entity';
 
 @Entity('cart')
 export class Cart {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Client, client => client.carts)
-  @JoinColumn({ name: 'client_id' })
-  client: Client;
-
-  @Column({ name: 'client_id' })
+  @Column()
   clientId: number;
 
-  @ManyToOne(() => Product, product => product.carts)
-  @JoinColumn({ name: 'product_id' })
+  @ManyToOne(() => Client, client => client.carts)
+  @JoinColumn({ name: 'clientId' })
+  client: Client;
+
+  @ManyToOne(() => Product, { eager: true })
+  @JoinColumn({ name: 'productId' })
   product: Product;
 
-  @Column({ name: 'product_id' })
-  productId: number;
+  @Column('decimal', { precision: 10, scale: 2 })
+  price: number;
 
   @Column()
   quantity: number;
+
+  @Column({ nullable: true })
+  appliedPromotionId: number;
+
+  @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
+  created_at: Date;
+
+  @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+  updated_at: Date;
 }

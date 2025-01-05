@@ -1,5 +1,5 @@
 // services/checkout/checkout.service.ts
-import {Component, Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap, switchMap } from 'rxjs/operators';
@@ -7,44 +7,15 @@ import { CartService } from '../cart/cart.service';
 import { OrderService } from '../order/order.service';
 import { NotificationService } from '../notification/notification.service';
 import { NewOrder } from '../../models/order/order.model';
-import {CommonModule} from '@angular/common';
-import {PaymentComponent} from '../../components/payment/payment.component';
-@Component({
-  standalone: true,
-  imports: [CommonModule, PaymentComponent],
-  template: `
-    <div class="checkout-container">
-      <!-- Votre récapitulatif de commande existant -->
 
-      <!-- Nouvelle section pour le paiement -->
-      @if (readyToPay) {
-        <app-payment
-          [totalAmount]="total"
-          (paymentSuccess)="onPaymentSuccess($event)"
-        />
-      }
-
-      <div class="actions">
-        <button class="back-btn" (click)="backToCart()">
-          Retour au panier
-        </button>
-        <button
-          *ngIf="!readyToPay"
-          class="next-btn"
-          (click)="readyToPay = true"
-        >
-          Procéder au paiement
-        </button>
-      </div>
-    </div>
-  `
-})
 @Injectable({
   providedIn: 'root'
 })
-export class CheckoutComponent {
-  readyToPay = false;
+export class CheckoutService {
+  private apiUrl = 'http://localhost:2024/api/checkout';
+
   constructor(
+    private http: HttpClient,
     private cartService: CartService,
     private orderService: OrderService,
     private notificationService: NotificationService
@@ -54,15 +25,16 @@ export class CheckoutComponent {
     return this.cartService.getCartItems().pipe(
       switchMap(cartItems => {
         if (!cartItems.length) {
-          throw new Error('Le panier est vide');
+          return throwError(() => new Error('Le panier est vide'));
         }
 
         const orderData: NewOrder = {
           clientId: this.getCurrentClientId(),
+          date_order: new Date().toISOString(),
           orderLines: cartItems.map(item => ({
-            productId: item.product.id_product,
+            id_product: item.product.id_product,
             quantity: item.quantity,
-            price: this.getPrice(item.product.price)
+            unit_price: this.getPrice(item)
           }))
         };
 
@@ -78,6 +50,30 @@ export class CheckoutComponent {
     );
   }
 
+
+  processPayment(paymentDetails: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/process-payment`, paymentDetails).pipe(
+      catchError(error => {
+        console.error('Erreur lors du traitement du paiement:', error);
+        this.notificationService.error('Erreur lors du traitement du paiement');
+        return throwError(() => error);
+      })
+    );
+  }
+
+
+  confirmOrder(orderId: number, paymentInfo: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/confirm-order/${orderId}`, paymentInfo).pipe(
+      tap(() => {
+        this.notificationService.success('Commande confirmée avec succès');
+      }),
+      catchError(error => {
+        this.notificationService.error('Erreur lors de la confirmation de la commande');
+        return throwError(() => error);
+      })
+    );
+  }
+
   private getCurrentClientId(): number {
     const clientId = localStorage.getItem('clientId');
     if (!clientId) {
@@ -86,27 +82,34 @@ export class CheckoutComponent {
     return parseInt(clientId, 10);
   }
 
-  private getPrice(price: string | number): number {
-    return typeof price === 'string' ? parseFloat(price) : price;
+  private getPrice(item: any): number {
+    // Calcul du prix en tenant compte des promotions
+    if (item.product.activePromotion) {
+      const discount = item.product.activePromotion.discountPercentage;
+      return item.product.price * (1 - discount / 100);
+    }
+    return typeof item.product.price === 'string' ?
+      parseFloat(item.product.price) :
+      item.product.price;
   }
 
-  onPaymentSuccess(paymentInfo: any) {
-    // Créer la commande finale
-    const orderData = {
-      ...this.getOrderData(),
-      paymentInfo
-    };
-
-    this.orderService.createOrder(orderData).subscribe({
-      next: (order) => {
-        this.notificationService.success('Commande créée avec succès!');
-        this.cartService.clearCart().subscribe();
-        this.router.navigate(['/order-confirmation', order.id]);
-      },
-      error: (err) => {
-        this.notificationService.error('Erreur lors de la création de la commande');
-        console.error('Erreur commande:', err);
-      }
-    });
+  validateOrder(orderId: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/validate/${orderId}`, {}).pipe(
+      tap(() => {
+        this.notificationService.success('Commande validée avec succès');
+      }),
+      catchError(error => {
+        this.notificationService.error('Erreur lors de la validation de la commande');
+        return throwError(() => error);
+      })
+    );
   }
+
+  calculateOrderTotal(items: any[]): number {
+    return items.reduce((total, item) => {
+      return total + (this.getPrice(item) * item.quantity);
+    }, 0);
+  }
+
+
 }

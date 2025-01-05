@@ -4,8 +4,10 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { OrderService } from '../../../../../services';
 import { NotificationService } from '../../../../../services/notification/notification.service';
-import { Order } from '../../../../../models/order/order.model';
+import {Order, OrderDetail} from '../../../../../models/order/order.model';
 import { AuthService } from '../../../../../services/auth/auth.service';
+import {PromotionService} from '../../../../../services/promotion/promotion.service';
+import {ProductWithPromotion} from '../../../../../models/product/product.model';
 
 @Component({
   selector: 'app-client-orders',
@@ -42,14 +44,16 @@ import { AuthService } from '../../../../../services/auth/auth.service';
                   </div>
                 </div>
 
-                <!-- Détails des produits -->
                 @if (order.orderDetails && order.orderDetails.length > 0) {
                   <div class="order-products">
                     @for (detail of order.orderDetails; track detail.id_order_detail) {
                       <div class="product-item">
                         <span class="product-name">{{ detail.product.name }}</span>
                         <span class="product-quantity">x{{ detail.quantity }}</span>
-                        <span class="product-price">{{ detail.unit_price | currency:'EUR' }}</span>
+                        <div class="price-info">
+                          <span class="original-price">{{ detail.product.price | currency:'EUR' }}</span>
+                          <span class="final-price">{{ detail.unit_price | currency:'EUR' }}</span>
+                        </div>
                       </div>
                     }
                   </div>
@@ -160,6 +164,7 @@ export class ClientOrdersComponent implements OnInit {
     private orderService: OrderService,
     private notificationService: NotificationService,
     private router: Router,
+    private promotionService: PromotionService,
     private authService: AuthService
   ) {}
 
@@ -180,6 +185,16 @@ export class ClientOrdersComponent implements OnInit {
 
     this.orderService.getOrdersByClientId(clientId).subscribe({
       next: (orders: Order[]) => {
+        console.log('Orders received:', orders);
+        // Pour chaque commande, afficher les détails des prix
+        orders.forEach(order => {
+          console.log(`Order #${order.id_order}:`);
+          order.orderDetails?.forEach(detail => {
+            console.log(`  Product: ${detail.product.name}`);
+            console.log(`  Unit price saved: ${detail.unit_price}`);
+            console.log(`  Original price: ${detail.product.price}`);
+          });
+        });
         this.orders = this.sortOrdersByDate(orders);
         this.loading = false;
       },
@@ -226,5 +241,7 @@ export class ClientOrdersComponent implements OnInit {
   viewOrderDetails(orderId: number): void {
     this.router.navigate(['/client/orders', orderId]);
   }
-
+  hasPriceChanged(detail: OrderDetail): boolean {
+    return detail.unit_price !== detail.product.price;
+  }
 }

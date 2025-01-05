@@ -16,7 +16,7 @@ const bootstrap = async () => {
   });
 
   app.useGlobalFilters(new HttpExceptionFilter());
-
+  app.setGlobalPrefix('api');
   app.setGlobalPrefix(configManager.getValue(ConfigKey.APP_BASE_URL));
   app.enableCors({
     origin: 'http://localhost:4200', // URL de votre frontend Angular

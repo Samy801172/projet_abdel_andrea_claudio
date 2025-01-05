@@ -4,14 +4,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { OrderService } from './order.service';
 import { OrderController } from './order.controller';
 import { Order } from './order.entity';
-
 import { Client } from '../Client/client.entity'; // Importer l'entité Client
-
-import { OrderStatus } from 'model/OrderStatus/orderStatus.entity';
 import { OrderDetail } from './OrderDetail/order-detail.entity';
 import { Product } from 'model/Product/product.entity';
 import { Cart } from 'model/Cart/cart.entity';
 import { ProductPromotion } from 'model/ProductPromotion/productPromotion.entity';
+import { OrderStatus } from 'model/OrderStatus/dto/order-status.enum';
+import { OrderStatusEntity } from 'model/OrderStatus/orderStatus.entity';
 
 @Module({
   imports: [
@@ -19,8 +18,8 @@ import { ProductPromotion } from 'model/ProductPromotion/productPromotion.entity
       Order,
       OrderDetail,
       Client,
+      OrderStatusEntity,
       Product,
-      OrderStatus,
       Cart,
       ProductPromotion
     ]),

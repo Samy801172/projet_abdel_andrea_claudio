@@ -1,6 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn } from 'typeorm';
+// payment.entity.ts
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, JoinColumn } from 'typeorm';
 import { Order } from '../Order/order.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { PaymentMethodEnum, PaymentStatusEnum } from './dto/create-payment.dto';
 
 @Entity('payment')
 export class Payment {
@@ -8,18 +10,40 @@ export class Payment {
   @PrimaryGeneratedColumn()
   id_payment: number;
 
-  @ManyToOne(() => Order, (order) => order.id_order, { nullable: false })
-  order: Order;
   @ApiProperty()
-  @Column()
-  paymentMethod: string; // Par exemple: 'PayPal', 'Stripe'
+  @ManyToOne(() => Order, (order) => order.payments, { nullable: false })
+  @JoinColumn({ name: 'order_id' })
+  order: Order;
+
+  @ApiProperty({ enum: PaymentMethodEnum })
+  @Column({
+    type: 'enum',
+    enum: PaymentMethodEnum,
+    default: PaymentMethodEnum.PAYPAL
+  })
+  paymentMethod: PaymentMethodEnum;
+
   @ApiProperty()
   @Column('decimal', { precision: 10, scale: 2 })
-  amount: number; // Montant payé
-  @ApiProperty()
-  @Column()
-  paymentStatus: string; // Statut du paiement: 'Completed', 'Pending', 'Failed'
+  amount: number;
+
+  @ApiProperty({ enum: PaymentStatusEnum })
+  @Column({
+    type: 'enum',
+    enum: PaymentStatusEnum,
+    default: PaymentStatusEnum.PENDING
+  })
+  paymentStatus: PaymentStatusEnum;
+
   @ApiProperty()
   @CreateDateColumn()
-  paymentDate: Date; // Date de paiement
+  paymentDate: Date;
+
+  @ApiProperty()
+  @Column({ nullable: true })
+  paypalOrderId: string;
+
+  @ApiProperty()
+  @Column({ nullable: true })
+  transactionId: string;
 }

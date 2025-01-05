@@ -174,14 +174,62 @@ export class OrderService {
       })
     );
   }
-// services/order.service.ts
-  deleteOrderDetail(detailId: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/order-details/${detailId}`).pipe(
+
+// order.service.ts
+  cancelOrder(orderId: number): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.put(
+      `${this.baseUrl}/${orderId}/status`,
+      { statusId: 5 }, // 5 est le statut CANCELLED
+      { headers }
+    ).pipe(
+      tap(() => {
+        this.notificationService.success('Commande annulée avec succès');
+      }),
       catchError(error => {
-        console.error('Error deleting order detail:', error);
-        throw error;
+        this.notificationService.error('Erreur lors de l\'annulation de la commande');
+        return throwError(() => error);
       })
     );
   }
+
+
+  deleteOrderDetail(detailId: number): Observable<void> {
+    const headers = this.getAuthHeaders();
+    return this.http.delete<void>(
+      `${this.baseUrl}/details/${detailId}`,
+      {headers}
+    ).pipe(
+      tap(() => this.notificationService.success('Détail supprimé')),
+      catchError(error => {
+        this.notificationService.error('Erreur lors de la suppression');
+        return throwError(() => error);
+      })
+    );
+  }
+  // src/services/order.service.ts
+  updateOrderDetail(detailId: number, quantity: number): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.put(
+      `${this.baseUrl}/details/${detailId}`,
+      { quantity },
+      { headers }
+    ).pipe(
+      tap(() => this.notificationService.success('Quantité mise à jour')),
+      catchError(error => {
+        this.notificationService.error('Erreur lors de la mise à jour de la quantité');
+        return throwError(() => error);
+      })
+    );
+  }
+
+  createPaymentIntent(amount: number): Observable<any> {
+    return this.http.post(`${this.baseUrl}/payment/create`, { amount });
+  }
+
+  confirmPayment(orderId: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/payment/confirm`, { orderId });
+  }
+
 
 }

@@ -26,6 +26,8 @@ export class OrderService {
     private readonly clientRepository: Repository<Client>,
     private readonly dataSource: DataSource
   ) {}
+
+
 // Modifier aussi la méthode getOrderById pour inclure le client
   async getOrderById(id: number): Promise<Order> {
     const order = await this.orderRepository.findOne({
@@ -43,87 +45,21 @@ export class OrderService {
 
     return order;
   }
+  // Lors de la création d'une commande, sauvegarder les deux prix
+  async createOrderDetail(orderDetail: Partial<OrderDetail>): Promise<OrderDetail> {
+    const product = await this.productRepository.findOne({
+      where: { id_product: orderDetail.product_id }
+    });
 
-  async createOrder(createOrderDto: CreateOrderDto): Promise<Order> {
-    const queryRunner = this.dataSource.createQueryRunner();
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
+    const newOrderDetail = this.orderDetailRepository.create({
+      ...orderDetail,
+      original_price: product.price,
+      unit_price: orderDetail.unit_price // Prix avec promotion si applicable
+    });
 
-    try {
-      // 1. Vérifier l'existence du client
-      const client = await this.clientRepository.findOne({
-        where: { clientId: createOrderDto.id_client }
-      });
-
-      if (!client) {
-        throw new NotFoundException(`Client ${createOrderDto.id_client} non trouvé`);
-      }
-
-      // 2. Créer la commande
-      const order = this.orderRepository.create({
-        id_client: createOrderDto.id_client,
-        id_statut: createOrderDto.id_statut,
-        date_order: createOrderDto.date_order || new Date(),
-        montant_total: 0
-      });
-
-      const savedOrder = await queryRunner.manager.save(Order, order);
-
-      // 3. Traiter les lignes de commande
-      const orderDetails = [];
-      let totalAmount = 0;
-
-      for (const line of createOrderDto.orderLines) {
-        const product = await this.productRepository.findOne({
-          where: { id_product: line.id_product }
-        });
-
-        if (!product) {
-          throw new NotFoundException(`Produit ${line.id_product} non trouvé`);
-        }
-
-        if (product.stock < line.quantity) {
-          throw new BadRequestException(
-            `Stock insuffisant pour ${product.name}. Disponible: ${product.stock}`
-          );
-        }
-
-        // Créer le détail de commande
-        const detail = this.orderDetailRepository.create({
-          order: savedOrder,
-          product,
-          quantity: line.quantity,
-          unit_price: product.price
-        });
-
-        // Mettre à jour le stock
-        product.stock -= line.quantity;
-        await queryRunner.manager.save(Product, product);
-
-        orderDetails.push(detail);
-        totalAmount += line.quantity * parseFloat(product.price.toString());
-      }
-
-      // 4. Sauvegarder les détails
-      await queryRunner.manager.save(OrderDetail, orderDetails);
-
-      // 5. Mettre à jour le montant total
-      savedOrder.montant_total = totalAmount;
-      await queryRunner.manager.save(Order, savedOrder);
-
-      // 6. Vider le panier
-      await queryRunner.manager.delete(Cart, { clientId: createOrderDto.id_client });
-
-      await queryRunner.commitTransaction();
-      return this.getOrderById(savedOrder.id_order);
-
-    } catch (error) {
-      await queryRunner.rollbackTransaction();
-      throw error;
-    } finally {
-      await queryRunner.release();
-    }
+    return this.orderDetailRepository.save(newOrderDetail);
   }
+
   async updateOrder(id: number, updateOrderDto: UpdateOrderDto): Promise<Order> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
@@ -240,25 +176,7 @@ export class OrderService {
     });
   }
 // Ajouter la validation des transitions de statut
-  async updateOrderStatus(orderId: number, statusId: number): Promise<Order> {
-    const order = await this.getOrderById(orderId);
 
-    // Vérifier si la transition est valide
-    const validTransitions = {
-      1: [2, 5],  // Pending -> Processing ou Cancelled
-      2: [3, 5],  // Processing -> Shipped ou Cancelled
-      3: [4, 5],  // Shipped -> Delivered ou Cancelled
-      4: [],      // Delivered -> Aucune transition
-      5: []       // Cancelled -> Aucune transition
-    };
-
-    if (!validTransitions[order.id_statut]?.includes(statusId)) {
-      throw new BadRequestException('Cette transition de statut n\'est pas autorisée');
-    }
-
-    order.id_statut = statusId;
-    return await this.orderRepository.save(order);
-  }
   async validatePayment(orderId: number, clientId: number, paymentInfo: any): Promise<Order> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
@@ -298,41 +216,40 @@ export class OrderService {
       // 1. Récupérer les éléments du panier
       const cartItems = await this.cartRepository.find({
         where: { clientId },
-        relations: ['product']
+        relations: ['product', 'product.promotion'] // Ajout de la relation promotion
       });
 
       if (!cartItems.length) {
         throw new BadRequestException('Le panier est vide');
       }
 
-      // 2. Vérifier les stocks
-      for (const item of cartItems) {
-        if (item.product.stock < item.quantity) {
-          throw new BadRequestException(
-            `Stock insuffisant pour ${item.product.name}. Disponible: ${item.product.stock}`
-          );
-        }
-      }
-
-      // 3. Créer la commande
+      // 2. Créer la commande
       const order = this.orderRepository.create({
         id_client: clientId,
-        id_statut: 1, // Statut initial (en attente de paiement)
+        id_statut: 1,
         date_order: new Date(),
         montant_total: 0
       });
 
       const savedOrder = await queryRunner.manager.save(Order, order);
 
-      // 4. Créer les détails de commande
+      // 3. Créer les détails de commande avec original_price
       const orderDetails = await Promise.all(
         cartItems.map(async (item) => {
-          // Créer le détail de commande
+          // Vérifier le stock
+          if (item.product.stock < item.quantity) {
+            throw new BadRequestException(
+              `Stock insuffisant pour ${item.product.name}. Disponible: ${item.product.stock}`
+            );
+          }
+
+          // Créer le détail de commande avec original_price
           const detail = this.orderDetailRepository.create({
             order: savedOrder,
             product: item.product,
             quantity: item.quantity,
-            unit_price: item.product.price
+            unit_price: item.price, // Prix avec promotion si applicable
+            original_price: item.product.price // Prix original du produit
           });
 
           // Mettre à jour le stock
@@ -345,27 +262,25 @@ export class OrderService {
 
       await queryRunner.manager.save(OrderDetail, orderDetails);
 
-      // 5. Calculer le montant total
+      // 4. Calculer le montant total
       savedOrder.montant_total = orderDetails.reduce(
         (sum, detail) => sum + (detail.quantity * detail.unit_price),
         0
       );
       await queryRunner.manager.save(Order, savedOrder);
 
-      // 6. Vider le panier
+      // 5. Vider le panier
       await queryRunner.manager.delete(Cart, { clientId });
 
-      // 7. Valider la transaction
       await queryRunner.commitTransaction();
 
-      this.logger.log(`Commande créée avec succès pour le client ${clientId}`);
+      // Retourner la commande avec ses détails
       return this.getOrderById(savedOrder.id_order);
 
     } catch (error) {
-      this.logger.error(`Erreur lors de la création de la commande depuis le panier: ${error.message}`);
+      this.logger.error(`Erreur lors de la création de la commande: ${error.message}`);
       await queryRunner.rollbackTransaction();
       throw error;
-
     } finally {
       await queryRunner.release();
     }
@@ -396,5 +311,73 @@ export class OrderService {
         date_order: 'DESC'
       }
     });
+  }
+  // src/model/Order/order.service.ts
+  async updateOrderDetail(detailId: number, quantity: number): Promise<OrderDetail> {
+    // Utiliser id_detail_commande au lieu de id
+    const detail = await this.orderDetailRepository.findOne({
+      where: { id_detail_commande: detailId },
+      relations: ['product']
+    });
+
+    if (!detail) {
+      throw new NotFoundException('Détail de commande non trouvé');
+    }
+
+    // Vérifier le stock
+    if (quantity > detail.product.stock) {
+      throw new BadRequestException('Stock insuffisant');
+    }
+
+    detail.quantity = quantity;
+    return this.orderDetailRepository.save(detail);
+  }
+  async deleteOrderDetail(detailId: number): Promise<void> {
+    const result = await this.orderDetailRepository.delete(detailId);
+    if (result.affected === 0) {
+      throw new NotFoundException('Détail de commande non trouvé');
+    }
+  }
+  async getOrdersByClientId(clientId: number): Promise<any[]> {
+    return this.orderRepository.query(
+      'SELECT * FROM get_order_details_with_prices($1)',
+      [clientId]
+    );
+  }
+
+  async createOrder(orderData: CreateOrderDto): Promise<any> {
+    return this.orderRepository.query(
+      'SELECT * FROM create_order_with_prices($1, $2, $3, $4)',
+      [
+        orderData.clientId,
+        orderData.productId,
+        orderData.quantity,
+        orderData.unitPrice
+      ]
+    );
+  }
+
+  async updateOrderStatus(orderId: number, statusId: number): Promise<any> {
+    // Utiliser la procédure stockée créée précédemment
+    const query = `
+    UPDATE orders o
+    SET id_statut = $2
+    WHERE o.id_order = $1
+    RETURNING o.id_order, o.id_statut, o.date_order, o.montant_total
+  `;
+
+    try {
+      const result = await this.orderRepository.query(query, [orderId, statusId]);
+
+      if (!result.length) {
+        throw new NotFoundException(`Commande ${orderId} non trouvée`);
+      }
+
+      this.logger.debug(`Statut de la commande ${orderId} mis à jour avec succès`);
+      return result[0];
+    } catch (error) {
+      this.logger.error(`Erreur lors de la mise à jour du statut: ${error.message}`);
+      throw error;
+    }
   }
 }

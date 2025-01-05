@@ -40,13 +40,13 @@ export class CartService {
       quantity
     };
 
-    console.log('Envoi requête avec payload:', payload);
+    console.log('Envoi requête addToCart avec payload:', payload);
 
     return this.http.post<CartItem>(`${this.apiUrl}`, payload, {
       headers: this.getAuthHeaders()
     }).pipe(
-      map(item => {
-        console.log('Réponse du serveur:', item);
+      map(newItem => {
+        console.log('Réponse addToCart du serveur:', newItem);
         const currentCart = this.cartSubject.value;
         const existingItemIndex = currentCart.items.findIndex(i => i.productId === productId);
 
@@ -58,7 +58,7 @@ export class CartService {
               : item
           );
         } else {
-          updatedItems = [...currentCart.items, item];
+          updatedItems = [...currentCart.items, newItem];
         }
 
         const updatedCart = {
@@ -66,25 +66,36 @@ export class CartService {
           total: this.calculateTotal(updatedItems)
         };
 
+        console.log('Cart mis à jour:', updatedCart);
         this.cartSubject.next(updatedCart);
         return updatedCart;
       }),
       tap(() => {
         this.notificationService.success("Produit ajouté au panier");
-        this.loadCart();
+        this.loadCart(); // Recharge le panier pour avoir les données à jour
       }),
       catchError(error => {
         console.error('Erreur addToCart:', error);
-        if (error.status === 401) {
-          this.notificationService.error('Session expirée. Veuillez vous reconnecter.');
-        } else {
-          this.notificationService.error(
-            error.error?.message || "Erreur lors de l'ajout au panier"
-          );
-        }
+        this.notificationService.error(
+          error.error?.message || "Erreur lors de l'ajout au panier"
+        );
         return throwError(() => error);
       })
     );
+  }
+
+  private calculateTotal(items: CartItem[]): number {
+    return items.reduce((total, item) => {
+      let price = item.product.price;
+
+      // Appliquer la promotion si elle existe
+      if (item.product.activePromotion) {
+        const discountAmount = price * (item.product.activePromotion.discountPercentage / 100);
+        price = price - discountAmount;
+      }
+
+      return total + (price * item.quantity);
+    }, 0);
   }
   removeFromCart(cartId: number): Observable<Cart> {
     return this.http.delete<CartItem[]>(`${this.apiUrl}/${cartId}`, {
@@ -140,12 +151,8 @@ export class CartService {
     });
   }
 
-  private calculateTotal(items: CartItem[]): number {
-    return items.reduce((total, item) => {
-      const price = typeof item.product.price === 'string' ? parseFloat(item.product.price) : item.product.price;
-      return total + (price * item.quantity);
-    }, 0);
-  }
+
+  // Modifier la méthode calculateTotal pour prendre en compte les promotions
 
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
