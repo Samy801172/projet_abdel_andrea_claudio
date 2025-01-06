@@ -14,7 +14,7 @@ export const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-    canActivate: [NoAuthGuard]
+    //canActivate: [NoAuthGuard]
   },
   {
     path: 'payment-success',
