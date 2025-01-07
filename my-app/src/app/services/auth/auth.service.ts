@@ -11,7 +11,8 @@ export interface Credential {
   username?: string;
 }
 
-interface LoginResponse {
+// ici faut rajouter export 'Claudio"
+export interface LoginResponse {
   token_id: string;
   token: string;
   refreshToken: string;
@@ -84,7 +85,7 @@ export class AuthService {
     console.log('Tentative de connexion pour:', credentials.mail);
 
     if (!this.validateEmail(credentials.mail)) {
-      return throwError(() => new Error('Format d\'email invalide'));// 
+      return throwError(() => new Error('Format d\'email invalide'));//
     }
 
     return this.http.post<LoginResponse>(`${this.API_URL}/account/signin`, {

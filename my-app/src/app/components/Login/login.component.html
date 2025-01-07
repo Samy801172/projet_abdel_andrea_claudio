@@ -1,0 +1,80 @@
+<div class="login-container">
+  <div class="login-box">
+    <!-- Logo -->
+    <div class="logo-container">
+      <img src="assets/GOHAN-MED.jpg" alt="GOHAN-MEDLogo" class="logo">
+    </div>
+
+    <!-- Titre -->
+    <h2>Connexion</h2>
+
+    <!-- Message d'erreur -->
+    <div *ngIf="error" class="error-alert">
+      {{ error }}
+    </div>
+
+    <!-- Formulaire de connexion -->
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          [(ngModel)]="credentials.mail"
+          name="email"
+          required
+          [class.error]="submitted && !credentials.mail"
+          placeholder="Votre adresse email"
+          [disabled]="isLoading"
+        >
+      </div>
+
+      <!-- Mot de passe -->
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <div class="password-input">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="password"
+            [(ngModel)]="credentials.password"
+            name="password"
+            required
+            [class.error]="submitted && !credentials.password"
+            placeholder="Votre mot de passe"
+            [disabled]="isLoading"
+          >
+          <button
+            type="button"
+            class="toggle-password"
+            (click)="showPassword = !showPassword"
+            [disabled]="isLoading"
+          >
+            {{ showPassword ? '👁️' : '👁️‍🗨️' }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Bouton de connexion -->
+      <button type="submit" class="submit-btn" [disabled]="isLoading || !loginForm.form.valid">
+        <span *ngIf="!isLoading">Se connecter</span>
+        <span *ngIf="isLoading">Connexion en cours...</span>
+      </button>
+    </form>
+
+    <!-- Lien d'inscription -->
+    <div class="register-link">
+      <p>Pas encore de compte ? <a routerLink="/register">S'inscrire</a></p>
+    </div>
+
+    <!-- Copyright -->
+    <div class="copyright">
+      <p>&copy; {{ currentYear }} IzzyBeauty. Tous droits réservés.</p>
+    </div>
+
+    <!-- Loader -->
+    <div *ngIf="isLoading" class="loader-overlay">
+      <div class="loader"></div>
+    </div>
+  </div>
+</div>
