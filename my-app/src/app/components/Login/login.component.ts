@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService, LoginResponse } from '../../services/auth/auth.service';
+import { NotificationService } from '../../services/notification/notification.service';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
@@ -24,7 +25,7 @@ export class LoginComponent {
   submitted = false;
   currentYear = new Date().getFullYear();
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private notification: NotificationService) {}
 
   async onSubmit() {
     try {
@@ -60,9 +61,11 @@ export class LoginComponent {
       if (response.credential.isAdmin) {
         // Redirection pour les administrateurs
         this.router.navigate(['/admin']);
+        this.notification.success("Connecté en tant qu'administrateur");
       } else {
         // Redirection pour les clients
         this.router.navigate(['/client']);
+        this.notification.success("Connecté en tant qu'utilisateur");
       }
     } catch (error) {
       this.error = error instanceof Error

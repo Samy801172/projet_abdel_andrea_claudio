@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit {
   newProducts: Product[] = [];
   // variable booleen pour intéragir avec le html, la variable ngif
   isAuthenticated: boolean = false;
+  username: string = this.newProducts.toString();
 
   constructor(
     private homeService: HomeService,
