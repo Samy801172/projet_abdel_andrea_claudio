@@ -5,6 +5,6 @@ import { OrderDetail } from './order-detail.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([OrderDetail])],
-  exports: [TypeOrmModule]
+  exports: [TypeOrmModule],
 })
 export class OrderDetailModule {}

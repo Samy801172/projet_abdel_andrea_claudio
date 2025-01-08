@@ -17,12 +17,12 @@ import { AuthService } from '../../services/auth/auth.service';
           </svg>
         </div>
         <div class="nav-links">
-          @if (!authService.isAuthenticated()) {
+          @if (!authService.isLoggedIn()) {
             <a routerLink="/login" class="nav-link">Connexion</a>
             <a routerLink="/register" class="nav-link">Inscription</a>
           }
 
-          @if (authService.isAuthenticated() && !authService.isAdmin()) {
+          @if (authService.isLoggedIn() && !authService.isAdmin()) {
             <a routerLink="/" class="nav-link">Accueil</a>
             <a routerLink="/client/products" class="nav-link">Médicaments</a>
             <a routerLink="/client/services" class="nav-link">Services</a>
@@ -35,7 +35,7 @@ import { AuthService } from '../../services/auth/auth.service';
             </button>
           }
 
-          @if (authService.isAuthenticated() && authService.isAdmin()) {
+          @if (authService.isLoggedIn() && authService.isAdmin()) {
             <a routerLink="/admin" class="nav-link">Dashboard Admin</a>
             <button (click)="onLogout()" class="nav-link logout">
               Déconnexion

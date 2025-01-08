@@ -1,4 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { Product } from '../Product/product.entity';
 import { Client } from '../Client/client.entity';
 
@@ -10,7 +16,7 @@ export class Cart {
   @Column()
   clientId: number;
 
-  @ManyToOne(() => Client, client => client.carts)
+  @ManyToOne(() => Client, (client) => client.carts)
   @JoinColumn({ name: 'clientId' })
   client: Client;
 
@@ -30,6 +36,9 @@ export class Cart {
   @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 
-  @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+  @Column('timestamp', {
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
+  })
   updated_at: Date;
 }

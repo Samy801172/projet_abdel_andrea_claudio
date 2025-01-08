@@ -1,4 +1,9 @@
-import { Injectable, Logger, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource } from 'typeorm';
 import { Order } from './order.entity';
@@ -7,7 +12,7 @@ import { UpdateOrderDto } from './dto/update-order-.dto';
 import { OrderDetail } from './OrderDetail/order-detail.entity';
 import { Cart } from '../Cart/cart.entity';
 import { Product } from '../Product/product.entity';
-  import { Client} from '../Client/client.entity';
+import { Client } from '../Client/client.entity';
 
 @Injectable()
 export class OrderService {
@@ -22,21 +27,16 @@ export class OrderService {
     private readonly cartRepository: Repository<Cart>,
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
-    @InjectRepository(Client)  // Ajout du ClientRepository
+    @InjectRepository(Client) // Ajout du ClientRepository
     private readonly clientRepository: Repository<Client>,
-    private readonly dataSource: DataSource
+    private readonly dataSource: DataSource,
   ) {}
 
-
-// Modifier aussi la méthode getOrderById pour inclure le client
+  // Modifier aussi la méthode getOrderById pour inclure le client
   async getOrderById(id: number): Promise<Order> {
     const order = await this.orderRepository.findOne({
       where: { id_order: id },
-      relations: [
-        'client',
-        'orderDetails',
-        'orderDetails.product'
-      ]
+      relations: ['client', 'orderDetails', 'orderDetails.product'],
     });
 
     if (!order) {
@@ -46,21 +46,26 @@ export class OrderService {
     return order;
   }
   // Lors de la création d'une commande, sauvegarder les deux prix
-  async createOrderDetail(orderDetail: Partial<OrderDetail>): Promise<OrderDetail> {
+  async createOrderDetail(
+    orderDetail: Partial<OrderDetail>,
+  ): Promise<OrderDetail> {
     const product = await this.productRepository.findOne({
-      where: { id_product: orderDetail.product_id }
+      where: { id_product: orderDetail.product_id },
     });
 
     const newOrderDetail = this.orderDetailRepository.create({
       ...orderDetail,
       original_price: product.price,
-      unit_price: orderDetail.unit_price // Prix avec promotion si applicable
+      unit_price: orderDetail.unit_price, // Prix avec promotion si applicable
     });
 
     return this.orderDetailRepository.save(newOrderDetail);
   }
 
-  async updateOrder(id: number, updateOrderDto: UpdateOrderDto): Promise<Order> {
+  async updateOrder(
+    id: number,
+    updateOrderDto: UpdateOrderDto,
+  ): Promise<Order> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -70,14 +75,14 @@ export class OrderService {
 
       Object.assign(order, {
         date_order: updateOrderDto.date_order || order.date_order,
-        id_statut: updateOrderDto.id_statut || order.id_statut
+        id_statut: updateOrderDto.id_statut || order.id_statut,
       });
 
       if (updateOrderDto.orderLines?.length) {
         // Restaurer les stocks
         for (const detail of order.orderDetails) {
           const product = await this.productRepository.findOne({
-            where: { id_product: detail.product.id_product }
+            where: { id_product: detail.product.id_product },
           });
           if (product) {
             product.stock += detail.quantity;
@@ -86,22 +91,26 @@ export class OrderService {
         }
 
         // Supprimer les anciennes lignes
-        await queryRunner.manager.delete(OrderDetail, { order: { id_order: id } });
+        await queryRunner.manager.delete(OrderDetail, {
+          order: { id_order: id },
+        });
 
         // Créer les nouvelles lignes
         const newDetails = await Promise.all(
           updateOrderDto.orderLines.map(async (line) => {
             const product = await this.productRepository.findOne({
-              where: { id_product: line.id_product }
+              where: { id_product: line.id_product },
             });
 
             if (!product) {
-              throw new NotFoundException(`Produit ${line.id_product} non trouvé`);
+              throw new NotFoundException(
+                `Produit ${line.id_product} non trouvé`,
+              );
             }
 
             if (product.stock < line.quantity) {
               throw new BadRequestException(
-                `Stock insuffisant pour ${product.name}. Disponible: ${product.stock}`
+                `Stock insuffisant pour ${product.name}. Disponible: ${product.stock}`,
               );
             }
 
@@ -112,23 +121,22 @@ export class OrderService {
               order,
               product,
               quantity: line.quantity,
-              unit_price: line.unit_price || product.price
+              unit_price: line.unit_price || product.price,
             });
-          })
+          }),
         );
 
         await queryRunner.manager.save(OrderDetail, newDetails);
 
         order.montant_total = newDetails.reduce(
-          (sum, detail) => sum + (detail.quantity * detail.unit_price),
-          0
+          (sum, detail) => sum + detail.quantity * detail.unit_price,
+          0,
         );
       }
 
       const updatedOrder = await queryRunner.manager.save(Order, order);
       await queryRunner.commitTransaction();
       return this.getOrderById(updatedOrder.id_order);
-
     } catch (error) {
       await queryRunner.rollbackTransaction();
       throw error;
@@ -148,7 +156,7 @@ export class OrderService {
       // Restaurer les stocks
       for (const detail of order.orderDetails) {
         const product = await this.productRepository.findOne({
-          where: { id_product: detail.product.id_product }
+          where: { id_product: detail.product.id_product },
         });
         if (product) {
           product.stock += detail.quantity;
@@ -156,7 +164,9 @@ export class OrderService {
         }
       }
 
-      await queryRunner.manager.delete(OrderDetail, { order: { id_order: id } });
+      await queryRunner.manager.delete(OrderDetail, {
+        order: { id_order: id },
+      });
       await queryRunner.manager.remove(Order, order);
 
       await queryRunner.commitTransaction();
@@ -172,12 +182,16 @@ export class OrderService {
     return this.orderRepository.find({
       where: { id_client: clientId },
       relations: ['orderDetails', 'orderDetails.product', 'status'],
-      order: { date_order: 'DESC' }
+      order: { date_order: 'DESC' },
     });
   }
-// Ajouter la validation des transitions de statut
+  // Ajouter la validation des transitions de statut
 
-  async validatePayment(orderId: number, clientId: number, paymentInfo: any): Promise<Order> {
+  async validatePayment(
+    orderId: number,
+    clientId: number,
+    paymentInfo: any,
+  ): Promise<Order> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -206,7 +220,6 @@ export class OrderService {
     }
   }
 
-
   async createOrderFromCart(clientId: number): Promise<Order> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
@@ -216,7 +229,7 @@ export class OrderService {
       // 1. Récupérer les éléments du panier
       const cartItems = await this.cartRepository.find({
         where: { clientId },
-        relations: ['product', 'product.promotion'] // Ajout de la relation promotion
+        relations: ['product', 'product.promotion'], // Ajout de la relation promotion
       });
 
       if (!cartItems.length) {
@@ -228,7 +241,7 @@ export class OrderService {
         id_client: clientId,
         id_statut: 1,
         date_order: new Date(),
-        montant_total: 0
+        montant_total: 0,
       });
 
       const savedOrder = await queryRunner.manager.save(Order, order);
@@ -239,7 +252,7 @@ export class OrderService {
           // Vérifier le stock
           if (item.product.stock < item.quantity) {
             throw new BadRequestException(
-              `Stock insuffisant pour ${item.product.name}. Disponible: ${item.product.stock}`
+              `Stock insuffisant pour ${item.product.name}. Disponible: ${item.product.stock}`,
             );
           }
 
@@ -249,7 +262,7 @@ export class OrderService {
             product: item.product,
             quantity: item.quantity,
             unit_price: item.price, // Prix avec promotion si applicable
-            original_price: item.product.price // Prix original du produit
+            original_price: item.product.price, // Prix original du produit
           });
 
           // Mettre à jour le stock
@@ -257,15 +270,15 @@ export class OrderService {
           await queryRunner.manager.save(Product, item.product);
 
           return detail;
-        })
+        }),
       );
 
       await queryRunner.manager.save(OrderDetail, orderDetails);
 
       // 4. Calculer le montant total
       savedOrder.montant_total = orderDetails.reduce(
-        (sum, detail) => sum + (detail.quantity * detail.unit_price),
-        0
+        (sum, detail) => sum + detail.quantity * detail.unit_price,
+        0,
       );
       await queryRunner.manager.save(Order, savedOrder);
 
@@ -276,9 +289,10 @@ export class OrderService {
 
       // Retourner la commande avec ses détails
       return this.getOrderById(savedOrder.id_order);
-
     } catch (error) {
-      this.logger.error(`Erreur lors de la création de la commande: ${error.message}`);
+      this.logger.error(
+        `Erreur lors de la création de la commande: ${error.message}`,
+      );
       await queryRunner.rollbackTransaction();
       throw error;
     } finally {
@@ -291,33 +305,32 @@ export class OrderService {
         'orderDetails',
         'orderDetails.product',
         'status',
-        'client'  // Pour avoir les informations du client
+        'client', // Pour avoir les informations du client
       ],
       order: {
-        date_order: 'DESC'  // Les plus récentes en premier
-      }
+        date_order: 'DESC', // Les plus récentes en premier
+      },
     });
   }
   // Nouvelle méthode pour récupérer toutes les commandes
   async findAll(): Promise<Order[]> {
     // Remplacer la méthode existante par celle-ci
     return this.orderRepository.find({
-      relations: [
-        'client',
-        'orderDetails',
-        'orderDetails.product'
-      ],
+      relations: ['client', 'orderDetails', 'orderDetails.product'],
       order: {
-        date_order: 'DESC'
-      }
+        date_order: 'DESC',
+      },
     });
   }
   // src/model/Order/order.service.ts
-  async updateOrderDetail(detailId: number, quantity: number): Promise<OrderDetail> {
+  async updateOrderDetail(
+    detailId: number,
+    quantity: number,
+  ): Promise<OrderDetail> {
     // Utiliser id_detail_commande au lieu de id
     const detail = await this.orderDetailRepository.findOne({
       where: { id_detail_commande: detailId },
-      relations: ['product']
+      relations: ['product'],
     });
 
     if (!detail) {
@@ -341,7 +354,7 @@ export class OrderService {
   async getOrdersByClientId(clientId: number): Promise<any[]> {
     return this.orderRepository.query(
       'SELECT * FROM get_order_details_with_prices($1)',
-      [clientId]
+      [clientId],
     );
   }
 
@@ -352,8 +365,8 @@ export class OrderService {
         orderData.clientId,
         orderData.productId,
         orderData.quantity,
-        orderData.unitPrice
-      ]
+        orderData.unitPrice,
+      ],
     );
   }
 
@@ -367,16 +380,23 @@ export class OrderService {
   `;
 
     try {
-      const result = await this.orderRepository.query(query, [orderId, statusId]);
+      const result = await this.orderRepository.query(query, [
+        orderId,
+        statusId,
+      ]);
 
       if (!result.length) {
         throw new NotFoundException(`Commande ${orderId} non trouvée`);
       }
 
-      this.logger.debug(`Statut de la commande ${orderId} mis à jour avec succès`);
+      this.logger.debug(
+        `Statut de la commande ${orderId} mis à jour avec succès`,
+      );
       return result[0];
     } catch (error) {
-      this.logger.error(`Erreur lors de la mise à jour du statut: ${error.message}`);
+      this.logger.error(
+        `Erreur lors de la mise à jour du statut: ${error.message}`,
+      );
       throw error;
     }
   }

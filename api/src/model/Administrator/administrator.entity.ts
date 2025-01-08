@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  JoinColumn,
+  OneToMany,
+} from 'typeorm';
 import { User } from '../User/user.entity';
 import { Appointment } from 'model/Appointment/appointment.entity';
 
@@ -12,5 +18,4 @@ export class Administrator {
   user: User;
   @OneToMany(() => Appointment, (appointment) => appointment.administrator)
   appointments: Appointment[];
-
 }

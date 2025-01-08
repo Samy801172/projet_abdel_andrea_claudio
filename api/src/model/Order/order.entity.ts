@@ -1,5 +1,12 @@
 // src/model/Order/order.entity.ts
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
 import { Client } from '../Client/client.entity';
 import { OrderStatusEntity } from '../OrderStatus/orderStatus.entity';
 import { Invoice } from '../Invoice/invoice.entity';

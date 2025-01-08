@@ -3,6 +3,7 @@ import { ClientService } from '../../../../../services';
 import { Client } from '../../../../../models/client/client.model';
 import { User } from '../../../../../models/user/user.model';
 import {FormsModule} from "@angular/forms";
+import { CommonModule } from '@angular/common';
 
 interface ClientWithUser extends Client {
   user: User; // Force user to be non-null
@@ -14,7 +15,7 @@ interface ClientWithUser extends Client {
   templateUrl: './client-profile.component.html',
   styleUrls: ['./client-profile.component.scss'],
   imports: [
-    FormsModule
+    FormsModule, CommonModule
   ]
 })
 export class ClientProfileComponent implements OnInit {

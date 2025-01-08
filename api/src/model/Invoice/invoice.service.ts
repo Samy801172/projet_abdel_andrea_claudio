@@ -6,7 +6,6 @@ import { Invoice } from './invoice.entity';
 import { CreateInvoiceDto } from './dto/create-invoice.dto';
 import { UpdateInvoiceDto } from './dto/update-invoice.dto';
 
-
 @Injectable()
 export class InvoiceService {
   constructor(
@@ -34,7 +33,10 @@ export class InvoiceService {
     return invoice;
   }
 
-  async update(id: number, updateInvoiceDto: UpdateInvoiceDto): Promise<Invoice> {
+  async update(
+    id: number,
+    updateInvoiceDto: UpdateInvoiceDto,
+  ): Promise<Invoice> {
     const invoice = await this.findOne(id);
     Object.assign(invoice, updateInvoiceDto);
     return this.invoiceRepository.save(invoice);

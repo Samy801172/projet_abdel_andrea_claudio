@@ -13,10 +13,10 @@ import { TypeModule } from '../Type/type.module';
   imports: [
     TypeOrmModule.forFeature([Product, Type, Promotion]),
     PromotionModule,
-    TypeModule
+    TypeModule,
   ],
   controllers: [ProductController],
   providers: [ProductService],
-  exports: [ProductService]
+  exports: [ProductService],
 })
 export class ProductModule {}

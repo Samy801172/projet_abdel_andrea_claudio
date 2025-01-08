@@ -1,4 +1,9 @@
-import { createParamDecorator, ExecutionContext, UnauthorizedException, BadRequestException } from '@nestjs/common';
+import {
+  createParamDecorator,
+  ExecutionContext,
+  UnauthorizedException,
+  BadRequestException,
+} from '@nestjs/common';
 
 // Interface pour définir la structure attendue de l'utilisateur
 interface JwtUser {
@@ -18,7 +23,7 @@ export const User = createParamDecorator(
     // Vérification de base de l'utilisateur
     if (!user) {
       throw new UnauthorizedException(
-        'Aucun utilisateur trouvé dans la requête. Veuillez vous authentifier.'
+        'Aucun utilisateur trouvé dans la requête. Veuillez vous authentifier.',
       );
     }
 
@@ -27,7 +32,7 @@ export const User = createParamDecorator(
       // Vérifier que la propriété existe
       if (!(data in user)) {
         throw new BadRequestException(
-          `La propriété '${data}' n'existe pas dans l'objet utilisateur`
+          `La propriété '${data}' n'existe pas dans l'objet utilisateur`,
         );
       }
 

@@ -3,9 +3,6 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Order } from '../Order/order.entity';
 import { OrderStatus } from './dto/order-status.enum';
 
-
-
-
 @Entity('order_status')
 export class OrderStatusEntity {
   @PrimaryGeneratedColumn()
@@ -14,13 +11,13 @@ export class OrderStatusEntity {
   @Column({
     type: 'enum',
     enum: OrderStatus,
-    default: OrderStatus.PENDING
+    default: OrderStatus.PENDING,
   })
   label: OrderStatus;
 
   @Column()
   description: string;
 
-  @OneToMany(() => Order, order => order.status)
+  @OneToMany(() => Order, (order) => order.status)
   orders: Order[];
 }

@@ -1,5 +1,13 @@
 // src/model/OrderStatus/orderStatus.controller.ts
-import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Put,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { OrderStatusService } from './orderStatus.service';
 import { CreateOrderStatusDto } from './dto/create-orderStatus.dto';
 import { UpdateOrderStatusDto } from './dto/update-orderStatus.dto';
@@ -26,7 +34,10 @@ export class OrderStatusController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateOrderStatusDto: UpdateOrderStatusDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateOrderStatusDto: UpdateOrderStatusDto,
+  ) {
     return this.orderStatusService.update(+id, updateOrderStatusDto);
   }
 

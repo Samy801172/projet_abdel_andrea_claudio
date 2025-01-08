@@ -1,6 +1,12 @@
-import { Product } from "model/Product/product.entity";
-import { Promotion } from "model/Promotion/promotion.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Product } from 'model/Product/product.entity';
+import { Promotion } from 'model/Promotion/promotion.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('product_promotion')
 export class ProductPromotion {

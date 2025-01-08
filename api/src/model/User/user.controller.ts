@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Param, Put, Delete, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Put,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 
 import { User } from './user.entity';
 
@@ -12,7 +21,6 @@ import { UserService } from './user.service';
 @ApiTags('user')
 @ApiBearerAuth('access-token') // Indique que ce contrôleur nécessite un token d'accès
 @Controller('user')
-
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -35,14 +43,24 @@ export class UserController {
   }
 
   @Put(':id')
-  @ApiResponse({ status: 200, description: 'The user has been successfully updated.', type: User })
+  @ApiResponse({
+    status: 200,
+    description: 'The user has been successfully updated.',
+    type: User,
+  })
   @ApiResponse({ status: 404, description: 'User not found.' })
-  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<User> {
+  async update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ): Promise<User> {
     return this.userService.update(+id, updateUserDto);
   }
 
   @Delete(':id')
-  @ApiResponse({ status: 204, description: 'The user has been successfully deleted.' })
+  @ApiResponse({
+    status: 204,
+    description: 'The user has been successfully deleted.',
+  })
   @ApiResponse({ status: 404, description: 'User not found.' })
   async remove(@Param('id') id: string): Promise<void> {
     return this.userService.remove(+id);

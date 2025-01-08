@@ -1,7 +1,5 @@
-import { ApiException } from "@common/config";
-import { ApiCodeResponse } from "common/config/api/enum";
-
-
+import { ApiException } from '@common/config';
+import { ApiCodeResponse } from 'common/config/api/enum';
 
 export class SayHelloException extends ApiException {
   constructor() {
@@ -9,5 +7,3 @@ export class SayHelloException extends ApiException {
     super(ApiCodeResponse.TEST, 200);
   }
 }
-
-

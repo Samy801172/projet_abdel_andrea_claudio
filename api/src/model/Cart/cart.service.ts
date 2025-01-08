@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Cart } from './cart.entity';
@@ -16,7 +21,7 @@ export class CartService {
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>, // Repository pour gérer les entités Product
     @InjectRepository(Client)
-    private readonly clientRepository: Repository<Client> // Repository pour gérer les entités Client
+    private readonly clientRepository: Repository<Client>, // Repository pour gérer les entités Client
   ) {}
 
   /**
@@ -37,8 +42,9 @@ export class CartService {
       .getMany();
 
     // Applique les promotions si elles sont actives
-    const cartWithPromotions = cart.map(item => {
-      const hasPromotion = item.product.promotion &&
+    const cartWithPromotions = cart.map((item) => {
+      const hasPromotion =
+        item.product.promotion &&
         this.isPromotionActive(item.product.promotion);
 
       if (hasPromotion) {
@@ -48,7 +54,9 @@ export class CartService {
       return item;
     });
 
-    this.logger.debug(`Cart items found: ${JSON.stringify(cartWithPromotions)}`);
+    this.logger.debug(
+      `Cart items found: ${JSON.stringify(cartWithPromotions)}`,
+    );
     return cartWithPromotions;
   }
 
@@ -59,12 +67,14 @@ export class CartService {
    * @returns L'article ajouté au panier
    */
   async addToCart(clientId: number, dto: CreateCartDto): Promise<Cart> {
-    this.logger.debug(`Adding to cart - clientId: ${clientId}, dto: ${JSON.stringify(dto)}`);
+    this.logger.debug(
+      `Adding to cart - clientId: ${clientId}, dto: ${JSON.stringify(dto)}`,
+    );
 
     // Vérifie que le produit existe
     const product = await this.productRepository.findOne({
       where: { id_product: dto.productId },
-      relations: ['promotion'] // Inclut les promotions liées
+      relations: ['promotion'], // Inclut les promotions liées
     });
 
     if (!product) {
@@ -76,7 +86,8 @@ export class CartService {
     let appliedPromotionId = null;
 
     if (product.promotion && this.isPromotionActive(product.promotion)) {
-      finalPrice = product.price * (1 - product.promotion.discountPercentage / 100);
+      finalPrice =
+        product.price * (1 - product.promotion.discountPercentage / 100);
       appliedPromotionId = product.promotion.id_promotion;
     }
 
@@ -86,7 +97,7 @@ export class CartService {
       product,
       quantity: dto.quantity,
       price: finalPrice,
-      appliedPromotionId
+      appliedPromotionId,
     });
 
     const savedItem = await this.cartRepository.save(cartItem);
@@ -104,7 +115,7 @@ export class CartService {
     // Vérifie si l'article existe
     const cartItem = await this.cartRepository.findOne({
       where: { id: cartItemId },
-      relations: ['product']
+      relations: ['product'],
     });
 
     if (!cartItem) {
@@ -117,7 +128,9 @@ export class CartService {
     }
 
     if (quantity > cartItem.product.stock) {
-      throw new BadRequestException('Requested quantity exceeds available stock');
+      throw new BadRequestException(
+        'Requested quantity exceeds available stock',
+      );
     }
 
     cartItem.quantity = quantity;
@@ -141,7 +154,7 @@ export class CartService {
    */
   async clearCart(clientId: number): Promise<void> {
     const client = await this.clientRepository.findOne({
-      where: { clientId }
+      where: { clientId },
     });
 
     if (!client) {

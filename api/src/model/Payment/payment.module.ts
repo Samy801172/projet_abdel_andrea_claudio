@@ -17,7 +17,7 @@ import { Client } from '../Client/client.entity';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true
+      isGlobal: true,
     }),
     TypeOrmModule.forFeature([
       Payment,
@@ -26,11 +26,11 @@ import { Client } from '../Client/client.entity';
       OrderDetail,
       Cart,
       Product,
-      Client
-    ])
+      Client,
+    ]),
   ],
   controllers: [PaymentController],
   providers: [PaymentService, PaypalService, OrderService],
-  exports: [PaymentService]
+  exports: [PaymentService],
 })
 export class PaymentModule {}

@@ -24,7 +24,7 @@ export class ServiceService {
 
   async findOne(id: number): Promise<Service> {
     const service = await this.serviceRepository.findOne({
-      where: { id: id }
+      where: { id: id },
     });
 
     if (!service) {
@@ -34,7 +34,10 @@ export class ServiceService {
     return service;
   }
 
-  async update(id: number, updateServiceDto: UpdateServiceDto): Promise<Service> {
+  async update(
+    id: number,
+    updateServiceDto: UpdateServiceDto,
+  ): Promise<Service> {
     const service = await this.findOne(id);
 
     // Mise à jour des propriétés

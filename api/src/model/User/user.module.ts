@@ -12,9 +12,14 @@ import { ClientModule } from 'model/Client/client.module';
 import { UserService } from './user.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]),forwardRef(() => AdministratorModule),SecurityModule, ClientModule,],
+  imports: [
+    TypeOrmModule.forFeature([User]),
+    forwardRef(() => AdministratorModule),
+    SecurityModule,
+    ClientModule,
+  ],
   controllers: [UserController],
   providers: [UserService],
-  exports: [UserService, TypeOrmModule,], // Assurez-vous d'exporter TypeOrmModule
+  exports: [UserService, TypeOrmModule], // Assurez-vous d'exporter TypeOrmModule
 })
 export class UserModule {}

@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  JoinColumn,
+  OneToMany,
+} from 'typeorm';
 import { User } from '../User/user.entity';
 import { Order } from '../Order/order.entity'; // Corrigé l'import
 import { Appointment } from '../Appointment/appointment.entity';
@@ -32,7 +39,9 @@ export class Client {
   @OneToMany(() => Order, (order) => order.client, { cascade: true })
   orders: Order[];
 
-  @OneToMany(() => Appointment, (appointment) => appointment.client, { cascade: true })
+  @OneToMany(() => Appointment, (appointment) => appointment.client, {
+    cascade: true,
+  })
   appointments: Appointment[];
 
   @OneToMany(() => Cart, (cart) => cart.client, { cascade: true })
@@ -44,6 +53,6 @@ export class Client {
 
   @Column({ name: 'credential_id', nullable: true })
   credentialId: string;
-  @OneToMany(() => Prescription, prescription => prescription.client)
+  @OneToMany(() => Prescription, (prescription) => prescription.client)
   prescriptions: Prescription[];
 }

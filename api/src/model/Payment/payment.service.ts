@@ -1,15 +1,23 @@
 // src/model/Payment/payment.service.ts
-import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Payment } from './payment.entity';
-import { CreatePaymentDto, PaymentMethodEnum, PaymentStatusEnum } from './dto/create-payment.dto';
+import {
+  CreatePaymentDto,
+  PaymentMethodEnum,
+  PaymentStatusEnum,
+} from './dto/create-payment.dto';
 import { UpdatePaymentDto } from './dto/update-payment.dto';
 import { Order } from '../Order/order.entity';
 import { PaypalService } from 'model/Paypal/paypal.service';
 import { OrderStatus } from 'model/OrderStatus/dto/order-status.enum';
 import { OrderStatusEntity } from 'model/OrderStatus/orderStatus.entity';
-
 
 @Injectable()
 export class PaymentService {
@@ -20,7 +28,7 @@ export class PaymentService {
     private readonly orderRepository: Repository<Order>,
     @InjectRepository(OrderStatusEntity)
     private readonly orderStatusRepository: Repository<OrderStatusEntity>,
-    private readonly paypalService: PaypalService
+    private readonly paypalService: PaypalService,
   ) {}
 
   async createOrder(amount: number, orderId: number): Promise<Payment> {
@@ -48,7 +56,7 @@ export class PaymentService {
     try {
       const payment = await this.paymentRepository.findOne({
         where: { paypalOrderId: orderId },
-        relations: ['order']
+        relations: ['order'],
       });
 
       if (!payment) throw new NotFoundException();
@@ -61,22 +69,23 @@ export class PaymentService {
 
       return payment;
     } catch (error) {
-      throw new HttpException('Error updating status', HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(
+        'Error updating status',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 
-
-
   async findAll(): Promise<Payment[]> {
     return this.paymentRepository.find({
-      relations: ['order']
+      relations: ['order'],
     });
   }
 
   async findOne(id: number): Promise<Payment> {
     const payment = await this.paymentRepository.findOne({
       where: { id_payment: id },
-      relations: ['order']
+      relations: ['order'],
     });
 
     if (!payment) {
@@ -86,16 +95,21 @@ export class PaymentService {
     return payment;
   }
 
-  async update(id: number, updatePaymentDto: UpdatePaymentDto): Promise<Payment> {
+  async update(
+    id: number,
+    updatePaymentDto: UpdatePaymentDto,
+  ): Promise<Payment> {
     const payment = await this.findOne(id);
 
     if (updatePaymentDto.orderId) {
       const order = await this.orderRepository.findOne({
-        where: { id_order: updatePaymentDto.orderId }
+        where: { id_order: updatePaymentDto.orderId },
       });
 
       if (!order) {
-        throw new NotFoundException(`Order with ID ${updatePaymentDto.orderId} not found`);
+        throw new NotFoundException(
+          `Order with ID ${updatePaymentDto.orderId} not found`,
+        );
       }
 
       payment.order = order;
@@ -105,7 +119,7 @@ export class PaymentService {
     Object.assign(payment, {
       paymentMethod: updatePaymentDto.paymentMethod ?? payment.paymentMethod,
       amount: updatePaymentDto.amount ?? payment.amount,
-      paymentStatus: updatePaymentDto.paymentStatus ?? payment.paymentStatus
+      paymentStatus: updatePaymentDto.paymentStatus ?? payment.paymentStatus,
     });
 
     return this.paymentRepository.save(payment);
@@ -120,6 +134,4 @@ export class PaymentService {
     // Exemple : appeler une API externe ou effectuer une opération dans la base de données
     return { success: true, orderId };
   }
-
-
 }

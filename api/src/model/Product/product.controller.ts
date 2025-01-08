@@ -1,5 +1,14 @@
 // src/model/Product/product.controller.ts
-import { Controller, Post, Body, Get, Put, Delete, Param, NotFoundException } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Put,
+  Delete,
+  Param,
+  NotFoundException,
+} from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -29,7 +38,10 @@ export class ProductController {
 
   // Mettre à jour un produit
   @Put(':id')
-  async update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() updateProductDto: UpdateProductDto,
+  ) {
     return this.productService.update(Number(id), updateProductDto);
   }
 
@@ -43,7 +55,7 @@ export class ProductController {
   @Post(':id/apply-promotion')
   async applyPromotion(
     @Param('id') id: string,
-    @Body() data: { promotionId: number }
+    @Body() data: { promotionId: number },
   ) {
     return this.productService.applyPromotion(Number(id), data.promotionId);
   }

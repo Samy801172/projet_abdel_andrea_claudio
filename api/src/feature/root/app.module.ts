@@ -52,8 +52,6 @@ import { PrescriptionModule } from '../../model/Prescription/prescription.module
     PaymentModule,
     PrescriptionModule,
 
-
-
     // Modules commandes et facturation
     OrderModule,
     OrderStatusModule,
@@ -64,6 +62,5 @@ import { PrescriptionModule } from '../../model/Prescription/prescription.module
     ServiceModule,
     AppointmentModule,
   ],
-
 })
 export class AppModule {}

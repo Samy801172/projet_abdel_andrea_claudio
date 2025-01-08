@@ -1,5 +1,12 @@
 // src/models/prescription/dto/create-prescription.dto.ts
-import { IsNotEmpty, IsString, IsBoolean, IsNumber, IsOptional, IsDate } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  IsBoolean,
+  IsNumber,
+  IsOptional,
+  IsDate,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreatePrescriptionDto {

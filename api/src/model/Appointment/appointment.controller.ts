@@ -1,5 +1,13 @@
 // src/controllers/appointment.controller.ts
-import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Put,
+  Delete,
+} from '@nestjs/common';
 
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AppointmentService } from './appointment.service';
@@ -27,7 +35,10 @@ export class AppointmentController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateAppointmentDto: UpdateAppointmentDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateAppointmentDto: UpdateAppointmentDto,
+  ) {
     return this.appointmentService.update(+id, updateAppointmentDto);
   }
 

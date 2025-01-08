@@ -12,4 +12,3 @@ export class CreateAdministratorDto {
   @ApiProperty()
   user: string; // Assurez-vous que cela existe dans l'entité
 }
-

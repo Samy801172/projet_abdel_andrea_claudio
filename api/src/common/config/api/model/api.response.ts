@@ -1,8 +1,7 @@
-import { ApiCodeResponse } from "../enum";
+import { ApiCodeResponse } from '../enum';
 
-export interface ApiResponse{
-  code:ApiCodeResponse;
-  data:any;
-  result:boolean;
-
+export interface ApiResponse {
+  code: ApiCodeResponse;
+  data: any;
+  result: boolean;
 }

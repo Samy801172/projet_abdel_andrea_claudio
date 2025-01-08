@@ -1,4 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, BeforeUpdate, ManyToMany, JoinTable } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  OneToMany,
+  BeforeUpdate,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 import { Type } from '../Type/type.entity';
 import { Cart } from '../Cart/cart.entity';
 import { ProductPromotion } from 'model/ProductPromotion/productPromotion.entity';
@@ -35,7 +44,10 @@ export class Product {
   @OneToMany(() => OrderDetail, (orderDetail) => orderDetail.product)
   orderDetails: OrderDetail[]; // Un produit peut avoir plusieurs détails de commande
 
-  @OneToMany(() => ProductPromotion, (productPromotion) => productPromotion.product)
+  @OneToMany(
+    () => ProductPromotion,
+    (productPromotion) => productPromotion.product,
+  )
   productPromotions: ProductPromotion[];
 
   @ManyToOne(() => Promotion, { nullable: true }) // Relation avec Promotion (nullable)
@@ -47,7 +59,6 @@ export class Product {
   validateStock() {
     if (this.stock < 0) {
       throw new Error('Le stock ne peut pas être négatif');
-
     }
   }
 
@@ -55,10 +66,10 @@ export class Product {
   @JoinTable({
     name: 'product_promotion',
     joinColumn: { name: 'product_id', referencedColumnName: 'id_product' },
-    inverseJoinColumn: { name: 'promotion_id', referencedColumnName: 'id_promotion' }
+    inverseJoinColumn: {
+      name: 'promotion_id',
+      referencedColumnName: 'id_promotion',
+    },
   })
   promotions: Promotion[];
-
-
 }
-

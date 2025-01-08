@@ -14,7 +14,7 @@ export class NoAuthGuard implements CanActivate {
 
   canActivate(): boolean {
     // Vérifie si l'utilisateur est déjà connecté
-    if (this.authService.isAuthenticated()) {
+    if (this.authService.isLoggedIn()) {
       // Si c'est un admin, redirection vers le dashboard admin
       if (this.authService.isAdmin()) {
         this.router.navigate(['/admin/dashboard']);

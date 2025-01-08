@@ -1,8 +1,8 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
 import { ulid } from 'ulid';
-import { Credential } from "@feature/security/data";
+import { Credential } from '@feature/security/data';
 
-@Entity('token')  // Nom explicite de la table
+@Entity('token') // Nom explicite de la table
 export class Token {
   @PrimaryColumn('varchar', { length: 26 })
   token_id: string = ulid();
@@ -21,5 +21,4 @@ export class Token {
   credentialId: string;
   @Column({ nullable: true }) // Ajoutez l'option nullable si ce champ n'est pas obligatoire
   clientId?: number;
-
 }

@@ -21,11 +21,11 @@ import { OrderStatusEntity } from 'model/OrderStatus/orderStatus.entity';
       OrderStatusEntity,
       Product,
       Cart,
-      ProductPromotion
+      ProductPromotion,
     ]),
   ],
   controllers: [OrderController],
   providers: [OrderService],
-  exports: [OrderService]
+  exports: [OrderService],
 })
 export class OrderModule {}

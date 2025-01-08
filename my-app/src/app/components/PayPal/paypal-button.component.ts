@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { PaypalService } from '../../services/paypal/paypal.service';
 import { firstValueFrom } from 'rxjs';
 import { NotificationService } from '../../services/notification/notification.service';
-import {PaymentService} from '../../services/payement/ payment.service';
+import {PaymentService} from '../../services/payement/payment.service';
 import {CartService} from '../../services';
 
 declare var paypal: any;

@@ -10,6 +10,5 @@ import { Type } from './type.entity';
   providers: [TypeService],
   controllers: [TypeController],
   exports: [TypeOrmModule.forFeature([Type])], // Export the TypeRepository
-
 })
 export class TypeModule {}

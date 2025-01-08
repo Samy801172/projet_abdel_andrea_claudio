@@ -1,22 +1,29 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { ulid } from 'ulid';
 @Entity()
 export class Credential {
-  @PrimaryColumn('varchar', { length:26, default: () => `'${ulid()}'` })
+  @PrimaryColumn('varchar', { length: 26, default: () => `'${ulid()}'` })
   credential_id: string;
-  @Column({nullable: false, unique: true})
+  @Column({ nullable: false, unique: true })
   username: string;
-  @Column({nullable: true})
+  @Column({ nullable: true })
   password: string;
-  @Column({nullable: false, unique: true})
+  @Column({ nullable: false, unique: true })
   mail: string;
-  @Column({nullable: true, unique: false})
+  @Column({ nullable: true, unique: false })
   facebookHash: string;
-  @Column({nullable: true, unique: false})
+  @Column({ nullable: true, unique: false })
   googleHash: string;
-  @Column({default:true})
-  isAdmin:boolean;
-  @Column({default: true})
+  @Column({ default: true })
+  isAdmin: boolean;
+  @Column({ default: true })
   active: boolean;
   @CreateDateColumn()
   created: Date;

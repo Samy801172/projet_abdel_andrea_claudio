@@ -1,9 +1,8 @@
-import { INestApplication } from "@nestjs/common";
-import {SwaggerModule, DocumentBuilder } from "@nestjs/swagger";
+import { INestApplication } from '@nestjs/common';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 class SwaggerConfiguration {
-  constructor() {
-  }
+  constructor() {}
   config(app: INestApplication<any>) {
     const config = new DocumentBuilder()
       .setTitle('NestJS API')
@@ -16,7 +15,7 @@ class SwaggerConfiguration {
           bearerFormat: 'Bearer',
           scheme: 'Bearer',
           type: 'http',
-          in: 'Header'
+          in: 'Header',
         },
         'access-token',
       )
@@ -26,4 +25,4 @@ class SwaggerConfiguration {
   }
 }
 const swaggerConfiguration = new SwaggerConfiguration();
-export {swaggerConfiguration};
+export { swaggerConfiguration };
