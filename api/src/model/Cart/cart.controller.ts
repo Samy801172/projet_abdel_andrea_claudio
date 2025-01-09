@@ -1,5 +1,16 @@
 // src/model/Cart/cart.controller.ts
-import { Controller, Post, Body, UseGuards, Req, Get, Put, Delete, Param, Logger } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  UseGuards,
+  Req,
+  Get,
+  Put,
+  Delete,
+  Param,
+  Logger,
+} from '@nestjs/common';
 import { CartService } from './cart.service';
 import { UpdateCartDto } from './dto/update-cart.dto';
 import { CreateCartDto } from './dto/create-cart.dto';
@@ -51,11 +62,11 @@ export class CartController {
   @UseGuards(JwtGuard)
   async updateQuantity(
     @Param('id') id: string,
-    @Body() updateCartDto: UpdateCartDto
+    @Body() updateCartDto: UpdateCartDto,
   ) {
     return this.cartService.updateQuantity(
       parseInt(id, 10),
-      updateCartDto.quantity
+      updateCartDto.quantity,
     );
   }
 

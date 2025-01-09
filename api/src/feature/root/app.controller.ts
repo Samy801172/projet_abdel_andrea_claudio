@@ -10,13 +10,20 @@ export class AppController {
   @ApiOperation({ summary: 'Hello World endpoint' })
   @Get('hello')
   getHello(): ApiResponse {
-    return { result: true, code: ApiCodeResponse.TEST, data: this.appService.getHello() };
+    return {
+      result: true,
+      code: ApiCodeResponse.TEST,
+      data: this.appService.getHello(),
+    };
   }
 
   @ApiOperation({ summary: 'Hello World 2 endpoint' })
-
   @Post('hello2')
   getHello2(): ApiResponse {
-    return { result: true, code: ApiCodeResponse.TEST, data: this.appService.getHello() };
+    return {
+      result: true,
+      code: ApiCodeResponse.TEST,
+      data: this.appService.getHello(),
+    };
   }
 }

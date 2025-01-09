@@ -14,6 +14,7 @@ import { CartService, OrderService } from '../services';
 import { FormsModule } from '@angular/forms';
 import {PaymentComponent} from '../components/payment/payment.component';
 import {CheckoutComponent} from '../components/checkout/checkout.component';
+import {AuthService} from '../services/auth/auth.service';
 import {PaypalService} from '../services/paypal/paypal.service';
 
 // Décorateur @Component définissant les métadonnées du composant.
@@ -92,7 +93,8 @@ export class AppComponent implements OnInit {
   // Constructeur injectant le service de journalisation et le routeur.
   constructor(
     private loggingService: LoggingService, // Service pour consigner les événements.
-    private router: Router // Service pour gérer les routes.
+    private router: Router, // Service pour gérer les routes.
+    private authService: AuthService,
   ) {}
 
   // Hook du cycle de vie Angular appelé lors de l'initialisation du composant.

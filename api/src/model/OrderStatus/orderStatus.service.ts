@@ -10,10 +10,12 @@ import { UpdateOrderStatusDto } from './dto/update-orderStatus.dto';
 export class OrderStatusService {
   constructor(
     @InjectRepository(OrderStatusEntity)
-    private orderStatusRepository: Repository<OrderStatusEntity>
+    private orderStatusRepository: Repository<OrderStatusEntity>,
   ) {}
 
-  async create(createOrderStatusDto: CreateOrderStatusDto): Promise<OrderStatusEntity> {
+  async create(
+    createOrderStatusDto: CreateOrderStatusDto,
+  ): Promise<OrderStatusEntity> {
     const orderStatus = this.orderStatusRepository.create(createOrderStatusDto);
     return this.orderStatusRepository.save(orderStatus);
   }
@@ -25,11 +27,14 @@ export class OrderStatusService {
   async findOne(id: number): Promise<OrderStatusEntity> {
     return this.orderStatusRepository.findOne({
       where: { statusId: id },
-      relations: ['orders']
+      relations: ['orders'],
     });
   }
 
-  async update(id: number, updateOrderStatusDto: UpdateOrderStatusDto): Promise<OrderStatusEntity> {
+  async update(
+    id: number,
+    updateOrderStatusDto: UpdateOrderStatusDto,
+  ): Promise<OrderStatusEntity> {
     const orderStatus = await this.findOne(id);
     if (!orderStatus) {
       throw new NotFoundException(`Status with ID ${id} not found`);

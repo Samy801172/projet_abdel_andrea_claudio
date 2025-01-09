@@ -9,6 +9,6 @@ import { Order } from '../Order/order.entity';
   imports: [TypeOrmModule.forFeature([Invoice, Order])],
   controllers: [], // Ajoutez votre controller si nécessaire
   providers: [], // Ajoutez votre service si nécessaire
-  exports: []
+  exports: [],
 })
 export class InvoiceModule {}

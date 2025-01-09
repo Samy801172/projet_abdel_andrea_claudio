@@ -6,7 +6,6 @@ import { CreateAppointmentDto } from './dto/create-appointment.dto';
 import { Appointment } from './appointment.entity';
 import { UpdateAppointmentDto } from './dto/update-appointment.dto';
 
-
 @Injectable()
 export class AppointmentService {
   constructor(
@@ -14,13 +13,17 @@ export class AppointmentService {
     private readonly appointmentRepository: Repository<Appointment>,
   ) {}
 
-  async create(createAppointmentDto: CreateAppointmentDto): Promise<Appointment> {
+  async create(
+    createAppointmentDto: CreateAppointmentDto,
+  ): Promise<Appointment> {
     const appointment = this.appointmentRepository.create(createAppointmentDto);
     return this.appointmentRepository.save(appointment);
   }
 
   async findAll(): Promise<Appointment[]> {
-    return this.appointmentRepository.find({ relations: ['service', 'client', 'administrator'] });
+    return this.appointmentRepository.find({
+      relations: ['service', 'client', 'administrator'],
+    });
   }
 
   async findOne(id: number): Promise<Appointment> {
@@ -34,7 +37,10 @@ export class AppointmentService {
     return appointment;
   }
 
-  async update(id: number, updateAppointmentDto: UpdateAppointmentDto): Promise<Appointment> {
+  async update(
+    id: number,
+    updateAppointmentDto: UpdateAppointmentDto,
+  ): Promise<Appointment> {
     const appointment = await this.findOne(id);
     Object.assign(appointment, updateAppointmentDto);
     return this.appointmentRepository.save(appointment);

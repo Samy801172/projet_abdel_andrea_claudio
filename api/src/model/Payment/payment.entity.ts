@@ -1,5 +1,12 @@
 // payment.entity.ts
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  CreateDateColumn,
+  JoinColumn,
+} from 'typeorm';
 import { Order } from '../Order/order.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { PaymentMethodEnum, PaymentStatusEnum } from './dto/create-payment.dto';
@@ -19,7 +26,7 @@ export class Payment {
   @Column({
     type: 'enum',
     enum: PaymentMethodEnum,
-    default: PaymentMethodEnum.PAYPAL
+    default: PaymentMethodEnum.PAYPAL,
   })
   paymentMethod: PaymentMethodEnum;
 
@@ -31,7 +38,7 @@ export class Payment {
   @Column({
     type: 'enum',
     enum: PaymentStatusEnum,
-    default: PaymentStatusEnum.PENDING
+    default: PaymentStatusEnum.PENDING,
   })
   paymentStatus: PaymentStatusEnum;
 

@@ -1,5 +1,12 @@
 import { ProductPromotion } from 'model/ProductPromotion/productPromotion.entity';
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
 @Entity('promotion')
@@ -11,32 +18,32 @@ export class Promotion {
   @ApiProperty({ description: 'Description de la promotion' })
   @Column({
     length: 255,
-    nullable: false
+    nullable: false,
   })
   description: string;
 
   @ApiProperty({ description: 'Date de début de la promotion' })
   @Column({
     type: 'timestamp',
-    nullable: false
+    nullable: false,
   })
   startDate: Date;
 
   @ApiProperty({ description: 'Date de fin de la promotion' })
   @Column({
     type: 'timestamp',
-    nullable: false
+    nullable: false,
   })
   endDate: Date;
 
   @ApiProperty({
     description: 'Pourcentage de réduction',
     minimum: 0,
-    maximum: 100
+    maximum: 100,
   })
   @Column({
     type: 'int',
-    nullable: false
+    nullable: false,
   })
   discountPercentage: number;
 
@@ -45,8 +52,8 @@ export class Promotion {
     () => ProductPromotion,
     (productPromotion) => productPromotion.promotion,
     {
-      cascade: true
-    }
+      cascade: true,
+    },
   )
   productPromotions: ProductPromotion[];
 

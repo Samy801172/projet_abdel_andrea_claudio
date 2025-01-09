@@ -9,7 +9,6 @@ import { Promotion } from 'model/Promotion/promotion.entity'; // Chemin vers l'e
   imports: [TypeOrmModule.forFeature([Promotion])],
   providers: [PromotionService],
   controllers: [PromotionController],
-  exports: [PromotionService,TypeOrmModule, PromotionService],
+  exports: [PromotionService, TypeOrmModule, PromotionService],
 })
 export class PromotionModule {}
-

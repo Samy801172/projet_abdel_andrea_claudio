@@ -6,7 +6,6 @@ import { Client } from './client.entity';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 
-
 @Injectable()
 export class ClientService {
   constructor(
@@ -24,12 +23,15 @@ export class ClientService {
   }
 
   async findOne(id: number): Promise<Client> {
-    const client = await this.clientRepository.findOne({ where: { clientId: id } });
+    const client = await this.clientRepository.findOne({
+      where: { clientId: id },
+    });
     if (!client) {
       throw new NotFoundException(`Client with ID ${id} not found`);
     }
     return client;
-  }cd
+  }
+  cd;
 
   async update(id: number, updateClientDto: UpdateClientDto): Promise<Client> {
     const client = await this.findOne(id);

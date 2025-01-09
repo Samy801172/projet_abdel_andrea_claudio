@@ -8,7 +8,7 @@ import { ProductService } from '../Product/product.service'; // Vérifiez que ce
 export class StockController {
   constructor(
     private readonly stockService: StockService,
-    private readonly productService: ProductService // Injection de ProductService
+    private readonly productService: ProductService, // Injection de ProductService
   ) {}
 
   @Get('products')
@@ -26,7 +26,10 @@ export class StockController {
     try {
       return await this.stockService.getStockAlerts(); // Gestion des alertes de stock
     } catch (error) {
-      console.error('Erreur lors de la récupération des alertes de stock:', error);
+      console.error(
+        'Erreur lors de la récupération des alertes de stock:',
+        error,
+      );
       throw error;
     }
   }

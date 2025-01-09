@@ -1,5 +1,14 @@
 // src/controllers/client.controller.ts
-import { Controller, Get, Post, Body, Param, Delete, Put, NotFoundException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Put,
+  NotFoundException,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { ClientService } from './client.service';
@@ -43,5 +52,4 @@ export class ClientController {
   remove(@Param('id') id: number) {
     return this.clientService.remove(id);
   }
-
- }
+}

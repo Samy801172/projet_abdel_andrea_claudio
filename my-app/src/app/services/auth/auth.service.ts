@@ -11,7 +11,7 @@ export interface Credential {
   username?: string;
 }
 
-interface LoginResponse {
+export interface LoginResponse {
   token_id: string;
   token: string;
   refreshToken: string;
@@ -80,52 +80,56 @@ export class AuthService {
     return this.EMAIL_REGEX.test(email);
   }
 
+  // log en tant qu'utilisateur
   login(credentials: LoginCredentials): Observable<LoginResponse> {
-    console.log('Tentative de connexion pour:', credentials.mail);
+    console.log('Tentative de connexion utilisateur:', credentials.mail);
 
-    if (!this.validateEmail(credentials.mail)) {
-      return throwError(() => new Error('Format d\'email invalide'));// 
-    }
-
-    return this.http.post<LoginResponse>(`${this.API_URL}/account/signin`, {
-      mail: credentials.mail,
-      password: credentials.password
-    }).pipe(
+    return this.http.post<LoginResponse>(`${this.API_URL}/account/signin`, credentials).pipe(
       tap(response => {
-        console.log('Réponse de connexion reçue:', response);
-        this.saveAuthData(response);
-      }),
-      catchError(error => {
-        console.error('Erreur de connexion:', error);
-        return this.handleError(error);
-      })
-    );
-  }
-
-  adminLogin(credentials: LoginCredentials): Observable<LoginResponse> {
-    console.log('Tentative de connexion admin pour:', credentials.mail);
-
-    if (!this.validateEmail(credentials.mail)) {
-      return throwError(() => new Error('Format d\'email invalide'));
-    }
-
-    return this.http.post<LoginResponse>(`${this.API_URL}/account/admin-signin`, {
-      mail: credentials.mail,
-      password: credentials.password
-    }).pipe(
-      tap(response => {
-        console.log('Réponse de connexion admin reçue:', response);
-        if (!response.credential.isAdmin) {
-          throw new Error('Accès non autorisé');
+        if (!response || !response.token || !response.credential) {
+          throw new Error('Réponse invalide');
         }
-        this.saveAuthData(response);
+        console.log('Réponse utilisateur reçue:', response);
       }),
       catchError(error => {
-        console.error('Erreur de connexion admin:', error);
+        console.error('Erreur de connexion utilisateur:', error);
+        return this.handleError(error); // Gestion des erreurs centralisée
+      })
+    );
+  }
+
+  // log en tant qu'admin
+  adminLogin(credentials: LoginCredentials): Observable<LoginResponse> {
+    console.log('Tentative de connexion administrateur:', credentials.mail);
+
+    return this.http.post<LoginResponse>(`${this.API_URL}/account/admin-signin`, credentials).pipe(
+      tap(response => {
+        if (!response || !response.token || !response.credential || !response.credential.isAdmin) {
+          throw new Error('Accès non autorisé pour un utilisateur non administrateur');
+        }
+        console.log('Réponse administrateur reçue:', response);
+      }),
+      catchError(error => {
+        console.error('Erreur de connexion administrateur:', error);
+        return this.handleError(error); // Gestion des erreurs centralisée
+      })
+    );
+  }
+
+  // pour Google login
+  googleLogin(credential: string): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.API_URL}/account/google-login`, { credential }).pipe(
+      tap((response: LoginResponse) => {
+        console.log('Connexion réussie avec Google:', response);
+        this.saveAuthData(response); // Sauvegarder les données comme pour une connexion normale
+      }),
+      catchError(error => {
+        console.error('Erreur lors de la connexion Google:', error);
         return this.handleError(error);
       })
     );
   }
+
 
   signup(credentials: SignupCredentials): Observable<SignupResponse> {
     // On garde toutes les validations existantes
@@ -238,7 +242,7 @@ export class AuthService {
     this.loginAttempts[email].lastAttempt = Date.now();
   }
 
-  private saveAuthData(response: LoginResponse): void {
+  public async saveAuthData(response: LoginResponse): Promise<void> {
     console.log('Début saveAuthData:', response);
 
     try {
@@ -249,8 +253,8 @@ export class AuthService {
       // Sauvegarder les informations de l'utilisateur
       localStorage.setItem('user', JSON.stringify(response.credential));
 
-      // Rechercher et sauvegarder le clientId
-      this.findAndSaveClientId(response.credential.credential_id);
+      // Rechercher et sauvegarder le clientId (en attente)
+      await this.findAndSaveClientId(response.credential.credential_id);
 
       this.currentUserSubject.next(response.credential);
     } catch (error) {
@@ -258,10 +262,14 @@ export class AuthService {
       throw error;
     }
   }
+
   private async findAndSaveClientId(credentialId: string): Promise<void> {
     try {
+      console.log(`Recherche client pour credentialId: ${credentialId}`);
       const client = await this.http.get<any>(`${this.API_URL}/clients/credential/${credentialId}`)
         .toPromise();
+
+      console.log('Réponse de l\'API pour client:', client);
 
       if (client && client.clientId) {
         localStorage.setItem('clientId', client.clientId.toString());
@@ -273,6 +281,7 @@ export class AuthService {
       console.error('Erreur lors de la récupération du clientId:', error);
     }
   }
+
 
   private clearAuthData(): void {
     localStorage.removeItem('token');
@@ -295,28 +304,25 @@ export class AuthService {
     } else {
       switch (error.status) {
         case 400:
-          errorMessage = error.error.message || 'Données invalides';
+          errorMessage = 'Données invalides';
           break;
         case 401:
-          errorMessage = 'Email ou mot de passe incorrect';
+          errorMessage = 'Identifiants incorrects';
           break;
         case 403:
-          errorMessage = 'Accès non autorisé';
+          errorMessage = 'Accès refusé';
           break;
         case 404:
           errorMessage = 'Utilisateur non trouvé';
           break;
-        case 429:
-          errorMessage = 'Trop de tentatives. Veuillez réessayer plus tard';
-          break;
         default:
-          errorMessage = 'Erreur lors de la connexion';
+          errorMessage = 'Veuillez vérifier vos information de connexion';
       }
     }
 
-    console.error('Erreur:', error);
     return throwError(() => new Error(errorMessage));
   }
+
 
   isAuthenticated(): boolean {
     return !!localStorage.getItem('token');

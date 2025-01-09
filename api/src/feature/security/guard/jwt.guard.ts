@@ -1,4 +1,10 @@
-import { CanActivate, ExecutionContext, Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  Logger,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ClientService } from 'model/Client/client.service';
 
@@ -24,7 +30,7 @@ export class JwtGuard implements CanActivate {
 
     if (type !== 'Bearer' || !token) {
       this.logger.warn('Invalid authorization header format');
-      throw new UnauthorizedException('Format d\'autorisation invalide');
+      throw new UnauthorizedException("Format d'autorisation invalide");
     }
 
     try {

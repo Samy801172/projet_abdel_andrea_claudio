@@ -1,5 +1,13 @@
 // src/controllers/productPromotion.controller.ts
-import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Put,
+  Delete,
+} from '@nestjs/common';
 import { ProductPromotionService } from './productPromotion.service';
 import { CreateProductPromotionDto } from './dto/create-productPromotion.dto';
 import { UpdateProductPromotionDto } from './dto/update-productPromotion.dto';
@@ -9,7 +17,9 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 @ApiBearerAuth('access-token')
 @Controller('product-promotions')
 export class ProductPromotionController {
-  constructor(private readonly productPromotionService: ProductPromotionService) {}
+  constructor(
+    private readonly productPromotionService: ProductPromotionService,
+  ) {}
 
   @Post()
   create(@Body() createProductPromotionDto: CreateProductPromotionDto) {
@@ -27,7 +37,10 @@ export class ProductPromotionController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateProductPromotionDto: UpdateProductPromotionDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateProductPromotionDto: UpdateProductPromotionDto,
+  ) {
     return this.productPromotionService.update(+id, updateProductPromotionDto);
   }
 

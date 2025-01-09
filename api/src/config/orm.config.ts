@@ -17,7 +17,7 @@ const commonConfig = {
   migrations: ['dist/migrations/*{.ts,.js}'],
   synchronize: false,
   logging: true,
-  migrationsRun: true
+  migrationsRun: true,
 };
 console.log('Database Config:', {
   host: configService.get('DB_HOST'),
@@ -32,5 +32,5 @@ export default new DataSource(commonConfig);
 // Configuration pour TypeORM Module (utilisée par NestJS)
 export const typeOrmConfig: TypeOrmModuleOptions = {
   ...commonConfig,
-  autoLoadEntities: true  // Option spécifique à NestJS
+  autoLoadEntities: true, // Option spécifique à NestJS
 };

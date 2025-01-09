@@ -4,7 +4,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ProductPromotion } from './productPromotion.entity';
 
-
 import { CreateProductPromotionDto } from './dto/create-productPromotion.dto';
 import { UpdateProductPromotionDto } from './dto/update-productPromotion.dto';
 import { Product } from 'model/Product/product.entity';
@@ -21,9 +20,15 @@ export class ProductPromotionService {
     private readonly promotionRepository: Repository<Promotion>,
   ) {}
 
-  async create(createProductPromotionDto: CreateProductPromotionDto): Promise<ProductPromotion> {
-    const product = await this.productRepository.findOne({ where: { id_product: createProductPromotionDto.productId } });
-    const promotion = await this.promotionRepository.findOne({ where: { id_promotion: createProductPromotionDto.promotionId } });
+  async create(
+    createProductPromotionDto: CreateProductPromotionDto,
+  ): Promise<ProductPromotion> {
+    const product = await this.productRepository.findOne({
+      where: { id_product: createProductPromotionDto.productId },
+    });
+    const promotion = await this.promotionRepository.findOne({
+      where: { id_promotion: createProductPromotionDto.promotionId },
+    });
 
     if (!product || !promotion) {
       throw new NotFoundException('Product or Promotion not found');
@@ -38,7 +43,9 @@ export class ProductPromotionService {
   }
 
   async findAll(): Promise<ProductPromotion[]> {
-    return this.productPromotionRepository.find({ relations: ['product', 'promotion'] });
+    return this.productPromotionRepository.find({
+      relations: ['product', 'promotion'],
+    });
   }
 
   async findOne(id: number): Promise<ProductPromotion> {
@@ -52,11 +59,16 @@ export class ProductPromotionService {
     return productPromotion;
   }
 
-  async update(id: number, updateProductPromotionDto: UpdateProductPromotionDto): Promise<ProductPromotion> {
+  async update(
+    id: number,
+    updateProductPromotionDto: UpdateProductPromotionDto,
+  ): Promise<ProductPromotion> {
     const productPromotion = await this.findOne(id);
 
     if (updateProductPromotionDto.productId) {
-      const product = await this.productRepository.findOne({ where: { id_product: updateProductPromotionDto.productId } });
+      const product = await this.productRepository.findOne({
+        where: { id_product: updateProductPromotionDto.productId },
+      });
       if (!product) {
         throw new NotFoundException('Product not found');
       }
@@ -64,7 +76,9 @@ export class ProductPromotionService {
     }
 
     if (updateProductPromotionDto.promotionId) {
-      const promotion = await this.promotionRepository.findOne({ where: { id_promotion: updateProductPromotionDto.promotionId } });
+      const promotion = await this.promotionRepository.findOne({
+        where: { id_promotion: updateProductPromotionDto.promotionId },
+      });
       if (!promotion) {
         throw new NotFoundException('Promotion not found');
       }

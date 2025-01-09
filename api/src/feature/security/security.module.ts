@@ -27,7 +27,8 @@ import { ClientService } from '../../model/Client/client.service';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [ConfigModule,  // Ajout du ConfigModule
+  imports: [
+    ConfigModule, // Ajout du ConfigModule
     // TypeORM Configuration
     TypeOrmModule.forFeature([Credential, Token, Client]),
 
@@ -39,12 +40,12 @@ import { ConfigModule } from '@nestjs/config';
       global: true,
       secret: configManager.getValue(ConfigKey.JWT_TOKEN_SECRET),
       signOptions: {
-        expiresIn: configManager.getValue(ConfigKey.JWT_TOKEN_EXPIRE_IN)
+        expiresIn: configManager.getValue(ConfigKey.JWT_TOKEN_EXPIRE_IN),
       },
     }),
 
     // Client Module for ClientService
-    ClientModule
+    ClientModule,
   ],
   providers: [
     SecurityService,
@@ -52,14 +53,9 @@ import { ConfigModule } from '@nestjs/config';
     JwtGuard,
     JwtStrategy, // Ajout de JwtStrategy
     Reflector,
-    ClientService // Ajout de ClientService
+    ClientService, // Ajout de ClientService
   ],
   controllers: [SecurityController],
-  exports: [
-    SecurityService,
-    JwtGuard,
-    JwtModule,
-    PassportModule,TokenService
-  ],
+  exports: [SecurityService, JwtGuard, JwtModule, PassportModule, TokenService],
 })
 export class SecurityModule {}

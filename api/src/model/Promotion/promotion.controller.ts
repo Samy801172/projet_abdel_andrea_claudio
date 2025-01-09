@@ -1,5 +1,13 @@
 // src/model/Promotion/promotion.controller.ts
-import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Put,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { PromotionService } from './promotion.service';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreatePromotionDto } from './dto/create-promotion.dto';
@@ -12,8 +20,13 @@ export class PromotionController {
 
   @Post()
   @ApiOperation({ summary: 'Créer une nouvelle promotion' })
-  @ApiResponse({ status: 201, description: 'La promotion a été créée avec succès.' })
-  async createPromotion(@Body() createPromotionDto: CreatePromotionDto): Promise<Promotion> {
+  @ApiResponse({
+    status: 201,
+    description: 'La promotion a été créée avec succès.',
+  })
+  async createPromotion(
+    @Body() createPromotionDto: CreatePromotionDto,
+  ): Promise<Promotion> {
     try {
       return await this.promotionService.createPromotion(createPromotionDto);
     } catch (error) {
@@ -45,7 +58,10 @@ export class PromotionController {
 
   @Put(':id')
   @ApiOperation({ summary: 'Mettre à jour une promotion' })
-  update(@Param('id') id: string, @Body() updatePromotionDto: CreatePromotionDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updatePromotionDto: CreatePromotionDto,
+  ) {
     return this.promotionService.update(+id, updatePromotionDto);
   }
 

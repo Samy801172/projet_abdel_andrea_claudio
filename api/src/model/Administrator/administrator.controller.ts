@@ -1,5 +1,14 @@
 // src/controllers/administrator.controller.ts
-import { Controller, Post, Body, Get, Param, Patch, Delete, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Param,
+  Patch,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { UpdateAdministratorDto } from './dto/update-administrator.dto';
 import { Administrator } from './administrator.entity';
 import { CreateAdministratorDto } from './dto/create-administrator.dto';
@@ -13,7 +22,9 @@ export class AdministratorController {
   constructor(private readonly administratorService: AdministratorService) {}
 
   @Post()
-  async create(@Body() createAdministratorDto: CreateAdministratorDto): Promise<Administrator> {
+  async create(
+    @Body() createAdministratorDto: CreateAdministratorDto,
+  ): Promise<Administrator> {
     return this.administratorService.create(createAdministratorDto);
   }
 
@@ -28,7 +39,10 @@ export class AdministratorController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id: number, @Body() updateAdministratorDto: UpdateAdministratorDto): Promise<Administrator> {
+  async update(
+    @Param('id') id: number,
+    @Body() updateAdministratorDto: UpdateAdministratorDto,
+  ): Promise<Administrator> {
     return this.administratorService.update(id, updateAdministratorDto);
   }
 

@@ -1,5 +1,16 @@
 // src/controllers/type.controller.ts
-import { Controller, Get, Post, Body, Param, Put, Delete, ParseIntPipe, HttpStatus, BadRequestException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Put,
+  Delete,
+  ParseIntPipe,
+  HttpStatus,
+  BadRequestException,
+} from '@nestjs/common';
 import { TypeService } from './type.service';
 import { CreateTypeDto } from './dto/create-type.dto';
 import { UpdateTypeDto } from './dto/update-type.dto';
@@ -31,12 +42,18 @@ export class TypeController {
     return this.typeService.update(+id, updateTypeDto);
   }
 
-// Dans le backend (NestJS)
+  // Dans le backend (NestJS)
   @Delete(':id')
-  async remove(@Param('id', new ParseIntPipe({
-    errorHttpStatusCode: HttpStatus.BAD_REQUEST,
-    exceptionFactory: () => new BadRequestException('ID invalide')
-  })) id: number) {
+  async remove(
+    @Param(
+      'id',
+      new ParseIntPipe({
+        errorHttpStatusCode: HttpStatus.BAD_REQUEST,
+        exceptionFactory: () => new BadRequestException('ID invalide'),
+      }),
+    )
+    id: number,
+  ) {
     return this.typeService.remove(id);
   }
 }

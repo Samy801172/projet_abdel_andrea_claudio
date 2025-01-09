@@ -13,17 +13,19 @@ export class PrescriptionService {
     @InjectRepository(Prescription)
     private prescriptionRepository: Repository<Prescription>,
     @InjectRepository(Client)
-    private clientRepository: Repository<Client>
+    private clientRepository: Repository<Client>,
   ) {}
 
-  async create(createPrescriptionDto: CreatePrescriptionDto): Promise<Prescription> {
+  async create(
+    createPrescriptionDto: CreatePrescriptionDto,
+  ): Promise<Prescription> {
     const client = await this.clientRepository.findOne({
-      where: { clientId: createPrescriptionDto.client_id }
+      where: { clientId: createPrescriptionDto.client_id },
     });
 
     if (!client) {
       throw new NotFoundException(
-        `Client with ID ${createPrescriptionDto.client_id} not found`
+        `Client with ID ${createPrescriptionDto.client_id} not found`,
       );
     }
 
@@ -31,15 +33,17 @@ export class PrescriptionService {
       client_id: client.clientId,
       prescribed_by: createPrescriptionDto.prescribed_by,
       medication_details: createPrescriptionDto.medication_details,
-      expiry_date: createPrescriptionDto.expiry_date ||
+      expiry_date:
+        createPrescriptionDto.expiry_date ||
         new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 jours par défaut
       file_url: createPrescriptionDto.file_url,
       is_custom: createPrescriptionDto.is_custom,
       notes: createPrescriptionDto.notes,
-      status: PrescriptionStatus.PENDING
+      status: PrescriptionStatus.PENDING,
     });
 
-    const savedPrescription = await this.prescriptionRepository.save(prescription);
+    const savedPrescription =
+      await this.prescriptionRepository.save(prescription);
     return this.findOne(savedPrescription.id_prescription);
   }
 
@@ -47,15 +51,15 @@ export class PrescriptionService {
     return this.prescriptionRepository.find({
       relations: ['client'],
       order: {
-        issue_date: 'DESC'
-      }
+        issue_date: 'DESC',
+      },
     });
   }
 
   async findOne(id: number): Promise<Prescription> {
     const prescription = await this.prescriptionRepository.findOne({
       where: { id_prescription: id },
-      relations: ['client']
+      relations: ['client'],
     });
 
     if (!prescription) {
@@ -67,18 +71,18 @@ export class PrescriptionService {
 
   async update(
     id: number,
-    updatePrescriptionDto: UpdatePrescriptionDto
+    updatePrescriptionDto: UpdatePrescriptionDto,
   ): Promise<Prescription> {
     const prescription = await this.findOne(id);
 
     if (updatePrescriptionDto.client_id) {
       const client = await this.clientRepository.findOne({
-        where: { clientId: updatePrescriptionDto.client_id }
+        where: { clientId: updatePrescriptionDto.client_id },
       });
 
       if (!client) {
         throw new NotFoundException(
-          `Client #${updatePrescriptionDto.client_id} not found`
+          `Client #${updatePrescriptionDto.client_id} not found`,
         );
       }
 
@@ -88,13 +92,16 @@ export class PrescriptionService {
     // Mise à jour des autres champs
     const updatedPrescription = {
       ...prescription,
-      prescribed_by: updatePrescriptionDto.prescribed_by ?? prescription.prescribed_by,
-      medication_details: updatePrescriptionDto.medication_details ??
+      prescribed_by:
+        updatePrescriptionDto.prescribed_by ?? prescription.prescribed_by,
+      medication_details:
+        updatePrescriptionDto.medication_details ??
         prescription.medication_details,
-      expiry_date: updatePrescriptionDto.expiry_date ?? prescription.expiry_date,
+      expiry_date:
+        updatePrescriptionDto.expiry_date ?? prescription.expiry_date,
       file_url: updatePrescriptionDto.file_url ?? prescription.file_url,
       is_custom: updatePrescriptionDto.is_custom ?? prescription.is_custom,
-      notes: updatePrescriptionDto.notes ?? prescription.notes
+      notes: updatePrescriptionDto.notes ?? prescription.notes,
     };
 
     await this.prescriptionRepository.save(updatedPrescription);
@@ -111,15 +118,15 @@ export class PrescriptionService {
       where: { client_id: clientId },
       relations: ['client'],
       order: {
-        issue_date: 'DESC'
-      }
+        issue_date: 'DESC',
+      },
     });
   }
 
   async verifyPrescription(
     id: number,
     pharmacistId: number,
-    status: PrescriptionStatus
+    status: PrescriptionStatus,
   ): Promise<Prescription> {
     const prescription = await this.findOne(id);
 

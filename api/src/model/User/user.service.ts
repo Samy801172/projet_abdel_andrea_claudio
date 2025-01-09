@@ -12,7 +12,7 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    private readonly dataSource: DataSource, // Injection du DataSource ici
+    private readonly dataSource: DataSource // Injection du DataSource ici
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {

@@ -1,6 +1,12 @@
 // src/model/Paypal/dto/paypal-response.dto.ts
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsEnum, IsObject, IsArray, ValidateNested } from 'class-validator';
+import {
+  IsString,
+  IsEnum,
+  IsObject,
+  IsArray,
+  ValidateNested,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 
 export enum PaypalOrderStatus {
@@ -9,7 +15,7 @@ export enum PaypalOrderStatus {
   APPROVED = 'APPROVED',
   VOIDED = 'VOIDED',
   COMPLETED = 'COMPLETED',
-  PAYER_ACTION_REQUIRED = 'PAYER_ACTION_REQUIRED'
+  PAYER_ACTION_REQUIRED = 'PAYER_ACTION_REQUIRED',
 }
 
 class PaypalAmount {
@@ -78,7 +84,9 @@ export class PaypalOrderResponseDto {
   @ApiProperty()
   update_time?: string;
 
-  @ApiProperty({ example: 'https://api.sandbox.paypal.com/v2/checkout/orders/...' })
+  @ApiProperty({
+    example: 'https://api.sandbox.paypal.com/v2/checkout/orders/...',
+  })
   @IsString()
   links?: Array<{
     href: string;

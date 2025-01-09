@@ -9,6 +9,6 @@ import { OrderStatusEntity } from './orderStatus.entity';
   imports: [TypeOrmModule.forFeature([OrderStatusEntity])],
   controllers: [OrderStatusController],
   providers: [OrderStatusService],
-  exports: [OrderStatusService]
+  exports: [OrderStatusService],
 })
 export class OrderStatusModule {}

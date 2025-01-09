@@ -1,5 +1,9 @@
 import { NestFactory } from '@nestjs/core';
-import { ApiInterceptor, HttpExceptionFilter, swaggerConfiguration } from '@common/config';
+import {
+  ApiInterceptor,
+  HttpExceptionFilter,
+  swaggerConfiguration,
+} from '@common/config';
 import { ValidationPipe, Logger, BadRequestException } from '@nestjs/common';
 import { configManager } from '@common/config';
 import { ConfigKey } from '@common/config/enum';
@@ -26,10 +30,12 @@ const bootstrap = async () => {
   app.useGlobalPipes(
     new ValidationPipe({
       exceptionFactory: (validationErrors = []) => {
-        const messages = validationErrors.map(error => error.toString()).join(', ');
+        const messages = validationErrors
+          .map((error) => error.toString())
+          .join(', ');
         throw new BadRequestException(messages);
-      }
-    })
+      },
+    }),
   );
 
   // Swagger configuration

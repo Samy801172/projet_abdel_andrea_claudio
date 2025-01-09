@@ -12,7 +12,7 @@ export class PromotionService {
   // Injection du repository de l'entité Promotion pour accéder aux opérations TypeORM.
   constructor(
     @InjectRepository(Promotion)
-    private promotionRepository: Repository<Promotion>
+    private promotionRepository: Repository<Promotion>,
   ) {}
 
   // Méthode pour créer une nouvelle promotion.
@@ -32,7 +32,7 @@ export class PromotionService {
   // Elle lève une exception NotFoundException si aucune promotion n'est trouvée.
   async findOne(id: number): Promise<Promotion> {
     const promotion = await this.promotionRepository.findOne({
-      where: { id_promotion: id } // Utilisation de l'attribut 'id_promotion' comme clé primaire.
+      where: { id_promotion: id }, // Utilisation de l'attribut 'id_promotion' comme clé primaire.
     });
 
     // Gestion des cas où l'ID fourni ne correspond à aucune promotion.
@@ -45,14 +45,17 @@ export class PromotionService {
 
   // Méthode pour mettre à jour une promotion existante.
   // Elle utilise l'ID pour localiser la promotion et applique les nouvelles valeurs avant de sauvegarder.
-  async update(id: number, updatePromotionDto: CreatePromotionDto): Promise<Promotion> {
+  async update(
+    id: number,
+    updatePromotionDto: CreatePromotionDto,
+  ): Promise<Promotion> {
     const promotion = await this.findOne(id);
 
     // Mise à jour des propriétés de l'entité promotion avec les nouvelles valeurs.
     Object.assign(promotion, {
       ...updatePromotionDto,
       startDate: new Date(updatePromotionDto.startDate),
-      endDate: new Date(updatePromotionDto.endDate)
+      endDate: new Date(updatePromotionDto.endDate),
     });
 
     return await this.promotionRepository.save(promotion);
@@ -79,12 +82,14 @@ export class PromotionService {
 
   // Méthode pour créer une nouvelle promotion avec des validations supplémentaires.
   // Cette méthode semble redondante avec `create` et pourrait être fusionnée.
-  async createPromotion(createPromotionDto: CreatePromotionDto): Promise<Promotion> {
+  async createPromotion(
+    createPromotionDto: CreatePromotionDto,
+  ): Promise<Promotion> {
     const promotion = this.promotionRepository.create({
       description: createPromotionDto.description,
       startDate: new Date(createPromotionDto.startDate),
       endDate: new Date(createPromotionDto.endDate),
-      discountPercentage: createPromotionDto.discountPercentage
+      discountPercentage: createPromotionDto.discountPercentage,
     });
 
     return await this.promotionRepository.save(promotion);

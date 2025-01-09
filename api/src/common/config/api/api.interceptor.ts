@@ -1,9 +1,15 @@
-import { CallHandler, ExecutionContext, Injectable, Logger, NestInterceptor } from "@nestjs/common";
-import { ApiCodeResponse } from "./enum";
+import {
+  CallHandler,
+  ExecutionContext,
+  Injectable,
+  Logger,
+  NestInterceptor,
+} from '@nestjs/common';
+import { ApiCodeResponse } from './enum';
 import { configManager } from '@common/config';
-import { ConfigKey } from "../enum";
-import { isNil } from "lodash";
-import { Observable, map, catchError, of } from "rxjs";
+import { ConfigKey } from '../enum';
+import { isNil } from 'lodash';
+import { Observable, map, catchError, of } from 'rxjs';
 
 @Injectable()
 export class ApiInterceptor implements NestInterceptor {
@@ -13,17 +19,19 @@ export class ApiInterceptor implements NestInterceptor {
     const ctx = context.switchToHttp();
     const path = ctx.getRequest().route.path;
 
-    return next
-      .handle()
-      .pipe(
-        map((response: any) => {
-          return { code: this.map(path), data: response, result: true };
-        }),
-        catchError((error) => {
-          this.logger.error(error);
-          return of({ code: ApiCodeResponse.COMMON_ERROR, data: null, result: false });
-        })
-      );
+    return next.handle().pipe(
+      map((response: any) => {
+        return { code: this.map(path), data: response, result: true };
+      }),
+      catchError((error) => {
+        this.logger.error(error);
+        return of({
+          code: ApiCodeResponse.COMMON_ERROR,
+          data: null,
+          result: false,
+        });
+      }),
+    );
   }
 
   map(path: string): ApiCodeResponse {
@@ -31,12 +39,15 @@ export class ApiInterceptor implements NestInterceptor {
     const part = path
       .replace(configManager.getValue(ConfigKey.APP_BASE_URL), '')
       .split('/')
-      .filter(s => s.length > 0)
+      .filter((s) => s.length > 0)
       .slice(0, 2)
-      .map(s => s.toUpperCase());
+      .map((s) => s.toUpperCase());
 
     console.log(`codeResponse: ${part.join('_')}_SUCCESS`);
-    const code = ApiCodeResponse[`${part.join('_')}_SUCCESS` as keyof typeof ApiCodeResponse];
+    const code =
+      ApiCodeResponse[
+        `${part.join('_')}_SUCCESS` as keyof typeof ApiCodeResponse
+      ];
     return isNil(code) ? ApiCodeResponse.COMMON_SUCCESS : code;
   }
 }

@@ -1,5 +1,5 @@
-import {TypeOrmModuleOptions} from '@nestjs/typeorm';
-import { ConfigKey, configMinimalKeys } from "./enum";
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { ConfigKey, configMinimalKeys } from './enum';
 
 require('dotenv').config();
 class ConfigManager {
@@ -17,8 +17,8 @@ class ConfigManager {
       password: this.getValue(ConfigKey.DB_PASSWORD),
       database: this.getValue(ConfigKey.DB_DATABASE),
       entities: [__dirname + '/../../**/*.entity{.ts,.js}'],
-      synchronize: (this.getValue(ConfigKey.DB_SYNC)=== 'true'),
-    }
+      synchronize: this.getValue(ConfigKey.DB_SYNC) === 'true',
+    };
   }
   getValue(key: ConfigKey, throwOnMissing = true): string {
     const value = this.env[key];
@@ -28,5 +28,7 @@ class ConfigManager {
     return value;
   }
 }
-const configManager = new ConfigManager(process.env).ensureValues(configMinimalKeys);
-export {configManager}
+const configManager = new ConfigManager(process.env).ensureValues(
+  configMinimalKeys,
+);
+export { configManager };

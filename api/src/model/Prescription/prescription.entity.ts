@@ -1,5 +1,11 @@
 // src/models/prescription/prescription.entity.ts
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  CreateDateColumn,
+} from 'typeorm';
 import { Client } from 'model/Client/client.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -7,7 +13,7 @@ export enum PrescriptionStatus {
   PENDING = 'PENDING',
   VERIFIED = 'VERIFIED',
   REJECTED = 'REJECTED',
-  EXPIRED = 'EXPIRED'
+  EXPIRED = 'EXPIRED',
 }
 
 @Entity('prescription')
@@ -16,16 +22,16 @@ export class Prescription {
   @ApiProperty()
   id_prescription: number;
 
-  @ManyToOne(() => Client, client => client.prescriptions)
+  @ManyToOne(() => Client, (client) => client.prescriptions)
   client: Client;
 
   @Column()
   @ApiProperty()
-  client_id: number;  // Snake case pour cohérence avec la DB
+  client_id: number; // Snake case pour cohérence avec la DB
 
   @Column()
   @ApiProperty()
-  prescribed_by: string;  // Renamed from doctorName for consistency
+  prescribed_by: string; // Renamed from doctorName for consistency
 
   @Column({ type: 'text' })
   @ApiProperty()
@@ -46,7 +52,7 @@ export class Prescription {
   @Column({
     type: 'enum',
     enum: PrescriptionStatus,
-    default: PrescriptionStatus.PENDING
+    default: PrescriptionStatus.PENDING,
   })
   @ApiProperty({ enum: PrescriptionStatus })
   status: PrescriptionStatus;

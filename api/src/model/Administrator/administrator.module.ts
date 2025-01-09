@@ -6,9 +6,7 @@ import { UserModule } from '../User/user.module'; // Importez le UserModule
 import { AdministratorController } from './administrator.controller';
 import { Administrator } from './administrator.entity';
 
-
 @Module({
-
   imports: [
     TypeOrmModule.forFeature([Administrator]),
     UserModule,
