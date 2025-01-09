@@ -49,7 +49,7 @@ export class SecurityService {
     throw new UserNotFoundException();
   }
 
-  // Part signIn
+  // Part signIn (modifié par Claudio)
   async signIn(payload: SignInPayload, isAdmin: boolean): Promise<Token> {
     try {
       // Validation des identifiants
