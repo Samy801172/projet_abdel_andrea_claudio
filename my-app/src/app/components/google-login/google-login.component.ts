@@ -22,22 +22,22 @@ export class GoogleLoginComponent implements OnInit {
       callback: (response: { credential: string }) => this.handleCredentialResponse(response),
     });
 
-    google.accounts.id.renderButton(
-      document.getElementById('google-login-button')!,
-      {
-        theme: 'outline',
-        size: 'large',
-      }
-    );
+    google.accounts.id.renderButton(document.getElementById('google-login-button')!, {
+      theme: 'outline',
+      size: 'large',
+    });
   }
 
   handleCredentialResponse(response: any): void {
     this.authService.googleLogin(response.credential).subscribe({
       next: () => {
         console.log('Connexion réussie avec Google');
-        this.router.navigate(['/']); // Rediriger vers la page d'accueil
+        // Recharger la page de login
+        this.router.navigate(['/']).then(() => {
+          window.location.reload(); // Force le rafraîchissement complet
+        });
       },
-      error: err => console.error('Erreur de connexion Google:', err),
+      error: (err) => console.error('Erreur de connexion Google:', err),
     });
   }
 }

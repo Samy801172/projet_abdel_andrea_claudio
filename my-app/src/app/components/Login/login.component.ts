@@ -75,7 +75,9 @@ export class LoginComponent {
         this.router.navigate(['/admin']);
         this.notification.success("Connecté en tant qu'administrateur");
       } else {
-        this.router.navigate(['/client']);
+        this.router.navigate(['/']).then(() => {
+          window.location.reload(); // Forcer le rafraîchissement complet après la navigation
+        });// Forcer le rafraîchissement complet après la navigation
         this.notification.success("Connecté en tant qu'utilisateur");
       }
     } catch (error) {
