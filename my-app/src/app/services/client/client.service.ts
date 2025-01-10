@@ -21,7 +21,7 @@ export class ClientService {
   }
 
   updateProfile(clientId: number, updateData: any): Observable<any> {
-    return this.http.put<any>(`${this.API_URL}/${clientId}`, updateData);
+    return this.http.put<any>(`${this.API_URL}/${clientId}/updateProfile`, updateData);
   }
 
 

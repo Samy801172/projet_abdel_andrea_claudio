@@ -15,6 +15,7 @@ import { BadRequestException } from '@nestjs/common';
 import { ClientService } from './client.service';
 import { UpdateClientDto } from './dto/update-client.dto';
 import { CreateClientDto } from './dto/create-client.dto';
+import { UpdateProfileDto } from './dto/updateProfile.dto'
 
 // pour récupérer le clientId
 
@@ -33,6 +34,7 @@ export class ClientController {
     return this.clientService.findAll();
   }
 
+  // C'est ici qu'on récupère le client par son clientid
   @Get('profile/:clientId')
   async findProfile(@Param('clientId') clientId: string) {
     console.log('Recherche du client avec clientId :', clientId);
@@ -56,8 +58,6 @@ export class ClientController {
     console.log('Client trouvé :', client);
     return client;
   }
-
-
   @Get('credential/:credentialId')
   async findByCredentialId(@Param('credentialId') credentialId: string) {
     const client = await this.clientService.findByCredentialId(credentialId);
@@ -66,8 +66,6 @@ export class ClientController {
     }
     return client;
   }
-
-
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.clientService.findOne(id);
@@ -80,5 +78,11 @@ export class ClientController {
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.clientService.remove(id);
+  }
+
+  // pour mettre à jour le profil utilisateur
+  @Put(':id/updateProfile')
+  updateProfileUser(@Param('id') id: number, @Body() updateProfileDto: UpdateProfileDto) {
+    return this.clientService.updateProfile(id, updateProfileDto);
   }
 }

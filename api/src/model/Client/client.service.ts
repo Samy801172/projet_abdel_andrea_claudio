@@ -75,4 +75,34 @@ export class ClientService {
     console.log('Client trouvé:', client);
     return client;
   }
+
+  //Mise à jour du profile de l'utilisateur
+  async updateProfile(clientId: number, updateClientDto: UpdateClientDto): Promise<Client> {
+    // Récupérer le client à partir de l'ID
+    const client = await this.clientRepository.findOne({
+      where: { clientId },
+    });
+
+    if (!client) {
+      throw new NotFoundException(`Client with ID ${clientId} not found`);
+    }
+
+    // Mise à jour des champs autorisés uniquement
+    if (updateClientDto.firstName) {
+      client.firstName = updateClientDto.firstName;
+    }
+
+    if (updateClientDto.lastName) {
+      client.lastName = updateClientDto.lastName;
+    }
+
+    if (updateClientDto.address) {
+      client.address = updateClientDto.address;
+    }
+
+    // Sauvegarde des modifications
+    return await this.clientRepository.save(client);
+  }
+
+
 }
