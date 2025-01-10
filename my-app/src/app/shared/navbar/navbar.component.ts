@@ -3,11 +3,17 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
+import { ClientService } from '../../services/client/client.service';
+import { Client } from '../../models/client/client.model';
+import { User } from '../../models/user/user.model';
+import {
+  ClientProfileComponent
+} from "../../feature/dashboard/DashboardComponent/client/profile/client-profile.component";
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule,],
   template: `
     <nav class="navbar">
       <div class="nav-content">
@@ -34,6 +40,7 @@ import { AuthService } from '../../services/auth/auth.service';
             <button (click)="onLogout()" class="nav-link logout">
               Déconnexion
             </button>
+            <a routerLink="/client/profile" class="nav-link-profile">[connecté: {{ ClientProfileComponent.pseudo }}]</a>
           }
 
           @if (authService.isAuthenticated() && authService.isAdmin()) {
@@ -113,6 +120,43 @@ import { AuthService } from '../../services/auth/auth.service';
       }
     }
 
+    .nav-link-profile{
+      color: yellow;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.7rem;
+      padding: 0.6rem 1rem;
+      border-radius: 2px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      letter-spacing: 0.3px;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.15);
+        transform: translateY(-1px);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+
+      &.logout {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font: inherit;
+        color: #FFD2D2;
+        border: 1px solid #FFD2D2;
+
+        &:hover {
+          background: rgba(255, 210, 210, 0.1);
+          color: white;
+        }
+      }
+
+    }
+
     @media (max-width: 1024px) {
       .nav-content {
         flex-direction: column;
@@ -159,11 +203,38 @@ import { AuthService } from '../../services/auth/auth.service';
   `]
 })
 export class NavbarComponent {
-  constructor(public authService: AuthService) {}
+  credential: string | null = localStorage.getItem("clientId");
+
+  constructor(public authService: AuthService, private clientService: ClientService) {}
+
+  ngOnInit()
+  {
+    this.loadName();
+  }
+
+  // charge le Prénom pour afficher dans le navbar (Claudio)
+  loadName(): void {
+    if (this.credential == null) {
+      console.warn('Credential non défini, impossible de charger le profil.');
+      console.log(this.credential);
+      return;
+    }
+    this.clientService.getClientProfile(Number(this.credential)).subscribe({
+      next: (data) => {
+        ClientProfileComponent.pseudo = data.firstName;
+      },
+      error: (error) => {
+        console.error('Erreur chargement profil :', error);
+      },
+    });
+  }
 
   onLogout(): void {
     if (confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
       this.authService.logout();
     }
   }
+
+  protected readonly ClientService = ClientService;
+  protected readonly ClientProfileComponent = ClientProfileComponent;
 }

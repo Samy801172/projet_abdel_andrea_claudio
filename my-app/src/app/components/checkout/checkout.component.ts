@@ -8,6 +8,11 @@ import { CartItem } from '../../models/cart/cart-item.model';
 import {CommonModule} from '@angular/common';
 import {PaypalButtonComponent} from '../PayPal/paypal-button.component';
 import {PaymentComponent} from '../payment/payment.component';
+import {
+  ClientProfileComponent
+} from "../../feature/dashboard/DashboardComponent/client/profile/client-profile.component";
+
+import { ClientService } from '../../services/client/client.service';
 
 @Component({
   selector: 'app-checkout',
@@ -26,17 +31,41 @@ export class CheckoutComponent implements OnInit {
   readyToPay = false; // Indique si le paiement est prêt à être traité
   amount: number = 0; // Montant total à payer
 
+  // on récupère le clientid pour pouvoir aller récupérer l'adresse du client
+  credential: string | null = localStorage.getItem("clientId");
+
   constructor(
     private router: Router, // Service de navigation
     private checkoutService: CheckoutService, // Service de gestion de la commande
     private cartService: CartService, // Service de gestion du panier
-    private notificationService: NotificationService // Service pour afficher des notifications
+    private notificationService: NotificationService, // Service pour afficher des notifications
+    private clientService: ClientService, // pour afficher l'adresse
   ) {}
 
   ngOnInit() {
     this.loadCartItems(); // Charge les articles du panier lors de l'initialisation
+    this.loadAdress();
   }
 
+  // ceci va charger l'adresse du client by Claudio
+  loadAdress(): void {
+    if (this.credential == null) {
+      console.warn('Credential non défini, impossible de charger le profil.');
+      console.log(this.credential);
+      return;
+    }
+    this.clientService.getClientProfile(Number(this.credential)).subscribe({
+      next: (data) => {
+        ClientProfileComponent.adresse = data.address;
+        console.log("Pseudo =", ClientProfileComponent.pseudo);
+      },
+      error: (error) => {
+        console.error('Erreur chargement profil :', error);
+      },
+    });
+  }
+
+  // ceci charge les items du caddie
   loadCartItems() {
     this.cartService.getCartItems().subscribe({
       next: (items) => {
@@ -131,4 +160,6 @@ export class CheckoutComponent implements OnInit {
       this.notificationService.error('Erreur lors de la préparation de la commande'); // Notification d'erreur
     }
   }
+
+  protected readonly ClientProfileComponent = ClientProfileComponent;
 }
