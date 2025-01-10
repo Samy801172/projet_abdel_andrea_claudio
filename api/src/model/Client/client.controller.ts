@@ -15,7 +15,7 @@ import { BadRequestException } from '@nestjs/common';
 import { ClientService } from './client.service';
 import { UpdateClientDto } from './dto/update-client.dto';
 import { CreateClientDto } from './dto/create-client.dto';
-import { UpdateProfileDto } from './dto/updateProfile.dto'
+import { UpdateProfileDto } from './dto/updateProfile.dto';
 
 // pour récupérer le clientId
 

@@ -71,12 +71,16 @@ export class ClientProfileComponent implements OnInit {
             this.client = updatedClient; // Mise à jour de l'objet client
             this.editMode = false; // Désactivation du mode édition
           }
+          // Ajout d'un délai avant de recharger la page
+          setTimeout(() => {
+            window.location.reload(); // Actualiser la page
+          }, 1000); // après 1 seconde
           this.notification.success('Profile mis à jour avec succès !');
         },
         error: (error) => {
           console.error('Erreur mise à jour profil:', error);
           this.notification.error('Erreur lors de la mise à jour du profil.');
-        },
+        }
       });
 
       // Navigation après soumission

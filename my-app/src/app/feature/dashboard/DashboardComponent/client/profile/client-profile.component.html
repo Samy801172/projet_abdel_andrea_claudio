@@ -76,7 +76,7 @@
       </div>
 
       <div class="form-actions">
-        <button type="submit" class="save-btn">Enregistrer</button>
+        <button type="button" class="save-btn" (click)=updateProfile() (click)="editMode = false">Enregistrer</button>
         <button type="button" (click)="editMode = false" class="cancel-btn">
           Annuler
         </button>
