@@ -31,7 +31,6 @@ export class ClientService {
     }
     return client;
   }
-  cd;
 
   async update(id: number, updateClientDto: UpdateClientDto): Promise<Client> {
     const client = await this.findOne(id);
@@ -50,6 +49,27 @@ export class ClientService {
       .createQueryBuilder('client')
       .leftJoinAndSelect('client.credential', 'credential')
       .where('credential.credential_id = :credentialId', { credentialId })
+      .getOne();
+
+    console.log('Client trouvé:', client);
+    return client;
+  }
+
+  async findProfileById(clientId: number): Promise<Client | null> {
+    console.log('Recherche client pour clientId:', clientId);
+
+    const client = await this.clientRepository
+      .createQueryBuilder('client')
+      .leftJoinAndSelect('client.credential', 'credential') // Assurez-vous que la relation est bien définie
+      .select([
+        'client.clientId',
+        'client.firstName',
+        'client.lastName',
+        'client.address',
+        'credential.username', // Inclure les données de Credential
+        'credential.mail', // Inclure les données de Credential
+      ])
+      .where('client.clientId = :clientId', { clientId })
       .getOne();
 
     console.log('Client trouvé:', client);

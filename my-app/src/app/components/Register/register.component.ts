@@ -4,6 +4,7 @@ import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {Router, RouterModule} from '@angular/router';
 import {AuthService} from '../../services/auth/auth.service';
+import { NotificationService } from '../../services/notification/notification.service';
 
 @Component({
   selector: 'app-register',
@@ -28,7 +29,8 @@ export class RegisterComponent {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private notification: NotificationService
   ) {}
 
   onSubmit() {
@@ -50,10 +52,12 @@ export class RegisterComponent {
     this.authService.signup(signupPayload).subscribe({
       next: (response) => {
         console.log('Inscription réussie:', response);
+        this.notification.success("Votre compte a été créé avec succès !");
         this.router.navigate(['/login']);
       },
       error: (error) => {
         console.error('Erreur inscription:', error);
+        this.notification.error("Erreur inscription:", error);
         // On personnalise juste le message d'erreur
         this.error = error.status === 409
           ? 'Cet email est déjà utilisé. Veuillez en choisir un autre ou vous connecter.'

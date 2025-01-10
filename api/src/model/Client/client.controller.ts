@@ -10,10 +10,13 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { BadRequestException } from '@nestjs/common';
 
 import { ClientService } from './client.service';
 import { UpdateClientDto } from './dto/update-client.dto';
 import { CreateClientDto } from './dto/create-client.dto';
+
+// pour récupérer le clientId
 
 @ApiTags('clients')
 @Controller('clients')
@@ -30,6 +33,31 @@ export class ClientController {
     return this.clientService.findAll();
   }
 
+  @Get('profile/:clientId')
+  async findProfile(@Param('clientId') clientId: string) {
+    console.log('Recherche du client avec clientId :', clientId);
+
+    // Conversion de clientId en nombre
+    const clientIdNumber = parseInt(clientId, 10);
+
+    if (isNaN(clientIdNumber)) {
+      console.error('clientId doit être un nombre valide.');
+      throw new BadRequestException('clientId doit être un nombre valide.');
+    }
+
+    // Appel de la méthode basée sur clientId
+    const client = await this.clientService.findProfileById(clientIdNumber);
+
+    if (!client) {
+      console.error('Client non trouvé pour clientId :', clientIdNumber);
+      throw new NotFoundException('Client non trouvé');
+    }
+
+    console.log('Client trouvé :', client);
+    return client;
+  }
+
+
   @Get('credential/:credentialId')
   async findByCredentialId(@Param('credentialId') credentialId: string) {
     const client = await this.clientService.findByCredentialId(credentialId);
@@ -38,6 +66,7 @@ export class ClientController {
     }
     return client;
   }
+
 
   @Get(':id')
   findOne(@Param('id') id: number) {

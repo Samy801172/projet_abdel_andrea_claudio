@@ -18,6 +18,7 @@ import { AuthService } from '../../services/auth/auth.service';
         </div>
         <div class="nav-links">
           @if (!authService.isAuthenticated()) {
+            <a routerLink="/" class="nav-link">Accueil</a>
             <a routerLink="/login" class="nav-link">Connexion</a>
             <a routerLink="/register" class="nav-link">Inscription</a>
           }

@@ -15,13 +15,15 @@ export class ClientService {
 
   constructor(private http: HttpClient) {}
 
-  getClientProfile(): Observable<Client> {
-    return this.http.get<Client>(`${this.API_URL}/profile`);
+
+  getClientProfile(clientId: number): Observable<Client> {
+    return this.http.get<Client>(`${this.API_URL}/profile/${clientId}`); // Assure-toi que l'URL est correcte
   }
 
-  updateProfile(clientId: number, data: Partial<Client>): Observable<Client> {
-    return this.http.put<Client>(`${this.API_URL}/${clientId}`, data);
+  updateProfile(clientId: number, updateData: any): Observable<any> {
+    return this.http.put<any>(`${this.API_URL}/${clientId}`, updateData);
   }
+
 
   getClientOrders(clientId: number): Observable<Order[]> {
     return this.http.get<Order[]>(`${this.API_URL}/${clientId}/orders`);
