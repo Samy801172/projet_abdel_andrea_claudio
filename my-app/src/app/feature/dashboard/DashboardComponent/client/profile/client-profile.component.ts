@@ -28,10 +28,6 @@ export class ClientProfileComponent implements OnInit {
   editMode = false;
   editForm: any = {}; // Initialisation de l'objet utilisé pour l'édition
   credential: string | null = localStorage.getItem("clientId");
-  //ceci stock la variable pour afficher le pseudo dans la navbar
-  public static pseudo: string;
-  // ceci stock la variable pour afficher l'adresse dans le panier
-  public static adresse: string;
 
   constructor(private clientService: ClientService,
               private cdr: ChangeDetectorRef,

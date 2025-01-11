@@ -33,6 +33,8 @@ export class CheckoutComponent implements OnInit {
 
   // on récupère le clientid pour pouvoir aller récupérer l'adresse du client
   credential: string | null = localStorage.getItem("clientId");
+  adresse: string = "";
+  client : any;
 
   constructor(
     private router: Router, // Service de navigation
@@ -56,8 +58,8 @@ export class CheckoutComponent implements OnInit {
     }
     this.clientService.getClientProfile(Number(this.credential)).subscribe({
       next: (data) => {
-        ClientProfileComponent.adresse = data.address;
-        console.log("Pseudo =", ClientProfileComponent.pseudo);
+        this.client = data;
+        this.adresse = data.address;
       },
       error: (error) => {
         console.error('Erreur chargement profil :', error);

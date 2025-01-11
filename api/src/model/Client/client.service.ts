@@ -103,6 +103,4 @@ export class ClientService {
     // Sauvegarde des modifications
     return await this.clientRepository.save(client);
   }
-
-
 }

@@ -40,7 +40,7 @@ import {
             <button (click)="onLogout()" class="nav-link logout">
               Déconnexion
             </button>
-            <a routerLink="/client/profile" class="nav-link-profile">[connecté: {{ ClientProfileComponent.pseudo }}]</a>
+            <a routerLink="/client/profile" class="nav-link-profile">[connecté: {{ client?.credential.username }}]</a>
           }
 
           @if (authService.isAuthenticated() && authService.isAdmin()) {
@@ -204,6 +204,8 @@ import {
 })
 export class NavbarComponent {
   credential: string | null = localStorage.getItem("clientId");
+  client: any;
+  editForm: any = {}; // Initialisation de l'objet utilisé pour l'édition
 
   constructor(public authService: AuthService, private clientService: ClientService) {}
 
@@ -212,7 +214,7 @@ export class NavbarComponent {
     this.loadName();
   }
 
-  // charge le Prénom pour afficher dans le navbar (Claudio)
+  // ceci va charger l'username du client
   loadName(): void {
     if (this.credential == null) {
       console.warn('Credential non défini, impossible de charger le profil.');
@@ -221,7 +223,8 @@ export class NavbarComponent {
     }
     this.clientService.getClientProfile(Number(this.credential)).subscribe({
       next: (data) => {
-        ClientProfileComponent.pseudo = data.firstName;
+        this.client = data;
+        this.editForm = { ...this.client }; // Copie les données du client dans editForm
       },
       error: (error) => {
         console.error('Erreur chargement profil :', error);
