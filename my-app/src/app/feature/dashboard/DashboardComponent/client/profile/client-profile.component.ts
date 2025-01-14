@@ -86,8 +86,6 @@ export class ClientProfileComponent implements OnInit {
     }
   }
 
-
-
   // Pour mettre à jour le profile
   updateProfile(): void {
     if (this.client && this.editForm) {

@@ -1,0 +1,59 @@
+<div class="order-detail-container">
+  @if (loading) {
+    <div class="loading">Chargement des détails...</div>
+  }
+
+  @if (error) {
+    <div class="error">{{ error }}</div>
+  }
+
+  @if (!loading && order) {
+    <div class="order-detail-card">
+      <div class="order-header">
+        <div class="order-info">
+          <h2 class="order-title">Commande #{{ order.id_order }}</h2>
+          <span class="order-date">{{ order.date_order | date:'dd/MM/yyyy' }}</span>
+        </div>
+        <span class="status" [class]="getStatusClass(order.id_statut)">
+              {{ getStatusLabel(order.id_statut) }}
+        </span>
+      </div>
+
+      <div class="delivery-address">
+        <h3 class="section-title">Adresse de livraison</h3>
+        <p class="address-details">{{client?.address}}</p>
+      </div>
+
+      <div class="products-list">
+        <h3 class="section-title">Produits commandés</h3>
+        @for (detail of order.orderDetails; track detail.id_order_detail) {
+          <div class="product-item">
+            <div class="product-info">
+              <h4 class="product-name">{{ detail.product.name }}</h4>
+            </div>
+            <div class="product-details">
+              <div class="quantity">
+                Quantité: {{ detail.quantity }}
+              </div>
+              <div class="price-details">
+                <span class="unit-price">{{ detail.unit_price | currency:'EUR' }} / unité</span>
+                <span class="line-total">{{ detail.quantity * detail.unit_price | currency:'EUR' }}</span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="order-summary">
+        <div class="total-section">
+          <span class="total-label">Total de la commande:</span>
+          <span class="total-amount">{{ order.montant_total | currency:'EUR' }}</span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="back-btn" (click)="goBack()">Retour aux commandes</button>
+      </div>
+    </div>
+  }
+</div>

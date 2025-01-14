@@ -1,48 +1,61 @@
-<!-- client-orders.component.html -->
 <div class="orders-container">
-  <!-- Loading state -->
+  <h2>Mes Commandes</h2>
+
   @if (loading) {
     <div class="loading">Chargement des commandes...</div>
   }
 
-  <!-- Error state -->
   @if (error) {
-    <div class="error-message">{{ error }}</div>
+    <div class="error">{{ error }}</div>
   }
 
-  <!-- Orders list -->
   @if (!loading && !error) {
     @if (orders.length === 0) {
-      <div class="no-orders">Vous n'avez pas encore de commandes</div>
+      <div class="empty-state">
+        Vous n'avez pas encore de commande
+      </div>
     } @else {
-      @for (order of orders; track order.orderId) {
-        <div class="order-card">
-          <div class="order-header">
-            <span class="order-number">Commande #{{ order.orderId }}</span>
-            <span class="order-date">{{ order.date | date:'dd/MM/yyyy' }}</span>
-            <span [class]="getStatusClass(order.status)">
-              {{ getStatusLabel(order.status) }}
-            </span>
-          </div>
+      <div class="orders-list">
+        @for (order of orders; track order.id_order) {
+          <div class="order-card">
+            <div class="order-header">
+              <span class="order-number">Commande #{{ order.id_order }}</span>
+              <div class="order-info">
+                <span class="order-date">{{ order.date_order | date:'dd/MM/yyyy' }}</span>
+                <span class="status" [class]="getStatusClass(order.id_statut)">
+                      {{ getStatusLabel(order.id_statut) }}
+                    </span>
+              </div>
+            </div>
 
-          <div class="order-products">
-            @for (product of order.products; track product.productId) {
-              <div class="product-item">
-                <span class="product-name">{{ product.name }}</span>
-                <span class="product-quantity">x{{ product.quantity }}</span>
-                <span class="product-price">{{ product.price | currency:'EUR' }}</span>
-                <span class="product-total">{{ product.quantity * product.price | currency:'EUR' }}</span>
+            @if (order.orderDetails && order.orderDetails.length > 0) {
+              <div class="order-products">
+                @for (detail of order.orderDetails; track detail.id_order_detail) {
+                  <div class="product-item">
+                    <span class="product-name">{{ detail.product.name }}</span>
+                    <span class="product-quantity">x{{ detail.quantity }}</span>
+                    <div class="price-info">
+                      <span class="original-price">{{ detail.product.price | currency:'EUR' }}</span>
+                      <span class="final-price">{{ detail.unit_price | currency:'EUR' }}</span>
+                    </div>
+                  </div>
+                }
               </div>
             }
-          </div>
 
-          <div class="order-footer">
-            <span class="order-total">
-              Total: {{ calculateOrderTotal(order) | currency:'EUR' }}
-            </span>
+            <div class="order-footer">
+              <div class="order-totals">
+                    <span class="order-total">
+                      Total: {{ order.montant_total | currency:'EUR' }}
+                    </span>
+              </div>
+              <button class="details-btn" (click)="viewOrderDetails(order.id_order)">
+                Voir le détail
+              </button>
+            </div>
           </div>
-        </div>
-      }
+        }
+      </div>
     }
   }
 </div>

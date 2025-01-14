@@ -7,153 +7,57 @@ import { Order } from '../../../../../models/order/order.model';
 import {ClientDashboardComponent} from '../client-dashboard.component';
 import {ClientOrdersComponent} from './client-orders.component';
 import {AuthGuard} from '../../../guard/auth.guard';
+import { ClientService } from '../../../../../services';
 
 @Component({
   selector: 'app-client-order-detail',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <div class="order-detail-container">
-      @if (loading) {
-        <div class="loading">Chargement des détails...</div>
-      }
-
-      @if (error) {
-        <div class="error">{{ error }}</div>
-      }
-
-      @if (!loading && order) {
-        <div class="order-detail-card">
-          <div class="order-header">
-            <div class="order-info">
-              <h2>Commande #{{ order.id_order }}</h2>
-              <span class="order-date">{{ order.date_order | date:'dd/MM/yyyy' }}</span>
-            </div>
-            <span class="status" [class]="getStatusClass(order.id_statut)">
-              {{ getStatusLabel(order.id_statut) }}
-            </span>
-          </div>
-
-          <div class="products-list">
-            <h3>Produits commandés</h3>
-            @for (detail of order.orderDetails; track detail.id_order_detail) {
-              <div class="product-item">
-                <div class="product-info">
-                  <h4>{{ detail.product.name }}</h4>
-                </div>
-                <div class="product-details">
-                  <div class="quantity">
-                    Quantité: {{ detail.quantity }}
-                  </div>
-                  <div class="price-details">
-                    <span class="unit-price">{{ detail.unit_price | currency:'EUR' }} / unité</span>
-                    <span class="line-total">{{ detail.quantity * detail.unit_price | currency:'EUR' }}</span>
-                  </div>
-                </div>
-              </div>
-            }
-          </div>
-
-          <div class="order-summary">
-            <div class="total-section">
-              <span>Total de la commande:</span>
-              <span class="total-amount">{{ order.montant_total | currency:'EUR' }}</span>
-            </div>
-          </div>
-
-          <div class="actions">
-            <button class="back-btn" (click)="goBack()">Retour aux commandes</button>
-          </div>
-        </div>
-      }
-    </div>
-  `,
-  styles: [`
-    .order-detail-container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    .order-detail-card {
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      padding: 24px;
-    }
-
-    .order-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid #eee;
-    }
-
-    .order-info h2 {
-      margin: 0;
-      color: #2d3748;
-      font-size: 1.5rem;
-    }
-
-    .product-item {
-      padding: 16px;
-      border-bottom: 1px solid #eee;
-    }
-
-    .product-details {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 12px;
-    }
-
-    .price-details {
-      text-align: right;
-    }
-
-    .status {
-      padding: 6px 12px;
-      border-radius: 15px;
-      font-size: 0.9em;
-    }
-
-    .status-1 { background: #fff3cd; color: #856404; }
-    .status-2 { background: #cce5ff; color: #004085; }
-    .status-3 { background: #d4edda; color: #155724; }
-    .status-4 { background: #d4edda; color: #155724; }
-    .status-5 { background: #f8d7da; color: #721c24; }
-
-    .back-btn {
-      background: #4f46e5;
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-top: 20px;
-    }
-  `]
+  templateUrl: './client-order-detail.component.html',
+  styleUrl: './client-order-detail.component.scss',
 })
 export class ClientOrderDetailComponent implements OnInit {
   order: Order | null = null;
   loading = false;
   error: string | null = null;
+  credential: string | null = localStorage.getItem("clientId"); // charge le clientId du client en question
+  client: any;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private clientService: ClientService
   ) {}
 
   ngOnInit() {
     const orderId = this.route.snapshot.paramMap.get('id');
     if (orderId) {
       this.loadOrderDetails(+orderId);
+      this.loadProfile();
     }
   }
 
+  // charge le profile de l'utilisateur (Claudio)
+  loadProfile(): void {
+    if (this.credential == null) {
+      console.warn('Credential non défini, impossible de charger le profil.');
+      return;
+    }
+    this.clientService.getClientProfile(Number(this.credential)).subscribe({
+      next: (data) => {
+        this.client = data;
+        console.log("l'id est : ", this.credential);
+        console.log("l'adresse du client : ", this.client?.address || ' - Adresse non définie');
+        console.log("Nom client : ", this.client?.lastName || ' - Nom non défini');
+      },
+      error: (error) => {
+        console.error('Erreur chargement profil :', error);
+      },
+    });
+  }
+
+  //Charge les données de la commande par son orderId
   loadOrderDetails(orderId: number) {
     this.loading = true;
     this.orderService.getOrderById(orderId).subscribe({
