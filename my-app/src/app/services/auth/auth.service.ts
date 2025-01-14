@@ -256,36 +256,11 @@ export class AuthService {
       // Sauvegarder les informations de l'utilisateur
       localStorage.setItem('user', JSON.stringify(response.credential));
 
-      // Rechercher et sauvegarder le clientId (en attente)
-      await this.findAndSaveClientId(response.credential.credential_id);
 
       this.currentUserSubject.next(response.credential);
     } catch (error) {
       console.error('Erreur dans saveAuthData:', error);
       throw error;
-    }
-  }
-
-  private async findAndSaveClientId(credentialId: string): Promise<void> {
-    try {
-      console.log(`Recherche client pour credentialId: ${credentialId}`);
-
-      // Appel à l'API pour récupérer les informations du client
-      const client = await firstValueFrom(
-        this.http.get<any>(`${this.API_URL}/clients/credential/${credentialId}`)
-    );
-
-      console.log('Réponse de l\'API pour client:', client);
-
-      if (client && client.clientId) {
-        // Stocker le clientId dans localStorage
-        //localStorage.setItem('clientId', client.clientId.toString());
-        console.log('ClientId sauvegardé:', client.clientId);
-      } else {
-        console.error('ClientId non trouvé dans la réponse');
-      }
-    } catch (error) {
-      console.error('Erreur lors de la récupération du clientId:', error);
     }
   }
 

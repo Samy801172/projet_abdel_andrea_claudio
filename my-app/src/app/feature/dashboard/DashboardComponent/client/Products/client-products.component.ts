@@ -123,16 +123,18 @@ export class ClientProductsComponent implements OnInit {
 
     this.cartService.getCartItems().pipe(take(1)).subscribe(items => {
       const cartItem = items.find(item => item.product.id_product === product.id_product);
-      if (cartItem && cartItem.quantity >= product.stock) {
-        this.notificationService.error('Stock maximum atteint pour ce produit');
+
+      if (cartItem) {
+        // Affiche un message si le produit est déjà dans le panier
+        this.notificationService.warning('Vous avez déjà ajouté ce produit au panier, vous pouvez modifiez la quantité dans le panier');
         return;
       }
 
-      const finalPrice = product.activePromotion ? this.getDiscountedPrice(product) : product.price;
+      // Si le produit n'est pas encore dans le panier, ajoutez-le
       this.cartService.addToCart(product.id_product, 1).subscribe({
         next: () => {
           this.notificationService.success('Produit ajouté au panier');
-          this.loadProducts();
+          this.loadProducts(); // Recharge les produits pour refléter les changements
         },
         error: (error) => {
           console.error('Erreur lors de l\'ajout au panier:', error);
@@ -141,6 +143,7 @@ export class ClientProductsComponent implements OnInit {
       });
     });
   }
+
 
   loadProducts(): void {
     this.productService.getAllProducts().subscribe({
