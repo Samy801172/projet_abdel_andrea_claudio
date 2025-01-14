@@ -20,6 +20,15 @@ export class ClientService {
     return this.http.get<Client>(`${this.API_URL}/profile/${clientId}`); // Assure-toi que l'URL est correcte
   }
 
+  getClients(): Observable<Client> {
+    return this.http.get<Client>(`${this.API_URL}/TousClients`); // Assure-toi que l'URL est correcte
+  }
+
+  // Mettre un client en Admin
+  updateProfileToPutAdmin(clientId: number, updateData: { isAdmin: boolean }): Observable<any> {
+    return this.http.put<any>(`${this.API_URL}/${clientId}/putAdmin`, updateData);
+  }
+
   // pour l'upload de l'avatar
   uploadAvatar(clientId: number, file: File): Observable<any> {
     const formData = new FormData();
@@ -31,7 +40,6 @@ export class ClientService {
   updateProfile(clientId: number, updateData: any): Observable<any> {
     return this.http.put<any>(`${this.API_URL}/${clientId}/updateProfile`, updateData);
   }
-
 
   getClientOrders(clientId: number): Observable<Order[]> {
     return this.http.get<Order[]>(`${this.API_URL}/${clientId}/orders`);

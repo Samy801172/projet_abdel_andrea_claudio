@@ -34,6 +34,7 @@ export class LoginComponent {
 
   async onSubmit() {
     let response: LoginResponse;
+
     try {
       this.isLoading = true;
       this.submitted = true;
@@ -42,11 +43,13 @@ export class LoginComponent {
       // Validation des champs
       if (!this.credentials.mail || !this.credentials.password) {
         this.error = 'Veuillez remplir tous les champs';
+        this.notification.error(this.error);
         return;
       }
 
       if (!this.authService.validateEmail(this.credentials.mail)) {
         this.error = 'Format d\'email invalide';
+        this.notification.error(this.error);
         return;
       }
 
@@ -72,14 +75,16 @@ export class LoginComponent {
 
       // Redirection selon le rôle
       if (response.credential.isAdmin) {
-        this.router.navigate(['/admin']);
         this.notification.success("Connecté en tant qu'administrateur");
       } else {
-        this.router.navigate(['/']).then(() => {
-          window.location.reload(); // Forcer le rafraîchissement complet après la navigation
-        });// Forcer le rafraîchissement complet après la navigation
         this.notification.success("Connecté en tant qu'utilisateur");
       }
+
+      // Redirection avec rafraîchissement
+      this.router.navigate(['/']).then(() => {
+        window.location.reload();
+      });
+
     } catch (error) {
       // Gérer les erreurs de connexion
       this.error = error instanceof Error ? error.message : 'Une erreur est survenue lors de la connexion';
@@ -89,6 +94,7 @@ export class LoginComponent {
       this.isLoading = false;
     }
   }
+
 
 
 }

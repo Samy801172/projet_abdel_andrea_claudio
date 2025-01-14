@@ -71,7 +71,6 @@ export class CartService {
         return updatedCart;
       }),
       tap(() => {
-        this.notificationService.success("Produit ajouté au panier");
         this.loadCart(); // Recharge le panier pour avoir les données à jour
       }),
       catchError(error => {

@@ -26,6 +26,8 @@ import { extname } from 'path';
 import { Response } from 'express';
 import { join } from 'path';
 import * as fs from 'fs';
+import { Client } from './client.entity';
+
 
 // Configuration Multer pour gérer les fichiers
 export const multerOptions = {
@@ -76,6 +78,31 @@ export class ClientController {
   @Get()
   findAll() {
     return this.clientService.findAll();
+  }
+
+  // je récupère les clients inscrit
+  @Get('TousClients')
+  TousLesClients() {
+    return this.clientService.findAll();
+  }
+
+  // pour mettre un client Admin ou enlever l'Admin
+  @Put(':id/putAdmin')
+  async updateforAdmin(
+    @Param('id') id: number,
+    @Body() updateProfileDto: UpdateProfileDto
+  ): Promise<Client> {
+    return this.clientService.updateIsAdmin(id, updateProfileDto);
+  }
+
+  // Récupérer commandes d'un client
+  @Get(':id/orders')
+  async getClientOrders(@Param('id') id: number): Promise<any[]> {
+    const orders = await this.clientService.getClientOrders(id);
+    if (!orders || orders.length === 0) {
+      throw new NotFoundException(`Aucune commande trouvée pour le client ID ${id}`);
+    }
+    return orders;
   }
 
   // C'est ici qu'on récupère le client par son clientId

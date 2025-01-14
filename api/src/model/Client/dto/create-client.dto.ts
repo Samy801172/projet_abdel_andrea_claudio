@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsString } from "class-validator";
 import { ApiProperty } from '@nestjs/swagger';
 import { Column } from "typeorm";
 
@@ -14,19 +14,26 @@ export class CreateClientDto {
   lastName: string;
 
   @IsString()
-  @IsNotEmpty()
-  @ApiProperty()
-  avatar: string;
+  @ApiProperty({ required: false }) // Avatar optionnel
+  avatar?: string;
 
+  @IsString()
   @IsNotEmpty()
   @ApiProperty()
   address: string;
 
-  @IsNotEmpty()
-  @ApiProperty()
-  email: string;
-
+  @IsString()
   @IsNotEmpty()
   @ApiProperty()
   password: string;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  @ApiProperty({ default: false }) // Par défaut, pas admin
+  isAdmin: boolean;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  @ApiProperty({ default: true }) // Par défaut, actif
+  active: boolean;
 }

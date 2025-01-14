@@ -1,0 +1,134 @@
+<!-- HTML - admin-client-management.component.html -->
+<div class="admin-layout">
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="top-bar">
+      <h1>Administration Ghoan Medic - Client</h1>
+    </header>
+
+    <div class="content">
+
+      <div class="table-container">
+        <div class="filter-bar">
+          <input
+            type="text"
+            placeholder="Rechercher par nom ou prénom..."
+            (input)="filterClients($event)"
+            class="filter-input"
+          />
+          <select (change)="filterByStatus($event)" class="filter-select">
+            <option value="all">Tous</option>
+            <option value="true">Actif</option>
+            <option value="false">Inactif</option>
+          </select>
+        </div>
+
+        <table>
+          <thead>
+          <tr>
+            <th>Avatar</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Email</th>
+            <th>Adresse</th>
+            <th>Statut</th>
+            <th>est admin</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <ng-container *ngFor="let client of filteredClients">
+            <tr>
+              <td>
+                <img
+                  [src]="PathUrl + client.avatar || 'assets/default.jpg'"
+                  class="avatar-img"
+                  alt="Avatar"
+                />
+              </td>
+              <td>{{ client.firstName }}</td>
+              <td>{{ client.lastName }}</td>
+              <td>{{ client.credential?.mail || 'Erreur' }}</td>
+              <td>{{ client.address }}</td>
+              <td>{{ client.credential.active ? 'Actif' : 'Désactivé' }}</td>
+              <td>{{ client.credential.isAdmin ? 'Oui' : 'Non' }}</td>
+              <td class="actions">
+                <button
+                  class="edit"
+                  (click)="editClient(client.id)"
+                >
+                  <i class="fas fa-edit"></i> Modifier
+                </button>
+                <button
+                  class="delete"
+                  (click)="deleteClient(client.id)"
+                >
+                  <i class="fas fa-trash"></i> Supprimer
+                </button>
+                <button
+                  class="ban"
+                  (click)="banClient(client.id)"
+                >
+                  <i class="fas fa-ban"></i> Bannir
+                </button>
+                <button
+                  class="view-orders"
+                  (click)="openOrdersModal(client)"
+                >
+                  <i class="fas fa-box"></i> Consulter commandes
+                </button>
+                <button
+                  class="grant-admin"
+                  (click)="PutAdminOrNot(client.clientId)"
+                >
+                  <i class="fas fa-user-shield"></i> Privilèges Admin
+                </button>
+              </td>
+            </tr>
+          </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- Fenêtre modale -->
+  <div class="modal" *ngIf="isModalOpen">
+    <div class="modal-content">
+      <span class="close" (click)="closeModal()">&times;</span>
+      <h2>Commandes de {{ selectedClient?.firstName }} {{ selectedClient?.lastName }}</h2>
+
+      <table class="orders-table" *ngIf="selectedClientOrders.length > 0">
+        <thead>
+        <tr>
+          <th>identifiant</th>
+          <th>Date de la commande</th>
+          <th>Montant total</th>
+          <th>Statut</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let order of selectedClientOrders">
+          <td>{{ order.id_client }}</td>
+          <td>{{ order.date_order | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ order.montant_total | currency: 'EUR' }}</td>
+          <td>
+            {{ order.id_statut === 1 ? 'Pending' :
+            order.id_statut === 2 ? 'Paid' :
+              order.id_statut === 3 ? 'Processing' :
+                order.id_statut === 4 ? 'Shipped' :
+                  order.id_statut === 5 ? 'Delivered' :
+                    order.id_statut === 6 ? 'Cancelled' : 'Unknown' }}
+          </td>
+          <button>voir détails</button>
+        </tr>
+        </tbody>
+      </table>
+
+      <p *ngIf="selectedClientOrders.length === 0">
+        Aucune commande trouvée.
+      </p>
+    </div>
+  </div>
+</div>

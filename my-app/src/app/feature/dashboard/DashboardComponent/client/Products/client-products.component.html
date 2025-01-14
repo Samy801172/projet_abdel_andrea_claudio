@@ -1,0 +1,81 @@
+<div class="products-container">
+  <header class="page-header">
+    <h2>Nos Produits</h2>
+
+    <div class="filter-container">
+      <select
+        [(ngModel)]="selectedType"
+        (change)="filterProducts()"
+        class="type-filter"
+      >
+        <option *ngFor="let type of typeOptions" [value]="type.value">
+          {{ type.label }}
+        </option>
+      </select>
+
+      <select
+        [(ngModel)]="sortOrder"
+        (change)="sortProducts()"
+        class="price-filter"
+      >
+        <option value="default">Tri par défaut</option>
+        <option value="prixCroissant">Prix croissant</option>
+        <option value="prixDecroissant">Prix décroissant</option>
+        <option value="promotion">Promotions d'abord</option>
+      </select>
+    </div>
+  </header>
+
+  <div class="products-grid">
+    @for (product of products; track product.id_product) {
+      <div class="product-card">
+        <div class="product-image">
+          <img [src]="'assets/' + getImageFilename(product.name)" [alt]="product.name">
+          @if (product.activePromotion) {
+            <div class="promo-container">
+
+              <app-promotion-timer [endDate]="product.activePromotion.endDate">
+              </app-promotion-timer>
+            </div>
+          }
+
+          @if (product.stock < 5 && product.stock > 0) {
+            <div class="stock-badge">Stock limité</div>
+          }
+        </div>
+
+        <div class="product-info">
+          <h3>{{ product.name }}</h3>
+          <p class="description">{{ product.description }}</p>
+
+          <div class="product-details">
+            <div class="price-container">
+              @if (product.activePromotion) {
+                <div class="prices">
+                  <span class="original-price">{{ product.price | currency:'EUR' }}</span>
+                  <span class="promo-price">{{ product.promotionPrice | currency:'EUR' }}</span>
+                </div>
+              } @else {
+                <span class="price">{{ product.price | currency:'EUR' }}</span>
+              }
+            </div>
+
+            <div class="stock-info">
+                  <span class="stock" [class.low-stock]="product.stock < 5">
+                    Stock: {{ product.stock }}
+                  </span>
+            </div>
+          </div>
+
+          <button
+            class="add-to-cart-btn"
+            [disabled]="!isProductAvailable(product)"
+            (click)="addToCart(product)"
+          >
+            {{ !isProductAvailable(product) ? 'Rupture de stock' : 'Ajouter au panier' }}
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+</div>

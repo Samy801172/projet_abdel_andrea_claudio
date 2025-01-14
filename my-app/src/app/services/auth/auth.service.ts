@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, throwError, BehaviorSubject, of } from 'rxjs';
 import {tap, catchError, map, switchMap} from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 
 
 export interface Credential {
@@ -17,7 +18,7 @@ export interface LoginResponse {
   token: string;
   refreshToken: string;
   credential: Credential;
-  clientId?: number; // Ajout du clientId dans la réponse
+  clientId: number; // Ajout du clientId dans la réponse
 }
 
 interface SignupResponse {
@@ -250,6 +251,7 @@ export class AuthService {
       // Sauvegarder le token et le refresh token
       localStorage.setItem('token', response.token);
       localStorage.setItem('refreshToken', response.refreshToken);
+      localStorage.setItem('clientId', response?.clientId.toString());
 
       // Sauvegarder les informations de l'utilisateur
       localStorage.setItem('user', JSON.stringify(response.credential));
@@ -267,13 +269,17 @@ export class AuthService {
   private async findAndSaveClientId(credentialId: string): Promise<void> {
     try {
       console.log(`Recherche client pour credentialId: ${credentialId}`);
-      const client = await this.http.get<any>(`${this.API_URL}/clients/credential/${credentialId}`)
-        .toPromise();
+
+      // Appel à l'API pour récupérer les informations du client
+      const client = await firstValueFrom(
+        this.http.get<any>(`${this.API_URL}/clients/credential/${credentialId}`)
+    );
 
       console.log('Réponse de l\'API pour client:', client);
 
       if (client && client.clientId) {
-        localStorage.setItem('clientId', client.clientId.toString());
+        // Stocker le clientId dans localStorage
+        //localStorage.setItem('clientId', client.clientId.toString());
         console.log('ClientId sauvegardé:', client.clientId);
       } else {
         console.error('ClientId non trouvé dans la réponse');
@@ -282,7 +288,6 @@ export class AuthService {
       console.error('Erreur lors de la récupération du clientId:', error);
     }
   }
-
 
   private clearAuthData(): void {
     localStorage.removeItem('token');
