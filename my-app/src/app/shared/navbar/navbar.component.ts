@@ -1,5 +1,5 @@
 // shared/navbar/navbar.component.ts
-import { Component } from '@angular/core';
+import {Component, HostListener} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
@@ -21,12 +21,50 @@ export class NavbarComponent {
   credential: string | null = localStorage.getItem("clientId");
   client: any;
   editForm: any = {}; // Initialisation de l'objet utilisé pour l'édition
+  menuOpen = false; // Pour la partie photo de profile, menu ouvert ou fermé
+  baseUrl: string = "http://localhost:2024";
+  avatar: string = ""; // URL de l'avatar actuel
 
   constructor(public authService: AuthService, private clientService: ClientService) {}
 
   ngOnInit()
   {
     this.loadName();
+    this.loadProfile();
+  }
+
+  // à chaque clique sur la photo ça ouvre ou ferme le menu
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
+
+  // ici pour éviter que le menu reste ouvert si on clique ailleur que sur le menu, ça ferme le menu de l'image de profile
+  @HostListener('document:click', ['$event'])
+  closeMenu(event: Event): void {
+    const target = event.target as HTMLElement;
+    const isInsideMenu = target.closest('.nav-profile'); // Vérifie si le clic est dans le menu ou la photo
+    if (!isInsideMenu) {
+      this.menuOpen = false; // Ferme le menu si on clique ailleurs
+    }
+  }
+
+  // charge le profile de l'utilisateur (Claudio)
+  loadProfile(): void {
+    if (this.credential == null) {
+      console.warn('Credential non défini, impossible de charger le profil.');
+      console.log(this.credential);
+      return;
+    }
+    this.clientService.getClientProfile(Number(this.credential)).subscribe({
+      next: (data) => {
+        this.client = data;
+        this.editForm = { ...this.client }; // Copie les données du client dans editForm
+        this.avatar = this.client.avatar;
+      },
+      error: (error) => {
+        console.error('Erreur chargement profil :', error);
+      },
+    });
   }
 
   // ceci va charger l'username du client

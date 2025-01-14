@@ -1,7 +1,9 @@
+/* Navigation principale */
 .navbar {
   background: #0066CC;
   padding: 0.75rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  font-family: Arial, sans-serif;
 }
 
 .nav-content {
@@ -10,22 +12,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1rem;
 }
 
-.nav-brand {
-  .nav-logo {
-    height: 35px;
-    width: auto;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
-  }
-}
-
+/* Alignement et style des liens */
 .nav-links {
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
   align-items: center;
-  flex-wrap: wrap;
 }
 
 .nav-link {
@@ -33,114 +26,104 @@
   text-decoration: none;
   font-weight: 600;
   font-size: 1rem;
-  padding: 0.6rem 1rem;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-  letter-spacing: 0.3px;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.15);
-    transform: translateY(-1px);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-
-  &.logout {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font: inherit;
-    color: #FFD2D2;
-    border: 1px solid #FFD2D2;
-
-    &:hover {
-      background: rgba(255, 210, 210, 0.1);
-      color: white;
-    }
-  }
+  padding: 0.5rem 0.8rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.nav-link-profile{
-  color: yellow;
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Photo de profil et menu déroulant */
+.nav-profile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.profile-photo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid white;
+  object-fit: cover;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Menu déroulant */
+.profile-menu {
+  display: none; /* Masqué par défaut */
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  background: #eaf4ff; /* Bleu clair */
+  border: 1px solid #bcd4f4; /* Bordure bleue */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  min-width: 150px;
+  overflow: hidden;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.profile-menu.active {
+  display: block; /* Affiche le menu lorsqu'il est actif */
+}
+
+.menu-item {
+  display: block;
+  padding: 10px 15px;
+  color: #0066CC; /* Texte bleu */
   text-decoration: none;
   font-weight: 500;
-  font-size: 0.7rem;
-  padding: 0.6rem 1rem;
-  border-radius: 2px;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-  letter-spacing: 0.3px;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.15);
-    transform: translateY(-1px);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-
-  &.logout {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font: inherit;
-    color: #FFD2D2;
-    border: 1px solid #FFD2D2;
-
-    &:hover {
-      background: rgba(255, 210, 210, 0.1);
-      color: white;
-    }
-  }
-
+  transition: background-color 0.2s ease;
 }
 
-@media (max-width: 1024px) {
-  .nav-content {
-    flex-direction: column;
-    gap: 1rem;
-    padding: 0.5rem;
-  }
+.menu-item:hover {
+  background-color: #dbeeff; /* Fond plus foncé au survol */
+}
 
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsiveness */
+@media (max-width: 1024px) {
   .nav-links {
-    justify-content: center;
-    gap: 0.5rem;
+    gap: 1rem;
   }
 
   .nav-link {
     font-size: 0.9rem;
-    padding: 0.5rem 0.8rem;
   }
 }
 
 @media (max-width: 768px) {
-  .navbar {
-    padding: 0.5rem;
-  }
-
   .nav-content {
-    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
   }
 
   .nav-links {
-    width: 100%;
     flex-direction: column;
     align-items: stretch;
+    gap: 0.5rem;
+  }
 
-    .nav-link {
-      text-align: center;
-      padding: 0.8rem;
-      border-radius: 4px;
-
-      &:not(:last-child) {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      }
-    }
+  .nav-link {
+    text-align: center;
+    padding: 0.8rem;
   }
 }

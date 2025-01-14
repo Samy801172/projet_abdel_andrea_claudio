@@ -20,19 +20,19 @@
         <a routerLink="/client/custom-meds" class="nav-link">Sur Mesure</a>
         <a routerLink="/client/appointments" class="nav-link">Rendez-vous</a>
         <a routerLink="/client/cart" class="nav-link">Panier</a>
-        <button (click)="onLogout()" class="nav-link logout">
-          Déconnexion
-        </button>
-        <a routerLink="/client/profile" class="nav-link-profile">[connecté: {{ client?.credential.username }}]</a>
+        <div class="nav-profile">
+          <img [src]="baseUrl+avatar" alt="Photo de profil" class="profile-photo" (click)="toggleMenu()">
+          <div class="profile-menu" [class.active]="menuOpen">
+            <a routerLink="/client/profile" class="menu-item">Profil</a>
+            <a (click)="onLogout()" class="menu-item">Déconnexion</a>
+          </div>
+        </div>
       }
 
       @if (authService.isAuthenticated() && authService.isAdmin()) {
         <a routerLink="/" class="nav-link">Accueil</a>
         <a routerLink="/admin" class="nav-link">Dashboard Admin</a>
-
-        <button (click)="onLogout()" class="nav-link logout">
-          Déconnexion
-        </button>
+        <button (click)="onLogout()" class="nav-link logout">Déconnexion</button>
       }
     </div>
   </div>
