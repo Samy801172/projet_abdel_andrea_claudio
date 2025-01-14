@@ -20,6 +20,14 @@ export class ClientService {
     return this.http.get<Client>(`${this.API_URL}/profile/${clientId}`); // Assure-toi que l'URL est correcte
   }
 
+  // pour l'upload de l'avatar
+  uploadAvatar(clientId: number, file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('avatar', file); // C'est ici !
+    return this.http.post(`${this.API_URL}/profile/${clientId}/avatar`, formData);
+  }
+
+  // mise à jour de l'image
   updateProfile(clientId: number, updateData: any): Observable<any> {
     return this.http.put<any>(`${this.API_URL}/${clientId}/updateProfile`, updateData);
   }

@@ -32,6 +32,10 @@ export class Client {
   @IsNotEmpty()
   lastName: string;
 
+  @Column()
+  @IsNotEmpty()
+  avatar: string;
+
   @OneToOne(() => User, (user) => user.client, { cascade: true })
   @JoinColumn({ name: 'user_id' })
   user: User;

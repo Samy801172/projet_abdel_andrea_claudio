@@ -8,6 +8,8 @@ import { ValidationPipe, Logger, BadRequestException } from '@nestjs/common';
 import { configManager } from '@common/config';
 import { ConfigKey } from '@common/config/enum';
 import { AppModule } from './feature';
+import { join } from 'path';
+import * as express from 'express';
 
 const bootstrap = async () => {
   const app = await NestFactory.create(AppModule);
@@ -37,6 +39,9 @@ const bootstrap = async () => {
       },
     }),
   );
+
+  // Ajouter une route statique pour pouvoir afficher (sevir) les fichiers pour les fichiers avatars !
+  app.use('/api/assets/uploads', express.static(join(__dirname, '..', 'assets/uploads')));
 
   // Swagger configuration
   swaggerConfiguration.config(app);

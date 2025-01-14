@@ -6,7 +6,6 @@ import { routes } from 'app/newRoot/app.routes';
 import { AppComponent } from '@newRoot';
 import {provideAnimations} from '@angular/platform-browser/animations';
 
-
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes),

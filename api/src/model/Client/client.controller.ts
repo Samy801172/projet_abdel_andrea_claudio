@@ -4,20 +4,64 @@ import {
   Get,
   Post,
   Body,
+  Res,
   Param,
   Delete,
   Put,
   NotFoundException,
+  BadRequestException,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { BadRequestException } from '@nestjs/common';
-
 import { ClientService } from './client.service';
 import { UpdateClientDto } from './dto/update-client.dto';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateProfileDto } from './dto/updateProfile.dto';
 
-// pour récupérer le clientId
+// Pour l'upload fichier
+import { UploadedFile, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
+
+import { Response } from 'express';
+import { join } from 'path';
+import * as fs from 'fs';
+
+// Configuration Multer pour gérer les fichiers
+export const multerOptions = {
+  storage: diskStorage({
+    destination: './assets/uploads', // Dossier où les fichiers seront sauvegardés
+    filename: (req, file, callback) => {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+      callback(null, `${file.fieldname}-${uniqueSuffix}${extname(file.originalname)}`);
+    },
+  }),
+  fileFilter: (req, file, callback) => {
+    // Vérification du type de fichier (seules les images sont autorisées)
+    if (!file.mimetype.match(/\/(jpg|jpeg|png|gif)$/)) {
+      return callback(new BadRequestException('Ce fichier n\'est pas autorisé !'), false);
+    }
+    callback(null, true);
+  },
+  limits: {
+    fileSize: 2 * 1024 * 1024, // Limite de taille : 2MB
+  },
+};
+
+@Controller('files')
+export class FileController {
+  @Get('avatar/:filename')
+  getAvatar(@Param('filename') filename: string, @Res() res: Response) {
+    const filePath = join(__dirname, '..', 'assets', 'uploads', filename);
+
+    // Vérifiez si le fichier existe
+    if (fs.existsSync(filePath)) {
+      return res.sendFile(filePath);
+    } else {
+      return res.status(404).send('Fichier non trouvé');
+    }
+  }
+}
 
 @ApiTags('clients')
 @Controller('clients')
@@ -34,7 +78,7 @@ export class ClientController {
     return this.clientService.findAll();
   }
 
-  // C'est ici qu'on récupère le client par son clientid
+  // C'est ici qu'on récupère le client par son clientId
   @Get('profile/:clientId')
   async findProfile(@Param('clientId') clientId: string) {
     console.log('Recherche du client avec clientId :', clientId);
@@ -58,6 +102,7 @@ export class ClientController {
     console.log('Client trouvé :', client);
     return client;
   }
+
   @Get('credential/:credentialId')
   async findByCredentialId(@Param('credentialId') credentialId: string) {
     const client = await this.clientService.findByCredentialId(credentialId);
@@ -66,6 +111,7 @@ export class ClientController {
     }
     return client;
   }
+
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.clientService.findOne(id);
@@ -75,14 +121,45 @@ export class ClientController {
   update(@Param('id') id: number, @Body() updateClientDto: UpdateClientDto) {
     return this.clientService.update(id, updateClientDto);
   }
+
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.clientService.remove(id);
   }
 
-  // pour mettre à jour le profil utilisateur
+  // pour mettre à jour le profil utilisateur (Claudio)
   @Put(':id/updateProfile')
   updateProfileUser(@Param('id') id: number, @Body() updateProfileDto: UpdateProfileDto) {
     return this.clientService.updateProfile(id, updateProfileDto);
+  }
+
+  // pour uploader l'avatar (Claudio)
+  @Post('profile/:clientId/avatar')
+  @UseInterceptors(FileInterceptor('avatar', multerOptions))
+  async updateAvatar(
+    @Param('clientId') clientId: string,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    console.log('Client ID reçu :', clientId);
+    console.log('Fichier reçu :', file);
+
+    if (!file) {
+      throw new BadRequestException('Aucun fichier uploadé.');
+    }
+
+    const filePath = `/api/assets/uploads/${file.filename}`;
+
+    const updatedClient = await this.clientService.updateAvatar(parseInt(clientId, 10), filePath);
+
+    console.log('Client mis à jour :', updatedClient);
+
+    if (!updatedClient) {
+      throw new NotFoundException('Client non trouvé.');
+    }
+
+    return {
+      message: 'Avatar mis à jour avec succès.',
+      avatarPath: `http://localhost:2024${filePath}`,
+    };
   }
 }

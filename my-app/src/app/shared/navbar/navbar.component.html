@@ -1,0 +1,39 @@
+<nav class="navbar">
+  <div class="nav-content">
+    <div class="nav-brand">
+      <svg class="nav-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50">
+        <!-- Logo existant -->
+      </svg>
+    </div>
+    <div class="nav-links">
+      @if (!authService.isAuthenticated()) {
+        <a routerLink="/" class="nav-link">Accueil</a>
+        <a routerLink="/login" class="nav-link">Connexion</a>
+        <a routerLink="/register" class="nav-link">Inscription</a>
+      }
+
+      @if (authService.isAuthenticated() && !authService.isAdmin()) {
+        <a routerLink="/" class="nav-link">Accueil</a>
+        <a routerLink="/client/products" class="nav-link">Médicaments</a>
+        <a routerLink="/client/services" class="nav-link">Services</a>
+        <a routerLink="/client/prescriptions" class="nav-link">Mes Ordonnances</a>
+        <a routerLink="/client/custom-meds" class="nav-link">Sur Mesure</a>
+        <a routerLink="/client/appointments" class="nav-link">Rendez-vous</a>
+        <a routerLink="/client/cart" class="nav-link">Panier</a>
+        <button (click)="onLogout()" class="nav-link logout">
+          Déconnexion
+        </button>
+        <a routerLink="/client/profile" class="nav-link-profile">[connecté: {{ client?.credential.username }}]</a>
+      }
+
+      @if (authService.isAuthenticated() && authService.isAdmin()) {
+        <a routerLink="/" class="nav-link">Accueil</a>
+        <a routerLink="/admin" class="nav-link">Dashboard Admin</a>
+
+        <button (click)="onLogout()" class="nav-link logout">
+          Déconnexion
+        </button>
+      }
+    </div>
+  </div>
+</nav>

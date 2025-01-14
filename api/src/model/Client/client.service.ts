@@ -68,12 +68,23 @@ export class ClientService {
         'client.address',
         'credential.username', // Inclure les données de Credential
         'credential.mail', // Inclure les données de Credential
+        'client.avatar',
       ])
       .where('client.clientId = :clientId', { clientId })
       .getOne();
 
     console.log('Client trouvé:', client);
     return client;
+  }
+
+  //Mise à jour de l'avatar
+  async updateAvatar(clientId: number, avatarPath: string): Promise<Client | null> {
+    const client = await this.clientRepository.findOne({ where: { clientId } });
+    if (!client) {
+      return null;
+    }
+    client.avatar = avatarPath; // Met à jour l'URL de l'avatar dans la base de données
+    return this.clientRepository.save(client);
   }
 
   //Mise à jour du profile de l'utilisateur

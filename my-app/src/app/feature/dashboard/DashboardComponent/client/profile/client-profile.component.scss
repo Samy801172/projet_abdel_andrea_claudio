@@ -2,48 +2,72 @@
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: #ffffff;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
 
   h2 {
     text-align: center;
-    font-size: 1.8rem;
+    font-size: 2rem;
     margin-bottom: 20px;
     color: #333;
   }
 
   .profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    .avatar-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 15px;
+
+      img {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 2px solid #007bff;
+        object-fit: cover;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+    }
+
     .info-group {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 15px;
+      align-items: center;
       padding: 10px;
-      background-color: #fff;
+      background-color: #f9f9f9;
       border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e0e0e0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 
       label {
         font-weight: bold;
         color: #555;
+        margin-right: 10px;
       }
 
       p {
         margin: 0;
         color: #333;
+        font-size: 1rem;
       }
     }
 
     .edit-btn {
       display: block;
       margin: 20px auto 0;
-      padding: 10px 20px;
+      padding: 12px 24px;
       background-color: #007bff;
       color: #fff;
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      transition: background-color 0.3s;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
 
       &:hover {
         background-color: #0056b3;
@@ -52,15 +76,19 @@
   }
 
   .edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
     .form-group {
       display: flex;
       flex-direction: column;
-      margin-bottom: 15px;
 
       label {
         margin-bottom: 5px;
         font-weight: bold;
         color: #555;
+        font-size: 0.9rem;
       }
 
       input {
@@ -69,12 +97,18 @@
         border-radius: 5px;
         font-size: 1rem;
         color: #333;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
 
         &:focus {
           border-color: #007bff;
           outline: none;
           box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
         }
+      }
+
+      input[type="file"] {
+        padding: 5px;
+        font-size: 0.9rem;
       }
     }
 
@@ -83,15 +117,29 @@
       justify-content: space-between;
       gap: 10px;
 
-      .save-btn {
+      .save-btn,
+      .cancel-btn {
         flex: 1;
-        padding: 10px;
-        background-color: #28a745;
-        color: #fff;
+        padding: 12px;
+        font-size: 1rem;
+        font-weight: bold;
         border: none;
         border-radius: 5px;
         cursor: pointer;
-        transition: background-color 0.3s;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+
+        &:hover {
+          transform: translateY(-2px);
+        }
+
+        &:active {
+          transform: translateY(0);
+        }
+      }
+
+      .save-btn {
+        background-color: #28a745;
+        color: #fff;
 
         &:hover {
           background-color: #218838;
@@ -99,14 +147,8 @@
       }
 
       .cancel-btn {
-        flex: 1;
-        padding: 10px;
         background-color: #dc3545;
         color: #fff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s;
 
         &:hover {
           background-color: #c82333;

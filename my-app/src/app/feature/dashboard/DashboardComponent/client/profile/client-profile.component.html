@@ -1,37 +1,43 @@
 <div class="profile-container">
   <h2>Mon Profil</h2>
 
-  <ng-container >
+  <ng-container>
     <div class="profile-info" *ngIf="!editMode">
+      <div class="avatar-container">
+        <img [src]="baseUrl+avatar || 'assets/default.jpg'" alt="Avatar" class="profile-avatar" />
+      </div>
+
       <div class="info-group">
         <label>Nom d'utilisateur</label>
-        <p>{{ client?.credential.username }}</p>
+        <p>{{ client?.credential.username || "Erreur" }}</p>
       </div>
       <div class="info-group">
         <label>Nom</label>
-        <p>{{ client?.firstName }}</p>
+        <p>{{ client?.firstName || "Erreur" }}</p>
       </div>
       <div class="info-group">
         <label>Prénom</label>
-        <p>{{ client?.lastName }}</p>
+        <p>{{ client?.lastName || "Erreur" }}</p>
       </div>
       <div class="info-group">
         <label>Email</label>
-        <p>{{ client?.credential?.mail }}</p>
+        <p>{{ client?.credential?.mail || "Erreur" }}</p>
       </div>
       <div class="info-group">
         <label>Adresse</label>
-        <p>{{ client?.address}}</p>
+        <p>{{ client?.address || "Erreur" }}</p>
       </div>
 
-      <button (click)="editMode = true" class="edit-btn">
-        Modifier le profil
-      </button>
+      <button (click)="editMode = true" class="edit-btn">Modifier le profil</button>
     </div>
 
     <form *ngIf="editMode" (ngSubmit)="updateProfile()" class="edit-form">
+      <div class="avatar-container">
+        <input type="file" (change)="onAvatarSelected($event)" accept="image/*" />
+      </div>
+
       <div class="form-group">
-        <label for="lastName">Nom d'utilisateur</label>
+        <label for="username">Nom d'utilisateur</label>
         <input
           id="username"
           [(ngModel)]="editForm.credential.username"
@@ -76,10 +82,8 @@
       </div>
 
       <div class="form-actions">
-        <button type="button" class="save-btn" (click)=updateProfile() (click)="editMode = false">Enregistrer</button>
-        <button type="button" (click)="editMode = false" class="cancel-btn">
-          Annuler
-        </button>
+        <button type="submit" class="save-btn">Enregistrer</button>
+        <button type="button" (click)="editMode = false" class="cancel-btn">Annuler</button>
       </div>
     </form>
   </ng-container>

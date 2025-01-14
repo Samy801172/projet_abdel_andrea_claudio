@@ -8,13 +8,13 @@ import { HomeComponent } from '../components/home/home.component';
 import {OrderConfirmationComponent} from '../components/order-confirmation/order-confirmation.component';
 import {StockManagementComponent} from '../feature/dashboard/DashboardComponent/admin/stock/stock-management.component';
 import {PaymentSuccessComponent} from '../components/payment/payment-success.component';
+import {ClientProfileComponent} from '../feature/dashboard/DashboardComponent/client/profile/client-profile.component';
 
 
 export const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-    //canActivate: [NoAuthGuard]
   },
   {
     path: 'payment-success',
@@ -27,6 +27,12 @@ export const routes: Routes = [
     component: StockManagementComponent,
     canActivate: [AuthGuard, AdminGuard]
   },
+
+  { path: 'profile',
+    component: ClientProfileComponent,
+    canActivate: [AuthGuard]
+  },
+
   {
     path: 'login',
     component: LoginComponent,

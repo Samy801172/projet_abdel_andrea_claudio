@@ -135,6 +135,7 @@ export class SecurityService {
         const client = this.clientRepository.create({
           credentialId: user.credential_id,
           firstName: payload?.given_name || '', // Utilisez les données du token si disponibles
+          //avatar: 'assets/uploads/default.jpg', // Ajout de l'avatar par défaut
           lastName: payload?.family_name || '',
           address: '', // L'adresse peut être vide si non applicable
         });
@@ -180,6 +181,7 @@ export class SecurityService {
           firstName: payload.username,
           lastName: '',
           address: '',
+          avatar: '/assets/uploads/default.jpg', // Ajout de l'avatar par défaut
           credential: savedCredential as DeepPartial<Credential>, // Utiliser DeepPartial<Credential>
         });
 

@@ -1,4 +1,5 @@
 import { IsOptional, IsString, IsNotEmpty } from 'class-validator';
+import { ApiProperty } from "@nestjs/swagger";
 
 export class UpdateProfileDto {
   @IsOptional()
@@ -15,4 +16,10 @@ export class UpdateProfileDto {
   @IsString()
   @IsNotEmpty()
   address?: string;
+
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  avatar?: string;
 }
+
