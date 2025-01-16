@@ -14,6 +14,29 @@
     color: #333;
   }
 
+  .account-created {
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 1rem;
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #333;
+  }
+
+  .account-created p {
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  .account-created strong {
+    font-weight: bold;
+    color: #0066CC; /* Met en avant la date */
+  }
+
+
+
   .profile-info {
     display: flex;
     flex-direction: column;

@@ -11,6 +11,7 @@ export interface Credential {
   mail: string;
   isAdmin: boolean;
   username?: string;
+  ban: boolean;
 }
 
 export interface LoginResponse {
@@ -78,6 +79,12 @@ export class AuthService {
     return user ? user.isAdmin : false;
   }
 
+  isBan(): boolean
+  {
+    const userBan = this.currentUserSubject.value;
+    return userBan ? userBan.ban: false;
+  }
+
   validateEmail(email: string): boolean {
     return this.EMAIL_REGEX.test(email);
   }
@@ -90,6 +97,13 @@ export class AuthService {
       tap(response => {
         if (!response || !response.token || !response.credential) {
           throw new Error('Réponse invalide');
+        }
+
+        if (response.credential.ban)
+        {
+          console.log("en règle");
+        }else{
+          console.log("Ce compte a été banni par un administrateur !")
         }
         console.log('Réponse utilisateur reçue:', response);
       }),

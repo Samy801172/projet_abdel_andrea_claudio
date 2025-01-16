@@ -2,6 +2,7 @@
   <h2>Mon Profil</h2>
 
   <ng-container>
+    <!-- Informations utilisateur -->
     <div class="profile-info" *ngIf="!editMode">
       <div class="avatar-container">
         <img [src]="baseUrl+avatar || 'assets/default.jpg'" alt="Avatar" class="profile-avatar" />
@@ -31,6 +32,7 @@
       <button (click)="editMode = true" class="edit-btn">Modifier le profil</button>
     </div>
 
+    <!-- Formulaire d'édition -->
     <form *ngIf="editMode" (ngSubmit)="updateProfile()" class="edit-form">
       <div class="avatar-container">
         <input type="file" (change)="onAvatarSelected($event)" accept="image/*" />
@@ -87,4 +89,9 @@
       </div>
     </form>
   </ng-container>
+
+  <!-- Date de création du compte placée hors du formulaire -->
+  <div class="account-created">
+    <p>Date de création du compte : <strong>{{ client?.credential?.created | date:'dd/MM/yyyy' || "Erreur" }}</strong></p>
+  </div>
 </div>

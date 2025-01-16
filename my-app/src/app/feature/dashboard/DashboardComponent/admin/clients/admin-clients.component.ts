@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {CommonModule} from "@angular/common";
 import { ClientService } from '../../../../../services';
 import { NotificationService } from '../../../../../services/notification/notification.service';
+import {clientGuard} from "../../../guard/client.guard";
 
 @Component({
   selector: 'app-admin-clients',
@@ -185,6 +186,48 @@ export class AdminClientsComponent implements OnInit {
         this.notification.error(`Erreur lors de la mise à jour des privilèges admin pour le client ID: ${clientId}`);
       }
     });
+  }
+
+  // Bannir un client
+  BanClient(clientId: number): void {
+    const client = this.Tousclients.find((client: any) => client.clientId === clientId);
+    if (!client)
+    {
+      this.notification.error(`Client avec l'ID ${clientId} non trouvé.`);
+      return;
+    }
+
+    // Inverser le statut actuel de isBan
+    const IsBan = !client.credential.ban;
+    const actionText = IsBan ? 'bannir' : 'dé-bannir';
+
+    // Afficher une boîte de confirmation
+    if (!window.confirm(`Êtes-vous sûr de vouloir ${actionText} pour le client ID: ${clientId} ?`)) {
+      return; // Annuler l'action si non confirmé
+    }
+      this.clientService.updateBanClient(clientId, { ban: IsBan }).subscribe({
+        next: (updatedClient: any) => {
+          if (updatedClient) {
+            // Mettre à jour localement le client
+            const index = this.Tousclients.findIndex((c: any) => c.clientId === clientId);
+            if (index !== -1) {
+              this.Tousclients[index] = updatedClient;
+            }
+
+            const statusText = IsBan ? 'banni' : 'en règle';
+            this.notification.success(`Le status: "${statusText}" a bien été appliqué pour le client ID: ${clientId}`);
+
+            // Ajout d'un délai avant de recharger la page
+            setTimeout(() => {
+              window.location.reload(); // Actualiser la page
+            }, 1000); // après 1 seconde
+          }
+        },
+        error: (error) => {
+          console.error('Erreur mise à jour profil:', error);
+          this.notification.error(`Erreur lors de la tentative pour bannir : ${clientId}`);
+        }
+      });
   }
 
 

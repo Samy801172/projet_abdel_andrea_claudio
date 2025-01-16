@@ -25,6 +25,8 @@ export class Credential {
   isAdmin: boolean;
   @Column({ default: true })
   active: boolean;
+  @Column({ default: false })
+  ban: boolean;
   @CreateDateColumn()
   created: Date;
   @UpdateDateColumn()

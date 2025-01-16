@@ -38,6 +38,7 @@ export class ClientService {
         'credential.username', // Inclure les données de Credential
         'credential.mail', // Inclure les données de Credential
         'credential.active', // Inclure les donnée de Crédential pour le status
+        'credential.ban', // Inclure les donnée de Crédential pour le status
         'client.avatar',
       ])
       .getMany(); // Retourne tous les clients
@@ -105,7 +106,9 @@ export class ClientService {
         'client.lastName',
         'client.address',
         'credential.username', // Inclure les données de Credential
+        'credential.created', // Inclure la date de création du compte
         'credential.mail', // Inclure les données de Credential
+        'credential.ban', // Inclure les données de Credential
         'client.avatar',
       ])
       .where('client.clientId = :clientId', { clientId })
@@ -115,6 +118,7 @@ export class ClientService {
     return client;
   }
 
+  // service pour mettre admin ou retirer admin
   async updateIsAdmin(id: number, updateProfileDto: UpdateProfileDto): Promise<Client> {
     try {
       // Récupérer le client avec la relation Credential
@@ -184,5 +188,36 @@ export class ClientService {
 
     // Sauvegarde des modifications
     return await this.clientRepository.save(client);
+  }
+
+  // service pour appliqué le status banni à un client
+  async updateIsBan(id: number, updateProfileDto: UpdateProfileDto): Promise<Client> {
+    try {
+      // Récupérer le client avec la relation Credential
+      const client = await this.clientRepository.findOne({
+        where: { clientId: id },
+        relations: ['credential'],
+      });
+
+      if (!client) {
+        throw new NotFoundException(`Client avec l'ID ${id} non trouvé.`);
+      }
+
+      // Mettre à jour les champs liés à Credential
+      if (updateProfileDto.ban !== undefined) {
+        client.credential.ban = updateProfileDto.ban;
+      }
+
+      // Mettre à jour les champs de Client
+      Object.assign(client, updateProfileDto);
+
+      // Sauvegarder les modifications
+      const updatedClient = await this.clientRepository.save(client);
+      console.log(`Mise à jour réussie pour le client ID: ${id}`);
+      return updatedClient;
+    } catch (error) {
+      console.error(`Erreur lors de la mise à jour pour le client ID: ${id}`, error);
+      throw new InternalServerErrorException('Erreur lors de la mise à jour du client.');
+    }
   }
 }

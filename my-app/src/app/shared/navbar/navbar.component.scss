@@ -1,6 +1,6 @@
 /* Navigation principale */
 .navbar {
-  background: #0066CC;
+  background: #38B6FF; /* Bleu doux, inspirant confiance */
   padding: 0.75rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   font-family: Arial, sans-serif;
@@ -22,7 +22,7 @@
 }
 
 .nav-link {
-  color: white;
+  color: #ffffff; /* Blanc propre */
   text-decoration: none;
   font-weight: 600;
   font-size: 1rem;
@@ -59,8 +59,8 @@
   position: absolute;
   top: calc(100% + 10px);
   right: 0;
-  background: #eaf4ff; /* Bleu clair */
-  border: 1px solid #bcd4f4; /* Bordure bleue */
+  background: #F0FAF5; /* Vert clair apaisant */
+  border: 1px solid #C5E8D6; /* Bordure verte douce */
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 1000;
@@ -76,14 +76,14 @@
 .menu-item {
   display: block;
   padding: 10px 15px;
-  color: #0066CC; /* Texte bleu */
+  color: #38B6FF; /* Texte bleu doux */
   text-decoration: none;
   font-weight: 500;
   transition: background-color 0.2s ease;
 }
 
 .menu-item:hover {
-  background-color: #dbeeff; /* Fond plus foncé au survol */
+  background-color: #D6F5E3; /* Vert clair au survol */
 }
 
 /* Animation */
@@ -92,6 +92,7 @@
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

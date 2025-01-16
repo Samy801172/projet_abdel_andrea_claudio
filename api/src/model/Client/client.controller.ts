@@ -90,9 +90,18 @@ export class ClientController {
   @Put(':id/putAdmin')
   async updateforAdmin(
     @Param('id') id: number,
-    @Body() updateProfileDto: UpdateProfileDto
+    @Body() updateProfileDto: UpdateProfileDto,
   ): Promise<Client> {
     return this.clientService.updateIsAdmin(id, updateProfileDto);
+  }
+
+  // pour bannir un client
+  @Put(':id/banClient')
+  async updateForBan(
+    @Param('id') id: number,
+    @Body() updateProfileDto: UpdateProfileDto,
+  ): Promise<Client> {
+    return this.clientService.updateIsBan(id, updateProfileDto);
   }
 
   // Récupérer commandes d'un client

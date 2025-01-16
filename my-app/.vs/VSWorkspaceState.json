@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\feature",
+    "\\src\\app\\feature\\dashboard",
+    "\\src\\app\\feature\\dashboard\\DashboardComponent",
+    "\\src\\app\\feature\\dashboard\\DashboardComponent\\client",
+    "\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\profile",
+    "\\src\\app\\shared",
+    "\\src\\app\\shared\\navbar"
+  ],
+  "SelectedNode": "\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\profile\\client-profile.component.html",
+  "PreviewInSolutionExplorer": false
+}

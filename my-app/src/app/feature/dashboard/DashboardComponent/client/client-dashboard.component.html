@@ -1,38 +1,55 @@
-<nav class="main-nav bg-indigo-600 fixed top-0 w-full z-50">
-  <div class="container mx-auto flex items-center justify-between h-12 px-4">
-    <!-- Logo et Titre -->
-    <div class="flex items-center">
-      <img src="assets/logo-izzybeauty.png" alt="IzzyBeauty" class="logo h-6 w-auto mr-2">
-      <span class="text-white font-semibold text-sm">Espace Client</span>
+<div class="client-layout">
+  <nav class="sidebar">
+    <div class="logo">
+      <h1>GOHAN-MED</h1>
+      <p>Espace Client</p>
     </div>
-    <!-- Navigation -->
-    <div class="flex items-center space-x-4 text-white">
-      <a routerLink="/client/products" routerLinkActive="border-b-2" class="nav-link">Nos Produits</a>
-      <a routerLink="/client/rendez-vous" routerLinkActive="border-b-2" class="nav-link">Mes Rendez-vous</a>
-      <a routerLink="/client/panier" routerLinkActive="border-b-2" class="nav-link relative">
-        Mon Panier
-        <span *ngIf="cartItemCount > 0" class="badge">
-          {{ cartItemCount }}
-        </span>
-      </a>
-      <a routerLink="/client/commandes" routerLinkActive="border-b-2" class="nav-link">Mes Commandes</a>
-      <a routerLink="/client/profile" routerLinkActive="border-b-2" class="nav-link">Mon Profil</a>
-      <button (click)="logout()" class="btn-logout">Déconnexion</button>
+    <ul class="nav-links">
+      <li>
+        <a routerLink="products" routerLinkActive="active">
+          <span class="icon">🏥</span>
+          <span class="text">Nos Produits</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="prescriptions" routerLinkActive="active">
+          <span class="icon">📋</span>
+          <span class="text">Mes Ordonnances</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="custom-meds" routerLinkActive="active">
+          <span class="icon">⚗️</span>
+          <span class="text">Sur Mesure</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="appointments" routerLinkActive="active">
+          <span class="icon">📅</span>
+          <span class="text">Rendez-vous</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="orders" routerLinkActive="active">
+          <span class="icon">📦</span>
+          <span class="text">Mes Commandes</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="profile" routerLinkActive="active">
+          <span class="icon">👤</span>
+          <span class="text">Mon Profil</span>
+        </a>
+      </li>
+    </ul>
+    <div class="logout">
+      <button (click)="logout()" class="logout-btn">
+        <span class="icon">🚪</span>
+        <span>Se déconnecter</span>
+      </button>
     </div>
-  </div>
-</nav>
-
-<main class="pt-16">
-  <div class="breadcrumb bg-gray-100 border-b">
-    <div class="container mx-auto py-2 px-4">
-      <div class="text-sm text-gray-600">
-        <a routerLink="/client" class="hover:text-indigo-600">Accueil</a>
-        <span class="mx-2">/</span>
-        <span>{{ getCurrentPage() }}</span>
-      </div>
-    </div>
-  </div>
-  <div class="container mx-auto px-4 py-6">
+  </nav>
+  <main class="main-content">
     <router-outlet></router-outlet>
-  </div>
-</main>
+  </main>
+</div>

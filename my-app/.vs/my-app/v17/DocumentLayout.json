@@ -1,0 +1,571 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\profile\\client-profile.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\feature\\dashboard\\DashboardComponent\\client\\profile\\client-profile.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\profile\\client-profile.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\feature\\dashboard\\DashboardComponent\\client\\profile\\client-profile.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\admin\\admin-dashboard.component.scss||{181FE41B-5A5D-479F-9F8F-BF665F4EBC2A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\feature\\dashboard\\DashboardComponent\\admin\\admin-dashboard.component.scss||{181FE41B-5A5D-479F-9F8F-BF665F4EBC2A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\shared\\navbar\\navbar.component.scss||{181FE41B-5A5D-479F-9F8F-BF665F4EBC2A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\shared\\navbar\\navbar.component.scss||{181FE41B-5A5D-479F-9F8F-BF665F4EBC2A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\admin\\admin-dashboard.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\feature\\dashboard\\DashboardComponent\\admin\\admin-dashboard.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\admin\\admin-dashboard.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\feature\\dashboard\\DashboardComponent\\admin\\admin-dashboard.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\client-dashboard.component.scss||{181FE41B-5A5D-479F-9F8F-BF665F4EBC2A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\feature\\dashboard\\DashboardComponent\\client\\client-dashboard.component.scss||{181FE41B-5A5D-479F-9F8F-BF665F4EBC2A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\client-dashboard.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\feature\\dashboard\\DashboardComponent\\client\\client-dashboard.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\client-dashboard.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\feature\\dashboard\\DashboardComponent\\client\\client-dashboard.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\profile\\client-profile.component.scss||{181FE41B-5A5D-479F-9F8F-BF665F4EBC2A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\feature\\dashboard\\DashboardComponent\\client\\profile\\client-profile.component.scss||{181FE41B-5A5D-479F-9F8F-BF665F4EBC2A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\client.routes.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\feature\\dashboard\\DashboardComponent\\client\\client.routes.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\appointments\\client-appointments.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\feature\\dashboard\\DashboardComponent\\client\\appointments\\client-appointments.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\appointments\\client-appointments.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\feature\\dashboard\\DashboardComponent\\client\\appointments\\client-appointments.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\Products\\client-products.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\feature\\dashboard\\DashboardComponent\\client\\Products\\client-products.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\Products\\client-products.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\feature\\dashboard\\DashboardComponent\\client\\Products\\client-products.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\types\\paypal.d.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\types\\paypal.d.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\components\\user\\user.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\components\\user\\user.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\components\\user\\user.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\components\\user\\user.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\shared\\navbar\\navbar.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\shared\\navbar\\navbar.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\shared\\navbar\\navbar.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\shared\\navbar\\navbar.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\shared\\enums\\orderstatus.enum.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\shared\\enums\\orderstatus.enum.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\newRoot\\app.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\newRoot\\app.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\newRoot\\app.component.scss||{181FE41B-5A5D-479F-9F8F-BF665F4EBC2A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\newRoot\\app.component.scss||{181FE41B-5A5D-479F-9F8F-BF665F4EBC2A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\newRoot\\app.config.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\newRoot\\app.config.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\newRoot\\index.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\newRoot\\index.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\components\\index.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\components\\index.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\services\\cart\\cart.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\services\\cart\\cart.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\services\\product\\product.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\services\\product\\product.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\components\\Cart\\cart.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\components\\Cart\\cart.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\components\\Login\\login.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\components\\Login\\login.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 10,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "admin-dashboard.component.ts",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\admin\\admin-dashboard.component.ts",
+              "RelativeDocumentMoniker": "src\\app\\feature\\dashboard\\DashboardComponent\\admin\\admin-dashboard.component.ts",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\admin\\admin-dashboard.component.ts",
+              "RelativeToolTip": "src\\app\\feature\\dashboard\\DashboardComponent\\admin\\admin-dashboard.component.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAtAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-01-15T18:38:11.536Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "admin-dashboard.component.scss",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\admin\\admin-dashboard.component.scss",
+              "RelativeDocumentMoniker": "src\\app\\feature\\dashboard\\DashboardComponent\\admin\\admin-dashboard.component.scss",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\admin\\admin-dashboard.component.scss",
+              "RelativeToolTip": "src\\app\\feature\\dashboard\\DashboardComponent\\admin\\admin-dashboard.component.scss",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAA2AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002663|",
+              "WhenOpened": "2025-01-15T18:36:15.964Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "admin-dashboard.component.html",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\admin\\admin-dashboard.component.html",
+              "RelativeDocumentMoniker": "src\\app\\feature\\dashboard\\DashboardComponent\\admin\\admin-dashboard.component.html",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\admin\\admin-dashboard.component.html",
+              "RelativeToolTip": "src\\app\\feature\\dashboard\\DashboardComponent\\admin\\admin-dashboard.component.html",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAABgAAAAhAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-01-15T18:36:00.915Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "navbar.component.scss",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\shared\\navbar\\navbar.component.scss",
+              "RelativeDocumentMoniker": "src\\app\\shared\\navbar\\navbar.component.scss",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\shared\\navbar\\navbar.component.scss",
+              "RelativeToolTip": "src\\app\\shared\\navbar\\navbar.component.scss",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002663|",
+              "WhenOpened": "2025-01-15T17:42:03.97Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "client-profile.component.html",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\profile\\client-profile.component.html",
+              "RelativeDocumentMoniker": "src\\app\\feature\\dashboard\\DashboardComponent\\client\\profile\\client-profile.component.html",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\profile\\client-profile.component.html",
+              "RelativeToolTip": "src\\app\\feature\\dashboard\\DashboardComponent\\client\\profile\\client-profile.component.html",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABwAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-01-15T17:57:14.574Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "client-profile.component.ts",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\profile\\client-profile.component.ts",
+              "RelativeDocumentMoniker": "src\\app\\feature\\dashboard\\DashboardComponent\\client\\profile\\client-profile.component.ts",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\profile\\client-profile.component.ts",
+              "RelativeToolTip": "src\\app\\feature\\dashboard\\DashboardComponent\\client\\profile\\client-profile.component.ts",
+              "ViewState": "AQIAABgAAAAAAAAAAAAAABUAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-01-15T17:58:14.682Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "client-dashboard.component.ts",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\client-dashboard.component.ts",
+              "RelativeDocumentMoniker": "src\\app\\feature\\dashboard\\DashboardComponent\\client\\client-dashboard.component.ts",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\client-dashboard.component.ts",
+              "RelativeToolTip": "src\\app\\feature\\dashboard\\DashboardComponent\\client\\client-dashboard.component.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAdAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-01-15T17:57:23.775Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "client-profile.component.scss",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\profile\\client-profile.component.scss",
+              "RelativeDocumentMoniker": "src\\app\\feature\\dashboard\\DashboardComponent\\client\\profile\\client-profile.component.scss",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\profile\\client-profile.component.scss",
+              "RelativeToolTip": "src\\app\\feature\\dashboard\\DashboardComponent\\client\\profile\\client-profile.component.scss",
+              "ViewState": "AQIAAGsAAAAAAAAAAAAAAIwAAAAiAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002663|",
+              "WhenOpened": "2025-01-15T17:58:44.441Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "client.routes.ts",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\client.routes.ts",
+              "RelativeDocumentMoniker": "src\\app\\feature\\dashboard\\DashboardComponent\\client\\client.routes.ts",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\client.routes.ts",
+              "RelativeToolTip": "src\\app\\feature\\dashboard\\DashboardComponent\\client\\client.routes.ts",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-01-15T17:57:35.963Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "client-dashboard.component.scss",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\client-dashboard.component.scss",
+              "RelativeDocumentMoniker": "src\\app\\feature\\dashboard\\DashboardComponent\\client\\client-dashboard.component.scss",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\client-dashboard.component.scss",
+              "RelativeToolTip": "src\\app\\feature\\dashboard\\DashboardComponent\\client\\client-dashboard.component.scss",
+              "ViewState": "AQIAAGsAAAAAAAAAAAAAAI0AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002663|",
+              "WhenOpened": "2025-01-15T17:57:22.366Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "client-dashboard.component.html",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\client-dashboard.component.html",
+              "RelativeDocumentMoniker": "src\\app\\feature\\dashboard\\DashboardComponent\\client\\client-dashboard.component.html",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\client-dashboard.component.html",
+              "RelativeToolTip": "src\\app\\feature\\dashboard\\DashboardComponent\\client\\client-dashboard.component.html",
+              "ViewState": "AQIAABUAAAAAAAAAAAAAADcAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-01-15T17:57:19.81Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "client-appointments.component.html",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\appointments\\client-appointments.component.html",
+              "RelativeDocumentMoniker": "src\\app\\feature\\dashboard\\DashboardComponent\\client\\appointments\\client-appointments.component.html",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\appointments\\client-appointments.component.html",
+              "RelativeToolTip": "src\\app\\feature\\dashboard\\DashboardComponent\\client\\appointments\\client-appointments.component.html",
+              "ViewState": "AQIAACEAAAAAAAAAAAAAADYAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-01-15T17:56:25.655Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "client-appointments.component.ts",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\appointments\\client-appointments.component.ts",
+              "RelativeDocumentMoniker": "src\\app\\feature\\dashboard\\DashboardComponent\\client\\appointments\\client-appointments.component.ts",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\appointments\\client-appointments.component.ts",
+              "RelativeToolTip": "src\\app\\feature\\dashboard\\DashboardComponent\\client\\appointments\\client-appointments.component.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-01-15T17:56:24.449Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "client-products.component.html",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\Products\\client-products.component.html",
+              "RelativeDocumentMoniker": "src\\app\\feature\\dashboard\\DashboardComponent\\client\\Products\\client-products.component.html",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\Products\\client-products.component.html",
+              "RelativeToolTip": "src\\app\\feature\\dashboard\\DashboardComponent\\client\\Products\\client-products.component.html",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAjAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-01-15T17:55:32.024Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "paypal.d.ts",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\types\\paypal.d.ts",
+              "RelativeDocumentMoniker": "src\\app\\types\\paypal.d.ts",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\types\\paypal.d.ts",
+              "RelativeToolTip": "src\\app\\types\\paypal.d.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-01-15T17:54:22.958Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "user.component.html",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\components\\user\\user.component.html",
+              "RelativeDocumentMoniker": "src\\app\\components\\user\\user.component.html",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\components\\user\\user.component.html",
+              "RelativeToolTip": "src\\app\\components\\user\\user.component.html",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-01-15T17:54:06.113Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "user.component.ts",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\components\\user\\user.component.ts",
+              "RelativeDocumentMoniker": "src\\app\\components\\user\\user.component.ts",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\components\\user\\user.component.ts",
+              "RelativeToolTip": "src\\app\\components\\user\\user.component.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-01-15T17:54:02.875Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "orderstatus.enum.ts",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\shared\\enums\\orderstatus.enum.ts",
+              "RelativeDocumentMoniker": "src\\app\\shared\\enums\\orderstatus.enum.ts",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\shared\\enums\\orderstatus.enum.ts",
+              "RelativeToolTip": "src\\app\\shared\\enums\\orderstatus.enum.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-01-15T17:53:15.414Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "app.component.scss",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\newRoot\\app.component.scss",
+              "RelativeDocumentMoniker": "src\\app\\newRoot\\app.component.scss",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\newRoot\\app.component.scss",
+              "RelativeToolTip": "src\\app\\newRoot\\app.component.scss",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002663|",
+              "WhenOpened": "2025-01-15T17:53:05.582Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "app.config.ts",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\newRoot\\app.config.ts",
+              "RelativeDocumentMoniker": "src\\app\\newRoot\\app.config.ts",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\newRoot\\app.config.ts",
+              "RelativeToolTip": "src\\app\\newRoot\\app.config.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-01-15T17:53:03.13Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "index.ts",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\newRoot\\index.ts",
+              "RelativeDocumentMoniker": "src\\app\\newRoot\\index.ts",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\newRoot\\index.ts",
+              "RelativeToolTip": "src\\app\\newRoot\\index.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-01-15T17:53:00.271Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "index.ts",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\components\\index.ts",
+              "RelativeDocumentMoniker": "src\\app\\components\\index.ts",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\components\\index.ts",
+              "RelativeToolTip": "src\\app\\components\\index.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-01-15T17:52:45.036Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "app.component.html",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\newRoot\\app.component.html",
+              "RelativeDocumentMoniker": "src\\app\\newRoot\\app.component.html",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\newRoot\\app.component.html",
+              "RelativeToolTip": "src\\app\\newRoot\\app.component.html",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-01-15T17:52:20.67Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "client-products.component.ts",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\Products\\client-products.component.ts",
+              "RelativeDocumentMoniker": "src\\app\\feature\\dashboard\\DashboardComponent\\client\\Products\\client-products.component.ts",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\feature\\dashboard\\DashboardComponent\\client\\Products\\client-products.component.ts",
+              "RelativeToolTip": "src\\app\\feature\\dashboard\\DashboardComponent\\client\\Products\\client-products.component.ts",
+              "ViewState": "AQIAADAAAAAAAAAAAAAgwIcAAAA6AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-01-15T17:26:38.707Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "index.html",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\index.html",
+              "RelativeDocumentMoniker": "src\\index.html",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\index.html",
+              "RelativeToolTip": "src\\index.html",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-01-15T17:52:26.177Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "navbar.component.html",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\shared\\navbar\\navbar.component.html",
+              "RelativeDocumentMoniker": "src\\app\\shared\\navbar\\navbar.component.html",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\shared\\navbar\\navbar.component.html",
+              "RelativeToolTip": "src\\app\\shared\\navbar\\navbar.component.html",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAUAAAAdAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-01-15T17:30:42.983Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "navbar.component.ts",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\shared\\navbar\\navbar.component.ts",
+              "RelativeDocumentMoniker": "src\\app\\shared\\navbar\\navbar.component.ts",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\shared\\navbar\\navbar.component.ts",
+              "RelativeToolTip": "src\\app\\shared\\navbar\\navbar.component.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-01-15T17:30:39.828Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "cart.service.ts",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\services\\cart\\cart.service.ts",
+              "RelativeDocumentMoniker": "src\\app\\services\\cart\\cart.service.ts",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\services\\cart\\cart.service.ts",
+              "RelativeToolTip": "src\\app\\services\\cart\\cart.service.ts",
+              "ViewState": "AQIAAC0AAAAAAAAAAAAAADwAAAA5AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-01-15T17:28:30.53Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "product.service.ts",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\services\\product\\product.service.ts",
+              "RelativeDocumentMoniker": "src\\app\\services\\product\\product.service.ts",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\services\\product\\product.service.ts",
+              "RelativeToolTip": "src\\app\\services\\product\\product.service.ts",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-01-15T17:27:56.989Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "cart.component.ts",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\components\\Cart\\cart.component.ts",
+              "RelativeDocumentMoniker": "src\\app\\components\\Cart\\cart.component.ts",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\components\\Cart\\cart.component.ts",
+              "RelativeToolTip": "src\\app\\components\\Cart\\cart.component.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAlAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-01-15T17:27:09.017Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "login.component.ts",
+              "DocumentMoniker": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\components\\Login\\login.component.ts",
+              "RelativeDocumentMoniker": "src\\app\\components\\Login\\login.component.ts",
+              "ToolTip": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\src\\app\\components\\Login\\login.component.ts",
+              "RelativeToolTip": "src\\app\\components\\Login\\login.component.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAlAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-01-15T17:05:15.79Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

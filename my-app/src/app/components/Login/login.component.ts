@@ -11,8 +11,8 @@ import { firstValueFrom } from 'rxjs';
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule, GoogleLoginComponent],
-  templateUrl: 'login.component.html',
-  styleUrls: ['./login.component.scss'],
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.scss',
 })
 export class LoginComponent {
   credentials = {
@@ -70,20 +70,29 @@ export class LoginComponent {
         throw new Error('Connexion échouée : réponse invalide');
       }
 
+      //ici on met la vérification si on est pas banni !
+      if (!response.credential.ban)
+      {
       // Sauvegarder les données d'authentification
       this.authService.saveAuthData(response);
 
-      // Redirection selon le rôle
-      if (response.credential.isAdmin) {
-        this.notification.success("Connecté en tant qu'administrateur");
-      } else {
-        this.notification.success("Connecté en tant qu'utilisateur");
+
+        // Redirection selon le rôle
+        if (response.credential.isAdmin) {
+          this.notification.success("Connecté en tant qu'administrateur");
+        } else {
+          this.notification.success("Connecté en tant qu'utilisateur");
+        }
+
+        // Redirection avec rafraîchissement
+        this.router.navigate(['/']).then(() => {
+          window.location.reload();
+        });
+      }else{
+        this.notification.error("Votre compte a été désactivé par un administrateur.");
       }
 
-      // Redirection avec rafraîchissement
-      this.router.navigate(['/']).then(() => {
-        window.location.reload();
-      });
+
 
     } catch (error) {
       // Gérer les erreurs de connexion

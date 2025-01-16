@@ -1,86 +1,141 @@
-.main-nav {
-  background: #4f46e5;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  .logo {
-    height: 40px; /* Ajustez cette valeur pour la taille du logo */
-    width: auto;
-  }
+/* Layout principal */
+.client-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #f3f7fc; /* Couleur de fond claire et moderne */
 }
 
-.main-content {
-  padding: 20px;
-  background-color: #f5f6fa;
-}
-
-.button-blue {
-  background-color: #4f46e5; /* Bleu */
+/* Sidebar */
+.sidebar {
+  width: 270px;
+  background: linear-gradient(145deg, #38B6FF, #2a91d3); /* Dégradé moderne */
   color: white;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 0 20px 20px 0;
+}
 
-  &:hover {
-    background-color: #3b82f6; /* Bleu plus clair au survol */
+/* Logo */
+.logo {
+  text-align: center;
+  margin-bottom: 2rem;
+
+  h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
   }
 
-  &:disabled {
-    background-color: #9ca3af;
-    cursor: not-allowed;
+  p {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-top: 0.5rem;
   }
 }
 
-.product-card {
-  background: white;
+/* Liens de navigation */
+.nav-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+
+  li {
+    margin-bottom: 1rem;
+  }
+
+  li a {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.8rem 1rem;
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+
+    .icon {
+      font-size: 1.4rem;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateX(8px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    &.active {
+      background: rgba(255, 255, 255, 0.3);
+      font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+  }
+}
+
+/* Bouton de déconnexion */
+.logout {
+  margin-top: auto;
+  text-align: center;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1rem;
+  width: 100%;
+  background: none;
+  color: #FFD2D2;
+  border: 2px solid #FFD2D2;
   border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s, box-shadow 0.2s;
+  font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+  .icon {
+    font-size: 1.4rem;
+  }
 
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+    background: #FFD2D2;
+    color: #2a91d3;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  background: #f3f7fc; /* Couleur douce et apaisante */
+  overflow-y: auto;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+  border-radius: 20px 0 0 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .client-layout {
+    flex-direction: column;
   }
 
-  .product-image {
-    height: 200px; /* Taille ajustée de l'image */
-    background-size: cover;
-    background-position: center;
-  }
-
-  .product-info {
+  .sidebar {
+    width: 100%;
     padding: 1rem;
+    border-radius: 0;
+  }
 
-    h3 {
-      font-size: 1.25rem;
-      color: #1f2937;
-    }
+  .nav-links li a {
+    gap: 0.5rem;
+    justify-content: center;
 
-    .price {
-      font-weight: bold;
-      color: #4f46e5;
-      margin-top: 0.5rem;
-    }
-
-    .add-to-cart-btn {
-      margin-top: 1rem;
-      width: 100%;
-      background-color: #4f46e5;
-      color: white;
-      padding: 0.5rem;
-      border-radius: 6px;
-      text-align: center;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #4338ca;
-      }
-
-      &:disabled {
-        background-color: #9ca3af;
-        cursor: not-allowed;
-      }
+    .icon {
+      font-size: 1.2rem;
     }
   }
 }

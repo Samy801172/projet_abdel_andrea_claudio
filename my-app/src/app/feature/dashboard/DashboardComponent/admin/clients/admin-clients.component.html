@@ -51,7 +51,7 @@
               <td>{{ client.lastName }}</td>
               <td>{{ client.credential?.mail || 'Erreur' }}</td>
               <td>{{ client.address }}</td>
-              <td>{{ client.credential.active ? 'Actif' : 'Désactivé' }}</td>
+              <td>{{ client.credential.ban ? 'En règle' : 'Banni' }}</td>
               <td>{{ client.credential.isAdmin ? 'Oui' : 'Non' }}</td>
               <td class="actions">
                 <button
@@ -68,7 +68,7 @@
                 </button>
                 <button
                   class="ban"
-                  (click)="banClient(client.id)"
+                  (click)="BanClient(client.clientId)"
                 >
                   <i class="fas fa-ban"></i> Bannir
                 </button>

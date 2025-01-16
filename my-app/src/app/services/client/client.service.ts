@@ -29,6 +29,11 @@ export class ClientService {
     return this.http.put<any>(`${this.API_URL}/${clientId}/putAdmin`, updateData);
   }
 
+  // Bannir un client
+  updateBanClient(clientId: number, updateData: { ban: boolean }): Observable<any> {
+    return this.http.put<any>(`${this.API_URL}/${clientId}/banClient`, updateData);
+  }
+
   // pour l'upload de l'avatar
   uploadAvatar(clientId: number, file: File): Observable<any> {
     const formData = new FormData();

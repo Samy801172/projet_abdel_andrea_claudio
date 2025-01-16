@@ -36,4 +36,9 @@ export class UpdateProfileDto {
   @IsBoolean()
   @ApiProperty({ default: true })
   active?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  @ApiProperty({ default: false })
+  ban?: boolean;
 }
