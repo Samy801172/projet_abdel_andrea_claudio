@@ -199,7 +199,7 @@ export class AdminClientsComponent implements OnInit {
 
     // Inverser le statut actuel de isBan
     const IsBan = !client.credential.ban;
-    const actionText = IsBan ? 'bannir' : 'dé-bannir';
+    const actionText = IsBan ? 'dé-bannir' : 'bannir';
 
     // Afficher une boîte de confirmation
     if (!window.confirm(`Êtes-vous sûr de vouloir ${actionText} pour le client ID: ${clientId} ?`)) {
@@ -214,7 +214,7 @@ export class AdminClientsComponent implements OnInit {
               this.Tousclients[index] = updatedClient;
             }
 
-            const statusText = IsBan ? 'banni' : 'en règle';
+            const statusText = IsBan ? 'en règle' : 'banni';
             this.notification.success(`Le status: "${statusText}" a bien été appliqué pour le client ID: ${clientId}`);
 
             // Ajout d'un délai avant de recharger la page
