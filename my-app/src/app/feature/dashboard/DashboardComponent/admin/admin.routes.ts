@@ -9,6 +9,7 @@ import { AdminProductsComponent } from './products/admin-products.component';
 import { AdminTypeFormComponent } from './type/type-form/admin-type-form.component';
 import { AdminTypesComponent } from './type/admin-types.component';
 import { AdminDashboardComponent } from './admin-dashboard.component';
+import { AdminDashComponent } from './dash/admin-dash.component';
 
 export const adminRoutes: Routes = [
   {
@@ -21,6 +22,9 @@ export const adminRoutes: Routes = [
         pathMatch: 'full'
       },
       {
+        path: 'dash',
+        component: AdminDashComponent
+      },{
         path: 'categories',
         component: AdminTypesComponent
       },

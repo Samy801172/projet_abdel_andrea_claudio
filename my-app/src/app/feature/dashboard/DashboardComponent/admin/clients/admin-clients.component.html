@@ -124,10 +124,11 @@
   <div class="modal" *ngIf="isEditModalOpen">
     <div class="modal-content">
       <span class="close" (click)="closeEditModal()">&times;</span>
-      <h2>Modifier le client : {{ selectedClient?.firstName }} {{ selectedClient?.lastName }}</h2>
+      <h2>Modifier le client</h2>
+      <p>{{ selectedClient?.firstName }} {{ selectedClient?.lastName }}</p>
 
-      <form (ngSubmit)="saveClientEdits()">
-        <div>
+      <form (ngSubmit)="saveClientEdits()" class="edit-form">
+        <div class="form-group">
           <label for="firstName">Prénom :</label>
           <input
             id="firstName"
@@ -137,7 +138,8 @@
             required
           />
         </div>
-        <div>
+
+        <div class="form-group">
           <label for="lastName">Nom :</label>
           <input
             id="lastName"
@@ -147,19 +149,19 @@
             required
           />
         </div>
-        <div>
+
+        <div class="form-group">
           <label for="address">Adresse :</label>
-          <input
+          <textarea
             id="address"
-            type="text"
             [(ngModel)]="editedClientData.address"
             name="address"
-          />
+          ></textarea>
         </div>
 
         <div class="modal-actions">
-          <button type="button" (click)="closeEditModal()">Annuler</button>
-          <button type="submit">Enregistrer</button>
+          <button type="button" class="btn cancel" (click)="closeEditModal()">Annuler</button>
+          <button type="submit" class="btn save">Enregistrer</button>
         </div>
       </form>
     </div>

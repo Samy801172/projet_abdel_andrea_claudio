@@ -5,6 +5,7 @@
       <p>Espace Admin</p>
     </div>
     <ul class="nav-links">
+      <li><a routerLink="dash" routerLinkActive="active"><i class="fas fa-th-large"></i>Dash</a></li>
       <li><a routerLink="categories" routerLinkActive="active"><i class="fas fa-th-large"></i> Catégories</a></li>
       <li><a routerLink="products" routerLinkActive="active"><i class="fas fa-pills"></i> Médicaments</a></li>
       <li><a routerLink="services" routerLinkActive="active"><i class="fas fa-concierge-bell"></i> Services</a></li>
@@ -15,9 +16,6 @@
       <li><a routerLink="stock" routerLinkActive="active"><i class="fas fa-warehouse"></i> Stock</a></li>
       <li><a routerLink="appointments" routerLinkActive="active"><i class="fas fa-calendar-check"></i> Rendez-vous</a></li>
     </ul>
-    <div class="logout">
-      <button (click)="logout()" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Se déconnecter</button>
-    </div>
   </nav>
   <main class="main-content">
     <header class="top-bar">
