@@ -118,14 +118,25 @@ export class SecurityController {
   @Post('admin-signup')
   @ApiResponse({
     status: 201,
-    description: 'Admin signed up successfully.',
+    description: 'User signed up successfully.',
     type: Credential,
   })
   @ApiResponse({ status: 409, description: 'User already exists.' })
-  public async adminSignUp(
-    @Body() payload: SignupPayload,
-  ): Promise<Credential | null> {
-    return this.service.signup(payload, true);
+  public async adminSignUp(@Body() payload: SignupPayload): Promise<Credential> {
+    this.logger.debug(`SignUp payload: ${JSON.stringify(payload)}`);
+    try {
+      const credential = await this.service.signupAdmin(payload);
+      if (!credential) {
+        throw new ConflictException(
+          "Erreur lors de l'inscription. Utilisateur déjà existant.",
+        );
+      }
+      this.logger.debug(`SignUp successful: ${JSON.stringify(credential)}`);
+      return credential;
+    } catch (error) {
+      this.logger.error(`SignUp error: ${error.message}`);
+      throw error;
+    }
   }
 
   @Public()

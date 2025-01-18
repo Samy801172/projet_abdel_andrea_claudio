@@ -157,10 +157,11 @@ export class SecurityService {
       audience: '895412895151-8h0gn8669voga5e58rmqbibu01bd9v9d.apps.googleusercontent.com',
     });
   }
+  //Signup pour le client
   async signup(
     payload: SignupPayload,
     isAdmin: boolean = false,
-  ): Promise<Credential> {
+   ): Promise<Credential> {
     try {
       // Créer l'objet Credential
       const credential = Builder<Credential>()
@@ -177,6 +178,49 @@ export class SecurityService {
 
       // Créer le client si ce n'est pas un admin
       if (!isAdmin) {
+        const client = this.clientRepository.create({
+          firstName: payload.username,
+          lastName: '',
+          address: '',
+          avatar: '/assets/uploads/default.jpg', // Ajout de l'avatar par défaut
+          credential: savedCredential as DeepPartial<Credential>, // Utiliser DeepPartial<Credential>
+        });
+
+        await this.clientRepository.save(client);
+      }
+
+      return savedCredential;
+    } catch (error) {
+      if (error instanceof UserAlreadyExistException) {
+        throw error; // Relancer l'exception si c'est une UserAlreadyExistException
+      }
+      this.logger.error(`Error during signup: ${error.message}`);
+      throw new SignupException('Erreur lors de la création du compte');
+    }
+  }
+
+  // Signup pour l'admin
+  async signupAdmin(
+    payload: SignupPayload,
+    isAdmin: boolean = true,
+  ): Promise<Credential> {
+    try {
+      // Créer l'objet Credential
+      const credential = Builder<Credential>()
+        .credential_id(ulid())
+        .username(payload.username)
+        .password(await encryptPassword(payload.password))
+        .mail(payload.mail)
+        .isAdmin(isAdmin)
+        .active(true)
+        .build();
+
+      // Sauvegarder l'objet Credential
+      const savedCredential = await this.repository.save(credential);
+
+      // Créer le client si ce n'est pas un admin
+      // ici modifié par claudio pour qu'un admin sois créé en tant que tel
+      if (isAdmin) {
         const client = this.clientRepository.create({
           firstName: payload.username,
           lastName: '',

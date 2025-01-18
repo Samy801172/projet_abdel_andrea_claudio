@@ -28,14 +28,14 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       this.logger.debug('JWT Payload:', payload);
 
       // Pour les admins, on peut retourner directement les infos sans chercher le client
-      if (payload.isAdmin) {
-        this.logger.debug('Utilisateur admin détecté');
-        return {
-          credentialId: payload.sub,
-          email: payload.email,
-          isAdmin: true,
-        };
-      }
+      //if (payload.isAdmin) {
+       // this.logger.debug('Utilisateur admin détecté');
+        //return {
+         // credentialId: payload.sub,
+          //email: payload.email,
+         // isAdmin: true,
+       // };
+      //}
 
       // Pour les clients normaux, on vérifie l'existence dans la base
       const client = await this.clientService.findByCredentialId(payload.sub);

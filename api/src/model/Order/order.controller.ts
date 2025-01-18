@@ -115,7 +115,7 @@ export class OrderController {
     @Param('clientId') requestedClientId: string,
   ) {
     // Vérification des droits d'accès
-    if (!isAdmin && currentClientId !== +requestedClientId) {
+    if (currentClientId !== +requestedClientId) {
       throw new BadRequestException(
         "Vous ne pouvez accéder qu'à vos propres commandes",
       );

@@ -3,11 +3,12 @@ import {CommonModule} from "@angular/common";
 import { ClientService } from '../../../../../services';
 import { NotificationService } from '../../../../../services/notification/notification.service';
 import {clientGuard} from "../../../guard/client.guard";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-admin-clients',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './admin-clients.component.html',
   styleUrl: './admin-clients.component.scss'
 })
@@ -58,10 +59,6 @@ export class AdminClientsComponent implements OnInit {
     }
   }
 
-  banClient(clientId: number): void {
-    alert(`Bannir le client ID: ${clientId}`);
-  }
-
   viewOrders(clientId: number): void {
     alert(`Voir les commandes pour le client ID: ${clientId}`);
   }
@@ -106,21 +103,6 @@ export class AdminClientsComponent implements OnInit {
     this.selectedClientOrders = [];
   }
 
-  checkClientOrders(clientId: number): void {
-    // Appel au service pour récupérer les commandes
-    this.clientService.getClientOrders(clientId).subscribe({
-      next: (orders) => {
-        this.selectedClientOrders = orders;
-        this.isModalOpen = true;
-      },
-      error: (error) => {
-        console.error('Erreur lors du chargement des commandes :', error);
-        this.selectedClientOrders = [];
-        this.isModalOpen = true;
-      }
-    });
-  }
-
   // Admin consulte les commandes d'un client
   checkClientOrder(clientId: number): void {
     this.clientService.getClientOrders(clientId).subscribe({
@@ -147,12 +129,10 @@ export class AdminClientsComponent implements OnInit {
   PutAdminOrNot(clientId: number): void {
     // Trouver le client localement
     const client = this.Tousclients.find((client: any) => client.clientId === clientId);
-
     if (!client) {
       this.notification.error(`Client avec l'ID ${clientId} non trouvé.`);
       return;
     }
-
     // Inverser le statut actuel de isAdmin
     const newIsAdminStatus = !client.credential.isAdmin;
     const actionText = newIsAdminStatus ? 'ajouter les privilèges admin' : 'retirer les privilèges admin';
@@ -161,8 +141,7 @@ export class AdminClientsComponent implements OnInit {
     if (!window.confirm(`Êtes-vous sûr de vouloir ${actionText} pour le client ID: ${clientId} ?`)) {
       return; // Annuler l'action si non confirmé
     }
-
-    // Appeler le service avec le nouveau statut
+    // Appeler le servise avec le nouveau statut
     this.clientService.updateProfileToPutAdmin(clientId, { isAdmin: newIsAdminStatus }).subscribe({
       next: (updatedClient: any) => {
         if (updatedClient) {
@@ -171,10 +150,8 @@ export class AdminClientsComponent implements OnInit {
           if (index !== -1) {
             this.Tousclients[index] = updatedClient;
           }
-
           const statusText = newIsAdminStatus ? 'activé' : 'désactivé';
           this.notification.success(`Les privilèges admin ont été ${statusText} pour le client ID: ${clientId}`);
-
           // Ajout d'un délai avant de recharger la page
           setTimeout(() => {
             window.location.reload(); // Actualiser la page
@@ -197,41 +174,44 @@ export class AdminClientsComponent implements OnInit {
       return;
     }
 
-    // Inverser le statut actuel de isBan
-    const IsBan = !client.credential.ban;
-    const actionText = IsBan ? 'dé-bannir' : 'bannir';
+// ici on empeche de pouvoir bannir les admins (une espèce de protection)
+if(!client.credential.isAdmin)
+{
+  // Inverser le statut actuel de isBan
+  const IsBan = !client.credential.ban;
+  const actionText = IsBan ? 'dé-bannir' : 'bannir';
 
-    // Afficher une boîte de confirmation
-    if (!window.confirm(`Êtes-vous sûr de vouloir ${actionText} pour le client ID: ${clientId} ?`)) {
-      return; // Annuler l'action si non confirmé
-    }
-      this.clientService.updateBanClient(clientId, { ban: IsBan }).subscribe({
-        next: (updatedClient: any) => {
-          if (updatedClient) {
-            // Mettre à jour localement le client
-            const index = this.Tousclients.findIndex((c: any) => c.clientId === clientId);
-            if (index !== -1) {
-              this.Tousclients[index] = updatedClient;
-            }
-
-            const statusText = IsBan ? 'en règle' : 'banni';
-            this.notification.success(`Le status: "${statusText}" a bien été appliqué pour le client ID: ${clientId}`);
-
-            // Ajout d'un délai avant de recharger la page
-            setTimeout(() => {
-              window.location.reload(); // Actualiser la page
-            }, 1000); // après 1 seconde
-          }
-        },
-        error: (error) => {
-          console.error('Erreur mise à jour profil:', error);
-          this.notification.error(`Erreur lors de la tentative pour bannir : ${clientId}`);
-        }
-      });
+  // Afficher une boîte de confirmation
+  if (!window.confirm(`Êtes-vous sûr de vouloir ${actionText} pour le client ID: ${clientId} ?`)) {
+    return; // Annuler l'action si non confirmé
   }
+  this.clientService.updateBanClient(clientId, { ban: IsBan }).subscribe({
+    next: (updatedClient: any) => {
+      if (updatedClient) {
+        // Mettre à jour localement le client
+        const index = this.Tousclients.findIndex((c: any) => c.clientId === clientId);
+        if (index !== -1) {
+          this.Tousclients[index] = updatedClient;
+        }
 
+        const statusText = IsBan ? 'en règle' : 'banni';
+        this.notification.success(`Le status: "${statusText}" a bien été appliqué pour le client ID: ${clientId}`);
 
-
+        // Ajout d'un délai avant de recharger la page
+        setTimeout(() => {
+          window.location.reload(); // Actualiser la page
+        }, 1000); // après 1 seconde
+      }
+    },
+    error: (error) => {
+      console.error('Erreur mise à jour profil:', error);
+      this.notification.error(`Erreur lors de la tentative pour bannir : ${clientId}`);
+    }
+  });
+}else{
+  this.notification.error(`Impossible d'appliquer le status banni à cet utilisateur car il est admin !`);
+}
+}
 
 }
 

@@ -51,7 +51,9 @@
               <td>{{ client.lastName }}</td>
               <td>{{ client.credential?.mail || 'Erreur' }}</td>
               <td>{{ client.address }}</td>
-              <td>{{ client.credential.ban ? 'En règle' : 'Banni' }}</td>
+              <td>
+              <span [ngClass]="{'text-red': client.credential.ban, 'text-green': !client.credential.ban}">{{ client.credential.ban ? 'Banni' : 'En règle' }}</span>
+              </td>
               <td>{{ client.credential.isAdmin ? 'Oui' : 'Non' }}</td>
               <td class="actions">
                 <button
@@ -121,7 +123,7 @@
                   order.id_statut === 5 ? 'Delivered' :
                     order.id_statut === 6 ? 'Cancelled' : 'Unknown' }}
           </td>
-          <button>voir détails</button>
+          <button class="view-orders" routerLink="/admin/orders">gérer</button>
         </tr>
         </tbody>
       </table>
