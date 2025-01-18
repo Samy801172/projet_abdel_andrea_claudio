@@ -111,44 +111,53 @@ export class SecurityService {
   async googleSignIn(credential: string): Promise<Token> {
     try {
       const ticket = await this.verifyGoogleToken(credential);
-      const payload = ticket.getPayload(); // Récupérer les données du token
-      const email = payload?.email;
+      const payload = ticket.getPayload();
+      console.log('Payload Google:', payload);
 
+      const email = payload?.email;
       if (!email) {
         throw new UnauthorizedException('Le token Google ne contient pas d\'email valide.');
       }
 
-      // Vérifiez si l'utilisateur existe
       let user = await this.repository.findOneBy({ mail: email });
       if (!user) {
-        // Créez un nouvel utilisateur s'il n'existe pas
+        // Générer un credential_id
+        const credentialId = ulid();
+        console.log('Generated credential_id:', credentialId);
+
+        // Créer un nouvel utilisateur
         user = this.repository.create({
-          credential_id: ulid(),
+          credential_id: credentialId,
           mail: email,
-          username: payload?.given_name || 'Utilisateur Google', // Fournir un username par défaut
+          username: payload?.given_name || 'Utilisateur Google',
           isAdmin: false,
           active: true,
         });
-        await this.repository.save(user);
+        user = await this.repository.save(user);
+        console.log('User created successfully:', user);
 
-        // Insérez un client associé
+        // Créer un client associé
         const client = this.clientRepository.create({
           credentialId: user.credential_id,
-          firstName: payload?.given_name || '', // Utilisez les données du token si disponibles
-          //avatar: 'assets/uploads/default.jpg', // Ajout de l'avatar par défaut
+          firstName: payload?.given_name || '',
           lastName: payload?.family_name || '',
-          address: '', // L'adresse peut être vide si non applicable
+          address: '',
+          avatar: 'assets/default.png',
         });
         await this.clientRepository.save(client);
+        console.log('Client created successfully:', client);
       }
 
-      // Générez un token pour l'utilisateur
-      return this.tokenService.getTokens(user);
+      // Générer un token
+      const token = await this.tokenService.getTokens(user);
+      console.log('Generated token:', token);
+      return token;
     } catch (error) {
       this.logger.error('Google sign-in error:', error);
       throw new UnauthorizedException('Invalid Google token');
     }
   }
+
 
   private async verifyGoogleToken(token: string): Promise<LoginTicket> {
     const client = new OAuth2Client('895412895151-8h0gn8669voga5e58rmqbibu01bd9v9d.apps.googleusercontent.com');
