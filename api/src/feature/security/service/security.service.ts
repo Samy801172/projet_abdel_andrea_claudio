@@ -142,7 +142,7 @@ export class SecurityService {
           firstName: payload?.given_name || '',
           lastName: payload?.family_name || '',
           address: '',
-          avatar: 'assets/default.png',
+          avatar: '/api/assets/uploads/default.jpg',
         });
         await this.clientRepository.save(client);
         console.log('Client created successfully:', client);
