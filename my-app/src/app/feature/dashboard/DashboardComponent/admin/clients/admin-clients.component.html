@@ -1,4 +1,3 @@
-<!-- HTML - admin-client-management.component.html -->
 <div class="admin-layout">
 
   <!-- Main Content -->
@@ -33,7 +32,7 @@
             <th>Email</th>
             <th>Adresse</th>
             <th>Statut</th>
-            <th>est admin</th>
+            <th>Est admin</th>
             <th>Actions</th>
           </tr>
           </thead>
@@ -52,38 +51,25 @@
               <td>{{ client.credential?.mail || 'Erreur' }}</td>
               <td>{{ client.address }}</td>
               <td>
-              <span [ngClass]="{'text-red': client.credential.ban, 'text-green': !client.credential.ban}">{{ client.credential.ban ? 'Banni' : 'En règle' }}</span>
+                <span [ngClass]="{'text-red': client.credential.ban, 'text-green': !client.credential.ban}">
+                  {{ client.credential.ban ? 'Banni' : 'En règle' }}
+                </span>
               </td>
               <td>{{ client.credential.isAdmin ? 'Oui' : 'Non' }}</td>
               <td class="actions">
-                <button
-                  class="edit"
-                  (click)="editClient(client.id)"
-                >
+                <button class="edit" (click)="openEditClientModal(client)">
                   <i class="fas fa-edit"></i> Modifier
                 </button>
-                <button
-                  class="delete"
-                  (click)="deleteClient(client.clientId)"
-                >
+                <button class="delete" (click)="deleteClient(client.clientId)">
                   <i class="fas fa-trash"></i> Supprimer
                 </button>
-                <button
-                  class="ban"
-                  (click)="BanClient(client.clientId)"
-                >
+                <button class="ban" (click)="BanClient(client.clientId)">
                   <i class="fas fa-ban"></i> Bannir
                 </button>
-                <button
-                  class="view-orders"
-                  (click)="openOrdersModal(client)"
-                >
+                <button class="view-orders" (click)="openOrdersModal(client)">
                   <i class="fas fa-box"></i> Consulter commandes
                 </button>
-                <button
-                  class="grant-admin"
-                  (click)="PutAdminOrNot(client.clientId)"
-                >
+                <button class="grant-admin" (click)="PutAdminOrNot(client.clientId)">
                   <i class="fas fa-user-shield"></i> Privilèges Admin
                 </button>
               </td>
@@ -95,7 +81,7 @@
     </div>
   </main>
 
-  <!-- Fenêtre modale -->
+  <!-- Fenêtre modale pour les commandes -->
   <div class="modal" *ngIf="isModalOpen">
     <div class="modal-content">
       <span class="close" (click)="closeModal()">&times;</span>
@@ -104,7 +90,7 @@
       <table class="orders-table" *ngIf="selectedClientOrders.length > 0">
         <thead>
         <tr>
-          <th>identifiant</th>
+          <th>Identifiant</th>
           <th>Date de la commande</th>
           <th>Montant total</th>
           <th>Statut</th>
@@ -123,7 +109,7 @@
                   order.id_statut === 5 ? 'Delivered' :
                     order.id_statut === 6 ? 'Cancelled' : 'Unknown' }}
           </td>
-          <button class="view-orders" routerLink="/admin/orders">gérer</button>
+          <button class="view-orders" routerLink="/admin/orders">Gérer</button>
         </tr>
         </tbody>
       </table>
@@ -131,6 +117,51 @@
       <p *ngIf="selectedClientOrders.length === 0">
         Aucune commande trouvée.
       </p>
+    </div>
+  </div>
+
+  <!-- Fenêtre modale pour l'édition -->
+  <div class="modal" *ngIf="isEditModalOpen">
+    <div class="modal-content">
+      <span class="close" (click)="closeEditModal()">&times;</span>
+      <h2>Modifier le client : {{ selectedClient?.firstName }} {{ selectedClient?.lastName }}</h2>
+
+      <form (ngSubmit)="saveClientEdits()">
+        <div>
+          <label for="firstName">Prénom :</label>
+          <input
+            id="firstName"
+            type="text"
+            [(ngModel)]="editedClientData.firstName"
+            name="firstName"
+            required
+          />
+        </div>
+        <div>
+          <label for="lastName">Nom :</label>
+          <input
+            id="lastName"
+            type="text"
+            [(ngModel)]="editedClientData.lastName"
+            name="lastName"
+            required
+          />
+        </div>
+        <div>
+          <label for="address">Adresse :</label>
+          <input
+            id="address"
+            type="text"
+            [(ngModel)]="editedClientData.address"
+            name="address"
+          />
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" (click)="closeEditModal()">Annuler</button>
+          <button type="submit">Enregistrer</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

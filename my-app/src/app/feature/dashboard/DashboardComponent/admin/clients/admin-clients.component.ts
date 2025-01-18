@@ -4,11 +4,13 @@ import { ClientService } from '../../../../../services';
 import { NotificationService } from '../../../../../services/notification/notification.service';
 import {clientGuard} from "../../../guard/client.guard";
 import {RouterLink} from "@angular/router";
+import {Client} from "../../../../../models/client/client.model";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-admin-clients',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './admin-clients.component.html',
   styleUrl: './admin-clients.component.scss'
 })
@@ -17,11 +19,16 @@ export class AdminClientsComponent implements OnInit {
   Tousclients:any = [];
   // Liste des commandes d'un client sélectionné
   isModalOpen = false;
-  selectedClient: any = null;
-  selectedClientOrders: any[] = [];
+
+  editedClientData: any = {};
+  isEditModalOpen: boolean = false;
   PathUrl: string = "http://localhost:2024";
 
   filteredClients = [...this.Tousclients];
+  // Client sélectionné et ses données
+  selectedClient: any = null;
+  selectedClientOrders: any[] = [];
+
 
   constructor(private clientService: ClientService, private notification: NotificationService,) {}
 
@@ -46,10 +53,6 @@ export class AdminClientsComponent implements OnInit {
 
   addClient(): void {
     alert('Ajouter un client en développement');
-  }
-
-  editClient(clientId: number): void {
-    alert(`Modifier le client ID: ${clientId}`);
   }
 
   deleteClient(clientId: number): void {
@@ -107,12 +110,43 @@ export class AdminClientsComponent implements OnInit {
     }
   }
 
+  // Ouvrir la modal d'édition
+  openEditClientModal(client: any): void {
+    this.selectedClient = { ...client }; // Clone des données pour éviter des modifications directes
+    this.editedClientData = { ...client };
+    this.isEditModalOpen = true;
+  }
 
+  // Fermer la modal d'édition
+  closeEditModal(): void {
+    this.isEditModalOpen = false;
+    this.selectedClient = null;
+    this.editedClientData = {};
+  }
+
+  // mise à jour d'un client par l'admin
+  saveClientEdits(): void {
+    this.clientService.updateClient(this.selectedClient.clientId, this.editedClientData).subscribe({
+      next: (updatedClient) => {
+        this.notification.success('Client mis à jour avec succès');
+        this.closeEditModal();
+        this.LoadClient(); // Recharge la liste des clients
+      },
+      error: (error) => {
+        console.error('Erreur lors de la mise à jour du client :', error);
+        this.notification.error('Une erreur est survenue lors de la mise à jour');
+      },
+    });
+  }
+
+
+  // ouvre la fenetre pour gérer les commande d'un client
   openOrdersModal(client: any): void {
     this.selectedClient = client;
     this.checkClientOrder(client.clientId);
   }
 
+  // ferme la fenetre pour gérer les commande d'un client
   closeModal(): void {
     this.isModalOpen = false;
     this.selectedClient = null;
@@ -194,7 +228,7 @@ if(!client.credential.isAdmin)
 {
   // Inverser le statut actuel de isBan
   const IsBan = !client.credential.ban;
-  const actionText = IsBan ? 'dé-bannir' : 'bannir';
+  const actionText = IsBan ? 'bannir' : 'dé-bannir';
 
   // Afficher une boîte de confirmation
   if (!window.confirm(`Êtes-vous sûr de vouloir ${actionText} pour le client ID: ${clientId} ?`)) {
@@ -209,7 +243,7 @@ if(!client.credential.isAdmin)
           this.Tousclients[index] = updatedClient;
         }
 
-        const statusText = IsBan ? 'en règle' : 'banni';
+        const statusText = IsBan ? 'banni' : 'en règle';
         this.notification.success(`Le status: "${statusText}" a bien été appliqué pour le client ID: ${clientId}`);
 
         // Ajout d'un délai avant de recharger la page

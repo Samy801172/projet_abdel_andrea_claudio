@@ -6,8 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b7d382ad-49c7-432b-86f3-9d0a39a078e1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/admin/clients/admin-clients.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/admin/clients/admin-clients.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/services/client/client.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/services/client/client.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/client/profile/client-profile.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/client/profile/client-profile.component.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,20 +36,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main__claudio__new&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/XpDark/WebstormProjects/projet_abdel_andrea_claudio_last&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main__claudio__new",
+    "last_opened_file_path": "C:/Users/XpDark/WebstormProjects/projet_abdel_andrea_claudio_last",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "C:\\Users\\XpDark\\WebstormProjects\\projet_abdel_andrea_claudio_last\\my-app\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -86,6 +86,7 @@
       <workItem from="1737062424676" duration="42000" />
       <workItem from="1737205798815" duration="82000" />
       <workItem from="1737210609548" duration="1762000" />
+      <workItem from="1737216586590" duration="1139000" />
     </task>
     <servers />
   </component>

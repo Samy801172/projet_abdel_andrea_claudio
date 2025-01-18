@@ -206,7 +206,5 @@ export class ClientController {
     // Appel au service pour effectuer la suppression
     await this.clientService.delete(clientId);
   }
-
-
-
 }
+

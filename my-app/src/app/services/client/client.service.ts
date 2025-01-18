@@ -66,5 +66,9 @@ export class ClientService {
     );
   }
 
+  // pour mettre à jour un clien par l'admin
+  updateClient(clientId: number, clientData: Partial<Client>): Observable<Client> {
+    return this.http.put<Client>(`${this.API_URL}/${clientId}/updateProfile`, clientData);
+  }
 
 }

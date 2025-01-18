@@ -234,6 +234,4 @@ export class ClientService {
     await this.clientRepository.remove(client);
     console.log(`Client avec l'ID ${clientId} supprimé par un administrateur`);
   }
-
-
 }

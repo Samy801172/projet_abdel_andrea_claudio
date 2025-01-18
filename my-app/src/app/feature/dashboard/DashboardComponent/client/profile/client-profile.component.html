@@ -5,7 +5,7 @@
     <!-- Informations utilisateur -->
     <div class="profile-info" *ngIf="!editMode">
       <div class="avatar-container">
-        <img [src]="baseUrl+avatar || 'assets/default.jpg'" alt="Avatar" class="profile-avatar" />
+        <img [src]="baseUrl+avatar || '/api/assets/uploads/default.jpg'" alt="Avatar" class="profile-avatar" />
       </div>
 
       <div class="info-group">
