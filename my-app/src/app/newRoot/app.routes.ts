@@ -6,7 +6,6 @@ import { AuthGuard } from '../feature/dashboard/guard/auth.guard';
 import { AdminGuard } from '../feature/dashboard/guard/admin.guard';
 import { HomeComponent } from '../components/home/home.component';
 import {OrderConfirmationComponent} from '../components/order-confirmation/order-confirmation.component';
-import {StockManagementComponent} from '../feature/dashboard/DashboardComponent/admin/stock/stock-management.component';
 import {PaymentSuccessComponent} from '../components/payment/payment-success.component';
 import {ClientProfileComponent} from '../feature/dashboard/DashboardComponent/client/profile/client-profile.component';
 
@@ -21,11 +20,6 @@ export const routes: Routes = [
 
   component: OrderConfirmationComponent,
   canActivate: [AuthGuard]
-  },
-  {
-    path: 'admin/stock',
-    component: StockManagementComponent,
-    canActivate: [AuthGuard, AdminGuard]
   },
 
   { path: 'profile',

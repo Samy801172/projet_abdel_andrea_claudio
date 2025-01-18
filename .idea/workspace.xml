@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b7d382ad-49c7-432b-86f3-9d0a39a078e1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/admin/dash/admin-dash.component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/admin/dash/admin-dash.component.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/admin/dash/admin-dash.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/admin/admin-dashboard.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/admin/admin-dashboard.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/admin/admin.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/admin/admin.routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/admin/clients/admin-clients.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/admin/clients/admin-clients.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/admin/clients/admin-clients.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/admin/clients/admin-clients.component.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/shared/navbar/navbar.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/shared/navbar/navbar.component.html" afterDir="false" />
-    </list>
+    <list default="true" id="b7d382ad-49c7-432b-86f3-9d0a39a078e1" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -94,7 +84,7 @@
       <workItem from="1737205798815" duration="82000" />
       <workItem from="1737210609548" duration="1762000" />
       <workItem from="1737216586590" duration="1139000" />
-      <workItem from="1737223247431" duration="3292000" />
+      <workItem from="1737223247431" duration="3332000" />
     </task>
     <servers />
   </component>
