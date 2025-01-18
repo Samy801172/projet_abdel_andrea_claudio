@@ -1,10 +1,11 @@
 // services/client/client.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {Appointment} from '../../models/Appointment/appointment.model';
 import {Client} from '../../models/client/client.model';
 import {Order} from '../../models/order/order.model';
+import {catchError, tap} from "rxjs/operators";
 
 
 @Injectable({
@@ -53,4 +54,17 @@ export class ClientService {
   getClientAppointments(clientId: number): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(`${this.API_URL}/${clientId}/appointments`);
   }
+
+  // pour supprimer un client
+  deleteClient(clientId: number): Observable<void> {
+    return this.http.delete<void>(`${this.API_URL}/${clientId}/delClient`).pipe(
+      tap(() => console.log(`Client supprimé: ${clientId}`)),
+      catchError(error => {
+        console.error('Erreur lors de la suppression du client:', error);
+        return throwError(() => error);
+      })
+    );
+  }
+
+
 }

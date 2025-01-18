@@ -53,11 +53,27 @@ export class AdminClientsComponent implements OnInit {
   }
 
   deleteClient(clientId: number): void {
-    if (confirm('Êtes-vous sûr de vouloir supprimer ce client ?')) {
-      this.Tousclients = this.Tousclients.filter((client: { id: number; }) => client.id !== clientId);
-      this.filteredClients = [...this.Tousclients];
+    const client = this.Tousclients.find((client: any) => client.clientId === clientId);
+    if (!confirm(`Êtes-vous sûr de vouloir supprimer le client avec l'ID ${clientId} ?`)) {
+      return;
+    }
+    if(!client.credential.isAdmin)
+    {
+      this.clientService.deleteClient(clientId).subscribe({
+        next: () => {
+          this.notification.success('Client supprimé avec succès');
+          this.LoadClient(); // Recharge la liste des clients après suppression
+        },
+        error: (error) => {
+          this.notification.error('Erreur lors de la suppression du client');
+          console.error('Erreur suppression client:', error);
+        }
+      });
+    }else{
+      this.notification.error('Impossible de supprimer un administrateur !');
     }
   }
+
 
   viewOrders(clientId: number): void {
     alert(`Voir les commandes pour le client ID: ${clientId}`);
@@ -114,11 +130,10 @@ export class AdminClientsComponent implements OnInit {
         this.isModalOpen = true;
 
         // Optionnel : Ajouter une notification de succès
-        this.notification.success(`Les commandes du client ID ${clientId} ont été chargées.`);
+        // notif ic avec notification
       },
       error: (error) => {
         console.error('Erreur lors de la récupération des commandes :', error);
-        this.notification.error(`Le client avec l'id : ${clientId} n'a pas encore effectué de commande.`);
         this.isModalOpen = true;
       }
     });

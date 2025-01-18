@@ -220,4 +220,20 @@ export class ClientService {
       throw new InternalServerErrorException('Erreur lors de la mise à jour du client.');
     }
   }
+
+  //Supprimer un client de l'interface admin
+  async delete(clientId: number): Promise<void> {
+    const client = await this.clientRepository.findOne({
+      where: { clientId: clientId },
+    });
+
+    if (!client) {
+      throw new NotFoundException(`Le client avec l'ID ${clientId} n'existe pas.`);
+    }
+    // Supprimez le client
+    await this.clientRepository.remove(client);
+    console.log(`Client avec l'ID ${clientId} supprimé par un administrateur`);
+  }
+
+
 }

@@ -14,6 +14,7 @@ import { IsNotEmpty } from 'class-validator';
 import { Credential } from '@feature/security/data/entity/credential.entity';
 import { Prescription } from 'model/Prescription/prescription.entity';
 
+
 @Entity('client') // Nom explicite de la table
 export class Client {
   @PrimaryGeneratedColumn()

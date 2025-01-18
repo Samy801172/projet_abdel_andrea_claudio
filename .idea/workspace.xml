@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="b7d382ad-49c7-432b-86f3-9d0a39a078e1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/feature/security/service/security.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/feature/security/service/security.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/admin/clients/admin-clients.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/admin/clients/admin-clients.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/services/client/client.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/services/client/client.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +85,7 @@
       <workItem from="1737062161648" duration="149000" />
       <workItem from="1737062424676" duration="42000" />
       <workItem from="1737205798815" duration="82000" />
-      <workItem from="1737210609548" duration="607000" />
+      <workItem from="1737210609548" duration="1762000" />
     </task>
     <servers />
   </component>

@@ -11,7 +11,7 @@ import {
   NotFoundException,
   BadRequestException,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ClientService } from './client.service';
 import { UpdateClientDto } from './dto/update-client.dto';
 import { CreateClientDto } from './dto/create-client.dto';
@@ -198,4 +198,15 @@ export class ClientController {
       avatarPath: `http://localhost:2024${filePath}`,
     };
   }
+
+  //Supprimer un client du pannel admin
+  @Delete(':id/delClient')
+  @ApiOperation({ summary: 'Supprimer un client par un administrateur' })
+  async deleteClient(@Param('id') clientId: number): Promise<void> {
+    // Appel au service pour effectuer la suppression
+    await this.clientService.delete(clientId);
+  }
+
+
+
 }
