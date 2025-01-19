@@ -22,4 +22,9 @@
         android:name="com.example.gohanmedic_projetmobile.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@id/nav_commande"
+        android:name="com.example.gohanmedic_projetmobile.ui.commande"
+        android:label="Mes Commandes"
+        tools:layout="@layout/commande"/>
 </navigation>
