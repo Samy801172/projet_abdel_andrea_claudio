@@ -1,0 +1,73 @@
+.notifications-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+}
+
+.notification {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  animation: slideIn 0.3s ease-out;
+
+  &.success {
+    background: #d1fae5;
+    color: #065f46;
+  }
+
+  &.error {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+
+  &.warning {
+    background: #fff7ed;
+    color: #9a3412;
+  }
+
+  &.info {
+    background: #eff6ff;
+    color: #1e40af;
+  }
+
+  .icon {
+    margin-right: 12px;
+    font-size: 1.25rem;
+  }
+
+  .message {
+    flex: 1;
+    font-size: 0.95rem;
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
