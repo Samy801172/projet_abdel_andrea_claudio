@@ -11,6 +11,7 @@
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
+
     <fragment
         android:id="@+id/nav_gallery"
         android:name="com.example.gohanmedic_projetmobile.ui.gallery.GalleryFragment"
@@ -24,7 +25,13 @@
         tools:layout="@layout/fragment_slideshow" />
     <fragment
         android:id="@id/nav_commande"
-        android:name="com.example.gohanmedic_projetmobile.ui.commande"
+        android:name="com.example.gohanmedic_projetmobile.ui.commande.CommandeFragment"
         android:label="Mes Commandes"
         tools:layout="@layout/commande"/>
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.gohanmedic_projetmobile.ui.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
 </navigation>
