@@ -88,7 +88,7 @@ export class ClientAppointmentsComponent implements OnInit {
     const formValue = this.appointmentForm.value;
 
     const appointmentData: Appointment = {
-      appointmentId: formValue.appointmentId || null, // Assurez-vous d'inclure l'ID pour un update
+      appointmentId: this.editingAppointment?.appointmentId, // Assurez-vous d'inclure l'ID pour un update
       appointmentDate: this.appointmentForm.get('appointmentDate')?.value,
       time: this.appointmentForm.get('time')?.value,
       serviceId: Number(this.appointmentForm.get('serviceId')?.value), // Convertir en nombre
@@ -100,6 +100,7 @@ export class ClientAppointmentsComponent implements OnInit {
     console.log('Données envoyées :', appointmentData);
 
     if (this.editingAppointment) {
+      console.log(appointmentData.appointmentDate);
       this.appointmentService.update(this.editingAppointment.appointmentId!, appointmentData).subscribe({
         next: () => {
           this.loadAppointments();

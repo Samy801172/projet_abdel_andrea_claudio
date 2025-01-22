@@ -39,7 +39,7 @@ export class AppointmentController {
 
   @Put(':id/miseAjour')
   update(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() updateAppointmentDto: UpdateAppointmentDto,
   ) {
     return this.appointmentService.update(+id, updateAppointmentDto);

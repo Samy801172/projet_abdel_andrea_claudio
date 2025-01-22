@@ -105,7 +105,7 @@ export class AdminService {
   }
 
   // Confirmation du rendez-vous
-  updateStatus(appointmentId: number, newStatus: string): Observable<Appointment> {
+  updateStatus(appointmentId: number | undefined, newStatus: string): Observable<Appointment> {
     return this.http.patch<Appointment>(`${this.apiUrl}/appointments/${appointmentId}/changeStatus`, { status: newStatus }).pipe(
       catchError((error) => {
         console.error('Erreur lors de la mise à jour du statut :', error);

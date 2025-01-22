@@ -1,5 +1,5 @@
 export interface Appointment {
-  appointmentId: number;
+  appointmentId?: number;
   clientId: number; // ID du client
   client?: Client; // Relation vers le client (optionnelle)
   serviceId: number;

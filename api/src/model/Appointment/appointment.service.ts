@@ -87,10 +87,14 @@ export class AppointmentService {
   }
 
   async update(id: number, updateAppointmentDto: UpdateAppointmentDto): Promise<Appointment> {
-    const appointment = await this.findOne(id);
-    Object.assign(appointment, updateAppointmentDto);
-    return this.appointmentRepository.save(appointment);
+    const appointment = await this.findOne(id); // Charge l'entité existante
+    if (!appointment) {
+      throw new NotFoundException(`Appointment with ID ${id} not found.`);
+    }
+    Object.assign(appointment, updateAppointmentDto); // Met à jour les champs
+    return this.appointmentRepository.save(appointment); // Met à jour l'entité existante
   }
+
 
   async remove(id: number): Promise<void> {
     const appointment = await this.findOne(id);
