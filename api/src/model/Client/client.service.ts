@@ -221,17 +221,28 @@ export class ClientService {
     }
   }
 
-  //Supprimer un client de l'interface admin
-  async delete(clientId: number): Promise<void> {
+  // Activer/Désactiver un client de l'interface admin
+  async disabled(clientId: number): Promise<void> {
+    // Récupérer le client
     const client = await this.clientRepository.findOne({
       where: { clientId: clientId },
+      relations: ['credential']
     });
 
     if (!client) {
       throw new NotFoundException(`Le client avec l'ID ${clientId} n'existe pas.`);
     }
-    // Supprimez le client
-    await this.clientRepository.remove(client);
-    console.log(`Client avec l'ID ${clientId} supprimé par un administrateur`);
+
+    // Basculer la valeur de active (true <-> false)
+    client.credential.active = !client.credential.active
+
+    // Sauvegarder les modifications dans la base de données
+    await this.clientRepository.save(client);
+
+    console.log(
+      `Client avec l'ID ${clientId} est maintenant ${
+        client.credential.active ? 'actif' : 'inactif'
+      }.`
+    );
   }
 }

@@ -1,84 +1,8 @@
 <div class="appointments-container">
+  <!-- En-tête -->
   <header class="page-header">
     <h2>Gestion des Rendez-vous</h2>
-    <button class="add-btn" (click)="toggleAddForm()">
-      {{ showAddForm ? 'Fermer' : 'Nouveau Rendez-vous' }}
-    </button>
   </header>
-
-  <!-- Formulaire de rendez-vous -->
-  <div *ngIf="showAddForm" class="appointment-form">
-    <form [formGroup]="appointmentForm" (ngSubmit)="submitAppointment()">
-      <div class="form-row">
-        <div class="form-group">
-          <label for="client">Client</label>
-          <select id="client" formControlName="clientId" required>
-            <option value="">Sélectionnez un client</option>
-            <option *ngFor="let client of clients" [value]="client.clientId">
-              {{ client.firstName }} {{ client.lastName }}
-            </option>
-          </select>
-          <span *ngIf="appointmentForm.get('clientId')?.touched && appointmentForm.get('clientId')?.errors" class="error-message">
-                Veuillez sélectionner un client
-              </span>
-        </div>
-
-        <div class="form-group">
-          <label for="service">Service</label>
-          <select id="service" formControlName="serviceId" required (change)="onServiceChange()">
-            <option value="">Sélectionnez un service</option>
-            <option *ngFor="let service of services" [value]="service.id">
-              {{ service.name }} ({{ getServiceDuration(service.id) }})
-            </option>
-          </select>
-          <span *ngIf="appointmentForm.get('serviceId')?.touched && appointmentForm.get('serviceId')?.errors" class="error-message">
-                Veuillez sélectionner un service
-              </span>
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label for="date">Date</label>
-          <input
-            type="date"
-            id="date"
-            formControlName="appointmentDate"
-            required
-            [min]="minDate"
-            (change)="onDateChange()"
-          />
-          <span *ngIf="appointmentForm.get('appointmentDate')?.touched && appointmentForm.get('appointmentDate')?.errors" class="error-message">
-                <span *ngIf="appointmentForm.get('appointmentDate')?.errors?.['required']">Veuillez sélectionner une date</span>
-                <span *ngIf="appointmentForm.get('appointmentDate')?.errors?.['pastDate']">La date ne peut pas être dans le passé</span>
-              </span>
-        </div>
-
-        <div class="form-group">
-          <label for="time">Heure</label>
-          <select id="time" formControlName="time" required>
-            <option value="">Sélectionnez une heure</option>
-            <option *ngFor="let slot of availableTimeSlots" [value]="slot">{{ slot }}</option>
-          </select>
-          <span *ngIf="appointmentForm.get('time')?.touched && appointmentForm.get('time')?.errors" class="error-message">
-                Veuillez sélectionner une heure
-              </span>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="notes">Notes</label>
-        <textarea id="notes" formControlName="notes" rows="3" placeholder="Ajoutez des notes ou instructions particulières..."></textarea>
-      </div>
-
-      <div class="form-actions">
-        <button type="submit" [disabled]="!appointmentForm.valid" class="submit-btn">
-          {{ editingAppointment ? 'Mettre à jour' : 'Créer le rendez-vous' }}
-        </button>
-        <button type="button" class="cancel-btn" (click)="toggleAddForm()">Annuler</button>
-      </div>
-    </form>
-  </div>
 
   <!-- Liste des rendez-vous -->
   <div class="appointments-list">
@@ -87,20 +11,36 @@
     </div>
     <div *ngIf="filteredAppointments.length > 0" class="appointments-grid">
       <div *ngFor="let appointment of filteredAppointments" class="appointment-card">
-        <div class="appointment-content">
-          <h3>Rendez-vous #{{ appointment.appointmentId }}</h3>
-          <p>Date : {{ appointment.appointmentDate | date:'dd/MM/yyyy' }}</p>
-          <p>Heure : {{ formatTime(appointment.time) }}</p>
-          <p>Client : {{ appointment.client?.firstName }} {{ appointment.client?.lastName }}</p>
-          <p>Service : {{ appointment.service?.name }}</p>
+        <div class="appointment-header">
+          <h4>Rendez-vous #{{ appointment.appointmentId }}</h4>
+          <p>{{ appointment.appointmentDate | date: 'dd/MM/yyyy' }} à {{ appointment.time }}</p>
+        </div>
+        <div class="appointment-body">
+          <p><strong>Client :</strong> {{ appointment.client?.lastName }} {{ appointment.client?.firstName }}</p>
+          <p><strong>Service :</strong> {{ appointment.service?.name }}</p>
           <p class="status" [ngClass]="getStatusClass(appointment.status)">
-            Statut : {{ getStatusLabel(appointment.status) }}
+            <strong>Statut :</strong> {{ getStatusLabel(appointment.status) }}
           </p>
-          <p>Notes : {{ appointment.notes || '-' }}</p>
+          <p><strong>Notes :</strong> {{ appointment.note || '-' }}</p>
         </div>
         <div class="appointment-actions">
-          <button *ngIf="canEditAppointment(appointment)" class="edit-btn" (click)="editAppointment(appointment)">Modifier</button>
-          <button *ngIf="canEditAppointment(appointment)" class="cancel-btn" (click)="cancelAppointment(appointment)">Annuler</button>
+          <button
+            *ngIf="appointment.status === 'en attente'"
+            class="confirm-btn"
+            (click)="confirmAppointment(appointment)"
+          >
+            Confirmer
+          </button>
+          <button
+            *ngIf="appointment.status === 'en attente' || appointment.status === 'confirmé'"
+            class="cancel-btn"
+            (click)="cancelAppointment(appointment)"
+          >
+            Annuler
+          </button>
+          <button class="delete-btn" (click)="deleteAppointment(appointment)">
+            Supprimer
+          </button>
         </div>
       </div>
     </div>

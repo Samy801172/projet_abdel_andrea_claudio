@@ -55,27 +55,47 @@ export class AdminClientsComponent implements OnInit {
     alert('Ajouter un client en développement');
   }
 
-  deleteClient(clientId: number): void {
+
+  onToggleDisableClient(clientId: number): void {
+    // Trouver le client localement
     const client = this.Tousclients.find((client: any) => client.clientId === clientId);
-    if (!confirm(`Êtes-vous sûr de vouloir supprimer le client avec l'ID ${clientId} ?`)) {
+
+    if (!client) {
+      this.notification.error(`Le client avec l'ID ${clientId} n'existe pas.`);
       return;
     }
-    if(!client.credential.isAdmin)
-    {
-      this.clientService.deleteClient(clientId).subscribe({
+
+    // Confirmation de l'action
+    const action = client.credential.active ? 'désactiver' : 'réactiver';
+    if (!confirm(`Êtes-vous sûr de vouloir ${action} le client avec l'ID ${clientId} ?`)) {
+      return;
+    }
+
+    // Vérification si le client est un administrateur
+    if (!client.credential.isAdmin) {
+      this.clientService.disableClient(clientId).subscribe({
         next: () => {
-          this.notification.success('Client supprimé avec succès');
-          this.LoadClient(); // Recharge la liste des clients après suppression
+          const message = client.credential.active
+            ? 'Client désactivé avec succès'
+            : 'Client réactivé avec succès';
+
+          this.notification.success(message);
+          this.LoadClient(); // Recharge la liste des clients pour refléter l'état
         },
         error: (error) => {
-          this.notification.error('Erreur lors de la suppression du client');
-          console.error('Erreur suppression client:', error);
+          const errorMessage = client.credential.active
+            ? 'Erreur lors de la désactivation du client'
+            : 'Erreur lors de la réactivation du client';
+
+          this.notification.error(errorMessage);
+          console.error(`Erreur ${action} client:`, error);
         }
       });
-    }else{
-      this.notification.error('Impossible de supprimer un administrateur !');
+    } else {
+      this.notification.error('Impossible de désactiver ou réactiver un administrateur !');
     }
   }
+
 
 
   viewOrders(clientId: number): void {

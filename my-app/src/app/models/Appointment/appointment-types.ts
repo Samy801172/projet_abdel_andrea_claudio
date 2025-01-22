@@ -1,10 +1,8 @@
 // models/appointment/appointment-types.ts
 export enum AppointmentStatus {
-  PENDING = 'pending',
-  CONFIRMED = 'confirmed',
-  CANCELLED = 'cancelled',
-  COMPLETED = 'completed',
-  NOSHOW = 'noshow'
+  Pending = 'en attente',
+  Confirmed = 'confirmé',
+  Canceled = 'annulé',
 }
 
 // Vous pouvez aussi ajouter d'autres types liés aux rendez-vous ici

@@ -51,17 +51,7 @@ export class AppointmentComponent implements OnInit {
   constructor(private appointmentService: AppointmentsService) {}
 // pour initialiser le composant on utilse la methode ngOnInit()
   ngOnInit(): void {
-    this.loadAppointments();
+
   }
 
-  loadAppointments(): void {
-    this.appointmentService.getAll().subscribe({
-      next: (data: Appointment[]) => {
-        this.appointments = data;
-      },
-      error: (error) => {
-        console.error('Erreur chargement rendez-vous:', error);
-      }
-    });
-  }
 }

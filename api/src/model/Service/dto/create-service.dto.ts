@@ -1,8 +1,10 @@
 // src/model/Service/dto/create-service.dto.ts
 import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { PrimaryGeneratedColumn } from "typeorm";
 
 export class CreateServiceDto {
+
   @IsNotEmpty()
   @IsString()
   @ApiProperty()

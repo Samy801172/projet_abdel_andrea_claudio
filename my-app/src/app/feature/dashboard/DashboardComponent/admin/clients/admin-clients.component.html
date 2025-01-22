@@ -32,6 +32,7 @@
             <th>Email</th>
             <th>Adresse</th>
             <th>Statut</th>
+            <th>Actif</th>
             <th>Est admin</th>
             <th>Actions</th>
           </tr>
@@ -55,14 +56,19 @@
                   {{ client.credential.ban ? 'Banni' : 'En règle' }}
                 </span>
               </td>
+              <td>{{client.credential.active ? 'actif' : 'désactivé'}}</td>
               <td>{{ client.credential.isAdmin ? 'Oui' : 'Non' }}</td>
               <td class="actions">
                 <button class="edit" (click)="openEditClientModal(client)">
                   <i class="fas fa-edit"></i> Modifier
                 </button>
-                <button class="delete" (click)="deleteClient(client.clientId)">
-                  <i class="fas fa-trash"></i> Supprimer
+                <button class="delete"
+                  (click)="onToggleDisableClient(client.clientId)"
+                  [class.active]="client.credential.active"
+                >
+                  {{ client.credential.active ? 'Désactiver' : 'Réactiver' }}
                 </button>
+
                 <button class="ban" (click)="BanClient(client.clientId)">
                   <i class="fas fa-ban"></i> Bannir
                 </button>

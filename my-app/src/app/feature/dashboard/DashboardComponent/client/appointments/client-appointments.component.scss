@@ -1,0 +1,150 @@
+.text-pending {
+  color: #f59e0b; /* Orange */
+}
+
+.text-canceled {
+  color: #dc2626; /* Rouge */
+}
+
+.text-confirmed {
+  color: #16a34a; /* Vert */
+}
+
+
+
+.appointments-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+
+  .appointments-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    h1 {
+      font-size: 24px;
+      color: #333;
+    }
+
+    .new-appointment-btn {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
+
+  .appointment-form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+
+    .form-group {
+      margin-bottom: 15px;
+
+      label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+
+      button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+
+        &:first-child {
+          background-color: #28a745;
+          color: white;
+
+          &:disabled {
+            background-color: #ccc;
+          }
+        }
+
+        &:last-child {
+          background-color: #dc3545;
+          color: white;
+        }
+      }
+    }
+  }
+
+  .appointments-list {
+    .no-data {
+      text-align: center;
+      color: #666;
+    }
+
+    .appointments-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+
+      .appointment-card {
+        background-color: white;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+
+        .appointment-details {
+          margin-bottom: 15px;
+
+          h3 {
+            margin-bottom: 10px;
+          }
+
+          p {
+            margin: 5px 0;
+          }
+        }
+
+        .appointment-actions {
+          display: flex;
+          justify-content: space-between;
+
+          button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+
+            &:first-child {
+              background-color: #007bff;
+              color: white;
+            }
+
+            &:last-child {
+              background-color: #dc3545;
+              color: white;
+            }
+          }
+        }
+      }
+    }
+  }
+}

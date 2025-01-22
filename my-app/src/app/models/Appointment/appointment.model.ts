@@ -1,19 +1,30 @@
-// models/appointment/appointment.model.ts
-import { AppointmentStatus } from './appointment-types';
-import { Client } from '../client/client.model';
-import {Service} from '../Service/service.model';
-
-
-
 export interface Appointment {
   appointmentId: number;
+  clientId: number; // ID du client
+  client?: Client; // Relation vers le client (optionnelle)
+  serviceId: number;
+  service?: Service; // Relation vers le service
   appointmentDate: Date;
   time: string;
-  status: AppointmentStatus; // Utilisation de l'enum ici
+  note?: string;
+  status: string;
+}
+
+export interface Client {
   clientId: number;
-  serviceId: number;
-  administratorId: number;
-  notes?: string;
-  client?: Client;
-  service?: Service;
+  firstName: string;
+  lastName: string;
+}
+
+
+export interface Service {
+  id: number;
+  name: string;
+  description?: string;
+}
+
+export enum AppointmentStatus {
+  Pending = 'en attente',
+  Confirmed = 'confirmé',
+  Canceled = 'annulé',
 }

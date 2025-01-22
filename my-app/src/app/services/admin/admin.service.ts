@@ -1,12 +1,13 @@
 // services/admin.service.ts
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {Appointment} from '../../models/Appointment/appointment.model';
 import {AppointmentStatus} from '../../models/Appointment/appointment-types';
 import {Client} from '../../models/client/client.model';
-import {map} from 'rxjs/operators';
+import {catchError, map, tap} from 'rxjs/operators';
 import {Service} from '../../models/Service/service.model';
+import { NotificationService } from '../notification/notification.service';
 
 
 @Injectable({
@@ -15,7 +16,7 @@ import {Service} from '../../models/Service/service.model';
 export class AdminService {
   private apiUrl = 'http://localhost:2024/api'; // Ajustez selon votre configuration
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private notificationService: NotificationService ) {}
 
   // Appointments
   getAllAppointments(): Observable<Appointment[]> {
@@ -39,8 +40,8 @@ export class AdminService {
     return this.http.put<Appointment>(`${this.apiUrl}/appointments/${id}`, data);
   }
 
-  updateAppointmentStatus(id: number, status: AppointmentStatus): Observable<void> {
-    return this.http.patch<void>(`${this.apiUrl}/appointments/${id}/status`, { status });
+  updateAppointmentStatus(id: number | undefined, status: AppointmentStatus): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/appointments/${id}/changeStatus`, { status });
   }
 
   // Clients
@@ -97,4 +98,20 @@ export class AdminService {
 
     return this.http.get<any>(`${this.apiUrl}/appointments/stats`, { params });
   }
+
+  // Admin delete
+  deleteAdmin(appointmentId: number | undefined): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/appointments/${appointmentId}/deleteAdmin`);
+  }
+
+  // Confirmation du rendez-vous
+  updateStatus(appointmentId: number, newStatus: string): Observable<Appointment> {
+    return this.http.patch<Appointment>(`${this.apiUrl}/appointments/${appointmentId}/changeStatus`, { status: newStatus }).pipe(
+      catchError((error) => {
+        console.error('Erreur lors de la mise à jour du statut :', error);
+        return throwError(() => error);
+      })
+    );
+  }
+
 }

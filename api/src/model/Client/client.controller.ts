@@ -9,8 +9,8 @@ import {
   Delete,
   Put,
   NotFoundException,
-  BadRequestException,
-} from '@nestjs/common';
+  BadRequestException, Patch
+} from "@nestjs/common";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ClientService } from './client.service';
 import { UpdateClientDto } from './dto/update-client.dto';
@@ -199,12 +199,13 @@ export class ClientController {
     };
   }
 
-  //Supprimer un client du pannel admin
-  @Delete(':id/delClient')
-  @ApiOperation({ summary: 'Supprimer un client par un administrateur' })
-  async deleteClient(@Param('id') clientId: number): Promise<void> {
-    // Appel au service pour effectuer la suppression
-    await this.clientService.delete(clientId);
+// Désactiver un client du panneau admin
+  @Patch(':id/disable')
+  @ApiOperation({ summary: 'Désactive un client par un administrateur' })
+  async disableClient(@Param('id') clientId: number): Promise<void> {
+    // Appel au service pour désactiver le client
+    await this.clientService.disabled(clientId);
   }
+
 }
 

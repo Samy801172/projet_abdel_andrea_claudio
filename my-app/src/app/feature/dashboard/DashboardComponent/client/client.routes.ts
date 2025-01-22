@@ -10,6 +10,7 @@ import {CheckoutComponent} from '../../../../components/checkout/checkout.compon
 import {AuthGuard} from '../../guard/auth.guard';
 import {ClientOrderDetailComponent} from './orders/client-order-detail.component';
 import {ClientOrdersComponent} from './orders/client-orders.component';
+import {ClientAppointmentsComponent} from "./appointments/client-appointments.component";
 
 
 export const clientRoutes: Routes = [
@@ -54,6 +55,11 @@ export const clientRoutes: Routes = [
           title: 'Mon Profil',
           requiresAuth: true
         }
+      },
+      {
+        path: 'appointments',
+        component: ClientAppointmentsComponent,
+        canActivate: [AuthGuard],
       },
       {
         path: 'orders/:id',

@@ -44,7 +44,7 @@ export class Client {
   @OneToMany(() => Order, (order) => order.client, { cascade: true })
   orders: Order[];
 
-  @OneToMany(() => Appointment, (appointment) => appointment.client, {
+  @OneToMany(() => Appointment, (appointment) => appointment.clientId, {
     cascade: true,
   })
   appointments: Appointment[];

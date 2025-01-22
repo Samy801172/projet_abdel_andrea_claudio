@@ -55,16 +55,17 @@ export class ClientService {
     return this.http.get<Appointment[]>(`${this.API_URL}/${clientId}/appointments`);
   }
 
-  // pour supprimer un client
-  deleteClient(clientId: number): Observable<void> {
-    return this.http.delete<void>(`${this.API_URL}/${clientId}/delClient`).pipe(
-      tap(() => console.log(`Client supprimé: ${clientId}`)),
+  // Pour désactiver un client (utilise patch pour modifier seulement la variable active et les autres inchangé)
+  disableClient(clientId: number): Observable<void> {
+    return this.http.patch<void>(`${this.API_URL}/${clientId}/disable`, {}).pipe(
+      tap(() => console.log(`Client désactivé: ${clientId}`)),
       catchError(error => {
-        console.error('Erreur lors de la suppression du client:', error);
+        console.error('Erreur lors de la désactivation du client:', error);
         return throwError(() => error);
       })
     );
   }
+
 
   // pour mettre à jour un clien par l'admin
   updateClient(clientId: number, clientData: Partial<Client>): Observable<Client> {

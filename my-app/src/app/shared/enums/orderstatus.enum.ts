@@ -8,7 +8,7 @@ export enum OrderStatusEnum {
 }
 // Type pour
 // le mapping des statuts aux couleurs
-export type Order_Status_Color = {
+export type OrderStatusColor = {
   [key in OrderStatusEnum]: string;
 };
 // Constantes pour les couleurs des statuts
@@ -33,5 +33,5 @@ export function getStatusColor(status: string): string {
   const statusKey = Object.keys(OrderStatusEnum).find(
     key => OrderStatusEnum[key as keyof typeof OrderStatusEnum] === status
   );
-  return statusKey ? ORDER_STATUS_COLORS[OrderStatusEnum[statusKey as keyof typeof OrderStatusEnum]] : '#9ca3af';
+  return statusKey ? ORDER_STATUS_COLORS_STATUS[OrderStatusEnum[statusKey as keyof typeof OrderStatusEnum]] : '#9ca3af';
 }
