@@ -17,9 +17,30 @@ export class PublicService {
   }
 
   // Méthode pour récupérer le nombre de rendez-vous en attente
-
   appointmentsCount(): Observable<number> {
     return this.http.get<number>(`${this.apiUrl}/pending-count`).pipe(
+      tap((response) => console.log('Réponse reçue du backend (frontend) :', response)),
+      catchError((error) => {
+        console.error('Erreur dans le service frontend :', error);
+        throw error;
+      })
+    );
+  }
+
+  // Méthode pour récupérer le nombre de rendez-vous confirmés
+  appointmentsCountConfirmed(): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/confirmed-count`).pipe(
+      tap((response) => console.log('Réponse reçue du backend (frontend) :', response)),
+      catchError((error) => {
+        console.error('Erreur dans le service frontend :', error);
+        throw error;
+      })
+    );
+  }
+
+  // Méthode pour récupérer le nombre de rendez-vous annulé
+  appointmentsCountCanceled(): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/canceled-count`).pipe(
       tap((response) => console.log('Réponse reçue du backend (frontend) :', response)),
       catchError((error) => {
         console.error('Erreur dans le service frontend :', error);

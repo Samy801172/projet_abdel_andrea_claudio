@@ -15,7 +15,7 @@
     <!-- Statistiques principales -->
     <div class="stats-section">
       <div class="stat-card">
-        <h3>💼 Commandes du Mois</h3>
+        <h3>💼 Total des commandes</h3>
         <div class="progress-circle">
           <span>{{ orderTotal }}</span>
         </div>
@@ -24,10 +24,15 @@
       <div class="stat-card">
         <h3>⏳ Rendez-vous en Attente</h3>
         <p>
-          Encore <strong>{{ pendingAppointments }}</strong> rendez-vous à confirmer.
-          <span *ngIf="pendingAppointments === 0">Tout est confirmé, bravo !</span>
+          <span *ngIf="pendingAppointments > 0">Encore <strong>{{ pendingAppointments }}</strong> rendez-vous à confirmer.</span>
+          <span *ngIf="pendingAppointments == 0">Tout est confirmé, bravo !</span>
         </p>
+        <!-- Bouton stylé -->
+        <button class="action-btn" (click)="onManageAppointments()">
+          Gérer les Rendez-vous
+        </button>
       </div>
+
 
       <div class="stat-card">
         <h3>🛍️ Derniers Achats Clients</h3>
@@ -57,9 +62,9 @@
       </div>
       <div class="chart-card">
         <h3>❌ Annulations de Rendez-vous</h3>
-        <p>Total : <span>12 rendez-vous</span></p>
-        <p>Confirmé(s) : <span>8</span></p>
-        <p>Annulé(s) : <span>4</span></p>
+        <p>Total : <span>{{totalAppointment}}</span></p>
+        <p>Confirmé(s) : <span>{{confirmedAppointments}}</span></p>
+        <p>Annulé(s) : <span>{{canceledAppointments}}</span></p>
         <p>Les rendez-vous en ligne représentent 67% des annulations.</p>
       </div>
     </div>

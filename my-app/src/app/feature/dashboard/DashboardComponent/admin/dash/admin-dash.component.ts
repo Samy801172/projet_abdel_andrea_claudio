@@ -6,6 +6,7 @@ import { OrderService } from '../../../../../services';
 import { PublicService } from '../../../../../services/pubic/public.service';
 import { NotificationService } from '../../../../../services/notification/notification.service';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dash',
@@ -24,6 +25,9 @@ export class AdminDashComponent implements OnInit {
   recentMessages: any[] = []; // Messages récents
   pendingTasks: any[] = []; // Tâches en attente
   pendingAppointments: number = 0; // Nombre de rendez-vous en attente
+  confirmedAppointments: number = 0; // Nombre de rendez-vous en attente
+  canceledAppointments: number = 0; // Nombre de rendez-vous en attente
+  totalAppointment: number = 0; // Nombre de rendez-vous en attente
   orderTotal: number = 0; // Nombre de commande total
   currentTime: string = ''; // Heure actuelle
   isLoading: boolean = true; // Indicateur de chargement
@@ -36,14 +40,17 @@ export class AdminDashComponent implements OnInit {
               private appointmentsService: AppointmentsService,
               private orderService: OrderService,
               private notificationService: NotificationService,
-              private publicService: PublicService) { }
+              private publicService: PublicService,
+              private router: Router,) { }
 
   ngOnInit(): void {
     this.loadDashboardData(); // Charger les données du tableau de bord
     this.updateCurrentTime(); // Mettre à jour l'heure actuelle
     this.loadNickname(); // charge les données de l'admin
     this.LoadAppointmentsNotConfirmed(); // charge le nombre de rendez vous non confirmé
-    this.loadOrderCount(); // Charge le nombre de commande totale
+    this.loadOrderCount(); // Charge le nombre de commande
+    this.LoadAppointmentsConfirmed();
+    this.LoadAppointmentsCanceled();
   }
 
   // Charge le nombre de commande
@@ -66,6 +73,36 @@ export class AdminDashComponent implements OnInit {
       next: (count: number) => {
         console.log('Nombre total de rendez vous non confirmé:', count);
         this.pendingAppointments = count;
+        console.log(this.pendingAppointments)
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des rendez-vous en attente :', error);
+      },
+    });
+  }
+
+  // Charge le nombre de rendez-vous non confirmés
+  LoadAppointmentsConfirmed(): void {
+    this.publicService.appointmentsCountConfirmed().subscribe({
+      next: (count: number) => {
+        console.log('Nombre total de rendez vous non confirmé:', count);
+        this.confirmedAppointments = count;
+        this.totalAppointment+= this.confirmedAppointments;
+        console.log(this.pendingAppointments)
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des rendez-vous en attente :', error);
+      },
+    });
+  }
+
+  // Charge le nombre de rendez-vous non confirmés
+  LoadAppointmentsCanceled(): void {
+    this.publicService.appointmentsCountConfirmed().subscribe({
+      next: (count: number) => {
+        console.log('Nombre total de rendez vous non confirmé:', count);
+        this.canceledAppointments = count;
+        this.totalAppointment+= this.canceledAppointments;
         console.log(this.pendingAppointments)
       },
       error: (error) => {
@@ -127,5 +164,12 @@ export class AdminDashComponent implements OnInit {
     setInterval(() => {
       this.currentTime = new Date().toLocaleTimeString();
     }, 1000); // Mise à jour toutes les secondes
+  }
+
+  // Pour naviger vers les rendez-vous admin
+  onManageAppointments(): void {
+    console.log('Navigation vers la gestion des rendez-vous...');
+    // La route pour aller vers les rendez vous à confirmer
+    this.router.navigate(['admin/appointments']);
   }
 }

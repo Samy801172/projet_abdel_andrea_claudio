@@ -16,4 +16,18 @@ export class PublicController {
   async getPendingAppointmentsCount(): Promise<number> {
     return this.publicService.appointmentCount();
   }
+
+// chargement du nombre de rendez-vous non confirmés
+  @Get('confirmed-count')
+  async getConfirmedAppointmentsCount(): Promise<number> {
+    return this.publicService.appointmentCountConfirmed();
+  }
+
+  // chargement du nombre de rendez-vous non confirmés
+  @Get('canceled-count')
+  async getCanceledAppointmentsCount(): Promise<number> {
+    return this.publicService.appointmentCountCanceled();
+  }
+
+
 }
