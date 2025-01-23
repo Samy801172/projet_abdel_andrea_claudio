@@ -1,6 +1,5 @@
-/* Navigation principale */
 .navbar {
-  background: #38B6FF; /* Bleu doux, inspirant confiance */
+  background: #38B6FF; /* Bleu doux */
   padding: 0.75rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   font-family: Arial, sans-serif;
@@ -12,6 +11,21 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+/* Logo */
+.nav-brand {
+  display: flex;
+  align-items: center;
+
+  .nav-logo {
+    height: 62px;
+    transition: transform 0.3s ease;
+  }
+
+  .nav-logo:hover {
+    transform: scale(1.1);
+  }
 }
 
 /* Alignement et style des liens */
@@ -36,12 +50,35 @@
   transform: translateY(-2px);
 }
 
+/* Panier */
+.nav-cart {
+  width: 40px;
+  height: 40px;
+  transition: transform 0.3s ease;
+}
+
+.nav-cart:hover {
+  transform: scale(1.1);
+}
+
+/* Lien Admin */
+.nav-link-admin {
+  color: #FECD57;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+}
+
+.nav-link-admin:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
 /* Photo de profil et menu déroulant */
 .nav-profile {
   position: relative;
   display: flex;
   align-items: center;
-  cursor: pointer;
 }
 
 .profile-photo {
@@ -51,80 +88,49 @@
   border: 2px solid white;
   object-fit: cover;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 }
 
 /* Menu déroulant */
 .profile-menu {
-  display: none; /* Masqué par défaut */
+  display: none;
   position: absolute;
   top: calc(100% + 10px);
   right: 0;
-  background: #F0FAF5; /* Vert clair apaisant */
-  border: 1px solid #C5E8D6; /* Bordure verte douce */
+  background: #F0FAF5;
+  border: 1px solid #C5E8D6;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   min-width: 150px;
-  overflow: hidden;
   animation: fadeIn 0.3s ease-in-out;
 }
 
 .profile-menu.active {
-  display: block; /* Affiche le menu lorsqu'il est actif */
+  display: block;
 }
 
 .menu-item {
   display: block;
   padding: 10px 15px;
-  color: #38B6FF; /* Texte bleu doux */
+  color: #38B6FF;
   text-decoration: none;
   font-weight: 500;
   transition: background-color 0.2s ease;
 }
 
 .menu-item:hover {
-  background-color: #D6F5E3; /* Vert clair au survol */
-}
-
-/* Animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  background-color: #D6F5E3;
 }
 
 /* Responsiveness */
-@media (max-width: 1024px) {
-  .nav-links {
-    gap: 1rem;
-  }
-
-  .nav-link {
-    font-size: 0.9rem;
-  }
-}
-
 @media (max-width: 768px) {
   .nav-content {
     flex-direction: column;
-    align-items: stretch;
     gap: 1rem;
   }
 
   .nav-links {
     flex-direction: column;
-    align-items: stretch;
-    gap: 0.5rem;
-  }
-
-  .nav-link {
-    text-align: center;
-    padding: 0.8rem;
   }
 }

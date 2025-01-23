@@ -17,5 +17,5 @@ export class Administrator {
   @JoinColumn()
   user: User;
   @OneToMany(() => Appointment, (appointment) => appointment.administrator)
-  appointments: Appointment[];
+  appointment: Appointment[];
 }

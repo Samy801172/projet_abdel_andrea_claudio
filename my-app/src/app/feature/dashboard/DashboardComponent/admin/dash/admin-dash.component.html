@@ -2,11 +2,11 @@
   <!-- En-tête -->
   <header class="dashboard-header">
     <div class="header-left">
-      <h1>Gohan Medic - Admin Services</h1>
-      <p>Bienvenue {{ client.firstName }}</p>
+      <h1>Bienvenue sur Gohan Medic - Votre Tableau de Bord</h1>
+      <p>Heureux de vous revoir, {{ client.firstName }} !</p>
     </div>
     <div class="header-right">
-      <button class="btn btn-help">Aide</button>
+      <button class="btn btn-help">Besoin d'aide ?</button>
     </div>
   </header>
 
@@ -15,21 +15,26 @@
     <!-- Statistiques principales -->
     <div class="stats-section">
       <div class="stat-card">
-        <h3>Nombre de commandes ce mois-ci</h3>
+        <h3>💼 Commandes du Mois</h3>
         <div class="progress-circle">
-          <span>18</span>
+          <span>{{ orderTotal }}</span>
         </div>
+        <p>Vous avez géré <strong></strong> ce mois-ci. Bravo !</p>
       </div>
       <div class="stat-card">
-        <h3>Messages d'utilisateurs</h3>
-        <img src="assets/graph-placeholder.png" alt="Graphique des événements" />
+        <h3>⏳ Rendez-vous en Attente</h3>
+        <p>
+          Encore <strong>{{ pendingAppointments }}</strong> rendez-vous à confirmer.
+          <span *ngIf="pendingAppointments === 0">Tout est confirmé, bravo !</span>
+        </p>
       </div>
+
       <div class="stat-card">
-        <h3>Dernières commandes</h3>
+        <h3>🛍️ Derniers Achats Clients</h3>
         <ul>
-          <li>Uptime: <span>99.9%</span></li>
-          <li>Temps d'arrêt: <span>2h</span></li>
-          <li>Mémoire utilisée: <span>45%</span></li>
+          <li>Commande #1234 - Statut : <span>Expédiée</span></li>
+          <li>Commande #1235 - Statut : <span>En attente</span></li>
+          <li>Commande #1236 - Statut : <span>Livrée</span></li>
         </ul>
       </div>
     </div>
@@ -37,22 +42,25 @@
     <!-- Graphiques -->
     <div class="charts-section">
       <div class="chart-card">
-        <h3>Session par canal</h3>
+        <h3>🌐 Répartition des Sessions</h3>
         <ul>
-          <li>Email: <span>23%</span></li>
-          <li>Réseaux sociaux: <span>34%</span></li>
-          <li>Direct: <span>43%</span></li>
+          <li>Email : <span>23%</span></li>
+          <li>Réseaux sociaux : <span>34%</span></li>
+          <li>Direct : <span>43%</span></li>
         </ul>
+        <p>Les canaux directs sont les plus performants ce mois-ci.</p>
       </div>
       <div class="chart-card">
-        <h3>Analyse des ventes</h3>
-        <img src="assets/graph-placeholder.png" alt="Analyse des ventes" />
+        <h3>📊 Analyse des Ventes</h3>
+        <img src="assets/graph-placeholder.png" alt="Graphique d'analyse des ventes" />
+        <p>Les ventes ont grimpé de <strong>10%</strong>. Continuez sur cette lancée !</p>
       </div>
       <div class="chart-card">
-        <h3>Revenus mensuels</h3>
-        <p>Total: <span>$1.3 Millions</span></p>
-        <p>En ligne: <span>$1.0 Millions</span></p>
-        <p>Hors ligne: <span>$300k</span></p>
+        <h3>❌ Annulations de Rendez-vous</h3>
+        <p>Total : <span>12 rendez-vous</span></p>
+        <p>Confirmé(s) : <span>8</span></p>
+        <p>Annulé(s) : <span>4</span></p>
+        <p>Les rendez-vous en ligne représentent 67% des annulations.</p>
       </div>
     </div>
   </div>

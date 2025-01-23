@@ -20,5 +20,5 @@ export class Service {
   duration: string;
 
   @OneToMany(() => Appointment, (appointment) => appointment.service)
-  appointments: Appointment[];
+  appointment: Appointment[];
 }

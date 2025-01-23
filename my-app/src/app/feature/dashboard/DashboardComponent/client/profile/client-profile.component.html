@@ -10,23 +10,23 @@
 
       <div class="info-group">
         <label>Nom d'utilisateur</label>
-        <p>{{ client?.credential.username || "Erreur" }}</p>
+        <p>{{ client?.credential.username || "vide" }}</p>
       </div>
       <div class="info-group">
         <label>Prénom</label>
-        <p>{{ client?.firstName || "Erreur" }}</p>
+        <p>{{ client?.firstName || "vide" }}</p>
       </div>
       <div class="info-group">
         <label>Nom</label>
-        <p>{{ client?.lastName || "Erreur" }}</p>
+        <p>{{ client?.lastName || "vide" }}</p>
       </div>
       <div class="info-group">
         <label>Email</label>
-        <p>{{ client?.credential?.mail || "Erreur" }}</p>
+        <p>{{ client?.credential?.mail || "vide" }}</p>
       </div>
       <div class="info-group">
         <label>Adresse</label>
-        <p>{{ client?.address || "Erreur" }}</p>
+        <p>{{ client?.address || "vide" }}</p>
       </div>
 
       <button (click)="editMode = true" class="edit-btn">Modifier le profil</button>

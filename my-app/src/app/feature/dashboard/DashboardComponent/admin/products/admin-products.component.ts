@@ -44,13 +44,17 @@ export class AdminProductsComponent implements OnInit {
     private typeService: TypeService
   ) {}
 
+
+  // lien image
+  pathFile: any;
+
   newProduct = {
     name: '',
     description: '',
     price: 0,
     stock: 0,
     active: true,
-    typeId: 0
+    typeId: 0,
   };
 
   ngOnInit() {
@@ -106,6 +110,32 @@ export class AdminProductsComponent implements OnInit {
       },
       error: () => this.notificationService.error('Erreur lors de l\'ajout du produit')
     });
+  }
+
+  // Upload de l'image
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      console.log('Fichier sélectionné :', file);
+
+      // Appel du service pour uploader l'image du produit
+      // @ts-ignore
+      this.productService.uploadImage(this.editingProduct.id_product, file).subscribe({
+        next: (response) => {
+          console.log('Réponse de l\'upload :', response);
+
+          // Vérifiez si avatarPath existe dans la réponse
+           this.pathFile = response.imagePath;
+          console.log('Ayaaaaaaaa :', response);
+          console.log('Avatar mis à jour :', this.pathFile);
+
+        },
+        error: (err) => {
+          console.error('Erreur lors de l\'upload de l\'avatar :', err);
+        },
+      });
+    }
   }
 
 

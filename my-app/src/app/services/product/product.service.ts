@@ -129,6 +129,13 @@ export class ProductService {
     );
   }
 
+  // pour l'upload de l'image
+  uploadImage(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('image', file); // C'est ici !
+    return this.http.post(`${this.API_URL}/image`, formData);
+  }
+
   // Récupère tous les produits en incluant les promotions actives
   getAllProducts(): Observable<ProductWithPromotion[]> {
     return this.http.get<any[]>(this.API_URL).pipe(

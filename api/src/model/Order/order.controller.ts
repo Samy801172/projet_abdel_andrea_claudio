@@ -9,8 +9,8 @@ import {
   UseGuards,
   BadRequestException,
   HttpStatus,
-  Logger,
-} from '@nestjs/common';
+  Logger, Req
+} from "@nestjs/common";
 import { OrderService } from './order.service';
 import {
   ApiBearerAuth,
@@ -23,6 +23,7 @@ import { Order } from './order.entity';
 import { JwtAuthGuard } from '@feature/security/guard/jwt-auth.guard';
 import { UpdateOrderDto } from './dto/update-order-.dto';
 import { CreateOrderDto } from './dto/create-order.dto';
+import { DataSource } from 'typeorm';
 
 @ApiTags('orders')
 @ApiBearerAuth('access-token')
@@ -30,7 +31,8 @@ import { CreateOrderDto } from './dto/create-order.dto';
 @UseGuards(JwtAuthGuard)
 export class OrderController {
   private readonly logger = new Logger(OrderController.name);
-  constructor(private readonly orderService: OrderService) {}
+  constructor(private readonly orderService: OrderService,
+              private readonly dataSource: DataSource) {}
 
   // IMPORTANT: Route admin doit être AVANT les routes avec paramètres
   @Get('admin/all')
@@ -227,5 +229,14 @@ export class OrderController {
       );
       throw error;
     }
+  }
+
+  // Route publique pour obtenir le nombre total de commandes
+  @Get('total')
+  @ApiTags('orders')
+  @ApiBearerAuth('access-token')
+  async getTotalOrders(): Promise<number> {
+    const result = await this.dataSource.query(`SELECT COUNT(*) AS total FROM orders`);
+    return parseInt(result[0].total, 10); // Retourne le nombre total de commandes
   }
 }

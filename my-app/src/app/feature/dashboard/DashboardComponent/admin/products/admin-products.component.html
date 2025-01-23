@@ -76,6 +76,10 @@
         </select>
       </div>
 
+      <div class="avatar-container">
+        <input type="file"  (change)="onFileSelected($event)" accept="image/*" />
+      </div>
+
       <div class="form-actions">
         <button type="submit" class="save-btn" [disabled]="!productForm.valid">
           {{ editingProduct ? 'Mettre à jour' : 'Ajouter' }}

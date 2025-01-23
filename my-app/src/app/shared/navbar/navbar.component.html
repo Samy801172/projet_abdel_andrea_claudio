@@ -3,7 +3,7 @@
     <!-- Section Logo -->
     <div class="nav-brand">
       <a routerLink="/">
-        <img src="assets/logo.png" alt="Ghoan Medic Logo" style="height: 62px;">
+        <img src="assets/logo.png" alt="Gohan Medic Logo" class="nav-logo">
       </a>
     </div>
 
@@ -11,52 +11,52 @@
     <div class="nav-links">
       <!-- Utilisateur non authentifié -->
       @if (!authService.isAuthenticated()) {
-      <a routerLink="/" class="nav-link">Accueil</a>
-      <a routerLink="/login" class="nav-link">Connexion</a>
-      <a routerLink="/register" class="nav-link">Inscription</a>
+        <a routerLink="/" class="nav-link">Accueil</a>
+        <a routerLink="/login" class="nav-link">Connexion</a>
+        <a routerLink="/register" class="nav-link">Inscription</a>
       }
 
       <!-- Utilisateur authentifié (non admin) -->
       @if (authService.isAuthenticated() && !authService.isAdmin()) {
-      <a routerLink="/" class="nav-link">Accueil</a>
-      <a routerLink="/client/products" class="nav-link">Médicaments</a>
-      <a routerLink="/client/services" class="nav-link">Services</a>
-      <a routerLink="/client/prescriptions" class="nav-link">Mes Ordonnances</a>
-      <a routerLink="/client/custom-meds" class="nav-link">Sur Mesure</a>
-      <a routerLink="/client/appointments" class="nav-link">Rendez-vous</a>
-      <a routerLink="/client/cart" class="nav-link">
-        <img src="assets/caddie.png" alt="Panier" style="width: 40px; height: 40px;">
-      </a>
-      <!-- Menu de profil -->
-      <div class="nav-profile">
-        <img [src]="baseUrl+avatar" alt="Photo de profil" class="profile-photo" (click)="toggleMenu()">
-        <div class="profile-menu" [class.active]="menuOpen">
-          <a routerLink="/client/profile" class="menu-item">Profil</a>
-          <a (click)="onLogout()" class="menu-item">Déconnexion</a>
-        </div>
-      </div>
-      }
-
-      <!-- Utilisateur administrateur -->
-      @if (authService.isAuthenticated() && authService.isAdmin()) {
-      <a routerLink="/" class="nav-link">Accueil</a>
+        <a routerLink="/" class="nav-link">Accueil</a>
         <a routerLink="/client/products" class="nav-link">Médicaments</a>
         <a routerLink="/client/services" class="nav-link">Services</a>
         <a routerLink="/client/prescriptions" class="nav-link">Mes Ordonnances</a>
         <a routerLink="/client/custom-meds" class="nav-link">Sur Mesure</a>
         <a routerLink="/client/appointments" class="nav-link">Rendez-vous</a>
-      <a routerLink="/admin/dash" class="nav-link">Dashboard Admin</a>
         <a routerLink="/client/cart" class="nav-link">
-          <img src="assets/caddie.png" alt="Panier" style="width: 40px; height: 40px;">
+          <img src="assets/caddie.png" alt="Panier" class="nav-cart">
         </a>
-      <!-- Menu de profil -->
-      <div class="nav-profile">
-        <img [src]="baseUrl+avatar" alt="Photo de profil" class="profile-photo" (click)="toggleMenu()">
-        <div class="profile-menu" [class.active]="menuOpen">
-          <a routerLink="/client/profile" class="menu-item">Profil</a>
-          <a (click)="onLogout()" class="menu-item">Déconnexion</a>
+        <!-- Menu de profil -->
+        <div class="nav-profile">
+          <img [src]="baseUrl+avatar" alt="Photo de profil" class="profile-photo" (click)="toggleMenu()">
+          <div class="profile-menu" [class.active]="menuOpen">
+            <a routerLink="/client/profile" class="menu-item">Profil</a>
+            <a (click)="onLogout()" class="menu-item">Déconnexion</a>
+          </div>
         </div>
-      </div>
+      }
+
+      <!-- Utilisateur administrateur -->
+      @if (authService.isAuthenticated() && authService.isAdmin()) {
+        <a routerLink="/" class="nav-link">Accueil</a>
+        <a routerLink="/client/products" class="nav-link">Médicaments</a>
+        <a routerLink="/client/services" class="nav-link">Services</a>
+        <a routerLink="/client/prescriptions" class="nav-link">Mes Ordonnances</a>
+        <a routerLink="/client/custom-meds" class="nav-link">Sur Mesure</a>
+        <a routerLink="/client/appointments" class="nav-link">Rendez-vous</a>
+        <a routerLink="/admin/dash" class="nav-link-admin">Dashboard Admin</a>
+        <a routerLink="/client/cart" class="nav-link">
+          <img src="assets/caddie.png" alt="Panier" class="nav-cart">
+        </a>
+        <!-- Menu de profil -->
+        <div class="nav-profile">
+          <img [src]="baseUrl+avatar" alt="Photo de profil" class="profile-photo" (click)="toggleMenu()">
+          <div class="profile-menu" [class.active]="menuOpen">
+            <a routerLink="/client/profile" class="menu-item">Profil</a>
+            <a (click)="onLogout()" class="menu-item">Déconnexion</a>
+          </div>
+        </div>
       }
     </div>
   </div>

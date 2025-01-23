@@ -14,6 +14,7 @@ import {StockManagementComponent} from "./stock/stock-management.component";
 import {AuthGuard} from "../../guard/auth.guard";
 import {AdminGuard} from "../../guard/admin.guard";
 
+
 export const adminRoutes: Routes = [
   {
     path: '',
@@ -59,7 +60,7 @@ export const adminRoutes: Routes = [
       },
       {
         path: 'orders',
-        component: AdminOrdersComponent
+        component: AdminOrdersComponent,
       },
       {
         path: 'clients',

@@ -2,8 +2,8 @@ import {
   Injectable,
   Logger,
   NotFoundException,
-  BadRequestException,
-} from '@nestjs/common';
+  BadRequestException, Get, InternalServerErrorException
+} from "@nestjs/common";
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource } from 'typeorm';
 import { Order } from './order.entity';
@@ -400,4 +400,6 @@ export class OrderService {
       throw error;
     }
   }
+
 }
+

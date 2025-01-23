@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b7d382ad-49c7-432b-86f3-9d0a39a078e1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/model/Appointment/appointment.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Appointment/appointment.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/model/Appointment/appointment.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/model/Appointment/appointment.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/client/appointments/client-appointments.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/client/appointments/client-appointments.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/models/Appointment/appointment.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/models/Appointment/appointment.model.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/services/admin/admin.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/services/admin/admin.service.ts" afterDir="false" />
-    </list>
+    <list default="true" id="b7d382ad-49c7-432b-86f3-9d0a39a078e1" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -95,6 +88,7 @@
       <workItem from="1737232134844" duration="42000" />
       <workItem from="1737572502068" duration="159000" />
       <workItem from="1737573947159" duration="12000" />
+      <workItem from="1737573971380" duration="96000" />
     </task>
     <servers />
   </component>

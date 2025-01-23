@@ -19,6 +19,7 @@ import { ServiceModule } from 'model/Service/service.module';
 import { AppointmentModule } from 'model/Appointment/appointment.module';
 import { PromotionModule } from 'model/Promotion/promotion.module';
 import { InvoiceModule } from 'model/Invoice/invoice.module';
+import { PublicModule } from 'model/public/public.module'; // Import du PublicModule
 
 // Entités (si nécessaire pour TypeORM.forFeature)
 import { Service } from 'model/Service/service.entity';
@@ -61,6 +62,9 @@ import { PrescriptionModule } from '../../model/Prescription/prescription.module
     // Modules services et rendez-vous
     ServiceModule,
     AppointmentModule,
+
+    // Module public
+    PublicModule, // Ajout ici
   ],
 })
 export class AppModule {}

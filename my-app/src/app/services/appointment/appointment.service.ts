@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import {Observable, pipe, throwError} from 'rxjs';
+import {catchError, map, tap} from 'rxjs/operators';
 import { Appointment } from '../../models/Appointment/appointment.model';
 import { NotificationService } from '../notification/notification.service';
 
@@ -126,6 +126,7 @@ export class AppointmentsService {
     );
   }
 
+
   /**
    * Récupère les rendez-vous d'un client spécifique
    * @param clientId L'identifiant du client
@@ -140,4 +141,6 @@ export class AppointmentsService {
       })
     );
   }
+}
+export class AppointmentService {
 }
