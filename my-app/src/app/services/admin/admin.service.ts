@@ -1,14 +1,12 @@
-// services/admin.service.ts
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {Observable, throwError} from 'rxjs';
-import {Appointment} from '../../models/Appointment/appointment.model';
-import {AppointmentStatus} from '../../models/Appointment/appointment-types';
-import {Client} from '../../models/client/client.model';
-import {catchError, map, tap} from 'rxjs/operators';
-import {Service} from '../../models/Service/service.model';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, Subject, throwError } from 'rxjs';
+import { Appointment } from '../../models/Appointment/appointment.model';
+import { AppointmentStatus } from '../../models/Appointment/appointment-types';
+import { Client } from '../../models/client/client.model';
+import { catchError, map, tap } from 'rxjs/operators';
+import { Service } from '../../models/Service/service.model';
 import { NotificationService } from '../notification/notification.service';
-
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +14,20 @@ import { NotificationService } from '../notification/notification.service';
 export class AdminService {
   private apiUrl = 'http://localhost:2024/api'; // Ajustez selon votre configuration
 
-  constructor(private http: HttpClient, private notificationService: NotificationService ) {}
+  private appointmentUpdated = new Subject<void>(); // Notifie les changements de rendez-vous
+
+  constructor(private http: HttpClient, private notificationService: NotificationService) { }
+
+  // Observable pour écouter les notifications de mise à jour des rendez-vous
+  onAppointmentUpdated(): Observable<void> {
+    return this.appointmentUpdated.asObservable();
+  }
+
+  // Notifie une mise à jour des rendez-vous
+    notifyAppointmentUpdated(): void {
+    console.log('Notification de mise à jour des rendez-vous déclenchée');
+    this.appointmentUpdated.next();
+  }
 
   // Appointments
   getAllAppointments(): Observable<Appointment[]> {
@@ -41,7 +52,13 @@ export class AdminService {
   }
 
   updateAppointmentStatus(id: number | undefined, status: AppointmentStatus): Observable<void> {
-    return this.http.patch<void>(`${this.apiUrl}/appointments/${id}/changeStatus`, { status });
+    return this.http.patch<void>(`${this.apiUrl}/appointments/${id}/changeStatus`, { status }).pipe(
+      tap(() => this.notifyAppointmentUpdated()), // Notifie après mise à jour du statut
+      catchError((error) => {
+        console.error('Erreur lors de la mise à jour du statut :', error);
+        return throwError(() => error);
+      })
+    );
   }
 
   // Clients
@@ -101,12 +118,24 @@ export class AdminService {
 
   // Admin delete
   deleteAdmin(appointmentId: number | undefined): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/appointments/${appointmentId}/deleteAdmin`);
+    return this.http.delete<void>(`${this.apiUrl}/appointments/${appointmentId}/deleteAdmin`).pipe(
+      tap(() => this.notifyAppointmentUpdated()), // Notifie après suppression
+      catchError((error) => {
+        console.error('Erreur lors de la suppression :', error);
+        return throwError(() => error);
+      })
+    );
   }
 
   // Confirmation du rendez-vous
   updateStatus(appointmentId: number | undefined, newStatus: string): Observable<Appointment> {
+    console.log('Mise à jour du statut du rendez-vous avec ID :', appointmentId, 'Nouveau statut :', newStatus);
+
     return this.http.patch<Appointment>(`${this.apiUrl}/appointments/${appointmentId}/changeStatus`, { status: newStatus }).pipe(
+      tap(() => {
+        console.log('Statut mis à jour dans l\'API');
+        this.notifyAppointmentUpdated();
+      }),
       catchError((error) => {
         console.error('Erreur lors de la mise à jour du statut :', error);
         return throwError(() => error);

@@ -5,6 +5,51 @@
   background: #f3f7fc;
 }
 
+/* Badge de notification */
+/* Style général pour le lien */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espace entre l'icône et le texte/badge */
+  position: relative;
+}
+
+/* Conteneur pour le texte et le badge */
+.nav-text {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Espace entre le badge et le texte "Rendez-vous" */
+}
+
+/* Style du badge */
+.notification-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: white;
+  background-color: #dc2626; /* Rouge vif */
+  border-radius: 50px;
+  line-height: 1.5;
+}
+
+
+/* Positionnement du badge dans la sidebar */
+.sidebar .nav-links li a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.notification-badge {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+
 /* Sidebar */
 .sidebar {
   width: 270px;

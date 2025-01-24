@@ -1,150 +1,141 @@
+.appointments-container {
+  font-family: 'Roboto', sans-serif;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  background: linear-gradient(to right, #f8f9fa, #ffffff);
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.appointments-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.subtitle {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.new-appointment-btn {
+  background: #007bff;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.new-appointment-btn:hover {
+  background: #0056b3;
+}
+
+.appointment-form {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.submit-btn {
+  background: #28a745;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.submit-btn:hover {
+  background: #218838;
+}
+
+.cancel-btn {
+  background: #dc3545;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-left: 20px;
+}
+
+.cancel-btn:hover {
+  background: #c82333;
+}
+
+.appointments-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.appointment-card {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.appointment-card:hover {
+  transform: scale(1.02);
+}
+
+.appointment-actions button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.edit-btn {
+  background: darkorange;
+  color: white;
+}
+
+.edit-btn:hover {
+  background: #e0a800;
+}
+
 .text-pending {
-  color: #f59e0b; /* Orange */
+  color: #f59e0b;
 }
 
 .text-canceled {
-  color: #dc2626; /* Rouge */
+  color: #dc2626;
 }
 
 .text-confirmed {
-  color: #16a34a; /* Vert */
+  color: #16a34a;
 }
 
-
-
-.appointments-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-
-  .appointments-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-
-    h1 {
-      font-size: 24px;
-      color: #333;
-    }
-
-    .new-appointment-btn {
-      background-color: #007bff;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #0056b3;
-      }
-    }
-  }
-
-  .appointment-form {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 5px;
-    margin-bottom: 20px;
-
-    .form-group {
-      margin-bottom: 15px;
-
-      label {
-        display: block;
-        font-weight: bold;
-        margin-bottom: 5px;
-      }
-
-      input,
-      select,
-      textarea {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-      }
-    }
-
-    .form-actions {
-      display: flex;
-      gap: 10px;
-
-      button {
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-
-        &:first-child {
-          background-color: #28a745;
-          color: white;
-
-          &:disabled {
-            background-color: #ccc;
-          }
-        }
-
-        &:last-child {
-          background-color: #dc3545;
-          color: white;
-        }
-      }
-    }
-  }
-
-  .appointments-list {
-    .no-data {
-      text-align: center;
-      color: #666;
-    }
-
-    .appointments-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 20px;
-
-      .appointment-card {
-        background-color: white;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-
-        .appointment-details {
-          margin-bottom: 15px;
-
-          h3 {
-            margin-bottom: 10px;
-          }
-
-          p {
-            margin: 5px 0;
-          }
-        }
-
-        .appointment-actions {
-          display: flex;
-          justify-content: space-between;
-
-          button {
-            padding: 5px 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-
-            &:first-child {
-              background-color: #007bff;
-              color: white;
-            }
-
-            &:last-child {
-              background-color: #dc3545;
-              color: white;
-            }
-          }
-        }
-      }
-    }
-  }
+.no-data {
+  text-align: center;
+  font-size: 16px;
+  color: #888;
 }

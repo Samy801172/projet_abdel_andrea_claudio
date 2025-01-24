@@ -42,7 +42,6 @@ export class AdminAppointmentsComponent implements OnInit, OnDestroy {
   private loadAppointments(): void {
     const sub = this.adminService.getAllAppointments().subscribe({
       next: (appointments: Appointment[]) => {
-        this.appointments = appointments;
         this.filteredAppointments = appointments; // Initialiser avec tous les rendez-vous
         this.notificationService.success('Rendez-vous chargés avec succès');
       },
@@ -87,6 +86,12 @@ export class AdminAppointmentsComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Ceci sert à donner le status d'un rendez vous pour l'html pour le mettre dans la bonne section
+  getAppointmentsByStatus(status: string): Appointment[] {
+    return this.filteredAppointments.filter((appointment) => appointment.status === status);
+  }
+
+
   // Retourne l'étiquette du status du rendez-vous
   getStatusLabel(status: string): string {
     const statusLabels: Record<AppointmentStatus, string> = {
@@ -112,16 +117,21 @@ export class AdminAppointmentsComponent implements OnInit, OnDestroy {
 
   // Confirmation du rendez-vous par l'admin
   confirmAppointment(appointment: Appointment): void {
-    this.adminService.updateStatus(appointment.appointmentId, 'confirmé').subscribe({
-      next: () => {
-        this.notificationService.success('Rendez-vous confirmé avec succès.');
-        this.loadAppointments(); // Recharge la liste des rendez-vous
+    this.adminService.updateStatus(appointment.appointmentId, 'confirmé').subscribe(
+      () => {
+        console.log('Rendez-vous confirmé avec succès');
+        appointment.status = 'confirmé'; // Mise à jour directe du statut
       },
-      error: (err) => {
-        console.error('Erreur lors de la confirmation du rendez-vous :', err);
-        this.notificationService.error('Échec de la confirmation du rendez-vous.');
-      },
-    });
+      (error) => {
+        console.error('Erreur lors de la confirmation du rendez-vous :', error);
+      }
+    );
   }
+
+
+
+
+
+
 
 }

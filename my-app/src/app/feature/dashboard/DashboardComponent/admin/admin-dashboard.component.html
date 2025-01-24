@@ -14,7 +14,19 @@
       <li><a routerLink="orders" routerLinkActive="active"><i class="fas fa-box"></i> Commandes</a></li>
       <li><a routerLink="clients" routerLinkActive="active"><i class="fas fa-users"></i> Clients</a></li>
       <li><a routerLink="stock" routerLinkActive="active"><i class="fas fa-warehouse"></i> Stock</a></li>
-      <li><a routerLink="appointments" routerLinkActive="active"><i class="fas fa-calendar-check"></i> Rendez-vous</a></li>
+      <li>
+        <a routerLink="appointments" routerLinkActive="active" class="nav-item">
+          <i class="fas fa-calendar-check"></i>
+          <div class="nav-text">
+      <span *ngIf="getAppointmentsByStatus('en attente').length > 0" class="notification-badge">
+        {{ getAppointmentsByStatus('en attente').length }}
+      </span>
+            Rendez-vous
+          </div>
+        </a>
+      </li>
+
+
     </ul>
   </nav>
   <main class="main-content">
