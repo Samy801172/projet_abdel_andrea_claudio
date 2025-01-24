@@ -35,6 +35,9 @@ export class Product {
   @Column({ default: true })
   active: boolean; // Si le produit est actif ou non
 
+  @Column({ default: '/assets/image-default.png' })
+  pathUrl: string; // Si le produit est actif ou non
+
   @ManyToOne(() => Type, (type) => type.products)
   type: Type; // Clé étrangère vers le type de produit
 

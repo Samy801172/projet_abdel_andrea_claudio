@@ -44,10 +44,15 @@ export class AppointmentsService {
       tap(() => this.notificationService.success('Rendez-vous créé avec succès.')),
       catchError((error) => {
         console.error('Erreur lors de la création du rendez-vous :', error);
-        this.notificationService.error('Échec de la création du rendez-vous.');
+        this.notificationService.error('Ce rendez-vous est impossible, choisiez un autre');
         return throwError(() => error);
       })
     );
+  }
+
+  //méthode filtre pour filtrer les créneaux dispo
+  getAppointmentsByDate(date: string): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(`http://localhost:2024/api/appointments?date=${date}`);
   }
 
   /**

@@ -6,6 +6,7 @@ import { DatePipe } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import {AppointmentStatus} from "../../../../../models/Appointment/appointment-types";
 import {Appointment} from "../../../../../models/Appointment/appointment.model";
+import { NotificationService } from '../../../../../services/notification/notification.service';
 
 // Interface représentant un service
 interface Service {
@@ -34,7 +35,8 @@ export class ClientAppointmentsComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private appointmentService: AppointmentsService,
-    private serviceService: ServiceService
+    private serviceService: ServiceService,
+    private notificationService: NotificationService,
   ) {
     this.appointmentForm = this.fb.group({
       serviceId: ['', Validators.required],
@@ -76,11 +78,29 @@ export class ClientAppointmentsComponent implements OnInit {
 
   generateTimeSlots(): void {
     const slots: string[] = [];
-    for (let hour = 9; hour <= 18; hour++) {
+    const startHour = 10; // Heure de début : 10h
+    const endHour = 16; // Heure de fin : 16h30
+
+    // Générer les créneaux horaires
+    for (let hour = startHour; hour <= endHour; hour++) {
       slots.push(`${hour}:00`, `${hour}:30`);
     }
-    this.availableTimeSlots = slots;
+
+    // Exclure les créneaux horaires déjà pris
+    const selectedDate = this.appointmentForm.get('appointmentDate')?.value;
+
+    if (selectedDate) {
+      const takenSlots = this.appointments
+        .filter((appointment) => appointment.appointmentDate === selectedDate)
+        .map((appointment) => appointment.time);
+
+      // Filtrer les créneaux disponibles
+      this.availableTimeSlots = slots.filter((slot) => !takenSlots.includes(slot));
+    } else {
+      this.availableTimeSlots = slots; // Aucun créneau exclu si la date n'est pas sélectionnée
+    }
   }
+
 
   submitAppointment(): void {
     if (!this.appointmentForm.valid) return;
@@ -134,8 +154,9 @@ export class ClientAppointmentsComponent implements OnInit {
   onDateChange(): void {
     const selectedDate = this.appointmentForm.get('appointmentDate')?.value;
     if (selectedDate) {
-      this.generateTimeSlots(); // Régénère les créneaux horaires disponibles pour la date sélectionnée
+      this.generateTimeSlots();
     } else {
+      this.notificationService.error('Date sélectionnée invalide ou non définie.');
       console.error('Date sélectionnée invalide ou non définie.');
     }
   }

@@ -6,4 +6,5 @@ export interface CreateProductDto {
   quantityInStock: number;
   promotion?: boolean;
   quantity: number;
+  pathUrl: string
 }

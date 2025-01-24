@@ -20,7 +20,7 @@ import {NotificationService} from '../../services/notification/notification.serv
             <!-- Image du produit -->
             <div class="aspect-w-1 aspect-h-1">
               <img
-                [src]="product.imageUrls?.[0] || 'assets/placeholder.jpg'"
+                [src]="product.imageUrls?.[0] || 'assets/image-default.png'"
                 [alt]="product.name"
                 class="w-full h-48 object-cover"
               >
@@ -35,7 +35,7 @@ import {NotificationService} from '../../services/notification/notification.serv
               <div class="mt-4 flex justify-between items-center">
                 <div>
                   <span class="text-xl font-bold">{{ product.price | currency:'EUR' }}</span>
-                  @if (product.promotionPrice) {
+                  @if (product.promotion) {
                     <span class="ml-2 text-red-600 text-sm">
                       -{{ calculateDiscount(product) }}%
                     </span>
@@ -105,8 +105,9 @@ export class ProductListComponent implements OnInit {
   }
 
   calculateDiscount(product: Product): number {
-    if (product.price && product.promotionPrice) {
-      return Math.round((1 - product.promotionPrice / product.price) * 100);
+    if (product.price && product.promotion) {
+      // @ts-ignore
+      return Math.round((1 - product.promotion / product.price) * 100);
     }
     return 0;
   }

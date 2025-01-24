@@ -1,7 +1,7 @@
 <div class="appointments-container">
   <!-- En-tête principale avec design moderne -->
   <header class="appointments-header">
-    <h1>Bienvenue sur votre espace de rendez-vous</h1>
+    <h1 class="big-title">Bienvenue sur votre espace de rendez-vous</h1>
     <p class="subtitle">
       Simplifiez votre vie en réservant vos rendez-vous en quelques clics. Suivez les étapes et laissez-nous nous occuper du reste.
     </p>
@@ -17,6 +17,7 @@
       Remplissez les champs ci-dessous avec précision pour garantir une réservation réussie.
     </p>
     <form [formGroup]="appointmentForm" (ngSubmit)="submitAppointment()">
+      <!-- Sélection du service -->
       <div class="form-group">
         <label for="service">Service *</label>
         <select id="service" formControlName="serviceId" required>
@@ -26,40 +27,71 @@
           </option>
         </select>
       </div>
+
+      <!-- Sélection de la date -->
       <div class="form-group">
         <label for="date">Date *</label>
-        <input type="date" id="date" formControlName="appointmentDate" required [min]="minDate" (change)="onDateChange()" />
+        <input
+          type="date"
+          id="date"
+          formControlName="appointmentDate"
+          required
+          [min]="minDate"
+          (change)="onDateChange()"
+        />
       </div>
+
+      <!-- Sélection de l'heure -->
       <div class="form-group">
         <label for="time">Heure *</label>
-        <select id="time" formControlName="time" required>
-          <option value="">Choisissez une heure</option>
+        <select formControlName="time" id="time" required>
+          <option value="" disabled>Choisissez un créneau</option>
           <option *ngFor="let slot of availableTimeSlots" [value]="slot">
             {{ slot }}
           </option>
         </select>
       </div>
+
+
+
+      <!-- Notes optionnelles -->
       <div class="form-group">
         <label for="note">Notes</label>
-        <textarea id="note" formControlName="note" placeholder="Ajoutez des détails pour ce rendez-vous..."></textarea>
+        <textarea
+          id="note"
+          formControlName="note"
+          placeholder="Ajoutez des détails pour ce rendez-vous..."
+        ></textarea>
       </div>
+
+      <!-- Boutons d'action -->
       <div class="form-actions">
-        <button type="submit" [disabled]="!appointmentForm.valid" class="submit-btn">
+        <button
+          type="submit"
+          [disabled]="!appointmentForm.valid"
+          class="submit-btn"
+        >
           {{ editingAppointment ? 'Mettre à jour' : 'Confirmer' }}
         </button>
-        <button type="button" (click)="toggleAddForm()" class="cancel-btn">Annuler</button>
+        <button type="button" (click)="toggleAddForm()" class="cancel-btn">
+          Annuler
+        </button>
+
+        <p class="asterix">Le petit (*) signifie que les champs sont obligatoire</p>
       </div>
     </form>
   </div>
 
   <!-- Liste des rendez-vous -->
   <div class="appointments-list">
-    <h2>Vos rendez-vous</h2>
-    <p class="instructions">
-      Consultez vos rendez-vous ci-dessous. Vous pouvez les modifier ou les annuler si nécessaire.
+    <h2 class="title2">Vos rendez-vous</h2>
+    <p class="subtitle">
+      Consultez vos rendez-vous ci-dessous. Vous pouvez les modifier ou les
+      annuler si nécessaire. Toutefois les pharmaciens se réseve le droit d'annuler un rendez-vous, veuillez surveiller vos e-mails.
     </p>
     <div *ngIf="appointments.length === 0" class="no-data">
-      Aucun rendez-vous trouvé. Cliquez sur "Prendre un rendez-vous" pour en ajouter un.
+      Aucun rendez-vous trouvé. Cliquez sur "Prendre un rendez-vous" pour en
+      ajouter un.
     </div>
     <div *ngIf="appointments.length > 0" class="appointments-grid">
       <div *ngFor="let appointment of appointments" class="appointment-card">

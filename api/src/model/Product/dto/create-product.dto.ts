@@ -22,5 +22,5 @@ export class CreateProductDto {
   @ApiProperty()
   typeId: number;
   @ApiProperty()
-  pathUrl: number;
+  pathUrl: string;
 }
