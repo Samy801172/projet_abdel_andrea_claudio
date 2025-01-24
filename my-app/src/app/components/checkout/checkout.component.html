@@ -1,28 +1,40 @@
 <div class="payment-container">
-  <h3 class="title">Paiement sécurisé</h3>
-  <div class="amount">Total à payer: {{ amount | currency:'EUR' }}</div>
+  <!-- Titre principal -->
+  <h1 class="title">💳 Paiement sécurisé</h1>
 
+  <!-- Montant total à payer -->
+  <div class="amount">
+    <p>Total à payer : <strong>{{ amount | currency: 'EUR' }}</strong></p>
+  </div>
+
+  <!-- Résumé de la commande -->
   <div class="cart-summary">
-    <h4>Résumé de la commande</h4>
+    <h2>Résumé de la commande</h2>
     <div *ngFor="let item of cartItems" class="cart-item-summary">
-      <span>{{ item.product.name }} x{{ item.quantity }}</span>
-      <span>
+      <div class="item-details">
+        <p>{{ item.product.name }} x{{ item.quantity }}</p>
         <ng-container *ngIf="hasActivePromotion(item)">
-          <span class="original-price">{{ item.product.price | currency:'EUR' }}</span>
-          <span class="discount-price">{{ calculateDiscountedPrice(item) | currency:'EUR' }}</span>
+          <p class="prices">
+            <span class="original-price">{{ item.product.price | currency: 'EUR' }}</span>
+            <span class="discount-price">{{ calculateDiscountedPrice(item) | currency: 'EUR' }}</span>
+          </p>
         </ng-container>
         <ng-container *ngIf="!hasActivePromotion(item)">
-          {{ item.product.price | currency:'EUR' }}
+          <p class="price">{{ item.product.price | currency: 'EUR' }}</p>
         </ng-container>
-      </span>
+      </div>
     </div>
-    <div><h3 class="titre-livraison">Adresse de livraison</h3>
-      <p>{{adresse}}</p>
+    <div class="delivery-address">
+      <h3>Adresse de livraison</h3>
+      <p>{{ adresse }}</p>
     </div>
-
   </div>
+
   <!-- Bouton PayPal -->
-  <app-paypal-button [amount]="amount"></app-paypal-button>
+  <div class="paypal-section">
+    <app-paypal-button [amount]="amount"></app-paypal-button>
+  </div>
+
   <!-- Boutons de paiement -->
   <div class="btn-group">
     <button class="btn primary">Payer par Carte</button>

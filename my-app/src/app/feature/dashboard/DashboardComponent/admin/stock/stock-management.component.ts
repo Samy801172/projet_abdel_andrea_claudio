@@ -9,120 +9,8 @@ import { Product } from '../../../../../models/product/product.model'; // Modèl
   selector: 'app-stock-management', // Nom utilisé pour insérer ce composant dans un template HTML.
   standalone: true, // Composant autonome, sans inclusion dans un module Angular parent.
   imports: [CommonModule], // Modules nécessaires pour ce composant.
-  template: `
-    <div class="container">
-      <h2>Gestion des Stocks</h2>
-
-      <!-- Bouton pour exporter les stocks sous format CSV -->
-      <button class="export-btn" (click)="exportStock()">
-        <i class="fas fa-download"></i> Exporter le Stock (CSV)
-      </button>
-
-      <h3>État du Stock</h3>
-      <div class="stock-grid">
-        <!-- Boucle pour afficher les produits sous forme de cartes -->
-        <!-- Utilisation incorrecte ici d'un '@for', qui devrait être '*ngFor' -->
-        @for (product of products; track product.id_product) {
-          <div class="stock-card" [class.low-stock]="product.stock < 5">
-            <div class="product-header">
-              <h4>{{product.name}}</h4>
-              <!-- Affichage d'un badge si le stock est faible -->
-              @if (product.stock < 5) {
-                <span class="stock-badge warning">Stock Faible</span>
-              }
-            </div>
-            <div class="stock-info">
-              <div class="stock-count">
-                Stock : <strong>{{product.stock}}</strong>
-              </div>
-              <div class="price">{{product.price | currency:'EUR'}}</div>
-            </div>
-          </div>
-        }
-      </div>
-    </div>
-  `,
-  styles: [`
-    /* Conteneur principal */
-    .container {
-      padding: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    /* Bouton d'exportation */
-    .export-btn {
-      background: #4f46e5; /* Couleur de fond */
-      color: white; /* Couleur du texte */
-      padding: 0.75rem 1.5rem;
-      border: none;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      margin-bottom: 2rem;
-      transition: background-color 0.2s; /* Animation pour changement de couleur */
-    }
-
-    /* Grille des cartes de stock */
-    .stock-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.5rem;
-    }
-
-    /* Carte représentant un produit */
-    .stock-card {
-      background: white;
-      padding: 1.5rem;
-      border-radius: 0.5rem;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-
-      /* Mise en surbrillance si le stock est faible */
-      &.low-stock {
-        border-left: 4px solid #dc2626;
-      }
-    }
-
-    /* En-tête du produit */
-    .product-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
-
-      h4 {
-        margin: 0;
-        font-size: 1.1rem;
-      }
-    }
-
-    /* Badge indiquant un stock faible */
-    .stock-badge {
-      padding: 0.25rem 0.75rem;
-      border-radius: 9999px;
-      font-size: 0.875rem;
-      font-weight: 500;
-
-      &.warning {
-        background: #fef2f2; /* Couleur d'arrière-plan */
-        color: #dc2626; /* Couleur du texte */
-      }
-    }
-
-    /* Informations sur le produit */
-    .stock-info {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 1rem;
-    }
-
-    /* Prix du produit */
-    .price {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: #4f46e5;
-    }
-  `]
+  templateUrl:'./stock-management.component.html',
+  styleUrl: './stock-management.component.scss'
 })
 export class StockManagementComponent implements OnInit {
   products: Product[] = []; // Tableau pour stocker les produits.
@@ -144,6 +32,12 @@ export class StockManagementComponent implements OnInit {
       error: (err) => console.error('Erreur chargement produits:', err) // Gère les erreurs.
     });
   }
+
+  //Evite de recrée tous les éléments DOM à chaque changement dans la liste
+  trackById(index: number, item: any): number {
+    return item.id; // Remplace `id` par le nom exact de la clé unique de ton produit
+  }
+
 
   // Récupère les alertes de stock depuis l'API.
   loadStockAlerts() {

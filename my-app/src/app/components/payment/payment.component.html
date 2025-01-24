@@ -1,0 +1,14 @@
+<div class="payment-container">
+  <h3>Paiement sécurisé</h3>
+  <div class="amount">Total à payer: {{ amount | currency:'EUR' }}</div>
+
+  <app-paypal-button [amount]="amount"></app-paypal-button>
+
+  <div class="payment-buttons">
+    <button class="payment-btn primary">Payer par Carte</button>
+    <button class="payment-btn primary">Virement Bancaire</button>
+    <button routerLink="/client/cart" class="payment-btn secondary">
+      Retour au panier
+    </button>
+  </div>
+</div>

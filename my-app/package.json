@@ -31,6 +31,8 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "dotenv": "^16.4.7",
+    "exceljs": "^4.4.0",
+    "file-saver": "^2.0.5",
     "google-auth-library": "^9.15.0",
     "jwt-decode": "^4.0.0",
     "rxjs": "~7.8.0",

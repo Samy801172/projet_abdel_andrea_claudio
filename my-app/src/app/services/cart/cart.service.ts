@@ -84,18 +84,29 @@ export class CartService {
   }
 
   private calculateTotal(items: CartItem[]): number {
-    return items.reduce((total, item) => {
-      let price = item.product.price;
+    console.log('Articles reçus pour le calcul :', items);
 
-      // Appliquer la promotion si elle existe
-      if (item.product.activePromotion) {
-        const discountAmount = price * (item.product.activePromotion.discountPercentage / 100);
-        price = price - discountAmount;
+    return items.reduce((total, item) => {
+      if (!item.product || !item.product.price) {
+        console.error('Produit invalide détecté :', item);
+        return total; // Ignore les articles invalides
       }
 
+      let price = item.product.price;
+
+      // Vérifie si une promotion est active
+      if (item.product.activePromotion?.discountPercentage) {
+        const discountAmount = price * (item.product.activePromotion.discountPercentage / 100);
+        price -= discountAmount;
+        console.log(`Promotion appliquée : ${item.product.name}, Nouveau prix : ${price}`);
+      }
+
+      console.log(`Calcul du total pour ${item.product.name} : ${price} x ${item.quantity}`);
       return total + (price * item.quantity);
     }, 0);
   }
+
+
   removeFromCart(cartId: number): Observable<Cart> {
     return this.http.delete<CartItem[]>(`${this.apiUrl}/${cartId}`, {
       headers: this.getAuthHeaders()
@@ -134,21 +145,30 @@ export class CartService {
 
 
   private loadCart(): void {
-    this.http.get<CartItem[]>(`${this.apiUrl}`, {
-      headers: this.getAuthHeaders()
-    }).pipe(
-      map(items => ({
-        items,
-        total: this.calculateTotal(items)
-      })),
-      catchError(error => {
-        this.notificationService.error("Erreur lors du chargement du panier");
-        return throwError(() => error);
-      })
-    ).subscribe(cart => {
-      this.cartSubject.next(cart);
-    });
+    this.http.get<CartItem[]>(`${this.apiUrl}`, { headers: this.getAuthHeaders() })
+      .pipe(
+        map(items => {
+          // Filtre les articles invalides
+          const validItems = items.filter(item => item.product && item.product.price != null);
+          console.log('Articles valides chargés :', validItems);
+
+          return {
+            items: validItems,
+            total: this.calculateTotal(validItems), // Calcule le total uniquement pour les articles valides
+          };
+        }),
+        catchError(error => {
+          this.notificationService.error('Erreur lors du chargement du panier');
+          console.error('Erreur loadCart :', error);
+          return throwError(() => error);
+        })
+      )
+      .subscribe(cart => {
+        this.cartSubject.next(cart); // Met à jour le panier avec les articles valides
+      });
   }
+
+
 
 
   // Modifier la méthode calculateTotal pour prendre en compte les promotions

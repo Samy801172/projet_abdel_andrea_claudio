@@ -11,6 +11,8 @@ import {AuthGuard} from '../../guard/auth.guard';
 import {ClientOrderDetailComponent} from './orders/client-order-detail.component';
 import {ClientOrdersComponent} from './orders/client-orders.component';
 import {ClientAppointmentsComponent} from "./appointments/client-appointments.component";
+import {OrderConfirmationComponent} from "../../../../components/order-confirmation/order-confirmation.component";
+import {PaymentSuccessComponent} from "../../../../components/payment/payment-success.component";
 
 
 export const clientRoutes: Routes = [
@@ -23,6 +25,25 @@ export const clientRoutes: Routes = [
         redirectTo: 'products',
         pathMatch: 'full'
       },
+
+      {
+        path: 'order-confirmation/:id',
+        component: OrderConfirmationComponent,
+        canActivate: [AuthGuard]
+      },
+
+      {
+        path: 'payment-success',
+
+        component: OrderConfirmationComponent,
+        canActivate: [AuthGuard]
+      },
+
+      {
+        path: 'payment-success',
+        component: PaymentSuccessComponent
+      },
+
       {
         path: 'products',
         component: ClientProductsComponent,

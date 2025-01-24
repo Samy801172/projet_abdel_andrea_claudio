@@ -5,7 +5,7 @@
       <p>Espace Admin</p>
     </div>
     <ul class="nav-links">
-      <li><a routerLink="dash" routerLinkActive="active"><i class="fas fa-th-large"></i>Dash</a></li>
+      <li><a routerLink="dash" routerLinkActive="active"><i class="fas fa-anchor"></i>Dash</a></li>
       <li><a routerLink="categories" routerLinkActive="active"><i class="fas fa-th-large"></i> Catégories</a></li>
       <li><a routerLink="products" routerLinkActive="active"><i class="fas fa-pills"></i> Médicaments</a></li>
       <li><a routerLink="services" routerLinkActive="active"><i class="fas fa-concierge-bell"></i> Services</a></li>
@@ -18,7 +18,8 @@
         <a routerLink="appointments" routerLinkActive="active" class="nav-item">
           <i class="fas fa-calendar-check"></i>
           <div class="nav-text">
-      <span *ngIf="getAppointmentsByStatus('en attente').length > 0" class="notification-badge">
+            <!--ici j'ai du importer appointment car dedans il y a getAppointmentsByStatus --->
+      <span class="notification-badge" *ngIf="getAppointmentsByStatus('en attente').length > 0">
         {{ getAppointmentsByStatus('en attente').length }}
       </span>
             Rendez-vous

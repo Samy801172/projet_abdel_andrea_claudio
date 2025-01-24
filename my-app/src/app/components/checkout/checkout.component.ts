@@ -12,7 +12,7 @@ import {
   ClientProfileComponent
 } from "../../feature/dashboard/DashboardComponent/client/profile/client-profile.component";
 
-import { ClientService } from '../../services/client/client.service';
+import { ClientService } from '../../services';
 
 @Component({
   selector: 'app-checkout',
@@ -112,7 +112,7 @@ export class CheckoutComponent implements OnInit {
     const total = this.cartItems.reduce((sum, item) => {
       const price = this.hasActivePromotion(item)
         ? this.calculateDiscountedPrice(item) // Calcule le prix remisé si applicable
-        : item.unit_price;
+        : item.product.price;
       return sum + (price * item.quantity); // Somme les montants des articles
     }, 0);
     return Number(total.toFixed(2)); // Retourne le total arrondi

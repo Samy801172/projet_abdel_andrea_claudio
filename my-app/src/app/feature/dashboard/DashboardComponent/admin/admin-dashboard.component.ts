@@ -14,7 +14,7 @@ import { Appointment } from '../../../../models/Appointment/appointment.model';
   styleUrls: ['admin-dashboard.component.scss'] // Corrigé : 'styleUrls' au lieu de 'styleUrl'
 })
 export class AdminDashboardComponent {
-  appointments: Appointment[] = []; // Liste des rendez-vous
+  appointments: Appointment[] = []; // Liste des rendez-vous pour pouvoir utiliser le badge
 
   constructor(
     private authService: AuthService,
@@ -53,8 +53,7 @@ export class AdminDashboardComponent {
     });
   }
 
-
-  // Filtrer les rendez-vous par statut
+  // Filtrer les rendez-vous par statut pour l'utilisation du badge
   getAppointmentsByStatus(status: string): Appointment[] {
     return this.appointments.filter((appointment) => appointment.status === status);
   }

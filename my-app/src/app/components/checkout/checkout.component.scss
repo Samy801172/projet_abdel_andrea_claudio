@@ -1,33 +1,72 @@
-.titre-livraison{
-  color: #232323;
-  font-size: 22px;
-}
-
+/* Conteneur principal */
 .payment-container {
-  max-width: 500px;
-  margin: 0 auto;
+  max-width: 600px;
+  margin: 30px auto;
   padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
 }
 
+/* Titre principal */
+.title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Montant total */
+.amount {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #4caf50;
+}
+
+/* Résumé de la commande */
 .cart-summary {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
   margin: 20px 0;
-  padding: 15px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.cart-summary h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 10px;
 }
 
 .cart-item-summary {
   display: flex;
   justify-content: space-between;
-  margin: 10px 0;
-  padding: 5px 0;
-  border-bottom: 1px solid #f3f4f6;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.cart-item-summary:last-child {
+  border-bottom: none;
+}
+
+.item-details {
+  flex: 1;
+}
+
+.prices {
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .original-price {
   text-decoration: line-through;
   color: #6b7280;
-  margin-right: 8px;
 }
 
 .discount-price {
@@ -35,28 +74,66 @@
   font-weight: bold;
 }
 
+.price {
+  font-size: 1rem;
+  color: #333;
+}
+
+.delivery-address {
+  margin-top: 20px;
+  background-color: #f3f4f6;
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.delivery-address h3 {
+  font-size: 1.2rem;
+  color: #232323;
+  margin-bottom: 10px;
+}
+
+.delivery-address p {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Section PayPal */
+.paypal-section {
+  margin: 20px 0;
+}
+
+/* Boutons */
 .btn-group {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 15px;
   margin-top: 20px;
 }
 
 .btn {
-  padding: 0.75rem;
+  padding: 15px;
+  font-size: 1rem;
+  font-weight: bold;
   border: none;
-  border-radius: 0.375rem;
-  font-weight: 500;
+  border-radius: 5px;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: 0.3s ease;
 }
 
 .primary {
-  background: #4f46e5;
+  background-color: #4caf50;
   color: white;
 }
 
+.primary:hover {
+  background-color: #45a049;
+}
+
 .secondary {
-  background: #6b7280;
+  background-color: #f44336;
   color: white;
+}
+
+.secondary:hover {
+  background-color: #e53935;
 }

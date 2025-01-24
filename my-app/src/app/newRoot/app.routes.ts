@@ -15,12 +15,6 @@ export const routes: Routes = [
     path: '',
     component: HomeComponent,
   },
-  {
-    path: 'payment-success',
-
-  component: OrderConfirmationComponent,
-  canActivate: [AuthGuard]
-  },
 
   { path: 'profile',
     component: ClientProfileComponent,
@@ -32,11 +26,7 @@ export const routes: Routes = [
     component: LoginComponent,
     canActivate: [NoAuthGuard]
   },
-  {
-    path: 'order-confirmation/:id',
-    component: OrderConfirmationComponent,
-    canActivate: [AuthGuard]
-  },
+
   {
     path: 'register',
     component: RegisterComponent,

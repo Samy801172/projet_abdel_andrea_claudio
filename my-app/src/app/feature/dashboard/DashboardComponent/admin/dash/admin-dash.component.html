@@ -28,7 +28,7 @@
           <span *ngIf="pendingAppointments == 0">Tout est confirmé, bravo !</span>
         </p>
         <!-- Bouton stylé -->
-        <button class="action-btn" (click)="onManageAppointments()">
+        <button *ngIf="pendingAppointments > 0" class="action-btn" (click)="onManageAppointments()">
           Gérer les Rendez-vous
         </button>
       </div>

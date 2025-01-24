@@ -6,50 +6,9 @@ import {PaypalButtonComponent} from '../PayPal/paypal-button.component';
 @Component({
   selector: 'app-payment',
   standalone: true,
-  imports: [CurrencyPipe, PaypalButtonComponent, NgIf, RouterLink],template: `
-    <div class="payment-container">
-      <h3>Paiement sécurisé</h3>
-      <div class="amount">Total à payer: {{ amount | currency:'EUR' }}</div>
-
-      <app-paypal-button [amount]="amount"></app-paypal-button>
-
-      <div class="payment-buttons">
-        <button class="payment-btn primary">Payer par Carte</button>
-        <button class="payment-btn primary">Virement Bancaire</button>
-        <button routerLink="/client/cart" class="payment-btn secondary">
-          Retour au panier
-        </button>
-      </div>
-    </div>
-  `,
-  styles: [`
-    .payment-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 20px;
-    }
-
-    .payment-btn {
-      width: 100%;
-      padding: 12px;
-      border-radius: 6px;
-      border: none;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
-
-    .primary {
-      background: #4f46e5;
-      color: white;
-    }
-
-    .secondary {
-      background: #6b7280;
-      color: white;
-    }
-  `]
+  imports: [CurrencyPipe, PaypalButtonComponent, NgIf, RouterLink],
+  templateUrl: 'payment.component.html',
+  styleUrl: './payment.component.scss',
 })
 export class PaymentComponent {
   @Input() amount!: number;

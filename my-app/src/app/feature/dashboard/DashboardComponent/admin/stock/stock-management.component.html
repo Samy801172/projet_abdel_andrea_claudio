@@ -1,0 +1,41 @@
+<div class="container">
+  <!-- Titre principal -->
+  <h2 class="page-title">Gestion des Stocks</h2>
+
+  <!-- Bouton pour exporter les stocks -->
+  <div class="actions">
+    <button class="export-btn" (click)="exportStock()">
+      <i class="fas fa-download"></i> Exporter le Stock (CSV)
+    </button>
+  </div>
+
+  <!-- État du Stock -->
+  <h3 class="section-title">État du Stock</h3>
+  <div class="stock-grid">
+    <!-- Boucle pour afficher les produits sous forme de cartes -->
+    <div
+      class="stock-card"
+      *ngFor="let product of products; trackBy: trackById"
+      [class.low-stock]="product.stock < 5"
+    >
+      <!-- En-tête de la carte -->
+      <div class="product-header">
+        <h4>{{ product.name }}</h4>
+        <!-- Affichage d'un badge si le stock est faible -->
+        <span *ngIf="product.stock < 5" class="stock-badge warning">
+          Stock Faible
+        </span>
+      </div>
+
+      <!-- Informations sur le produit -->
+      <div class="stock-info">
+        <div class="stock-count">
+          Stock : <strong>{{ product.stock }}</strong>
+        </div>
+        <div class="price">
+          {{ product.price | currency: 'EUR' }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
