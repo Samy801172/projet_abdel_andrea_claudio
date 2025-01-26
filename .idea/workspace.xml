@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7d382ad-49c7-432b-86f3-9d0a39a078e1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/mobile/app/src/main/res/navigation/mobile_navigation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/src/main/res/navigation/mobile_navigation.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +40,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "Andrea-MainNew",
-    "last_opened_file_path": "C:/ProjetIDDev/projet_abdel_andrea_claudio/my-app",
+    "last_opened_file_path": "C:/ProjetIDDev/projet_abdel_andrea_claudio/api",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -87,6 +87,7 @@
       <workItem from="1737392246787" duration="90000" />
       <workItem from="1737392345436" duration="677000" />
       <workItem from="1737481843509" duration="637000" />
+      <workItem from="1737906035653" duration="865000" />
     </task>
     <servers />
   </component>

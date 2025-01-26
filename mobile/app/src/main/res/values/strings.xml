@@ -18,11 +18,12 @@
     <string name="menu_commande">Mes commandes</string>
     <string name="menu_deconnexion">Déconnexion</string>
     <string name="menu_inscription">Inscription</string>
-
+    <string name="bouton_valider">Valider</string>
 
     <!-- Strings related to login -->
-    <string name="menu_seconnecter">Page de connexion</string>
+    <string name="menu_seconnecter">Connexion</string>
     <string name="prompt_email">Email</string>
+    <string name="adressepostal">Adresse</string>
     <string name="prompt_password">Mot de passe</string>
     <string name="action_sign_in">Se connecter</string>
     <string name="action_sing_in_google">Se connecter avec google</string>
