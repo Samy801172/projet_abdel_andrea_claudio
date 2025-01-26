@@ -25,6 +25,7 @@
         <div class="appointment-body">
           <p><strong>Client :</strong> {{ appointment.client?.lastName }} {{ appointment.client?.firstName }}</p>
           <p><strong>Service :</strong> {{ appointment.service?.name }}</p>
+          <p><strong>Note du client :</strong> {{ appointment.note || 'aucune'}}</p>
           <p class="status pending">Statut : En Attente</p>
         </div>
         <div class="appointment-actions">
@@ -57,6 +58,7 @@
           <div class="appointment-body">
             <p><strong>Client :</strong> {{ appointment.client?.lastName }} {{ appointment.client?.firstName }}</p>
             <p><strong>Service :</strong> {{ appointment.service?.name }}</p>
+            <p><strong>Note du client :</strong> {{ appointment.note || 'aucune'}}</p>
             <p class="status confirmed">Statut : Confirmé</p>
           </div>
           <div class="appointment-actions">
@@ -87,6 +89,7 @@
           <div class="appointment-body">
             <p><strong>Client :</strong> {{ appointment.client?.lastName }} {{ appointment.client?.firstName }}</p>
             <p><strong>Service :</strong> {{ appointment.service?.name }}</p>
+            <p><strong>Note du client :</strong> {{ appointment.note || 'aucune' }}</p>
             <p class="status canceled">Statut : Annulé</p>
           </div>
           <div class="appointment-actions">

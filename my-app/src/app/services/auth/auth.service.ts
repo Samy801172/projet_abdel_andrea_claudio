@@ -11,6 +11,7 @@ export interface Credential {
   mail: string;
   isAdmin: boolean;
   username?: string;
+  active: boolean;
   ban: boolean;
 }
 
@@ -132,19 +133,35 @@ export class AuthService {
     );
   }
 
-  // pour Google login
+  // Pour Google login
   googleLogin(credential: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.API_URL}/account/google-login`, { credential }).pipe(
       tap((response: LoginResponse) => {
+        // Vérification de l'état du compte
+        if (response.credential.ban) {
+          throw new Error('Votre compte est banni par un administrateur.');
+        }
+
+        if (!response.credential.active) {
+          throw new Error('Votre compte est désactivé. Veuillez contacter le support.');
+        }
+
         console.log('Connexion réussie avec Google:', response);
-        this.saveAuthData(response); // Sauvegarder les données comme pour une connexion normale
+
+        // Sauvegarder les données comme pour une connexion normale
+        this.saveAuthData(response);
       }),
       catchError(error => {
         console.error('Erreur lors de la connexion Google:', error);
-        return this.handleError(error);
+
+        // Retourner une erreur lisible par l'utilisateur
+        return throwError(() =>
+          new Error(error.error?.message || 'Une erreur est survenue lors de la connexion avec Google.')
+        );
       })
     );
   }
+
 
 
   signup(credentials: SignupCredentials): Observable<SignupResponse> {

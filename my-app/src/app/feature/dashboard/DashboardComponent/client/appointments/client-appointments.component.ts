@@ -76,6 +76,33 @@ export class ClientAppointmentsComponent implements OnInit {
     });
   }
 
+  confirmCancel(appointment: Appointment): void {
+    // Affiche une boîte de confirmation
+    const confirmation = window.confirm('Êtes-vous sûr de vouloir annuler ce rendez-vous ?');
+
+    if (confirmation) {
+      // Action à effectuer si l'utilisateur confirme
+      console.log('Rendez-vous annulé.');
+      // @ts-ignore
+      this.cancelAppointment(appointment);
+    } else {
+      // Action si l'utilisateur annule
+      console.log('Annulation de rendez-vous annulée.');
+    }
+  }
+
+// Fonction pour annuler le rendez-vous
+  cancelAppointment(appointment: Appointment): void {
+    const updatedAppointment: Appointment = {
+      ...appointment,
+      status: AppointmentStatus.Canceled,
+    };
+    this.appointmentService.update(appointment.appointmentId!, updatedAppointment).subscribe(() => {
+      this.loadAppointments();
+    });
+  }
+
+
   generateTimeSlots(): void {
     const slots: string[] = [];
     const startHour = 10; // Heure de début : 10h
@@ -159,17 +186,6 @@ export class ClientAppointmentsComponent implements OnInit {
       this.notificationService.error('Date sélectionnée invalide ou non définie.');
       console.error('Date sélectionnée invalide ou non définie.');
     }
-  }
-
-
-  cancelAppointment(appointment: Appointment): void {
-    const updatedAppointment: Appointment = {
-      ...appointment,
-      status: AppointmentStatus.Canceled,
-    };
-    this.appointmentService.update(appointment.appointmentId!, updatedAppointment).subscribe(() => {
-      this.loadAppointments();
-    });
   }
 
   resetForm(): void {

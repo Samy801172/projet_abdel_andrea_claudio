@@ -52,17 +52,35 @@
         </select>
       </div>
 
-
-
       <!-- Notes optionnelles -->
       <div class="form-group">
         <label for="note">Notes</label>
         <textarea
+          maxlength="150"
           id="note"
           formControlName="note"
-          placeholder="Ajoutez des détails pour ce rendez-vous..."
-        ></textarea>
+          placeholder="Ajoutez une note brève pour les pharmaciens..."></textarea>
+        <p id="charCount">150 caractères maximum.</p>
       </div>
+
+      <!-- Script -->
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const textarea = document.getElementById('note');
+          const charCount = document.getElementById('charCount');
+
+          if (textarea && charCount) {
+            textarea.addEventListener('input', () => {
+              const currentLength = textarea.value.length; // Longueur du texte actuel
+              const maxLength = textarea.getAttribute('maxlength'); // Longueur max
+              charCount.textContent = `${currentLength}/${maxLength} caractères`;
+            });
+          } else {
+            console.error("Impossible de trouver l'élément textarea ou charCount");
+          }
+        });
+      </script>
+
 
       <!-- Boutons d'action -->
       <div class="form-actions">
@@ -99,7 +117,7 @@
           <h3>{{ appointment.service?.name }}</h3>
           <p><strong>Date :</strong> {{ appointment.appointmentDate | date: 'dd/MM/yyyy' }}</p>
           <p><strong>Heure :</strong> {{ appointment.time }}</p>
-          <p><strong>Notes :</strong> {{ appointment.note || 'Aucune' }}</p>
+          <p><strong>Notes :</strong> {{ appointment.note || 'Aucune'}}</p>
           <p
             class="status"
             [ngClass]="{
@@ -113,7 +131,7 @@
         </div>
         <div class="appointment-actions">
           <button (click)="editAppointment(appointment)" class="edit-btn">Modifier</button>
-          <button (click)="cancelAppointment(appointment)" class="cancel-btn">Annuler</button>
+          <button (click)="confirmCancel(appointment)" class="cancel-btn">Annuler</button>
         </div>
       </div>
     </div>

@@ -63,8 +63,8 @@
                   <i class="fas fa-edit"></i> Modifier
                 </button>
                 <button class="delete"
-                  (click)="onToggleDisableClient(client.clientId)"
-                  [class.active]="client.credential.active"
+                        (click)="onToggleDisableClient(client.clientId)"
+                        [class.active]="client.credential.active"
                 >
                   {{ client.credential.active ? 'Désactiver' : 'Réactiver' }}
                 </button>

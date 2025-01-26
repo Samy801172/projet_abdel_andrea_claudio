@@ -99,7 +99,7 @@ export class SecurityController {
     }
   }
 
-  // authentification google Backen by Claudio
+  // authentification google Backend by Claudio
   @Post('google-login')
   @Public()
   @ApiResponse({ status: 200, description: 'Google login successful.', type: Token })

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, NgIterable, OnInit} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import { ClientService } from '../../../../../services';
 import { NotificationService } from '../../../../../services/notification/notification.service';
@@ -235,6 +235,7 @@ export class AdminClientsComponent implements OnInit {
   }
 
   // Bannir un client
+  admins: (NgIterable<unknown> & NgIterable<any>) | undefined | null;
   BanClient(clientId: number): void {
     const client = this.Tousclients.find((client: any) => client.clientId === clientId);
     if (!client)
@@ -282,5 +283,12 @@ if(!client.credential.isAdmin)
 }
 }
 
+  editAdmin(admin: any) {
+
+  }
+
+  banAdmin(id: any) {
+
+  }
 }
 
