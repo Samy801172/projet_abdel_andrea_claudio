@@ -6,11 +6,10 @@
     app:startDestination="@+id/nav_home">
 
     <fragment
-        android:id="@+id/nav_home"
+        android:id="@id/nav_home"
         android:name="com.example.gohanmedic_projetmobile.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
-
 
     <fragment
         android:id="@+id/nav_gallery"
@@ -26,12 +25,12 @@
     <fragment
         android:id="@id/nav_commande"
         android:name="com.example.gohanmedic_projetmobile.ui.commande.CommandeFragment"
-        android:label="Mes Commandes"
+        android:label="@string/menu_commande"
         tools:layout="@layout/commande"/>
 
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.gohanmedic_projetmobile.ui.login.LoginFragment"
-        android:label="fragment_login"
+        android:label="@string/menu_seconnecter"
         tools:layout="@layout/fragment_login" />
 </navigation>
