@@ -6,6 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="b7d382ad-49c7-432b-86f3-9d0a39a078e1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/src/main/java/com/example/gohanmedic_projetmobile/ui/inscription/InscriptionViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/src/main/java/com/example/gohanmedic_projetmobile/ui/inscription/InscriptionViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/src/main/java/com/example/gohanmedic_projetmobile/ui/ordonnance/OrdonnanceFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/src/main/java/com/example/gohanmedic_projetmobile/ui/ordonnance/OrdonnanceFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/src/main/java/com/example/gohanmedic_projetmobile/ui/ordonnance/OrdonnanceViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/src/main/java/com/example/gohanmedic_projetmobile/ui/ordonnance/OrdonnanceViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/src/main/res/layout/fragment_inscription.xml" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/src/main/res/layout/fragment_inscription.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/src/main/res/layout/ordonnance.xml" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/src/main/res/layout/ordonnance.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,20 +41,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "Andrea-MainNew",
-    "last_opened_file_path": "C:/ProjetIDDev/projet_abdel_andrea_claudio/api",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Andrea-MainNew&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/ProjetIDDev/projet_abdel_andrea_claudio/api&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -88,6 +96,10 @@
       <workItem from="1737392345436" duration="677000" />
       <workItem from="1737481843509" duration="637000" />
       <workItem from="1737906035653" duration="865000" />
+      <workItem from="1738003631356" duration="1262000" />
+      <workItem from="1738007757249" duration="161000" />
+      <workItem from="1738007927095" duration="1016000" />
+      <workItem from="1738008977374" duration="941000" />
     </task>
     <servers />
   </component>

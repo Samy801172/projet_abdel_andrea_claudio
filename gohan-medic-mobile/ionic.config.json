@@ -1,7 +1,0 @@
-{
-  "name": "gohan-medic-mobile",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular-standalone"
-}
