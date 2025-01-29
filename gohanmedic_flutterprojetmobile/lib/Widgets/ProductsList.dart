@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gohanmedic_flutterprojetmobile/Services/config.dart';
+import 'package:http/http.dart' as http;
+
 
 class ProductsList extends StatefulWidget {
   @override
@@ -8,30 +11,31 @@ class ProductsList extends StatefulWidget {
 }
 
 class _ProductsListState extends State<ProductsList> {
-  List<dynamic> _products = [];
-  bool _isLoading = true;
+  List<dynamic> _products = []; // Stocke les produits récupérés
+  bool _isLoading = true; // Indique si les données sont en chargement
 
   get http => null;
 
   @override
   void initState() {
     super.initState();
-    fetchProducts();
+    fetchProducts(); // Charge les produits au démarrage
   }
 
+  // 🔹 Fonction pour récupérer la liste des produits depuis l'API
   Future<void> fetchProducts() async {
     try {
-      final response = await http.get(Uri.parse('http://your-api-url/products'));
+      final response = await http.get(Uri.parse('${Config.apiUrl}products')); //appel de la class de l'api
       if (response.statusCode == 200) {
         setState(() {
           _products = json.decode(response.body);
           _isLoading = false;
         });
       } else {
-        throw Exception('Failed to load products');
+        throw Exception('Erreur lors du chargement des produits');
       }
     } catch (e) {
-      print(e);
+      print("Erreur : $e");
       setState(() {
         _isLoading = false;
       });

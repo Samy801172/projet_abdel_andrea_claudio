@@ -1,0 +1,7 @@
+// Classe pour éviter d'écrire à plusieurs endroits l'URL de l'API donc création
+// d'une classe Config pour pourvoir appeller mon API URL.
+
+class Config {
+// static const String apiUrl = "http://localhost:2024/api";
+static const String apiUrl = "http://10.0.2.2:2024/api";
+}
