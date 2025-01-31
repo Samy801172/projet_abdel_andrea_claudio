@@ -143,11 +143,12 @@ class _CountdownTimerState extends State<CountdownTimer> {
   @override
   void initState() {
     super.initState();
-    _remainingTime = widget.endTime.difference(DateTime.now());
+    _remainingTime = widget.endTime.difference(DateTime.now()); //calcul le temps restant jusqu'à la fin de la promo
+    //mise à jour pour toutes les secondes
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
         _remainingTime = widget.endTime.difference(DateTime.now());
-        if (_remainingTime.isNegative) {
+        if (_remainingTime.isNegative) { //arrêt du compteur lorsque le temps est écoulé
           _timer.cancel();
         }
       });
@@ -160,6 +161,7 @@ class _CountdownTimerState extends State<CountdownTimer> {
     super.dispose();
   }
 
+  //Affichage dynamique du compteur pour le décompte
   @override
   Widget build(BuildContext context) {
     if (_remainingTime.isNegative) {
