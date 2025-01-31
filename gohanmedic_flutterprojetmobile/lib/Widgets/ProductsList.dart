@@ -6,6 +6,11 @@ import 'package:http/http.dart' as http;
 
 
 class ProductsList extends StatefulWidget {
+  final String searchQuery;
+
+// Constructeur pour recevoir la recherche depuis HomePage
+  ProductsList({required this.searchQuery});
+
   @override
   _ProductsListState createState() => _ProductsListState();
 }
@@ -22,7 +27,7 @@ class _ProductsListState extends State<ProductsList> {
     fetchProducts(); // Charge les produits au démarrage
   }
 
-  // 🔹 Fonction pour récupérer la liste des produits depuis l'API
+  // Fonction pour récupérer la liste des produits depuis l'API
   Future<void> fetchProducts() async {
     try {
       final response = await http.get(Uri.parse('${Config.apiUrl}products')); //appel de la class de l'api
@@ -52,10 +57,16 @@ class _ProductsListState extends State<ProductsList> {
       return Center(child: Text('Aucun produit disponible.'));
     }
 
+    // Filtrer les produits en fonction du texte entré
+    final filteredProducts = _products.where((product) {
+      final productName = product['name']?.toLowerCase() ?? '';
+      return productName.contains(widget.searchQuery);
+    }).toList();
+
     return ListView.builder(
-      itemCount: _products.length,
+      itemCount: filteredProducts.length,
       itemBuilder: (context, index) {
-        final product = _products[index];
+        final product = filteredProducts[index];
         return Card(
           color: Colors.green[100],
           margin: EdgeInsets.all(8.0),
