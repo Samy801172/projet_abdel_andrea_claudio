@@ -7,6 +7,7 @@ import { Client } from '../../models/client/client.model';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Service } from '../../models/Service/service.model';
 import { NotificationService } from '../notification/notification.service';
+import { Order } from '../../models/order/order.model'; // Import du modèle de commande
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class AdminService {
   private apiUrl = 'http://localhost:2024/api'; // Ajustez selon votre configuration
 
   private appointmentUpdated = new Subject<void>(); // Notifie les changements de rendez-vous
+  private orderUpdated = new Subject<void>(); // Notifie les mises à jour des commandes
 
   constructor(private http: HttpClient, private notificationService: NotificationService) { }
 
@@ -37,6 +39,25 @@ export class AdminService {
           new Date(a.appointmentDate).getTime() - new Date(b.appointmentDate).getTime()
         ))
       );
+  }
+
+  notifyOrderUpdated(): void {
+    this.orderUpdated.next();
+  }
+
+  // Observable pour écouter les notifications de mise à jour des commandes
+  onOrdersUpdated(): Observable<void> {
+    return this.orderUpdated.asObservable();
+  }
+
+  updateOrderStatus(id: number, status: string): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/orders/${id}/changeStatus`, { status }).pipe(
+      tap(() => this.notifyOrderUpdated()),
+      catchError((error) => {
+        console.error('Erreur lors de la mise à jour du statut de la commande :', error);
+        return throwError(() => error);
+      })
+    );
   }
 
   getAppointmentById(id: number): Observable<Appointment> {

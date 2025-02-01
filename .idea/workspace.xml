@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7d382ad-49c7-432b-86f3-9d0a39a078e1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/admin/appointments/admin-appointments.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/admin/appointments/admin-appointments.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/admin/clients/admin-clients.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/admin/clients/admin-clients.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/admin/clients/admin-clients.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/admin/clients/admin-clients.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/client/appointments/client-appointments.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/client/appointments/client-appointments.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/client/appointments/client-appointments.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/client/appointments/client-appointments.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,12 +21,12 @@
     &quot;assignee&quot;: &quot;ColClaudio&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Samy801172/projet_abdel_andrea_claudio",
-    "accountId": "237eee19-0c20-4e1c-b8c9-49b8e96e854b"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Samy801172/projet_abdel_andrea_claudio&quot;,
+    &quot;accountId&quot;: &quot;237eee19-0c20-4e1c-b8c9-49b8e96e854b&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>

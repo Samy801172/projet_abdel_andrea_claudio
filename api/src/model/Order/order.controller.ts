@@ -126,6 +126,28 @@ export class OrderController {
     return this.orderService.findAllByClient(+requestedClientId);
   }
 
+  @Get()
+  findAll() {
+    return this.orderService.findAllOrders();
+  }
+
+  // récupère tout
+  @Get('lol')
+  @ApiOperation({ summary: 'Récupérer toutes les commandes (sans restriction admin)' })
+  async findAllPublicOrders() {
+    this.logger.debug('Récupération de toutes les commandes sans restriction');
+
+    try {
+      const orders = await this.orderService.findAllOrders(); // Récupère toutes les commandes
+      this.logger.debug(`${orders.length} commandes récupérées`);
+      return orders;
+    } catch (error) {
+      this.logger.error('Erreur lors de la récupération des commandes:', error);
+      throw error;
+    }
+  }
+
+
   // Mettre à jour une commande
   @Put(':id')
   @ApiOperation({ summary: 'Mettre à jour une commande' })
@@ -229,14 +251,5 @@ export class OrderController {
       );
       throw error;
     }
-  }
-
-  // Route publique pour obtenir le nombre total de commandes
-  @Get('total')
-  @ApiTags('orders')
-  @ApiBearerAuth('access-token')
-  async getTotalOrders(): Promise<number> {
-    const result = await this.dataSource.query(`SELECT COUNT(*) AS total FROM orders`);
-    return parseInt(result[0].total, 10); // Retourne le nombre total de commandes
   }
 }

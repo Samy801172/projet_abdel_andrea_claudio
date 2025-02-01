@@ -35,6 +35,10 @@ export class AdminDashComponent implements OnInit {
   credential: string | null = localStorage.getItem("clientId");
   client: any;
   editForm: any = {}; // Initialisation de l'objet utilisé pour l'édition
+  totalOrders: number = 0; // Nombre de commande en attente
+  pendingOrders: number = 0; // Nombre de commande en attente
+  confirmedOrders: number = 0; // Nombre de commande en attente
+  canceledOrders: number = 0; // Nombre de commande en attente
 
   constructor(private clientService: ClientService,
               private appointmentsService: AppointmentsService,
@@ -48,9 +52,13 @@ export class AdminDashComponent implements OnInit {
     this.updateCurrentTime(); // Mettre à jour l'heure actuelle
     this.loadNickname(); // charge les données de l'admin
     this.LoadAppointmentsNotConfirmed(); // charge le nombre de rendez vous non confirmé
-    this.loadOrderCount(); // Charge le nombre de commande
     this.LoadAppointmentsConfirmed();
     this.LoadAppointmentsCanceled();
+    this.loadOrderCount(); // Charge le nombre de commande
+    this.LoadOrdersNotConfirmed(); // charge le nombre de rendez vous non confirmé
+    this.LoadOrdersConfirmed();
+    this.LoadOrdersCanceled();
+
   }
 
   // Charge le nombre de commande
@@ -67,13 +75,13 @@ export class AdminDashComponent implements OnInit {
     });
   }
 
-  // Charge le nombre de rendez-vous non confirmés
+  // Charge le nombre de rendez-vous non confirmés via le service public
   LoadAppointmentsNotConfirmed(): void {
     this.publicService.appointmentsCount().subscribe({
       next: (count: number) => {
         console.log('Nombre total de rendez vous non confirmé:', count);
         this.pendingAppointments = count;
-        console.log(this.pendingAppointments)
+        console.log("Merde !  il y a exactement ", this.pendingAppointments, " rendez-vous !");
       },
       error: (error) => {
         console.error('Erreur lors du chargement des rendez-vous en attente :', error);
@@ -81,14 +89,13 @@ export class AdminDashComponent implements OnInit {
     });
   }
 
-  // Charge le nombre de rendez-vous non confirmés
+  // Charge le nombre de rendez-vous non confirmés via le service public
   LoadAppointmentsConfirmed(): void {
     this.publicService.appointmentsCountConfirmed().subscribe({
       next: (count: number) => {
         console.log('Nombre total de rendez vous non confirmé:', count);
         this.confirmedAppointments = count;
         this.totalAppointment+= this.confirmedAppointments;
-        console.log(this.pendingAppointments)
       },
       error: (error) => {
         console.error('Erreur lors du chargement des rendez-vous en attente :', error);
@@ -96,14 +103,13 @@ export class AdminDashComponent implements OnInit {
     });
   }
 
-  // Charge le nombre de rendez-vous non confirmés
+  // Charge le nombre de rendez-vous non confirmés via le service public
   LoadAppointmentsCanceled(): void {
     this.publicService.appointmentsCountConfirmed().subscribe({
       next: (count: number) => {
         console.log('Nombre total de rendez vous non confirmé:', count);
         this.canceledAppointments = count;
         this.totalAppointment+= this.canceledAppointments;
-        console.log(this.pendingAppointments)
       },
       error: (error) => {
         console.error('Erreur lors du chargement des rendez-vous en attente :', error);
@@ -171,5 +177,58 @@ export class AdminDashComponent implements OnInit {
     console.log('Navigation vers la gestion des rendez-vous...');
     // La route pour aller vers les rendez vous à confirmer
     this.router.navigate(['admin/appointments']);
+  }
+
+  ///////////////////////////ORDERS NOTIF///////////////////////////////
+
+  // Pour naviger vers les commandes admin
+  onManageOrders(): void {
+    console.log('Navigation vers la gestion des rendez-vous...');
+    // La route pour aller vers les commandes à traiterv
+    this.router.navigate(['admin/orders']);
+  }
+
+  // Charge le nombre de commandes non confirmés via le service public
+  LoadOrdersNotConfirmed(): void {
+    this.publicService.ordersCount().subscribe({
+      next: (count: number) => {
+        this.pendingOrders = count ?? 0; // Assure qu'on ne stocke pas undefined
+        console.log('Nombre total de commande non confirméssssss:', this.pendingOrders);
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des rendez-vous en attente :', error);
+      },
+    });
+  }
+
+
+  // Charge le nombre de commandes non confirmés via le service public
+  LoadOrdersConfirmed(): void {
+    this.publicService.ordersCountConfirmed().subscribe({
+      next: (count: number) => {
+        console.log('Nombre total de commande non confirmés:', count);
+        this.confirmedOrders = count;
+        this.totalOrders+= this.confirmedOrders;
+        console.log(this.pendingOrders)
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des commande en attente :', error);
+      },
+    });
+  }
+
+  // Charge le nombre de commandes non confirmés via le service public
+  LoadOrdersCanceled(): void {
+    this.publicService.ordersCountConfirmed().subscribe({
+      next: (count: number) => {
+        console.log('Nombre total de de commande non confirmé:', count);
+        this.canceledOrders = count;
+        this.totalOrders+= this.canceledOrders;
+        console.log(this.pendingOrders)
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des commande en attente :', error);
+      },
+    });
   }
 }

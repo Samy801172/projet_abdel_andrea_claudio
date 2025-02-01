@@ -1,0 +1,203 @@
+<!-- Liste des commandes -->
+<div class="orders-container">
+  <!-- En-tête avec statistiques -->
+  <header class="page-header">
+    <h1>Gestion des Commandes</h1>
+    <div class="stats">
+      <div class="stat-card">
+        <span class="label">Total</span>
+        <span class="value">{{orders.length}}</span>
+      </div>
+      <div class="stat-card">
+        <span class="label">En cours</span>
+        <span class="value">{{getOrdersByStatus(OrderStatus.Processing)}}</span>
+      </div>
+      <div class="stat-card">
+        <span class="label">En attente</span>
+        <span class="value">{{getOrdersByStatus(OrderStatus.Pending)}}</span>
+      </div>
+    </div>
+  </header>
+  <div class="filters">
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      (ngModelChange)="filterOrders()"
+      placeholder="Rechercher une commande..."
+      class="search-input"
+    >
+    <select
+      [(ngModel)]="statusFilter"
+      (change)="filterOrders()"
+      class="status-select"
+    >
+      <option value="all">Tous les statuts</option>
+      <option *ngFor="let status of orderStatuses" [value]="status.id_statut">
+        {{status.label}}
+      </option>
+    </select>
+  </div>
+  <div *ngIf="loading" class="loading">Chargement des commandes...</div>
+
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <div *ngIf="!loading && !error">
+    <div *ngIf="filteredOrders.length === 0" class="empty-state">
+      Aucune commande trouvée.
+    </div>
+    <div *ngIf="orders.length > 0" class="orders-grid">
+      <div *ngFor="let order of filteredOrders; trackBy: trackByOrderId" class="order-card">
+        <div class="order-header">
+          <h3>Commande #{{ order.id_order }}</h3>
+          <div class="order-info">
+            <span class="order-date">{{ order.date_order | date:'dd/MM/yyyy' }}</span>
+            <span [class]="getStatusClass(order.id_statut)">
+                  {{ getStatusLabel(order.id_statut) }}
+                </span>
+          </div>
+        </div>
+
+        <div *ngIf="order.orderDetails && order.orderDetails.length > 0" class="order-products">
+          <div *ngFor="let detail of order.orderDetails; trackBy: trackByOrderDetailId" class="product-item">
+            <span class="product-name">{{ detail.product.name }}</span>
+            <span class="product-quantity">x{{ detail.quantity }}</span>
+            <span class="product-price">{{ detail.unit_price | currency:'EUR' }}</span>
+          </div>
+        </div>
+
+        <div class="order-footer">
+          <div class="order-totals">
+            <span class="order-total">Total: {{ order.montant_total | currency:'EUR' }}</span>
+          </div>
+          <button class="details-btn" (click)="openOrderDetails(order)">
+            Modifier
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="selectedOrder">
+  <div class="modal-content">
+    <!-- En-tête -->
+    <div class="modal-header">
+      <div class="header-content">
+        <h3>Détails de la commande #{{selectedOrder.id_order}}</h3>
+        <div class="status-badge" [class]="getStatusClass(selectedOrder.id_statut)">
+          {{ getStatusLabel(selectedOrder.id_statut) }}
+        </div>
+      </div>
+      <button class="close-btn" (click)="closeModal()">×</button>
+    </div>
+
+    <!-- Corps -->
+    <div class="modal-body">
+      <!-- Informations client -->
+      <div class="card info-section">
+        <h4>Informations client</h4>
+        <div class="client-info">
+          <div class="info-row">
+            <span class="label">Client:</span>
+            <span class="value">{{ selectedOrder.client?.firstName }} {{ selectedOrder.client?.lastName }}</span>
+          </div>
+          <div class="info-row">
+            <span class="label">Date:</span>
+            <span class="value">{{ selectedOrder.date_order | date:'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Produits -->
+      <div class="card product-section">
+        <h4>Produits commandés</h4>
+        <div class="table-responsive">
+          <table>
+            <thead>
+            <tr>
+              <th>Produit</th>
+              <th>Quantité</th>
+              <th>Prix unitaire</th>
+              <th>Total</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let detail of selectedOrder.orderDetails; trackBy: trackByOrderDetailId">
+              <td>{{ detail.product.name }}</td>
+              <td>
+                <div class="quantity-control">
+                  <button class="qty-btn" (click)="updateQuantity(detail, -1)" [disabled]="detail.quantity <= 1">-</button>
+                  <input
+                    type="number"
+                    [(ngModel)]="detail.quantity"
+                    min="1"
+                    (change)="validateAndUpdateQuantity(detail)"
+                    class="qty-input"
+                  >
+                  <button class="qty-btn" (click)="updateQuantity(detail, 1)">+</button>
+                </div>
+              </td>
+              <td>{{ detail.unit_price | currency:'EUR' }}</td>
+              <td>{{ detail.quantity * detail.unit_price | currency:'EUR' }}</td>
+              <td>
+                <button class="delete-btn" (click)="removeProduct(detail)">
+                  Supprimer
+                </button>
+              </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+              <td colspan="3" class="total-label">Total</td>
+              <td colspan="2" class="total-value">{{ selectedOrder.montant_total | currency:'EUR' }}</td>
+            </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
+      <!-- Gestion du statut -->
+      <div class="card status-section">
+        <h4>Gestion du statut</h4>
+        <div class="status-control">
+          <select
+            [(ngModel)]="newStatus"
+            [disabled]="processing"
+            class="status-select"
+          >
+            <option [ngValue]="null">Sélectionner un nouveau statut</option>
+            <option
+              *ngFor="let status of getAvailableStatuses(selectedOrder)"
+              [ngValue]="status.id_statut"
+            >
+              {{ status.label }}
+            </option>
+          </select>
+          <button
+            class="action-btn primary"
+            [disabled]="!newStatus || processing || newStatus === selectedOrder.id_statut"
+            (click)="updateOrderStatus()"
+          >
+            {{ processing ? 'Mise à jour...' : 'Mettre à jour le statut' }}
+          </button>
+        </div>
+        <div *ngIf="statusError" class="error-message">{{ statusError }}</div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="modal-footer">
+      <button class="action-btn secondary" (click)="closeModal()">
+        Annuler
+      </button>
+      <button
+        class="action-btn primary"
+        [disabled]="processing || !hasChanges()"
+        (click)="saveChanges()"
+      >
+        {{ processing ? 'Enregistrement...' : 'Sauvegarder' }}
+      </button>
+    </div>
+  </div>
+</div>

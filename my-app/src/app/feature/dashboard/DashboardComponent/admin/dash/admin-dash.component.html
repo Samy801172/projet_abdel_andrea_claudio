@@ -33,14 +33,16 @@
         </button>
       </div>
 
-
       <div class="stat-card">
-        <h3>🛍️ Derniers Achats Clients</h3>
-        <ul>
-          <li>Commande #1234 - Statut : <span>Expédiée</span></li>
-          <li>Commande #1235 - Statut : <span>En attente</span></li>
-          <li>Commande #1236 - Statut : <span>Livrée</span></li>
-        </ul>
+        <h3>⏳ Commande(s) en Attente</h3>
+        <p>
+          <span *ngIf="pendingOrders > 0">Encore <strong>{{ pendingOrders }}</strong> commande(s) à traiter.</span>
+          <span *ngIf="pendingOrders == 0">Tout est traité, bravo !</span>
+        </p>
+        <!-- Bouton stylé -->
+        <button *ngIf="pendingOrders > 0" class="action-btn" (click)="onManageOrders()">
+          Gérer les commandes
+        </button>
       </div>
     </div>
 

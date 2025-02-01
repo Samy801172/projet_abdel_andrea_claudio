@@ -33,4 +33,21 @@ export class PublicService {
     return this.appointmentRepository.count({ where: { status: 'confirmé' } });
   }
 
+  //////////////////////ORDERS///////////////////////////
+
+  // Compter le nombre de commandes non confirmées pour le dashboard
+  async orderCount(): Promise<number> {
+    return this.orderRepository.count({ where: { id_statut: 2 } });
+  }
+
+  // Compter le nombre de rendez-vous non confirmé pour le dashboard
+  async orderCountConfirmed(): Promise<number> {
+    return this.orderRepository.count({ where: { id_statut: 3 } });
+  }
+
+// Compter le nombre de rendez-vous annulé
+  async orderCountCanceled(): Promise<number> {
+    return this.orderRepository.count({ where: { id_statut: 5 } });
+  }
+
 }

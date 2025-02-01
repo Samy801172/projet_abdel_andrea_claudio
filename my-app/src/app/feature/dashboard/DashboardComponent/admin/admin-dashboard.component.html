@@ -11,7 +11,18 @@
       <li><a routerLink="services" routerLinkActive="active"><i class="fas fa-concierge-bell"></i> Services</a></li>
       <li><a routerLink="prescriptions" routerLinkActive="active"><i class="fas fa-prescription"></i> Ordonnances</a></li>
       <li><a routerLink="custom-meds" routerLinkActive="active"><i class="fas fa-flask"></i> Préparations</a></li>
-      <li><a routerLink="orders" routerLinkActive="active"><i class="fas fa-box"></i> Commandes</a></li>
+      <li>
+        <a routerLink="orders" routerLinkActive="active" class="nav-item">
+          <i class="fas fa-box"></i>
+          <div class="nav-text">
+      <span class="notification-badge2" *ngIf="pendingOrders > 0">
+        {{ pendingOrders }}
+      </span>
+            Commandes
+          </div>
+        </a>
+      </li>
+
       <li><a routerLink="clients" routerLinkActive="active"><i class="fas fa-users"></i> Clients</a></li>
       <li><a routerLink="stock" routerLinkActive="active"><i class="fas fa-warehouse"></i> Stock</a></li>
       <li>
@@ -19,8 +30,8 @@
           <i class="fas fa-calendar-check"></i>
           <div class="nav-text">
             <!--ici j'ai du importer appointment car dedans il y a getAppointmentsByStatus --->
-      <span class="notification-badge" *ngIf="getAppointmentsByStatus('en attente').length > 0">
-        {{ getAppointmentsByStatus('en attente').length }}
+      <span class="notification-badge" *ngIf="pendingAppointments > 0">
+        {{ pendingAppointments }}
       </span>
             Rendez-vous
           </div>

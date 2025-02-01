@@ -162,8 +162,6 @@ export class AuthService {
     );
   }
 
-
-
   signup(credentials: SignupCredentials): Observable<SignupResponse> {
     // On garde toutes les validations existantes
     if (!credentials.username || !credentials.mail || !credentials.password) {
@@ -249,32 +247,6 @@ export class AuthService {
     );
   }
 
-  private checkLoginAttempts(email: string): boolean {
-    const now = Date.now();
-    const attempts = this.loginAttempts[email];
-
-    if (attempts) {
-      if (attempts.count >= this.MAX_ATTEMPTS) {
-        const timeElapsed = now - attempts.lastAttempt;
-        if (timeElapsed < this.LOCK_TIME) {
-          const remainingTime = Math.ceil((this.LOCK_TIME - timeElapsed) / 1000 / 60);
-          throw new Error(`Compte temporairement bloqué. Réessayez dans ${remainingTime} minutes`);
-        } else {
-          delete this.loginAttempts[email];
-        }
-      }
-    }
-    return true;
-  }
-
-  private incrementLoginAttempts(email: string): void {
-    if (!this.loginAttempts[email]) {
-      this.loginAttempts[email] = { count: 0, lastAttempt: Date.now() };
-    }
-    this.loginAttempts[email].count++;
-    this.loginAttempts[email].lastAttempt = Date.now();
-  }
-
   public async saveAuthData(response: LoginResponse): Promise<void> {
     console.log('Début saveAuthData:', response);
 
@@ -309,32 +281,28 @@ export class AuthService {
   }
 
   private handleError(error: HttpErrorResponse) {
+    console.error('Erreur interceptée:', error);
+
     let errorMessage = 'Une erreur est survenue';
 
-    if (error.error instanceof ErrorEvent) {
-      errorMessage = error.error.message;
-    } else {
-      switch (error.status) {
-        case 400:
-          errorMessage = 'Données invalides';
-          break;
-        case 401:
-          errorMessage = 'Identifiants incorrects';
-          break;
-        case 403:
-          errorMessage = 'Accès refusé';
-          break;
-        case 404:
-          errorMessage = 'Utilisateur non trouvé';
-          break;
-        default:
-          errorMessage = 'Veuillez vérifier vos information de connexion';
+    if (error.error) {
+      if (typeof error.error === 'string') {
+        // Le backend renvoie une chaîne brute (HTML, texte ou autre)
+        errorMessage = error.error;
+      } else if (typeof error.error === 'object' && error.error.message) {
+        // Le backend renvoie un objet avec un champ "message"
+        errorMessage = error.error.message;
       }
+    } else if (error.status) {
+      // Erreur sans corps mais avec un statut HTTP
+      errorMessage = `Erreur inconnue. Code HTTP: ${error.status}`;
+    } else {
+      // Aucune information disponible
+      errorMessage = 'Erreur inattendue sans détails';
     }
 
     return throwError(() => new Error(errorMessage));
   }
-
 
   isAuthenticated(): boolean {
     return !!localStorage.getItem('token');
