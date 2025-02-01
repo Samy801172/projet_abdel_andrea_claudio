@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7d382ad-49c7-432b-86f3-9d0a39a078e1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/app/src/main/java/com/example/gohanmedic_projetmobile/ui/inscription/InscriptionViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/src/main/java/com/example/gohanmedic_projetmobile/ui/inscription/InscriptionViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/app/src/main/java/com/example/gohanmedic_projetmobile/ui/ordonnance/OrdonnanceFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/src/main/java/com/example/gohanmedic_projetmobile/ui/ordonnance/OrdonnanceFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/app/src/main/java/com/example/gohanmedic_projetmobile/ui/ordonnance/OrdonnanceViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/src/main/java/com/example/gohanmedic_projetmobile/ui/ordonnance/OrdonnanceViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/app/src/main/res/layout/fragment_inscription.xml" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/src/main/res/layout/fragment_inscription.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/app/src/main/res/layout/ordonnance.xml" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/src/main/res/layout/ordonnance.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/android/app/src/main/res/drawable-v21/launch_background.xml" beforeDir="false" afterPath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/android/app/src/main/res/drawable-v21/launch_background.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,6 +94,7 @@
       <workItem from="1738007757249" duration="161000" />
       <workItem from="1738007927095" duration="1016000" />
       <workItem from="1738008977374" duration="941000" />
+      <workItem from="1738415266556" duration="652000" />
     </task>
     <servers />
   </component>

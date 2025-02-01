@@ -1,0 +1,1 @@
+// represente les erreurs potentiellement rencontré dans l'appli
