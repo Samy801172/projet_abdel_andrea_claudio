@@ -20,10 +20,10 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  ElevatedButton(
-  onPressed: () {
-  Navigator.pushNamed(context, '/orders');
-  },
-  child: Text("Mes Commandes"),
-  ),
+  // ElevatedButton(
+  // onPressed: () {
+  // Navigator.pushNamed(context, '/orders');
+  // },
+  // child: Text("Mes Commandes"),
+  // ),
 }

@@ -52,17 +52,32 @@ class GohanMedicApp extends StatelessWidget {
         routes: {
           // Route vers la page de connexion.
           '/': (context) => LoginPage(),
+
           // Route vers la page d'inscription.
           '/register': (context) => RegisterPage(),
+
           // Route vers la page d'accueil qui affiche les produits du moment et les promotions, ...
           '/home': (context) => HomePage(),
+
+          //Route vers la liste des commandes (Vérification si l'utilisateur est connecté sinon redirection vers connexion
           '/commande': (context) {
             // Récupérer l'ID utilisateur de AuthentificationProvider
-            final userId = Provider.of<AuthentificationProvider>(context, listen: false).userId;
+            final authentificationprovider = Provider.of<AuthentificationProvider>(context, listen: false);
+            final userId = authentificationprovider.userId;
+
+            if (userId == null) {
+              // Rediriger vers la page de connexion
+              Future.microtask(() => Navigator.pushReplacementNamed(context, '/'));
+              return Scaffold(
+                body: Center(child: CircularProgressIndicator()), // Affichage temporaire
+              );
+            }
             return CommandeList(userId: userId);
           },
+
         // Route vers la page du panier.
         '/cart': (context) => CartPage(),
+
         // Route vers la page du profil utilisateur.
         '/profile': (context) => ProfilePage(),
       },
