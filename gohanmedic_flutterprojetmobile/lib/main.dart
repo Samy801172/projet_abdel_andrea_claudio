@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:gohanmedic_flutterprojetmobile/Pages/ProfilePage.dart';
+import 'package:gohanmedic_flutterprojetmobile/Widgets/CommandeList.dart';
 import 'Pages/HomePage.dart';
 import 'Pages/LoginPage.dart';
 import 'Pages/RegisterPage.dart';
 import 'package:provider/provider.dart';
 import 'package:gohanmedic_flutterprojetmobile/Provider/CartProvider.dart';
 import 'package:gohanmedic_flutterprojetmobile/Pages/CartPage.dart';
+import 'package:gohanmedic_flutterprojetmobile/Provider/AuthentificationProvider.dart';
 
 void main() {
-  runApp(GohanMedicApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => AuthentificationProvider()),
+      ],
+      child: GohanMedicApp(),
+    ),
+  );
 }
 
 // Utilisation de MultiProvider pour inclure la gestion de l'état global
@@ -50,6 +59,9 @@ class GohanMedicApp extends StatelessWidget {
         '/register': (context) => RegisterPage(),
         // Route vers la page d'accueil qui affiche les produits du moment et les promotions, ...
         '/home': (context) => HomePage(),
+        '/commande': (context) => {
+          final userId = Provider.of<AuthProvider>(context, listen: false).userId;
+          return CommandeList(userId: userId);,
         // Route vers la page du panier.
         '/cart': (context) => CartPage(),
         // Route vers la page du profil utilisateur.
