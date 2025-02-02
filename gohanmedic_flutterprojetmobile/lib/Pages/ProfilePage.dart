@@ -1,3 +1,6 @@
+// Page pour le profil d'un client + lien vers sa liste de commande (avec notifcation de changement)
+// commande avec médicament sur mesure aussi
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

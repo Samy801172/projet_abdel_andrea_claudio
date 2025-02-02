@@ -1,7 +1,7 @@
+//Page de login pour le client + lient vers la page inscription
+
 import 'package:flutter/material.dart';
 import 'dart:convert';
-
-
 
 class LoginPage extends StatelessWidget {
   @override

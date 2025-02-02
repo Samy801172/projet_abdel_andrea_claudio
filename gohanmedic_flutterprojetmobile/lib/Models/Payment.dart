@@ -1,3 +1,7 @@
+// Représente la création d'un paiement lorsque le client valide son panier et qu'il va devoir payer
+
+import 'package:gohanmedic_flutterprojetmobile/Models/Product.dart';
+
 class Payment {
   final String id; // Identifiant unique du paiement
   final double total; // Montant du paiement
@@ -33,34 +37,6 @@ class Payment {
       status: map['status'],
       items: items,
       paymentDate: DateTime.parse(map['paymentDate']),
-    );
-  }
-}
-
-class Product {
-  final String nom; // Nom du produit
-  final int quantite; // Quantité achetée
-  final double prix; // Prix du produit
-
-  Product({
-    required this.nom,
-    required this.quantite,
-    required this.prix,
-  });
-
-  Map<String, dynamic> toMap() {
-    return {
-      'name': nom,
-      'quantity': quantite,
-      'price': prix,
-    };
-  }
-
-  factory Product.fromMap(Map<String, dynamic> map) {
-    return Product(
-      nom: map['name'],
-      quantite: map['quantity'],
-      prix: map['price'],
     );
   }
 }

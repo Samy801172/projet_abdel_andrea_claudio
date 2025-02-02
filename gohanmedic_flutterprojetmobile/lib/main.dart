@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:gohanmedic_flutterprojetmobile/Pages/ProfilePage.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-
-import 'Pages/CartPage.dart';
 import 'Pages/HomePage.dart';
 import 'Pages/LoginPage.dart';
 import 'Pages/RegisterPage.dart';
+import 'package:provider/provider.dart';
+import 'package:gohanmedic_flutterprojetmobile/Provider/CartProvider.dart';
+import 'package:gohanmedic_flutterprojetmobile/Pages/CartPage.dart';
 
 void main() {
   runApp(GohanMedicApp());
 }
 
+// Utilisation de MultiProvider pour inclure la gestion de l'état global
 class GohanMedicApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => CartProvider()), // Ajout du provider pour gérer le panier
+          // & pouvoir l'utiliser partout dans l'appli
+        ],
+    child: MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'GohanMedic',
       theme: ThemeData(
@@ -50,6 +55,7 @@ class GohanMedicApp extends StatelessWidget {
         // Route vers la page du profil utilisateur.
         '/profile': (context) => ProfilePage(),
       },
+    ),
     );
-  }
+  } // Build
 }

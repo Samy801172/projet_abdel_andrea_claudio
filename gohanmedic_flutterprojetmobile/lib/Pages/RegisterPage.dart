@@ -1,3 +1,5 @@
+// Page pour l'inscription d'un nouveau client
+
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatelessWidget {

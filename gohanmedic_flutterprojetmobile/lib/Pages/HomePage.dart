@@ -1,3 +1,5 @@
+// Page principal - Menu + promotions du moment, derniers médicaments + login
+
 import 'package:flutter/material.dart';
 import '../Widgets/ProductsList.dart';
 
