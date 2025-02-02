@@ -11,25 +11,21 @@ import 'package:gohanmedic_flutterprojetmobile/Provider/AuthentificationProvider
 
 void main() {
   runApp(
-    MultiProvider(
+    MultiProvider( // Utilisation de MultiProvider pour inclure la gestion de l'état global
       providers: [
         ChangeNotifierProvider(create: (context) => AuthentificationProvider()),
+        ChangeNotifierProvider(create: (context) => CartProvider()), // Ajout du provider pour gérer le panier
       ],
       child: GohanMedicApp(),
     ),
   );
 }
 
-// Utilisation de MultiProvider pour inclure la gestion de l'état global
+
 class GohanMedicApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (context) => CartProvider()), // Ajout du provider pour gérer le panier
-          // & pouvoir l'utiliser partout dans l'appli
-        ],
-    child: MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'GohanMedic',
       theme: ThemeData(
@@ -51,23 +47,25 @@ class GohanMedicApp extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: '/',
-      routes: {
-        // Route vers la page de connexion.
-        '/': (context) => LoginPage(),
-        // Route vers la page d'inscription.
-        '/register': (context) => RegisterPage(),
-        // Route vers la page d'accueil qui affiche les produits du moment et les promotions, ...
-        '/home': (context) => HomePage(),
-        '/commande': (context) => {
-          final userId = Provider.of<AuthProvider>(context, listen: false).userId;
-          return CommandeList(userId: userId);,
+
+        initialRoute: '/',
+        routes: {
+          // Route vers la page de connexion.
+          '/': (context) => LoginPage(),
+          // Route vers la page d'inscription.
+          '/register': (context) => RegisterPage(),
+          // Route vers la page d'accueil qui affiche les produits du moment et les promotions, ...
+          '/home': (context) => HomePage(),
+          '/commande': (context) {
+            // Récupérer l'ID utilisateur de AuthentificationProvider
+            final userId = Provider.of<AuthentificationProvider>(context, listen: false).userId;
+            return CommandeList(userId: userId);
+          },
         // Route vers la page du panier.
         '/cart': (context) => CartPage(),
         // Route vers la page du profil utilisateur.
         '/profile': (context) => ProfilePage(),
       },
-    ),
     );
   } // Build
 }

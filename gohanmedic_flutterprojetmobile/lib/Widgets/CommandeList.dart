@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:gohanmedic_flutterprojetmobile/Models/Commande.dart';
-import '../models/Commande.dart';
 import '../Pages/CommandeDetailPage.dart';
 import 'package:gohanmedic_flutterprojetmobile/Services/CommandeService.dart';
 

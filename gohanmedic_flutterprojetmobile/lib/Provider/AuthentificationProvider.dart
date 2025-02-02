@@ -16,6 +16,11 @@ class AuthentificationProvider with ChangeNotifier {
 
   bool get isAuthenticated => _token != null;
 
+  AuthentificationProvider() {
+    // Charger automatiquement l'utilisateur au démarrage
+    loadUser();
+  }
+
   // Récupérer les infos utilisateur depuis le stockage local
   Future<void> loadUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -28,7 +33,7 @@ class AuthentificationProvider with ChangeNotifier {
   // Connexion via API
   Future<bool> login(String email, String password) async {
     final response = await http.post(
-      Uri.parse('http://ton-serveur-api.com/login'),
+      Uri.parse('http://ton-serveur-api.com/login'), // lien connexion a changé
       body: json.encode({'email': email, 'password': password}),
       headers: {'Content-Type': 'application/json'},
     );
@@ -47,6 +52,20 @@ class AuthentificationProvider with ChangeNotifier {
 
       notifyListeners();
       return true;
+    }
+    return false;
+  }
+
+  // Inscription via API
+  Future<bool> register(String name, String email, String password) async {
+    final response = await http.post(
+      Uri.parse('http://ton-serveur-api.com/register'), // METTRE LA BONNE URL
+      body: json.encode({'name': name, 'email': email, 'password': password}),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if (response.statusCode == 200) {
+      return true; // Inscription réussie
     }
     return false;
   }
