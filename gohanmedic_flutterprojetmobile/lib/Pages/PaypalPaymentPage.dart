@@ -8,14 +8,30 @@ import 'package:gohanmedic_flutterprojetmobile/Models/Payment.dart';
 class PayPalPaymentPage extends StatefulWidget {
   final String paymentUrl;
 
-  PayPalPaymentPage({required this.paymentUrl});
+  const PayPalPaymentPage({Key? key, required this.paymentUrl}) : super(key: key);
 
   @override
   _PayPalPaymentPageState createState() => _PayPalPaymentPageState();
 }
 
 class _PayPalPaymentPageState extends State<PayPalPaymentPage> {
-  WebViewController? _controller;
+  late final WebViewController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onPageStarted: (String url) {
+            _onPageStarted(url);
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse(widget.paymentUrl));
+  }
 
   // Cette fonction sera appelée lorsque l'utilisateur sera redirigé vers l'URL de confirmation.
   void _onPageStarted(String url) async {
@@ -52,14 +68,8 @@ class _PayPalPaymentPageState extends State<PayPalPaymentPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('PayPal Payment')),
-      body: WebView(
-        initialUrl: widget.paymentUrl,
-        onPageStarted: _onPageStarted, // Gère la redirection
-        javascriptMode: JavascriptMode.unrestricted,
-        onWebViewCreated: (controller) {
-          _controller = controller;
-        },
-      ),
+      body: WebViewWidget(controller: _controller),
+
     );
   }
 
