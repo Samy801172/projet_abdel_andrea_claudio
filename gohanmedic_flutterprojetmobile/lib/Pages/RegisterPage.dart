@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:gohanmedic_flutterprojetmobile/Services/apiservice.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -15,22 +16,18 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _confirmPasswordController = TextEditingController();
 
   bool _isPasswordVisible = false; // Pour afficher/masquer le mot de passe
-  bool _isConfirmPasswordVisible = false;
+  bool _isConfirmPasswordVisible = false;  // Gère l'affichage du champ confirmation
 
   // Fonction pour gérer l'inscription du client
   Future<void> _register() async {
     if (_formKey.currentState!.validate()) { // Vérifie si le formulaire est valide
-      final response = await http.post(
-        Uri.parse('http://ton-serveur-api.com/register'), // Remplace par ton endpoint API
-        body: json.encode({
-          'name': _nameController.text,
-          'email': _emailController.text,
-          'password': _passwordController.text,
-        }),
-        headers: {'Content-Type': 'application/json'},
+      bool success = await ApiService.register(
+        _nameController.text,
+        _emailController.text,
+        _passwordController.text,
       );
 
-      if (response.statusCode == 201) {
+      if (success) {
         // Si l'inscription réussit, rediriger vers la page de connexion
         Navigator.pushReplacementNamed(context, '/');
       } else {

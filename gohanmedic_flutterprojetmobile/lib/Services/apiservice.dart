@@ -19,25 +19,21 @@ class ApiService {
   }
 
   // Fonction d'inscription (Register)
-  static Future<Map<String, dynamic>> register(String name, String email, String password) async {
-    try {
-      final response = await http.post(
-        Uri.parse("$baseUrl/register"),
-        headers: {'Content-Type': 'application/json'},
-        body: json.encode({
-          'name': name,
-          'email': email,
-          'password': password,
-        }),
-      );
+  static Future<bool> register(String name, String email, String password) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/register'),
+      body: json.encode({
+        'name': name,
+        'email': email,
+        'password': password,
+      }),
+      headers: {'Content-Type': 'application/json'},
+    );
 
-      if (response.statusCode == 201) {
-        return {'success': true, 'message': 'Inscription réussie'};
-      } else {
-        return {'success': false, 'message': _handleError(response)};
-      }
-    } catch (error) {
-      return {'success': false, 'message': "Erreur de connexion au serveur"};
+    if (response.statusCode == 201) {
+      return true; // Succès de l'inscription
+    } else {
+      return false; // Échec de l'inscription
     }
   }
 
@@ -70,5 +66,4 @@ class ApiService {
       return "Erreur inconnue (Code ${response.statusCode})";
     }
   }
-}
 }
