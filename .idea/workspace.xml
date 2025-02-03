@@ -5,266 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7d382ad-49c7-432b-86f3-9d0a39a078e1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Pages/PaypalPaymentPage.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Provider/CartProvider.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/.bin/esbuild" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/.bin/esbuild.cmd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/.bin/esbuild.ps1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/.bin/nanoid" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/.bin/nanoid.cmd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/.bin/nanoid.ps1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/.bin/prettier" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/.bin/prettier.cmd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/.bin/prettier.ps1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/.bin/rollup" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/.bin/rollup.cmd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/.bin/rollup.ps1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/.bin/vite" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/.bin/vite.cmd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/.bin/vite.ps1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@esbuild/win32-x64/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@esbuild/win32-x64/esbuild.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@esbuild/win32-x64/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@rollup/rollup-win32-x64-msvc/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@rollup/rollup-win32-x64-msvc/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@rollup/rollup-win32-x64-msvc/rollup.win32-x64-msvc.node" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@types/estree/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@types/estree/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@types/estree/flow.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@types/estree/index.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@types/estree/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/esbuild/LICENSE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/esbuild/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/esbuild/bin/esbuild" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/esbuild/install.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/esbuild/lib/main.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/esbuild/lib/main.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/esbuild/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/nanoid/.devcontainer.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/nanoid/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/nanoid/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/nanoid/async/index.browser.cjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/nanoid/async/index.browser.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/nanoid/async/index.cjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/nanoid/async/index.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/nanoid/async/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/nanoid/async/index.native.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/nanoid/async/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/nanoid/bin/nanoid.cjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/nanoid/index.browser.cjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/nanoid/index.browser.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/nanoid/index.cjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/nanoid/index.d.cts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/nanoid/index.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/nanoid/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/nanoid/nanoid.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/nanoid/non-secure/index.cjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/nanoid/non-secure/index.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/nanoid/non-secure/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/nanoid/non-secure/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/nanoid/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/nanoid/url-alphabet/index.cjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/nanoid/url-alphabet/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/nanoid/url-alphabet/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/picocolors/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/picocolors/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/picocolors/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/picocolors/picocolors.browser.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/picocolors/picocolors.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/picocolors/picocolors.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/picocolors/types.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/at-rule.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/at-rule.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/comment.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/comment.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/container.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/container.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/css-syntax-error.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/css-syntax-error.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/declaration.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/declaration.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/document.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/document.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/fromJSON.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/fromJSON.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/input.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/input.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/lazy-result.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/lazy-result.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/list.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/list.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/map-generator.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/no-work-result.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/no-work-result.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/node.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/node.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/parse.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/parse.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/parser.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/postcss.d.mts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/postcss.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/postcss.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/postcss.mjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/previous-map.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/previous-map.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/processor.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/processor.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/result.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/result.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/root.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/root.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/rule.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/rule.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/stringifier.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/stringifier.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/stringify.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/stringify.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/symbols.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/terminal-highlight.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/tokenize.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/warn-once.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/warning.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/lib/warning.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/postcss/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/bin/prettier.cjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/doc.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/doc.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/doc.mjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/index.cjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/index.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/index.mjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/internal/cli.mjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/acorn.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/acorn.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/acorn.mjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/angular.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/angular.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/angular.mjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/babel.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/babel.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/babel.mjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/estree.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/estree.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/estree.mjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/flow.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/flow.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/flow.mjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/glimmer.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/glimmer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/glimmer.mjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/graphql.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/graphql.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/graphql.mjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/html.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/html.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/html.mjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/markdown.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/markdown.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/markdown.mjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/meriyah.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/meriyah.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/meriyah.mjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/postcss.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/postcss.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/postcss.mjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/typescript.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/typescript.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/typescript.mjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/yaml.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/yaml.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/plugins/yaml.mjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/standalone.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/standalone.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/prettier/standalone.mjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/rollup/LICENSE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/rollup/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/rollup/dist/bin/rollup" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/rollup/dist/es/getLogFilter.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/rollup/dist/es/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/rollup/dist/es/parseAst.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/rollup/dist/es/rollup.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/rollup/dist/es/shared/node-entry.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/rollup/dist/es/shared/parseAst.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/rollup/dist/es/shared/watch.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/rollup/dist/getLogFilter.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/rollup/dist/getLogFilter.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/rollup/dist/loadConfigFile.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/rollup/dist/loadConfigFile.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/rollup/dist/native.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/rollup/dist/parseAst.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/rollup/dist/parseAst.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/rollup/dist/rollup.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/rollup/dist/rollup.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/rollup/dist/shared/fsevents-importer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/rollup/dist/shared/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/rollup/dist/shared/loadConfigFile.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/rollup/dist/shared/parseAst.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/rollup/dist/shared/rollup.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/rollup/dist/shared/watch-cli.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/rollup/dist/shared/watch.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/rollup/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/source-map-js/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/source-map-js/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/source-map-js/lib/array-set.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/source-map-js/lib/base64-vlq.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/source-map-js/lib/base64.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/source-map-js/lib/binary-search.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/source-map-js/lib/mapping-list.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/source-map-js/lib/quick-sort.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/source-map-js/lib/source-map-consumer.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/source-map-js/lib/source-map-consumer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/source-map-js/lib/source-map-generator.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/source-map-js/lib/source-map-generator.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/source-map-js/lib/source-node.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/source-map-js/lib/source-node.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/source-map-js/lib/util.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/source-map-js/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/source-map-js/source-map.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/source-map-js/source-map.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/LICENSE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/bin/openChrome.applescript" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/bin/vite.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/client.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/dist/client/client.mjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/dist/client/env.mjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/dist/node-cjs/publicUtils.cjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/dist/node/chunks/dep-D-7KCb9p.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/dist/node/chunks/dep-D0tGukau.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/dist/node/chunks/dep-DIiRB4RW.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/dist/node/chunks/dep-IQS-Za7F.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/dist/node/cli.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/dist/node/constants.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/dist/node/index.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/dist/node/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/dist/node/runtime.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/dist/node/runtime.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/dist/node/types.d-aGj9QkWt.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/index.cjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/index.d.cts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/types/customEvent.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/types/hmrPayload.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/types/hot.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/types/import-meta.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/types/importGlob.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/types/importMeta.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/types/metadata.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/vite/types/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Pages/CartPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Pages/CartPage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Pages/CommandePage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Pages/CommandePage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -294,24 +35,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "Andrea-MainNew",
-    "last_opened_file_path": "C:/ProjetIDDev/projet_abdel_andrea_claudio/api",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "prettierjs.PrettierConfiguration.Package": "C:\\ProjetIDDev\\projet_abdel_andrea_claudio\\node_modules\\prettier",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "ts.external.directory.path": "C:\\ProjetIDDev\\projet_abdel_andrea_claudio\\my-app\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Andrea-MainNew&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/ProjetIDDev/projet_abdel_andrea_claudio/api&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;C:\\ProjetIDDev\\projet_abdel_andrea_claudio\\node_modules\\prettier&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\ProjetIDDev\\projet_abdel_andrea_claudio\\my-app\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -357,6 +98,8 @@
       <workItem from="1738008977374" duration="941000" />
       <workItem from="1738415266556" duration="652000" />
       <workItem from="1738425491001" duration="715000" />
+      <workItem from="1738599926362" duration="90000" />
+      <workItem from="1738600387520" duration="1266000" />
     </task>
     <servers />
   </component>
