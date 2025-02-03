@@ -32,7 +32,7 @@ class _ProductsListState extends State<ProductsList> {
   // Fonction pour récupérer la liste des produits depuis l'API et stock les infos
   Future<void> fetchProducts() async {
     try {
-      final response = await http.get(Uri.parse('${Config.apiUrl}products')); // Appel API
+      final response = await http.get(Uri.parse('${Config.baseUrl}products')); // Appel API
       if (response.statusCode == 200) {
         final data = json.decode(response.body); //Converti la réponse JSON en objet Dart
         setState(() { // permet la mise à jour de products
