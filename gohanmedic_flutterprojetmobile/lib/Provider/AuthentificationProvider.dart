@@ -1,9 +1,6 @@
-// Stocker et gérer les données de l'utilisateur
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:gohanmedic_flutterprojetmobile/Services/apiservice.dart'; // Assurez-vous que ApiService est bien importé
 
 class AuthentificationProvider with ChangeNotifier {
   String? _userId;
@@ -17,7 +14,6 @@ class AuthentificationProvider with ChangeNotifier {
   bool get isAuthenticated => _token != null;
 
   AuthentificationProvider() {
-    // Charger automatiquement l'utilisateur au démarrage
     loadUser();
   }
 
@@ -30,44 +26,41 @@ class AuthentificationProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Connexion via API
+  // Connexion via ApiService
   Future<bool> login(String email, String password) async {
-    final response = await http.post(
-      Uri.parse('http://ton-serveur-api.com/login'), // lien connexion a changé
-      body: json.encode({'email': email, 'password': password}),
-      headers: {'Content-Type': 'application/json'},
-    );
+    try {
+      bool success = await ApiService.login(email, password);
 
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      _userId = data['userId'];
-      _token = data['token'];
-      _userEmail = email;
-
-      // Sauvegarde dans SharedPreferences
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('userId', _userId!);
-      prefs.setString('token', _token!);
-      prefs.setString('userEmail', _userEmail!);
-
-      notifyListeners();
-      return true;
+      if (success) {
+        // Si la connexion réussit, recharger les infos utilisateur
+        await loadUser();
+        notifyListeners();
+        return true;
+      } else {
+        // Si l'API retourne une erreur (connexion échouée)
+        throw Exception("Échec de la connexion. Vérifiez vos identifiants.");
+      }
+    } catch (e) {
+      // Si une exception est lancée lors de l'appel API ou autre erreur
+      print('Erreur de connexion : $e');
+      throw Exception("Une erreur est survenue. Veuillez réessayer.");
     }
-    return false;
   }
 
-  // Inscription via API
+  // Inscription via ApiService
   Future<bool> register(String name, String email, String password) async {
-    final response = await http.post(
-      Uri.parse('http://ton-serveur-api.com/register'), // METTRE LA BONNE URL
-      body: json.encode({'name': name, 'email': email, 'password': password}),
-      headers: {'Content-Type': 'application/json'},
-    );
+    try {
+      bool success = await ApiService.register(name, email, password);
 
-    if (response.statusCode == 200) {
-      return true; // Inscription réussie
+      if (success) {
+        return true; // Inscription réussie
+      } else {
+        throw Exception("Erreur lors de l'inscription.");
+      }
+    } catch (e) {
+      print('Erreur d\'inscription : $e');
+      throw Exception("Une erreur est survenue. Veuillez réessayer.");
     }
-    return false;
   }
 
   // Déconnexion
@@ -77,7 +70,7 @@ class AuthentificationProvider with ChangeNotifier {
     _userEmail = null;
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.clear();
+    await prefs.clear(); // Effacer les préférences partagées
 
     notifyListeners();
   }

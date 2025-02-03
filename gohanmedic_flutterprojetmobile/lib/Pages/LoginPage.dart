@@ -1,73 +1,111 @@
 //Page de login pour le client + lient vers la page inscription
 
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:gohanmedic_flutterprojetmobile/Provider/AuthentificationProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:gohanmedic_flutterprojetmobile/Provider/AuthentificationProvider.dart';
 
-class LoginPage extends StatelessWidget {
-  final TextEditingController emailController = TextEditingController(); // utilisé pour récupérer les valeurs encodées
-  final TextEditingController passwordController = TextEditingController(); // utilisé pour récupérer les valeurs encodées
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  // Contrôleurs pour récupérer les valeurs entrées par l'utilisateur
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  // Variable pour indiquer si une requête est en cours
+  bool _isLoading = false;
+
+  // Fonction qui gère la connexion de l'utilisateur
+  // Fonction qui gère la connexion de l'utilisateur
+  Future<void> _login() async {
+    // Vérifie si les champs ne sont pas vides
+    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Veuillez remplir tous les champs.")),
+      );
+      return;
+    }
+
+    setState(() {
+      _isLoading = true; // Active l'indicateur de chargement
+    });
+
+    // Récupère le Provider d'authentification
+    final authProvider = Provider.of<AuthentificationProvider>(context, listen: false);
+
+    try {
+      // Appel de la fonction de connexion via le provider
+      bool success = await authProvider.login(
+        emailController.text,
+        passwordController.text,
+      );
+
+      setState(() {
+        _isLoading = false; // Désactive l'indicateur de chargement
+      });
+
+      if (success) {
+        // Redirection vers la page d'accueil après une connexion réussie
+        Navigator.pushReplacementNamed(context, '/home');
+      }
+    } catch (error) {
+      setState(() {
+        _isLoading = false; // Désactive l'indicateur de chargement
+      });
+      // Affiche un message d'erreur si la connexion échoue
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(error.toString())), // Affiche le message d'erreur reçu du provider
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Connexion'),
-      ),
+      appBar: AppBar(title: Text('Connexion')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // Champ Email
             TextField(
               controller: emailController,
               decoration: InputDecoration(
                 labelText: 'Email',
                 border: OutlineInputBorder(),
               ),
+              keyboardType: TextInputType.emailAddress, // Utilise le clavier email
             ),
             SizedBox(height: 10),
+
+            // Champ Mot de passe
             TextField(
               controller: passwordController,
               decoration: InputDecoration(
                 labelText: 'Mot de passe',
                 border: OutlineInputBorder(),
               ),
-              obscureText: true,
+              obscureText: true, // Cache le mot de passe
             ),
             SizedBox(height: 20),
 
-            // Bouton de connexion
-            ElevatedButton(
-              onPressed: () async {
-                final authentificationProvider = Provider.of<AuthentificationProvider>(context, listen: false);
-
-                // Connexion via AuthProvider qui vérifie ce qu'il y a encodé avec l'API
-                bool success = await authentificationProvider.login(
-                emailController.text,
-                passwordController.text,
-              );
-
-                if (success) {
-                  // Rediriger vers la page d'accueil si la connexion réussit
-                  Navigator.pushReplacementNamed(context, '/home');
-                } else {
-                  // Afficher un message d'erreur si la connexion échoue
-                  ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Échec de la connexion. Vérifiez vos identifiants.")),
-                );
-              }
-            },
+            // Bouton de connexion avec indicateur de chargement
+            _isLoading
+                ? CircularProgressIndicator() // Affiche un loader pendant la requête
+                : ElevatedButton(
+              onPressed: _login, // Appelle la fonction _login()
               child: Text('Se connecter'),
             ),
 
             // Lien vers la page d'inscription
             TextButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/register');
+                Navigator.pushNamed(context, '/register'); // Redirige vers la page d'inscription
               },
-              child: Text("S'inscrire"),
+              child: Text("Pas encore de compte ? S'inscrire"),
             ),
           ],
         ),

@@ -2,6 +2,7 @@
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiService {
   // static const String baseUrl = 'http://localhost:2024/api'; // => TEST SUR PC EN LOCAL
@@ -37,23 +38,26 @@ class ApiService {
     }
   }
 
-  // Fonction de connexion (Login)
-  static Future<Map<String, dynamic>> login(String email, String password) async {
+
+  // Méthode pour la connexion
+  static Future<bool> login(String email, String password) async {
     try {
       final response = await http.post(
-        Uri.parse("$baseUrl/login"),
-        headers: {'Content-Type': 'application/json'},
+        Uri.parse('$baseUrl/login'),
         body: json.encode({'email': email, 'password': password}),
+        headers: {'Content-Type': 'application/json'},
       );
 
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        return {'success': true, 'token': data['token'], 'userId': data['userId']};
+        // Connexion réussie, on peut stocker le token ici si besoin
+        return true;
       } else {
-        return {'success': false, 'message': _handleError(response)};
+        print('Échec de la connexion. Code erreur: ${response.statusCode}');
+        return false;
       }
-    } catch (error) {
-      return {'success': false, 'message': "Erreur de connexion au serveur"};
+    } catch (e) {
+      print('Erreur de connexion : $e');
+      return false;
     }
   }
 
