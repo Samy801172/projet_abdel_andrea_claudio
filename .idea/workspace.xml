@@ -6,11 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="b7d382ad-49c7-432b-86f3-9d0a39a078e1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Pages/PaypalPaymentPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Pages/PaypalPaymentPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Pages/CartPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Pages/CartPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Pages/PaymentErrorPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Pages/PaymentErrorPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Pages/RegisterPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Pages/RegisterPage.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Services/CommandeService.dart" beforeDir="false" afterPath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Services/CommandeService.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Services/PaymentService.dart" beforeDir="false" afterPath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Services/PaymentService.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Services/apiservice.dart" beforeDir="false" afterPath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Services/apiservice.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Services/config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Services/config.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/main.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,7 +105,8 @@
       <workItem from="1738425491001" duration="715000" />
       <workItem from="1738599926362" duration="90000" />
       <workItem from="1738600387520" duration="4289000" />
-      <workItem from="1738672062938" duration="4534000" />
+      <workItem from="1738672062938" duration="5448000" />
+      <workItem from="1738678766847" duration="1363000" />
     </task>
     <servers />
   </component>

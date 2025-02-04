@@ -51,7 +51,7 @@ class GohanMedicApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           // Route vers la page de connexion.
-          '/': (context) => LoginPage(),
+          '/login': (context) => LoginPage(),
 
           // Route vers la page d'inscription.
           '/register': (context) => RegisterPage(),

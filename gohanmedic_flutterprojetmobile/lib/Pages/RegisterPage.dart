@@ -29,7 +29,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
       if (success) {
         // Si l'inscription réussit, rediriger vers la page de connexion
-        Navigator.pushReplacementNamed(context, '/');
+        Navigator.pushReplacementNamed(context, '/login');
       } else {
         // Afficher une erreur si l'inscription échoue
         ScaffoldMessenger.of(context).showSnackBar(
@@ -153,7 +153,7 @@ class _RegisterPageState extends State<RegisterPage> {
               // Bouton pour aller à la page de connexion
               TextButton(
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/');
+                  Navigator.pushReplacementNamed(context, '/login');
                 },
                 child: Text("Déjà un compte ? Se connecter"),
               ),

@@ -11,7 +11,7 @@ class CommandeService {
 
   // Récupére la liste des commandes du client
   Future<List<Commande>> fetchOrders(String userId) async {
-    final response = await http.get(Uri.parse('$baseUrl/orders/client/$userId'));
+    final response = await http.get(Uri.parse('$baseUrl/orders/clients/$userId'));
 
     if (response.statusCode == 200) {
       List<dynamic> data = json.decode(response.body);

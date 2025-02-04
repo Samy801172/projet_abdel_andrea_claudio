@@ -48,7 +48,7 @@ class CartPage extends StatelessWidget {
                   onPressed: () {
                     // Ici, on ajoutera le paiement PayPal plus tard
                   },
-                  child: Text('Passer au paiement'),
+                  child: Text('Passer au paiement avec Paypal'),
                 ),
               ],
             ),

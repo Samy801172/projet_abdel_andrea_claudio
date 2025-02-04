@@ -13,7 +13,7 @@ class PaymentErrorPage extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 // Rediriger l'utilisateur vers la page du panier ou réessayer le paiement
-                Navigator.pop(context);
+                Navigator.pop(context, 'cart');
               },
               child: Text('Réessayer'),
             ),
