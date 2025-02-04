@@ -1,0 +1,65 @@
+<!-- admin-promotions.component.html -->
+<div class="admin-promotions">
+  <div class="header">
+    <h1>Gestion des Promotions</h1>
+    <button (click)="toggleForm()" class="btn btn-primary">
+      {{ showAddForm ? 'Fermer' : 'Ajouter une promotion' }}
+    </button>
+  </div>
+
+  <div *ngIf="showAddForm" class="form-container">
+    <h2>{{ editingPromotion ? 'Modifier' : 'Créer' }} une Promotion</h2>
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Description :</label>
+        <input type="text" [(ngModel)]="currentPromotion.description" name="description" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label>Date de début :</label>
+        <input type="date" [(ngModel)]="currentPromotion.startDate" name="startDate" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label>Date de fin :</label>
+        <input type="date" [(ngModel)]="currentPromotion.endDate" name="endDate" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label>Réduction (%) :</label>
+        <input type="number" [(ngModel)]="currentPromotion.discountPercentage" name="discountPercentage" min="0" max="100" class="form-control" required>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-success">{{ editingPromotion ? 'Mettre à jour' : 'Créer' }}</button>
+        <button type="button" (click)="cancelEdit()" class="btn btn-danger">Annuler</button>
+      </div>
+    </form>
+  </div>
+
+  <table class="table promotions-table">
+    <thead>
+    <tr>
+      <th>Description</th>
+      <th>Début</th>
+      <th>Fin</th>
+      <th>Réduction (%)</th>
+      <th>Statut</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let promo of promotions">
+      <td>{{ promo.description }}</td>
+      <td>{{ promo.startDate | date }}</td>
+      <td>{{ promo.endDate | date }}</td>
+      <td>{{ promo.discountPercentage }}%</td>
+      <td [class.active]="isActive(promo)"> {{ isActive(promo) ? 'Active' : 'Inactif' }} </td>
+      <td>
+        <button (click)="editPromotion(promo)" class="btn btn-warning">Modifier</button>
+        <button (click)="deletePromotion(promo.id_promotion)" class="btn btn-danger">Supprimer</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

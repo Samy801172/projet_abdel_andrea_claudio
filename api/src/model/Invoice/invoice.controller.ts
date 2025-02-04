@@ -1,46 +1,33 @@
-// src/controllers/invoice.controller.ts
 import {
   Controller,
   Get,
-  Post,
-  Body,
   Param,
-  Put,
-  Delete,
+  Res,
+  HttpStatus,
 } from '@nestjs/common';
-import { InvoiceService } from './invoice.service';
-import { CreateInvoiceDto } from './dto/create-invoice.dto';
-import { UpdateInvoiceDto } from './dto/update-invoice.dto';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { InvoiceService } from '../Invoice/invoice.service';
+import { Response } from 'express';
 
-@ApiTags('invoices')
-@ApiBearerAuth('access-token')
 @Controller('invoices')
 export class InvoiceController {
   constructor(private readonly invoiceService: InvoiceService) {}
 
-  @Post()
-  create(@Body() createInvoiceDto: CreateInvoiceDto) {
-    return this.invoiceService.create(createInvoiceDto);
-  }
+  @Get(':id/pdf')
+  async generatePdf(@Param('id') id: string, @Res() res: Response) {
+    try {
+      const pdfBuffer = await this.invoiceService.generatePdf(+id);
 
-  @Get()
-  findAll() {
-    return this.invoiceService.findAll();
-  }
+      res.set({
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `attachment; filename=Facture_${id}.pdf`,
+      });
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.invoiceService.findOne(+id);
-  }
-
-  @Put(':id')
-  update(@Param('id') id: string, @Body() updateInvoiceDto: UpdateInvoiceDto) {
-    return this.invoiceService.update(+id, updateInvoiceDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.invoiceService.remove(+id);
+      res.status(HttpStatus.OK).send(pdfBuffer);
+    } catch (error) {
+      console.error(error);
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        message: 'Erreur lors de la génération de la facture.',
+      });
+    }
   }
 }

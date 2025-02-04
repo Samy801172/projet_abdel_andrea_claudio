@@ -301,16 +301,20 @@ export class AdminOrdersComponent implements OnInit {
       return;
     }
 
-    const detailId = detail.id_order_detail;
+    console.log('Détails du produit à supprimer:', detail); // Affiche l'objet dans la console
+
+    const detailId = detail.id_order_detail || detail.product_id; // Essaye les deux
+
     if (!detailId) {
+      console.error('Données du détail de commande:', detail); // Debugging
       this.notificationService.error('Impossible de supprimer le produit : identifiant manquant');
       return;
     }
 
-    console.log('Suppression du produit avec id_order_detail:', detailId);
+    console.log('Suppression du produit avec ID:', detailId);
 
     this.processing = true;
-    this.orderService.deleteOrderDetail(detailId).subscribe({
+    this.orderService.deleteProduct(detailId).subscribe({
       next: () => {
         if (this.selectedOrder) {
           this.selectedOrder.orderDetails = this.selectedOrder.orderDetails.filter(
@@ -321,7 +325,7 @@ export class AdminOrdersComponent implements OnInit {
         this.notificationService.success('Produit supprimé avec succès');
       },
       error: (error) => {
-        console.error('Erreur lors de la suppression du produit:', error);
+        console.error('Erreur lors de la suppression du produit:', error); // 🔍 Affichage de l'erreur complète
         this.notificationService.error('Erreur lors de la suppression du produit');
       },
       complete: () => {
@@ -329,6 +333,7 @@ export class AdminOrdersComponent implements OnInit {
       }
     });
   }
+
 
   filterOrders(): void {
     this.filteredOrders = this.orders.filter(order => {

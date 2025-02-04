@@ -6,8 +6,9 @@ import {
   Body,
   Put,
   Param,
-  Delete,
-} from '@nestjs/common';
+  Inject,
+  Delete, Patch
+} from "@nestjs/common";
 import { PromotionService } from './promotion.service';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreatePromotionDto } from './dto/create-promotion.dto';
@@ -65,9 +66,11 @@ export class PromotionController {
     return this.promotionService.update(+id, updatePromotionDto);
   }
 
+  // Suppression de la promotion s'en suit de Patch pour retirer le lien avec les produits
   @Delete(':id')
   @ApiOperation({ summary: 'Supprimer une promotion' })
   remove(@Param('id') id: string) {
     return this.promotionService.remove(+id);
   }
+
 }

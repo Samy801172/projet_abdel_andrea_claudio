@@ -1,10 +1,9 @@
-// src/services/invoice.service.ts
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Invoice } from './invoice.entity';
-import { CreateInvoiceDto } from './dto/create-invoice.dto';
-import { UpdateInvoiceDto } from './dto/update-invoice.dto';
+import { Invoice } from '../Invoice/invoice.entity';
+
+import PDFDocument = require('pdfkit');
 
 @Injectable()
 export class InvoiceService {
@@ -13,19 +12,10 @@ export class InvoiceService {
     private readonly invoiceRepository: Repository<Invoice>,
   ) {}
 
-  async create(createInvoiceDto: CreateInvoiceDto): Promise<Invoice> {
-    const invoice = this.invoiceRepository.create(createInvoiceDto);
-    return this.invoiceRepository.save(invoice);
-  }
-
-  async findAll(): Promise<Invoice[]> {
-    return this.invoiceRepository.find({ relations: ['order'] });
-  }
-
   async findOne(id: number): Promise<Invoice> {
     const invoice = await this.invoiceRepository.findOne({
       where: { id },
-      relations: ['order'],
+      relations: ['order'], // Inclut la relation avec `Order`
     });
     if (!invoice) {
       throw new NotFoundException(`Invoice with ID ${id} not found`);
@@ -33,17 +23,50 @@ export class InvoiceService {
     return invoice;
   }
 
-  async update(
-    id: number,
-    updateInvoiceDto: UpdateInvoiceDto,
-  ): Promise<Invoice> {
+  async generatePdf(id: number): Promise<Buffer> {
     const invoice = await this.findOne(id);
-    Object.assign(invoice, updateInvoiceDto);
-    return this.invoiceRepository.save(invoice);
+
+    console.log('Invoice:', invoice); // Vérifie les données récupérées
+
+    if (!invoice) {
+      throw new NotFoundException(`Invoice with ID ${id} not found`);
+    }
+
+    const doc = new PDFDocument();
+    const buffer = [];
+
+    doc.on('data', (chunk) => buffer.push(chunk));
+    doc.on('end', () => console.log('PDF généré'));
+
+    // Ajoute un contenu par défaut pour vérifier que le PDF fonctionne
+    doc.fontSize(18).text(`Facture - ${invoice.invoiceNumber}`, { align: 'center' });
+    doc.fontSize(12).text(`Date d'émission : ${invoice.issueDate}`);
+    doc.text(`Client : ${invoice.clientName}`);
+    doc.text(`Adresse de facturation : ${invoice.billingAddress}`);
+    doc.text(`\nDétails de la commande :`);
+
+    // Vérifie si les produits sont présents
+    if (invoice.order?.orderDetails) {
+      invoice.order.orderDetails.forEach((product) => {
+        console.log('Produit:', product); // Log des produits
+        doc.text(
+          `${product.original_price} - Quantité : ${product.quantity} - Prix unitaire : ${product.unit_price.toFixed(
+            2,
+          )} EUR`,
+        );
+      });
+    } else {
+      doc.text('Aucun produit trouvé pour cette commande.');
+    }
+
+    doc.text(`\nTotal : ${invoice.totalAmount.toFixed(2)} EUR`);
+    doc.text(`Statut du paiement : ${invoice.paymentStatus}`);
+    doc.end();
+
+    return new Promise((resolve, reject) => {
+      doc.on('end', () => resolve(Buffer.concat(buffer)));
+      doc.on('error', (err) => reject(err));
+    });
   }
 
-  async remove(id: number): Promise<void> {
-    const invoice = await this.findOne(id);
-    await this.invoiceRepository.remove(invoice);
-  }
 }

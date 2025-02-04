@@ -46,4 +46,5 @@ export class Order {
 
   @OneToMany(() => Payment, (payment) => payment.order)
   payments: Payment[];
+  products: any;
 }

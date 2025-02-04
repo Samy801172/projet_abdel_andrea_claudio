@@ -116,6 +116,9 @@ export class OrderService {
     );
   }
 
+  downloadInvoice(orderId: number) {
+    return this.http.get(`/${orderId}/pdf`, { responseType: 'arraybuffer' });
+  }
 
   updateOrderStatus(orderId: number, newStatus: number): Observable<any> {
     const headers = this.getAuthHeaders();
@@ -129,6 +132,10 @@ export class OrderService {
         return throwError(() => new Error('Impossible de mettre à jour le statut'));
       })
     );
+  }
+
+  deleteProduct(productId: number) {
+    return this.http.delete(`${this.baseUrl}/details/${productId}`);
   }
 
   deleteOrder(orderId: number): Observable<void> {

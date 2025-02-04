@@ -68,6 +68,7 @@ export class PromotionService {
     await this.promotionRepository.remove(promotion);
   }
 
+
   // Méthode pour récupérer toutes les promotions actives.
   // Une promotion est considérée comme active si la date actuelle est entre sa date de début et de fin.
   async getActivePromotions(): Promise<Promotion[]> {

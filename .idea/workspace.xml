@@ -21,12 +21,12 @@
     &quot;assignee&quot;: &quot;ColClaudio&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Samy801172/projet_abdel_andrea_claudio&quot;,
-    &quot;accountId&quot;: &quot;237eee19-0c20-4e1c-b8c9-49b8e96e854b&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Samy801172/projet_abdel_andrea_claudio.git",
+    "accountId": "972d40a9-683c-44d4-acf9-b7ef310f04e3"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -53,7 +53,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-WS-243.23654.120" />
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-WS-243.22562.222" />
       </set>
     </attachedChunks>
   </component>
@@ -97,6 +97,7 @@
       <workItem from="1737712631289" duration="730000" />
       <workItem from="1737721377116" duration="262000" />
       <workItem from="1737861450625" duration="29000" />
+      <workItem from="1738412364950" duration="1257000" />
     </task>
     <servers />
   </component>

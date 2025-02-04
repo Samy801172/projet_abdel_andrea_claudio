@@ -7,8 +7,8 @@ import {
   Put,
   Delete,
   Param,
-  NotFoundException,
-} from '@nestjs/common';
+  NotFoundException, Patch
+} from "@nestjs/common";
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -49,6 +49,12 @@ export class ProductController {
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return this.productService.remove(Number(id));
+  }
+
+  // Suppression du produit en retirant le lien entre les produits affecté par cette promo
+  @Patch('unlinkPromotion/:promotionId')
+  async unlinkPromotion(@Param('promotionId') promotionId: number) {
+    await this.productService.unlinkPromotion(promotionId);
   }
 
   // Appliquer une promotion à un produit

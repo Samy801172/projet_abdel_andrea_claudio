@@ -61,6 +61,12 @@ export class PromotionService {
     );
   }
 
+  updateProductsToNull(promotionId: number): Observable<void> {
+    const myReturn = this.http.patch<void>(`http://localhost:2024/api/products/unlinkPromotion/${promotionId}`, {});
+    console.log("ça c'est my return", myReturn);
+    return myReturn;
+  }
+
   extendPromotion(id: number, newEndDate: string): Observable<void> {
     return this.http.patch<void>(`${this.API_URL}/${id}/extend`, { endDate: newEndDate }).pipe(
       catchError(error => {

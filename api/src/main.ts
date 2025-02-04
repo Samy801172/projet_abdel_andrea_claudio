@@ -10,9 +10,17 @@ import { ConfigKey } from '@common/config/enum';
 import { AppModule } from './feature';
 import { join } from 'path';
 import * as express from 'express';
+import { NestExpressApplication } from "@nestjs/platform-express";
 
 const bootstrap = async () => {
-  const app = await NestFactory.create(AppModule);
+  // Spécifie que l'application utilise Express
+  const app = await NestFactory.create<NestExpressApplication>(AppModule)
+
+  // Active les fichiers statiques pour servir les ordonnances
+  app.useStaticAssets(join(__dirname, '..', 'assets'), {
+    prefix: '/assets',
+  });
+
 
   // Ajout de CORS ici
   app.enableCors({

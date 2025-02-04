@@ -114,3 +114,36 @@
 .back-btn:hover {
   background-color: #0056b3;
 }
+
+.invoice-btn {
+  background-color: #28a745; // Vert pour indiquer une action positive
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  margin-left: 10px; // Espace entre les boutons
+  transition: background-color 0.3s ease-in-out;
+
+  &:hover {
+    background-color: #218838; // Vert foncé au survol
+  }
+
+  &:active {
+    background-color: #1e7e34; // Légèrement plus foncé au clic
+  }
+
+  &:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+}
+
+/* S'assurer que les boutons sont bien alignés */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px; // Espace entre les boutons
+}
+

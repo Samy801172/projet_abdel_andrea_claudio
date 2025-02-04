@@ -1,97 +1,102 @@
-// src/model/Prescription/prescription.controller.ts
 import {
   Controller,
   Get,
   Post,
   Body,
-  Put,
   Param,
   Delete,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
-import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiBody,
-  ApiParam,
-} from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { v4 as uuidv4 } from 'uuid';
+import { extname } from 'path';
 import { PrescriptionService } from './prescription.service';
 import { CreatePrescriptionDto } from './dto/create-prescription.dto';
-import { UpdatePrescriptionDto } from './dto/update-prescription.dto';
+import { HttpException, HttpStatus } from '@nestjs/common';
 
-@ApiTags('prescriptions')
-@Controller('api/prescriptions')
+@Controller('prescriptions')
 export class PrescriptionController {
   constructor(private readonly prescriptionService: PrescriptionService) {}
 
-  @Post()
-  @ApiOperation({ summary: 'Créer une nouvelle prescription' })
-  @ApiResponse({
-    status: 201,
-    description: 'La prescription a été créée avec succès.',
-  })
-  @ApiResponse({ status: 400, description: 'Données invalides.' })
-  @ApiBody({ type: CreatePrescriptionDto })
-  create(@Body() createPrescriptionDto: CreatePrescriptionDto) {
-    return this.prescriptionService.create(createPrescriptionDto);
+
+  @Post('upload')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './assets/uploads/prescriptions',
+        filename: (req, file, callback) => {
+          const uniqueName = `${uuidv4()}${extname(file.originalname)}`;
+          callback(null, uniqueName);
+        },
+      }),
+    }),
+  )
+  async uploadPrescription(
+    @UploadedFile() file: Express.Multer.File,
+    @Body() createPrescriptionDto: CreatePrescriptionDto,
+  ) {
+    console.log('=== Début de uploadPrescription ===');
+    console.log('Fichier reçu :', file);
+    console.log('Données reçues :', createPrescriptionDto);
+
+    try {
+      if (!file) {
+        console.error('Erreur : Aucun fichier reçu.');
+        throw new HttpException('Aucun fichier reçu.', HttpStatus.BAD_REQUEST);
+      }
+
+      // Ajoute le chemin du fichier
+      createPrescriptionDto.file_url = `/assets/uploads/prescriptions/${file.filename}`;
+
+      // Vérifie et définit une valeur par défaut pour expiry_date
+      if (!createPrescriptionDto.expiry_date) {
+        createPrescriptionDto.expiry_date = new Date(); // Exemple : utilise la date actuelle comme valeur par défaut
+        console.log('Date d\'expiration par défaut ajoutée :', createPrescriptionDto.expiry_date);
+      }
+
+      const newPrescription = await this.prescriptionService.create(createPrescriptionDto);
+      console.log('Prescription sauvegardée :', newPrescription);
+
+      return {
+        message: 'Ordonnance uploadée avec succès',
+        prescription: newPrescription,
+      };
+    } catch (error) {
+      console.error('Erreur dans uploadPrescription :', error.message);
+      throw new HttpException(
+        {
+          message: 'Erreur lors de l\'upload de l\'ordonnance.',
+          error: error.message,
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
-  @Get()
-  @ApiOperation({ summary: 'Récupérer toutes les prescriptions' })
-  @ApiResponse({
-    status: 200,
-    description: 'Liste des prescriptions récupérée avec succès.',
-  })
-  findAll() {
+  @Get(':client_id')
+  async findByClient(@Param('client_id') clientId: number) {
+    try {
+      const prescriptions = await this.prescriptionService.findByClient(clientId);
+      return prescriptions;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des ordonnances pour le client :', error.message);
+      throw new HttpException(
+        'Erreur lors de la récupération des ordonnances.',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+
+  @Get('load')
+  async findAll() {
     return this.prescriptionService.findAll();
   }
 
-  @Get(':id')
-  @ApiOperation({ summary: 'Récupérer une prescription par ID' })
-  @ApiParam({
-    name: 'id',
-    type: 'number',
-    description: 'ID de la prescription',
-  })
-  @ApiResponse({ status: 200, description: 'Prescription trouvée.' })
-  @ApiResponse({ status: 404, description: 'Prescription non trouvée.' })
-  findOne(@Param('id') id: string) {
-    return this.prescriptionService.findOne(+id);
-  }
-
-  @Put(':id')
-  @ApiOperation({ summary: 'Mettre à jour une prescription' })
-  @ApiParam({
-    name: 'id',
-    type: 'number',
-    description: 'ID de la prescription',
-  })
-  @ApiBody({ type: UpdatePrescriptionDto })
-  @ApiResponse({
-    status: 200,
-    description: 'Prescription mise à jour avec succès.',
-  })
-  @ApiResponse({ status: 404, description: 'Prescription non trouvée.' })
-  update(
-    @Param('id') id: string,
-    @Body() updatePrescriptionDto: UpdatePrescriptionDto,
-  ) {
-    return this.prescriptionService.update(+id, updatePrescriptionDto);
-  }
-
   @Delete(':id')
-  @ApiOperation({ summary: 'Supprimer une prescription' })
-  @ApiParam({
-    name: 'id',
-    type: 'number',
-    description: 'ID de la prescription',
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'Prescription supprimée avec succès.',
-  })
-  @ApiResponse({ status: 404, description: 'Prescription non trouvée.' })
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     return this.prescriptionService.remove(+id);
   }
 }

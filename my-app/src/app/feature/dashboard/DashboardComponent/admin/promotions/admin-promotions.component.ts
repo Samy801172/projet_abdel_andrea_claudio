@@ -16,8 +16,8 @@ interface ApiPromotion extends Omit<Promotion, 'startDate' | 'endDate'> {
   selector: 'app-admin-promotions',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './admin-promotions.component.html',
-  styleUrl: './admin-promotions.component.scss',
+  templateUrl: 'admin-promotions.component.html',
+  styleUrl: 'admin-promotions.component.scss'
 })
 export class AdminPromotionsComponent implements OnInit {
   promotions: Promotion[] = [];
@@ -67,13 +67,49 @@ export class AdminPromotionsComponent implements OnInit {
     }
   }
 
+  // Ceci permet de réinitialiser le formulaire si on a appuyé sur modifier une promo juste avant
+  toggleForm(): void {
+    if (this.showAddForm) {
+      // Si on ferme le formulaire, on remet tout à zéro
+      this.cancelEdit();
+    } else {
+      // Si on ouvre pour créer une nouvelle promo, on s'assure de vider les champs
+      this.editingPromotion = null;
+      this.currentPromotion = {
+        description: '',
+        startDate: '',
+        endDate: '',
+        discountPercentage: 0
+      };
+      this.showAddForm = true;
+    }
+  }
+
+
   private validateDates(): boolean {
+    // Vérifier si les dates existent
+    if (!this.currentPromotion.startDate || !this.currentPromotion.endDate) {
+      return false;
+    }
+
+    // Convertir les dates en objets Date
     const startDate = new Date(this.currentPromotion.startDate);
     const endDate = new Date(this.currentPromotion.endDate);
     const now = new Date();
 
-    return startDate >= now && endDate > startDate;
+    // Vérifier si les dates sont valides
+    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+      return false;
+    }
+
+    // Comparer uniquement les jours (ignorer les heures)
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const start = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+    const end = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+
+    return start >= today && end > start;
   }
+
 
   private createPromotion(): void {
     this.promotionService.createPromotion(this.currentPromotion).subscribe({
@@ -99,6 +135,7 @@ export class AdminPromotionsComponent implements OnInit {
       }
     });
   }
+
 
   editPromotion(promotion: Promotion): void {
     this.editingPromotion = promotion;
@@ -129,11 +166,17 @@ export class AdminPromotionsComponent implements OnInit {
 
   deletePromotion(id: number): void {
     if (confirm('Êtes-vous sûr de vouloir supprimer cette promotion ?')) {
-      this.promotionService.deletePromotion(id).subscribe({
+      // Supprimer d'abord les produits associés
+      this.promotionService.updateProductsToNull(id).subscribe({
         next: () => {
-          this.notificationService.success('Promotion supprimée avec succès');
-          this.loadPromotions();
-        }
+          // Ensuite, supprimer la promotion
+          this.promotionService.deletePromotion(id).subscribe({
+            next: () => {
+              this.notificationService.success('Promotion supprimée avec succès');
+              this.loadPromotions();
+            },
+          });
+        },
       });
     }
   }

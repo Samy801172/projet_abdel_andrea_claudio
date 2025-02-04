@@ -13,6 +13,7 @@ import {ClientOrdersComponent} from './orders/client-orders.component';
 import {ClientAppointmentsComponent} from "./appointments/client-appointments.component";
 import {OrderConfirmationComponent} from "../../../../components/order-confirmation/order-confirmation.component";
 import {PaymentSuccessComponent} from "../../../../components/payment/payment-success.component";
+import {UploadPrescriptionComponent} from "./Ordonnance/ordonnance.component";
 
 
 export const clientRoutes: Routes = [
@@ -80,6 +81,11 @@ export const clientRoutes: Routes = [
       {
         path: 'appointments',
         component: ClientAppointmentsComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'prescriptions',
+        component: UploadPrescriptionComponent,
         canActivate: [AuthGuard],
       },
       {

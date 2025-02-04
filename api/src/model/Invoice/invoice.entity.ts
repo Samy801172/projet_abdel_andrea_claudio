@@ -4,8 +4,8 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
-  JoinColumn,
-} from 'typeorm';
+  JoinColumn, OneToMany
+} from "typeorm";
 import { Order } from '../Order/order.entity';
 
 @Entity('invoices')
@@ -34,4 +34,10 @@ export class Invoice {
 
   @Column({ type: 'varchar', length: 255 })
   clientName: string; // Nom du client
+
+  @OneToMany(() => Invoice, (invoice) => invoice.order)
+  invoices: Invoice[];
+
+  @Column({ type: 'jsonb', nullable: true })
+  products: { name: string; quantity: number; price: number }[]; // Exemple pour les produits
 }

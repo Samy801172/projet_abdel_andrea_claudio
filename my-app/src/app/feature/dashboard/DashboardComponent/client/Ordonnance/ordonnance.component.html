@@ -1,0 +1,72 @@
+<div class="upload-prescription-container">
+  <h2>Mes ordonnances</h2>
+
+  <!-- Bouton pour afficher/masquer le formulaire -->
+  <button class="toggle-form-btn" (click)="toggleForm()">
+    {{ showForm ? 'Annuler' : 'Uploader une ordonnance' }}
+  </button>
+
+  <!-- Formulaire masqué par défaut -->
+  <form *ngIf="showForm" (submit)="onUpload()">
+    <div class="form-group">
+      <label for="file">Fichier (JPEG, PNG, PDF) :</label>
+      <input
+        id="file"
+        type="file"
+        (change)="onFileSelected($event)"
+        accept=".jpg,.jpeg,.png,.pdf"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="prescribed_by">Prescrit par :</label>
+      <input
+        id="prescribed_by"
+        type="text"
+        [(ngModel)]="prescriptionDetails.prescribed_by"
+        placeholder="Nom du médecin"
+        name="prescribed_by"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="medication_details">Détails du médicament :</label>
+      <input
+        id="medication_details"
+        type="text"
+        [(ngModel)]="prescriptionDetails.medication_details"
+        placeholder="Détails du médicament"
+        name="medication_details"
+        required
+      />
+    </div>
+
+    <button type="submit" [disabled]="!selectedFile">Uploader</button>
+  </form>
+
+  <hr />
+
+  <!-- Section affichant les ordonnances -->
+  <div class="uploaded-prescriptions-container">
+    <h3>Mes ordonnances</h3>
+    <ul *ngIf="uploadedPrescriptions && uploadedPrescriptions.length > 0">
+      <li *ngFor="let prescription of uploadedPrescriptions" class="uploaded-prescription-item">
+        <div class="file-info">
+          <p><strong>Fichier :</strong>
+            <a [href]="'http://localhost:2024' + prescription.file_url" target="_blank">
+              Voir l'ordonnance
+            </a>
+
+          </p>
+          <p><strong>Prescrit par :</strong> {{ prescription.prescribed_by }}</p>
+          <p><strong>Détails :</strong> {{ prescription.medication_details }}</p>
+          <p><strong>Date d'expiration :</strong> {{ prescription.expiry_date | date:'dd/MM/yyyy' }}</p>
+          <p><strong>Status :</strong> {{ prescription.status }}</p>
+        </div>
+      </li>
+    </ul>
+    <p *ngIf="!uploadedPrescriptions || uploadedPrescriptions.length === 0">Aucune ordonnance n'a été uploadée.</p>
+  </div>
+</div>

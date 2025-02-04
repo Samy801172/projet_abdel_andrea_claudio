@@ -13,6 +13,8 @@ import { AdminDashComponent } from './dash/admin-dash.component';
 import {StockManagementComponent} from "./stock/stock-management.component";
 import {AuthGuard} from "../../guard/auth.guard";
 import {AdminGuard} from "../../guard/admin.guard";
+import {PromotionComponent} from "../../../../components/Promotion/promotion.component";
+import {AdminPromotionsComponent} from "./promotions/admin-promotions.component";
 
 
 export const adminRoutes: Routes = [
@@ -73,6 +75,10 @@ export const adminRoutes: Routes = [
       {
         path: 'appointments',
         component: AdminAppointmentsComponent
+      },
+      {
+        path: 'promotions',
+        component: AdminPromotionsComponent
       }
     ]
   }

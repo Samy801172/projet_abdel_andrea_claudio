@@ -120,4 +120,9 @@ export class ProductService {
     product.promotion = promotion;
     return this.productRepository.save(product);
   }
+
+  // Supprime les promotions sur les produits, en gros ça les délies
+  async unlinkPromotion(promotionId: number): Promise<void> {
+    await this.productRepository.update({ promotion: { id_promotion: promotionId } }, { promotion: null });
+  }
 }

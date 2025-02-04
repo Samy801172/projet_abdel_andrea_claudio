@@ -1,12 +1,11 @@
-// orders/client-order-detail.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {ActivatedRoute, Router, Routes} from '@angular/router';
+import { ActivatedRoute, Router, Routes } from '@angular/router';
 import { OrderService } from '../../../../../services';
 import { Order } from '../../../../../models/order/order.model';
-import {ClientDashboardComponent} from '../client-dashboard.component';
-import {ClientOrdersComponent} from './client-orders.component';
-import {AuthGuard} from '../../../guard/auth.guard';
+import { ClientDashboardComponent } from '../client-dashboard.component';
+import { ClientOrdersComponent } from './client-orders.component';
+import { AuthGuard } from '../../../guard/auth.guard';
 import { ClientService } from '../../../../../services';
 
 @Component({
@@ -72,6 +71,24 @@ export class ClientOrderDetailComponent implements OnInit {
     });
   }
 
+  downloadInvoice(orderId: number) {
+    this.orderService.downloadInvoice(orderId).subscribe({
+      next: (response) => {
+        const blob = new Blob([response], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Facture_Commande_${orderId}.pdf`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+      },
+      error: (error) => {
+        console.error('Erreur lors du téléchargement de la facture :', error);
+      },
+    });
+  }
+
+
   getStatusClass(status: number): string {
     return `status status-${status}`;
   }
@@ -91,32 +108,3 @@ export class ClientOrderDetailComponent implements OnInit {
     this.router.navigate(['/client/orders']);
   }
 }
-
-// client.routes.ts
-export const clientRoutes: Routes = [
-  {
-    path: '',
-    component: ClientDashboardComponent,
-    children: [
-      // ... autres routes existantes ...
-      {
-        path: 'orders',
-        component: ClientOrdersComponent,
-        canActivate: [AuthGuard],
-        data: {
-          title: 'Mes Commandes',
-          requiresAuth: true
-        }
-      },
-      {
-        path: 'orders/:id',
-        component: ClientOrderDetailComponent,
-        canActivate: [AuthGuard],
-        data: {
-          title: 'Détail de la commande',
-          requiresAuth: true
-        }
-      }
-    ]
-  }
-];

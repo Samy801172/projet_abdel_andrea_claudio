@@ -24,6 +24,7 @@ import { JwtAuthGuard } from '@feature/security/guard/jwt-auth.guard';
 import { UpdateOrderDto } from './dto/update-order-.dto';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { DataSource } from 'typeorm';
+import { AuthGuard } from "@nestjs/passport";
 
 @ApiTags('orders')
 @ApiBearerAuth('access-token')
@@ -194,7 +195,7 @@ export class OrderController {
   ) {
     return this.orderService.validatePayment(+orderId, clientId, paymentInfo);
   }
-  @Delete('details/:detailId')
+  @Delete('details/:detalId')
   @ApiOperation({ summary: 'Supprimer un détail de commande' })
   async deleteOrderDetail(
     @User('isAdmin') isAdmin: boolean,
@@ -208,7 +209,18 @@ export class OrderController {
     return this.orderService.deleteOrderDetail(+detailId);
   }
 
-  @Put('details/:detailId')
+  // Supprime un produit du détail de la commande
+
+  @Delete('details/:detailId')
+  @UseGuards(AuthGuard('jwt')) // Vérifie que l'utilisateur est authentifié
+  async deleteProduct(@Param('id') id: number): Promise<{ message: string }> {
+    console.log(`Suppression du produit avec l'ID : ${id}`);
+    return { message: `Produit avec l'ID ${id} supprimé` };
+  }
+
+
+
+@Put('details/:detailId')
   @ApiOperation({ summary: 'Mettre à jour un détail de commande' })
   async updateOrderDetail(
     @User('isAdmin') isAdmin: boolean,
@@ -233,6 +245,7 @@ export class OrderController {
         'Seul un administrateur peut modifier le statut commande',
       );
     }
+
 
     try {
       const updatedOrder = await this.orderService.updateOrderStatus(
