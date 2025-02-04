@@ -22,7 +22,7 @@ class ApiService {
   // Fonction d'inscription (Register)
   static Future<bool> register(String name, String email, String password) async {
     final response = await http.post(
-      Uri.parse('$baseUrl/register'),
+      Uri.parse('$baseUrl/account/signup'),
       body: json.encode({
         'name': name,
         'email': email,
@@ -43,7 +43,7 @@ class ApiService {
   static Future<bool> login(String email, String password) async {
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/login'),
+        Uri.parse('$baseUrl/account/signin'),
         body: json.encode({'email': email, 'password': password}),
         headers: {'Content-Type': 'application/json'},
       );

@@ -6,9 +6,13 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:gohanmedic_flutterprojetmobile/Models/Payment.dart';
 import 'package:gohanmedic_flutterprojetmobile/Models/Product.dart';
+import 'config.dart';
 
 
 class PaymentService {
+  // Utilisez l'URL de base définie dans votre fichier config.dart
+  static const String baseUrl = Config.baseUrl;
+
   // Méthode pour créer un paiement
   Future<void> createPayment(List<Product> cartItems, BuildContext context) async {
     double totalAmount = cartItems.fold(0, (sum, item) => sum + item.prix * item.quantite);
@@ -24,7 +28,7 @@ class PaymentService {
 
     // Envoyer l'objet Payment au backend pour initialiser la transaction PayPal
     final response = await http.post(
-      Uri.parse('http://ton-serveur-api.com/create-payment'), //NE PAS OUBLIER DE MODIFIER ADRESSE API
+      Uri.parse('${Config.baseUrl}/payment/paypal/create'), //NE PAS OUBLIER DE MODIFIER ADRESSE API
       body: json.encode(newPayment.toMap()),
       headers: {'Content-Type': 'application/json'},
     );
@@ -49,7 +53,7 @@ class PaymentService {
   Future<void> verifyPayment(String paymentId, String payerId, BuildContext context) async {
     // Envoie une requête pour vérifier le paiement avec paymentId et payerId
     final response = await http.post(
-      Uri.parse('http://ton-serveur-api.com/verify-payment'), // METTRE LA BONNE URL !!!
+      Uri.parse('${Config.baseUrl}/payments/paypal'), // METTRE LA BONNE URL !!!
       body: json.encode({
         'paymentId': paymentId,
         'payerId': payerId,

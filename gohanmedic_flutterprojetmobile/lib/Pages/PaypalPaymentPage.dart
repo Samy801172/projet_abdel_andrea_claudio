@@ -3,6 +3,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:gohanmedic_flutterprojetmobile/Services/PaymentService.dart';
 import 'package:gohanmedic_flutterprojetmobile/Models/Payment.dart';
+import 'package:gohanmedic_flutterprojetmobile/Services/config.dart';
 
 
 class PayPalPaymentPage extends StatefulWidget {
@@ -43,7 +44,7 @@ class _PayPalPaymentPageState extends State<PayPalPaymentPage> {
 
       // Appelle l'API pour vérifier le paiement et créer la commande
       final response = await http.post(
-        Uri.parse('http://ton-serveur-api.com/verify-payment'), //METTRE LA BONNE URL !!!!
+        Uri.parse('${Config.baseUrl}/payments/paypal/create'),
         body: {'paymentId': paymentId, 'payerId': payerId},
       );
 
