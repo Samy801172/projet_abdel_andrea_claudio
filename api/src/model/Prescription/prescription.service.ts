@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Prescription } from './prescription.entity';
 import { CreatePrescriptionDto } from './dto/create-prescription.dto';
+import { PrescriptionStatus } from './prescription.entity';
 
 @Injectable()
 export class PrescriptionService {
@@ -37,11 +38,27 @@ export class PrescriptionService {
     }
   }
 
-
-
-  findAll() {
-    return this.prescriptionRepository.find();
+  // Récupère toutes les prescriptions
+  async findAll(): Promise<Prescription[]> {
+    return await this.prescriptionRepository.find();
   }
+
+  //Récupérer les prescriptions pour l'admin
+  // Mettre à jour le statut d'une prescription
+  async updateStatus(id: number, status: string, verifiedBy: number): Promise<Prescription> {
+    const prescription = await this.prescriptionRepository.findOne({ where: { id_prescription: id } });
+
+    if (!prescription) {
+      throw new Error('Prescription non trouvée');
+    }
+
+    prescription.status = status as PrescriptionStatus; // ✅ Convertit string en enum
+    prescription.verified_by = verifiedBy;
+    prescription.verification_date = new Date();
+
+    return this.prescriptionRepository.save(prescription);
+  }
+
 
   remove(id: number) {
     return this.prescriptionRepository.delete(id);

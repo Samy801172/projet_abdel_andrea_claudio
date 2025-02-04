@@ -15,6 +15,7 @@ import {AuthGuard} from "../../guard/auth.guard";
 import {AdminGuard} from "../../guard/admin.guard";
 import {PromotionComponent} from "../../../../components/Promotion/promotion.component";
 import {AdminPromotionsComponent} from "./promotions/admin-promotions.component";
+import {AdminPrescriptionsComponent} from "./prescriptions/admin-prescriptions.component";
 
 
 export const adminRoutes: Routes = [
@@ -79,6 +80,10 @@ export const adminRoutes: Routes = [
       {
         path: 'promotions',
         component: AdminPromotionsComponent
+      },
+      {
+        path: 'prescriptions',
+        component: AdminPrescriptionsComponent
       }
     ]
   }

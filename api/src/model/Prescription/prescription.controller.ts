@@ -6,8 +6,8 @@ import {
   Param,
   Delete,
   UseInterceptors,
-  UploadedFile,
-} from '@nestjs/common';
+  UploadedFile, Put
+} from "@nestjs/common";
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { v4 as uuidv4 } from 'uuid';
@@ -20,6 +20,8 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 export class PrescriptionController {
   constructor(private readonly prescriptionService: PrescriptionService) {}
 
+
+  ///////////////////////CLIENT////////////////////////////////////
 
   @Post('upload')
   @UseInterceptors(
@@ -90,7 +92,7 @@ export class PrescriptionController {
   }
 
 
-  @Get('load')
+  @Get()
   async findAll() {
     return this.prescriptionService.findAll();
   }
@@ -99,4 +101,22 @@ export class PrescriptionController {
   async remove(@Param('id') id: string) {
     return this.prescriptionService.remove(+id);
   }
+
+
+  ///////////////////////ADMIN////////////////////////////////////
+
+  // 🔹 Mettre à jour le statut d’une prescription
+  @Put(':id/update-status')
+  async updateStatus(
+    @Param('id') id: number,
+    @Body('status') status: string,
+    @Body('verified_by') verifiedBy: number, // ID de l'admin qui vérifie
+  ) {
+    if (!['VERIFIED', 'REJECTED'].includes(status)) {
+      throw new HttpException('Statut invalide', HttpStatus.BAD_REQUEST);
+    }
+
+    return this.prescriptionService.updateStatus(id, status, verifiedBy);
+  }
+
 }

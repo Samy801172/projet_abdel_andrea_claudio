@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NotificationService } from '../../../../../services/notification/notification.service';
 import {FormsModule} from "@angular/forms";
-import {DatePipe, NgForOf, NgIf} from "@angular/common"; // Remplace par ton service de notifications
+import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common"; // Remplace par ton service de notifications
 
 @Component({
   selector: 'app-upload-prescription',
@@ -12,7 +12,8 @@ import {DatePipe, NgForOf, NgIf} from "@angular/common"; // Remplace par ton ser
     FormsModule,
     DatePipe,
     NgIf,
-    NgForOf
+    NgForOf,
+    NgClass
   ],
   standalone: true
 })
@@ -39,6 +40,17 @@ export class UploadPrescriptionComponent implements OnInit {
       this.selectedFile = input.files[0];
     }
   }
+
+  getStatusLabel(status: string): string {
+    const statusMap: { [key: string]: string } = {
+      PENDING: 'En attente',
+      VERIFIED: 'Vérifié',
+      REJECTED: 'Rejeté',
+      EXPIRED: 'Expiré',
+    };
+    return statusMap[status] || 'Inconnu';
+  }
+
 
   toggleForm() {
     this.showForm = !this.showForm;

@@ -63,7 +63,17 @@
           <p><strong>Prescrit par :</strong> {{ prescription.prescribed_by }}</p>
           <p><strong>Détails :</strong> {{ prescription.medication_details }}</p>
           <p><strong>Date d'expiration :</strong> {{ prescription.expiry_date | date:'dd/MM/yyyy' }}</p>
-          <p><strong>Status :</strong> {{ prescription.status }}</p>
+          <p
+            class="status"
+            [ngClass]="{
+                  'PENDING': prescription.status === 'PENDING',
+                  'VERIFIED': prescription.status === 'VERIFIED',
+                  'REJECTED': prescription.status === 'REJECTED',
+                  'EXPIRED': prescription.status === 'EXPIRED'
+                }">
+            <strong>Status :</strong> {{ getStatusLabel(prescription.status) }}
+          </p>
+
         </div>
       </li>
     </ul>
