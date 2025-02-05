@@ -19,7 +19,7 @@ class BaseLayout extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/images/logogohanmedic.png', // logo intégré
+              'assets/image/logogohanmedic.png', // logo intégré
               height: 40,
             ),
             const SizedBox(width: 10),
