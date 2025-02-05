@@ -19,8 +19,8 @@ class BaseLayout extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/images/logogohanmedic.png', // Chemin de l'image
-              height: 40, // Taille de l'image
+              'assets/images/logogohanmedic.png', // logo intégré
+              height: 40,
             ),
             const SizedBox(width: 10),
             Text(title), // Titre de la page
@@ -30,7 +30,7 @@ class BaseLayout extends StatelessWidget {
       ),
       body: body,
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
+        type: BottomNavigationBarType.fixed, // Permet l'affichage correct même avec plusieurs items
         onTap: (index) {
           _navigateToPage(context, index);
         },
@@ -64,7 +64,7 @@ class BaseLayout extends StatelessWidget {
             label: 'Profil',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.logout),
+            icon: Icon(Icons.logout, color: Colors.red),
             label: 'Déconnexion',
           ),
         ],
@@ -72,7 +72,10 @@ class BaseLayout extends StatelessWidget {
     );
   }
 
+  // Navigation sur le menu
   void _navigateToPage(BuildContext context, int index) async {
+    final authProvider = Provider.of<AuthentificationProvider>(context, listen: false);
+
     switch (index) {
       case 0: // Accueil
         Navigator.pushNamed(context, '/home');
@@ -95,9 +98,10 @@ class BaseLayout extends StatelessWidget {
       case 6: // Profil
         Navigator.pushNamed(context, '/profile');
         break;
-      case 7: // Déconnexion
-        bool confirm = await _logout(context);
+      case 7: // Déconnexion avec confirmation
+        bool confirm = await authProvider.confirmLogout(context); // Appel du Provide pour méthode de déconnexion
         if (confirm) {
+          await authProvider.logout(); // si client veut déconnecter alors lancement de logout
           Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
         }
         break;
@@ -105,6 +109,4 @@ class BaseLayout extends StatelessWidget {
         break;
     }
   }
-
-
 }

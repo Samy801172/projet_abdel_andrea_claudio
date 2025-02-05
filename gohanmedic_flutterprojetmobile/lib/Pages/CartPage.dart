@@ -1,6 +1,7 @@
 // Page du Panier
 
 import 'package:flutter/material.dart';
+import 'package:gohanmedic_flutterprojetmobile/Widgets/Design/BaseLayout.dart';
 import 'package:provider/provider.dart';
 import 'package:gohanmedic_flutterprojetmobile/Provider/CartProvider.dart';
 
@@ -10,8 +11,8 @@ class CartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final cart = Provider.of<CartProvider>(context); // Accès au panier
 
-    return Scaffold(
-      appBar: AppBar(title: Text('Mon Panier')), // Barre d'application avec un titre
+    return BaseLayout(
+      title: 'Mon Panier', // Barre d'application avec un titre
       body: cart.items.isEmpty
           ? Center(child: Text('Votre panier est vide')) // Si le panier est vide, on affiche un message
           : Column(

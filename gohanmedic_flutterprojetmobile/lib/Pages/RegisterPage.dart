@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:gohanmedic_flutterprojetmobile/Provider/AuthentificationProvider.dart';
+import 'package:gohanmedic_flutterprojetmobile/Widgets/Design/BaseLayout.dart';
 import 'package:http/http.dart' as http;
 import 'package:gohanmedic_flutterprojetmobile/Services/apiservice.dart';
 import 'package:provider/provider.dart';
@@ -49,10 +50,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Inscription"),
-      ),
+    return BaseLayout(
+        title: "Inscription",
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(

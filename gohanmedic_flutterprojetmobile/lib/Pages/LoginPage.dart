@@ -1,6 +1,7 @@
 //Page de login pour le client + lient vers la page inscription
 
 import 'package:flutter/material.dart';
+import 'package:gohanmedic_flutterprojetmobile/Widgets/Design/BaseLayout.dart';
 import 'package:provider/provider.dart';
 import 'package:gohanmedic_flutterprojetmobile/Provider/AuthentificationProvider.dart';
 
@@ -62,8 +63,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Connexion')),
+    return BaseLayout(
+      title: 'Connexion',
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

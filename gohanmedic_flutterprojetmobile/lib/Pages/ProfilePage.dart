@@ -3,6 +3,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gohanmedic_flutterprojetmobile/Widgets/Design/BaseLayout.dart';
 
 
 
@@ -10,10 +11,8 @@ import 'package:flutter/material.dart';
 class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Profil'),
-      ),
+    return BaseLayout(
+      title: 'Profil',
       body: Center(
         child: Text('Informations du profil.'),
       ),
