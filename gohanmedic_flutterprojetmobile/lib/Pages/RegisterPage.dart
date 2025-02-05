@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:gohanmedic_flutterprojetmobile/Provider/AuthentificationProvider.dart';
 import 'package:http/http.dart' as http;
 import 'package:gohanmedic_flutterprojetmobile/Services/apiservice.dart';
+import 'package:provider/provider.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -18,10 +20,16 @@ class _RegisterPageState extends State<RegisterPage> {
   bool _isPasswordVisible = false; // Pour afficher/masquer le mot de passe
   bool _isConfirmPasswordVisible = false;  // Gère l'affichage du champ confirmation
 
+  // Récupère le Provider d'authentification
+
+
   // Fonction pour gérer l'inscription du client
   Future<void> _register() async {
     if (_formKey.currentState!.validate()) { // Vérifie si le formulaire est valide
-      bool success = await ApiService.register(
+      // Récupère le Provider d'authentification
+      final authProvider = Provider.of<AuthentificationProvider>(context, listen: false);
+
+      bool success = await authProvider.register(
         _nameController.text,
         _emailController.text,
         _passwordController.text,

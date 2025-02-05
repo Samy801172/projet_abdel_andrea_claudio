@@ -18,7 +18,6 @@ class _LoginPageState extends State<LoginPage> {
   bool _isLoading = false;
 
   // Fonction qui gère la connexion de l'utilisateur
-  // Fonction qui gère la connexion de l'utilisateur
   Future<void> _login() async {
     // Vérifie si les champs ne sont pas vides
     if (emailController.text.isEmpty || passwordController.text.isEmpty) {

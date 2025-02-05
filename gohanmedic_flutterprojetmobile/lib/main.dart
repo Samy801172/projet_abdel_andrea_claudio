@@ -9,6 +9,49 @@ import 'package:gohanmedic_flutterprojetmobile/Provider/CartProvider.dart';
 import 'package:gohanmedic_flutterprojetmobile/Pages/CartPage.dart';
 import 'package:gohanmedic_flutterprojetmobile/Provider/AuthentificationProvider.dart';
 
+// void main() {
+//  runApp(const MyApp());  // Ajout du const
+// }
+
+// class MyApp extends StatelessWidget {
+//   const MyApp({Key? key}) : super(key: key);  // Ajout du constructeur avec key
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Gohan Medic',
+//       theme: ThemeData(
+//         primarySwatch: Colors.green,
+//         scaffoldBackgroundColor: Colors.green[50],
+//         appBarTheme: AppBarTheme(
+//           backgroundColor: Colors.green[700],
+//           foregroundColor: Colors.white,
+//         ),
+//         elevatedButtonTheme: ElevatedButtonThemeData(
+//           style: ElevatedButton.styleFrom(
+//             backgroundColor: Colors.green[600],
+//             foregroundColor: Colors.white,
+//           ),
+//         ),
+//         textButtonTheme: TextButtonThemeData(
+//           style: TextButton.styleFrom(
+//             foregroundColor: Colors.green[800],
+//           ),
+//         ),
+//       ),
+//       home: LoginPage(),  // Ajout du const
+//       debugShowCheckedModeBanner: false,
+//       routes: {
+//         '/login': (context) => LoginPage(),  // Ajout du const
+//       },
+//     );
+//   }
+// }
+
+
+
+
+
 void main() {
   runApp(
     MultiProvider( // Utilisation de MultiProvider pour inclure la gestion de l'état global
@@ -28,6 +71,7 @@ class GohanMedicApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'GohanMedic',
+      home: RegisterPage(),
       theme: ThemeData(
         primarySwatch: Colors.green,
         scaffoldBackgroundColor: Colors.green[50],
@@ -67,7 +111,7 @@ class GohanMedicApp extends StatelessWidget {
 
             if (userId == null) {
               // Rediriger vers la page de connexion
-              Future.microtask(() => Navigator.pushReplacementNamed(context, '/'));
+              Future.microtask(() => Navigator.pushReplacementNamed(context, '/login'));
               return Scaffold(
                 body: Center(child: CircularProgressIndicator()), // Affichage temporaire
               );

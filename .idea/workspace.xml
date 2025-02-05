@@ -6,11 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="b7d382ad-49c7-432b-86f3-9d0a39a078e1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Pages/CartPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Pages/CartPage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Pages/PaymentErrorPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Pages/PaymentErrorPage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Pages/RegisterPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Pages/RegisterPage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Services/CommandeService.dart" beforeDir="false" afterPath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Services/CommandeService.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Pages/CommandeDetailPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Pages/CommandeDetailPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Provider/CartProvider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Provider/CartProvider.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Widgets/CommandeList.dart" beforeDir="false" afterPath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/Widgets/CommandeList.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/gohanmedic_flutterprojetmobile/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,24 +41,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Andrea-MainNew&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/ProjetIDDev/projet_abdel_andrea_claudio/api&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;C:\\ProjetIDDev\\projet_abdel_andrea_claudio\\node_modules\\prettier&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\ProjetIDDev\\projet_abdel_andrea_claudio\\my-app\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "Andrea-MainNew",
+    "last_opened_file_path": "C:/ProjetIDDev/projet_abdel_andrea_claudio/api",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "prettierjs.PrettierConfiguration.Package": "C:\\ProjetIDDev\\projet_abdel_andrea_claudio\\node_modules\\prettier",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "ts.external.directory.path": "C:\\ProjetIDDev\\projet_abdel_andrea_claudio\\my-app\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -107,6 +108,7 @@
       <workItem from="1738600387520" duration="4289000" />
       <workItem from="1738672062938" duration="5448000" />
       <workItem from="1738678766847" duration="1363000" />
+      <workItem from="1738691740172" duration="2829000" />
     </task>
     <servers />
   </component>

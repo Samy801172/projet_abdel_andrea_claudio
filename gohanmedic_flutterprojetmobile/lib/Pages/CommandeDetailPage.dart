@@ -1,3 +1,5 @@
+// Page affiché lorsqu'on demande plus de détail dans la liste des commandes
+
 import 'package:flutter/material.dart';
 import 'package:gohanmedic_flutterprojetmobile/Models/Commande.dart';
 

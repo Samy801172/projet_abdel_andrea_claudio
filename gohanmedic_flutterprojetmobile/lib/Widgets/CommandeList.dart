@@ -1,4 +1,4 @@
-// Affiche les commandes avec un bouton pour voir les détails
+// Affiche les commandes + un bouton pour voir les détails
 
 import 'package:flutter/material.dart';
 import 'package:gohanmedic_flutterprojetmobile/Models/Commande.dart';
