@@ -8,6 +8,8 @@ class Config {
   // Client PayPal
   static const String paypalClientId = 'AYu0FhU6VKkIsk_x3DYp3ZDBn57Z0JnrYQJShGFcg3DRIquZzZIv0kBEiHw1dNKx2-enGPHWzyfUEtwM';
   static const String paypalMode = 'sandbox';  // Mode sandbox ou live
+  static const String paypalApiUrl = 'https://api-m.sandbox.paypal.com';
+
 
   // Points de terminaison
   static const Map<String, String> endpoints = {

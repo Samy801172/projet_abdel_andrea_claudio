@@ -65,13 +65,48 @@ class AuthentificationProvider with ChangeNotifier {
 
   // Déconnexion
   Future<void> logout() async {
-    _userId = null;
-    _token = null;
-    _userEmail = null;
+    try {
+      _userId = null;
+      _token = null;
+      _userEmail = null;
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.clear(); // Effacer les préférences partagées
+      // Supprime uniquement les données liées à l'utilisateur
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.remove('userId');
+      await prefs.remove('token');
+      await prefs.remove('userEmail');
 
-    notifyListeners();
+      print("Utilisateur déconnecté.");
+
+      notifyListeners();
+    } catch (error) {
+      print("Erreur lors de la déconnexion : $error");
+    }
+  }
+
+  Future<bool> confirmLogout(BuildContext context) async {
+    return await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Déconnexion"),
+          content: const Text("Voulez-vous vraiment vous déconnecter ?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false); // Annuler
+              },
+              child: const Text("Annuler"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true); // Confirmer
+              },
+              child: const Text("Oui", style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

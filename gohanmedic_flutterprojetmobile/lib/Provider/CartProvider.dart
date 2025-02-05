@@ -2,7 +2,7 @@
 // Provider est un wrapper qui permet d'appeller les widgets hérités
 
 import 'package:flutter/material.dart';
-import '../models/CartItem.dart';
+import '../Models/CartItem.dart';
 
 class CartProvider with ChangeNotifier {
   // Dictionnaire qui stocke les articles du panier (clé = ID du produit, valeur = CartItem)

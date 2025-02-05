@@ -71,7 +71,7 @@ class GohanMedicApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'GohanMedic',
-      home: RegisterPage(),
+      home: HomePage(),
       theme: ThemeData(
         primarySwatch: Colors.green,
         scaffoldBackgroundColor: Colors.green[50],
