@@ -2,7 +2,7 @@
 // d'une classe Config pour pourvoir appeller mon API URL.
 
 class Config {
-  static const String baseUrl = 'http://localhost:2024/api'; // => TEST SUR PC EN LOCAL
+  static const String apiUrl = 'http://localhost:2024/api'; // => TEST SUR PC EN LOCAL
   // static const String _baseUrl = "http://192.168.0.162:2024/api"; // => TEST SUR UN SMARTPHONE CONNECTE
   // static const String baseUrl = 'http://10.0.2.2:2024/api'; // => TEST SUR EMULATEUR ANDROID
   // Client PayPal

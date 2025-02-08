@@ -26,7 +26,7 @@ class CartProvider with ChangeNotifier {
           id: existingItem.id,
           nom: existingItem.nom,
           prix: existingItem.prix,
-          quantite: existingItem.quantite + 1,
+          quantite: existingItem.quantite + 1, // Augmentation de la quantité
           imageUrl: existingItem.imageUrl,
         ),
       );

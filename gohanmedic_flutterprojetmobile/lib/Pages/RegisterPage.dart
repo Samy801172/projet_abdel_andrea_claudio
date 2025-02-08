@@ -51,7 +51,8 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return BaseLayout(
-        title: "Inscription",
+      title: "Inscription",
+      requireAuthentication: false, //accessible sans connexion
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(

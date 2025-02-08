@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gohanmedic_flutterprojetmobile/Pages/ProfilePage.dart';
 import 'package:gohanmedic_flutterprojetmobile/Widgets/CommandeList.dart';
+import 'package:gohanmedic_flutterprojetmobile/Pages/ProductPage.dart';
 import 'Pages/HomePage.dart';
 import 'Pages/LoginPage.dart';
 import 'Pages/RegisterPage.dart';
@@ -121,6 +122,9 @@ class GohanMedicApp extends StatelessWidget {
 
         // Route vers la page du panier.
         '/cart': (context) => CartPage(),
+
+        //Route vers la page des médicaments.
+        '/products': (context) => ProductPage(),
 
         // Route vers la page du profil utilisateur.
         '/profile': (context) => ProfilePage(),

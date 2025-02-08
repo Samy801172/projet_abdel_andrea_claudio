@@ -11,7 +11,7 @@ class AuthentificationProvider with ChangeNotifier {
   String? get token => _token;
   String? get userEmail => _userEmail;
 
-  bool get isAuthenticated => _token != null;
+  bool get isAuthenticated => _token != null; // permet de vérifier si un utilisateur est connecté
 
   AuthentificationProvider() {
     loadUser();
@@ -61,6 +61,11 @@ class AuthentificationProvider with ChangeNotifier {
       print('Erreur d\'inscription : $e');
       throw Exception("Une erreur est survenue. Veuillez réessayer.");
     }
+  }
+
+  // Vérifie si un utilisateur est connecté
+  bool isUserLoggedIn() {
+    return _userId != null && _token != null;
   }
 
   // Déconnexion

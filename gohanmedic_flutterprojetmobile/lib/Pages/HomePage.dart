@@ -16,7 +16,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return BaseLayout(
-        title: 'GohanMedic',
+      title: 'GohanMedic',
+      requireAuthentication: false, //accessible sans connexion
       body: Column(
         children: [
           // Barre de recherche

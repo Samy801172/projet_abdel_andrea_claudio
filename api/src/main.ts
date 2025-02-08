@@ -16,7 +16,12 @@ const bootstrap = async () => {
 
   // Ajout de CORS ici
   app.enableCors({
-    origin: 'http://localhost:4200', // Autorise le frontend à accéder au backend
+    origin: [
+      'http://localhost:4200', // Autorise le frontend à accéder au backend
+      'http://localhost:5000', // Autorise le Frontend Flutter Web à accéder au backend
+      'http://10.0.2.2:2024', // Autorise Flutter mobile - émulateur android à accéder au backend
+      'http://192.168.0.162:2024', // Autorise Flutter mobile sur appareil physique - Modif IP par IP local wifi
+       ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true, // Si vous utilisez des cookies ou de l'authentification
   });

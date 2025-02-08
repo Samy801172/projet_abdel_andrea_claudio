@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gohanmedic_flutterprojetmobile/Services/config.dart';
+import 'package:gohanmedic_flutterprojetmobile/Services/apiservice.dart';
 import 'package:http/http.dart' as http;
 
 
@@ -26,26 +26,20 @@ class _ProductsListState extends State<ProductsList> {
   @override
   void initState() {
     super.initState();
-    fetchProducts(); // Charge les produits au démarrage
+    loadProducts(); // Charge les produits au démarrage
   }
 
-  // Fonction pour récupérer la liste des produits depuis l'API et stock les infos
-  Future<void> fetchProducts() async {
+  // Fonction pour récupérer la liste des produits via ApiService
+  Future<void> loadProducts() async {
     try {
-      final response = await http.get(Uri.parse('${Config.baseUrl}products')); // Appel API
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body); //Converti la réponse JSON en objet Dart
-        setState(() { // permet la mise à jour de products
-          _products = data; // Stocke tous les produits
-          // Filtrer les promos et vérifie si elle existe
-          _promotions = data.where((p) => p['promotion_price'] != null).toList();
-          _isLoading = false;
-        });
-      } else {
-        throw Exception('Erreur lors du chargement des produits');
-      }
+      List<dynamic> data = await ApiService.fetchProducts(); // ✅ Appel API via ApiService
+      setState(() {
+        _products = data;
+        _promotions = data.where((p) => p['promotion_price'] != null).toList();
+        _isLoading = false;
+      });
     } catch (e) {
-      print("Erreur : $e");
+      print(" Erreur lors du chargement des produits : $e");
       setState(() {
         _isLoading = false;
       });
@@ -63,7 +57,9 @@ class _ProductsListState extends State<ProductsList> {
     }
 
     // Filtre les produits pour n’afficher que ceux correspondant à la recherche
-    final filteredProducts = _products.where((product) {
+    final filteredProducts = widget.searchQuery.isEmpty
+        ? _products // Si aucune recherche, afficher tous les produits
+        : _products.where((product) {
       final productName = product['name']?.toLowerCase() ?? ''; // Assure qu'on ne traite pas une valeur null, ce qui évite les erreurs
       return productName.contains(widget.searchQuery.toLowerCase());
     }).toList();
@@ -72,9 +68,12 @@ class _ProductsListState extends State<ProductsList> {
       itemCount: filteredProducts.length,
       itemBuilder: (context, index) {
         final product = filteredProducts[index];
-        final bool hasPromotion = product['promotion_price'] != null; // vérifie si un medoc est en promo
+
+        // vérifie si un medoc est en promo et à bien une date de fin valide
+        final bool hasPromotion = product['promotion_price'] != null && product['promotion_end'] != null;
+
         //Converti la date de fin de promo en datetime
-        final DateTime? promoEnd = hasPromotion ? DateTime.parse(product['promotion_end']) : null;
+        final DateTime? promoEnd = hasPromotion ? DateTime.tryParse(product['promotion_end']) : null;
 
         // Class Card qui permet un certain affichage design pour l'appli concernant les détails du médicament
         return Card(
@@ -93,7 +92,7 @@ class _ProductsListState extends State<ProductsList> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(product['description'] ?? 'Description non disponible'),
-                if (hasPromotion) ...[
+                if (hasPromotion  && promoEnd != null) ...[
                   Row(
                     children: [
                       Text(
@@ -109,7 +108,7 @@ class _ProductsListState extends State<ProductsList> {
                       ),
                     ],
                   ),
-                  CountdownTimer(endTime: promoEnd!), // Affichage du compte à rebours h + m + sec
+                  CountdownTimer(endTime: promoEnd), // Affichage du compte à rebours h + m + sec
                   // mise à jour toutes les secondes
                 ] else ...[
                   Text(

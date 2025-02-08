@@ -65,6 +65,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return BaseLayout(
       title: 'Connexion',
+      requireAuthentication: false, //accessible sans connexion
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

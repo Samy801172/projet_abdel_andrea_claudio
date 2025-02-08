@@ -7,7 +7,7 @@ import 'config.dart';
 
 
 class CommandeService {
-  static const String baseUrl = Config.baseUrl;
+  static const String baseUrl = Config.apiUrl;
 
   // Récupére la liste des commandes du client
   Future<List<Commande>> fetchOrders(String userId) async {

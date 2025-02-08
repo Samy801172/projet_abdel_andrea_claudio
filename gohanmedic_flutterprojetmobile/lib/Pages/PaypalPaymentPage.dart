@@ -44,7 +44,7 @@ class _PayPalPaymentPageState extends State<PayPalPaymentPage> {
 
       // Appelle l'API pour vérifier le paiement et créer la commande
       final response = await http.post(
-        Uri.parse('${Config.baseUrl}/payments/paypal/create'),
+        Uri.parse('${Config.apiUrl}/payments/paypal/create'),
         body: {'paymentId': paymentId, 'payerId': payerId},
       );
 

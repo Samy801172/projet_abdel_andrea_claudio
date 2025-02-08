@@ -1,5 +1,6 @@
 // Appel vers l'APi pour la gestion des données
 
+import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,15 +8,30 @@ import 'package:gohanmedic_flutterprojetmobile/Services/config.dart';
 
 class ApiService {
   // Utilisez l'URL de base définie dans votre fichier config.dart
-  static const String baseUrl = Config.baseUrl;
+  static const String baseUrl = Config.apiUrl;
 
-  // Fonction pour la liste des médicaments (Products)
+  // Fonction pour récupérer la liste des produits depuis l'API et stock les infos
   static Future<List<dynamic>> fetchProducts() async {
-    final response = await http.get(Uri.parse('$baseUrl/products'));
-    if (response.statusCode == 200) {
-      return json.decode(response.body);
-    } else {
-      throw Exception('Erreur de chargement de produit');
+    try {
+      final response = await http
+          .get(Uri.parse('$baseUrl/products'))
+          .timeout(const Duration(seconds: 10)); // Timeout de 10 secondes
+
+      if (response.statusCode == 200 && response.body.isNotEmpty) {
+        final List<dynamic> data = json.decode(response.body);
+        return data; // Retourne directement les produits
+      } else {
+        throw Exception('Erreur: Réponse vide ou statut ${response.statusCode}');
+      }
+    } on http.ClientException catch (e) {
+      print(" Erreur réseau : $e");
+      throw Exception("Erreur réseau");
+    } on TimeoutException {
+      print(" Temps d’attente dépassé : L’API ne répond pas");
+      throw Exception("Temps d’attente dépassé");
+    } catch (e) {
+      print(" Erreur inconnue : $e");
+      throw Exception("Erreur inconnue");
     }
   }
 
