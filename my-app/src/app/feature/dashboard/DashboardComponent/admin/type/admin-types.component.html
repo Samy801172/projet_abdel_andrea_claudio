@@ -1,0 +1,164 @@
+<div class="types-management">
+  <!-- En-tête -->
+  <div class="page-header">
+    <h1>Catégories de Médicaments et Produits</h1>
+  </div>
+
+  <!-- État de chargement -->
+  @if (loading) {
+    <div class="loading-state">
+      <span class="loader"></span>
+      <p>Chargement des catégories...</p>
+    </div>
+  }
+
+  <!-- Affichage des erreurs -->
+  @if (error) {
+    <div class="error-state">
+      <p>{{ error }}</p>
+      <button (click)="loadTypes()">Réessayer</button>
+    </div>
+  }
+
+  <!-- Grille des types -->
+  <div class="types-grid">
+    @for (type of types; track type.id_type) {
+      <div class="type-card" [class.requires-prescription]="type.prescription_required">
+        <div class="card-content">
+          <div class="type-icon">{{ type.icon }}</div>
+          <div class="type-details">
+            @if (type.prescription_required) {
+              <span class="prescription-badge">Ordonnance requise</span>
+            }
+            <h3>{{ type.name }}</h3>
+            <p>{{ type.description }}</p>
+          </div>
+          <div class="card-actions">
+            <button class="action-btn edit" (click)="editType(type)">
+              Modifier
+            </button>
+            <button class="action-btn delete" (click)="confirmDelete(type)">
+              Supprimer
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Bouton ajouter -->
+    <div class="add-card" (click)="startAdd()">
+      <div class="add-content">
+        <i class="fas fa-plus"></i>
+        <span>Ajouter une catégorie</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de formulaire -->
+@if (showForm) {
+  <div class="modal-overlay">
+    <div class="modal-content">
+      <h3>{{ editingType ? 'Modifier' : 'Ajouter' }} une catégorie</h3>
+      <form #typeForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+        <!-- Champ Nom -->
+        <div class="form-group">
+          <label>Nom</label>
+          <input
+            [(ngModel)]="currentType.name"
+            name="name"
+            required
+            #name="ngModel"
+            [class.invalid]="name.invalid && name.touched"
+          >
+          @if (name.invalid && name.touched) {
+            <div class="error-message">Le nom est requis</div>
+          }
+        </div>
+
+        <!-- Champ Description -->
+        <div class="form-group">
+          <label>Description</label>
+          <textarea
+            [(ngModel)]="currentType.description"
+            name="description"
+            required
+            #description="ngModel"
+            [class.invalid]="description.invalid && description.touched"
+          ></textarea>
+          @if (description.invalid && description.touched) {
+            <div class="error-message">La description est requise</div>
+          }
+        </div>
+
+        <!-- Sélection Icône -->
+        <div class="form-group">
+          <label>Icône</label>
+          <select
+            [(ngModel)]="currentType.icon"
+            name="icon"
+            required
+            #icon="ngModel"
+            [class.invalid]="icon.invalid && icon.touched"
+          >
+            <option value="">Sélectionner une icône</option>
+            <option value="💊">💊 Médicaments</option>
+            <option value="🏥">🏥 Ordonnance</option>
+            <option value="🧪">🧪 Préparations</option>
+            <option value="🌿">🌿 Naturel</option>
+            <option value="🩺">🩺 Matériel médical</option>
+            <option value="👶">👶 Pédiatrie</option>
+            <option value="🦷">🦷 Dentaire</option>
+            <option value="👁️">👁️ Optique</option>
+            <option value="🧴">🧴 Dermocosmétique</option>
+            <option value="🩹">🩹 Premiers secours</option>
+            <option value="♿">♿ Maintien à domicile</option>
+          </select>
+          @if (icon.invalid && icon.touched) {
+            <div class="error-message">L'icône est requise</div>
+          }
+        </div>
+
+        <!-- Checkbox Ordonnance -->
+        <div class="form-group">
+          <label>
+            <input
+              type="checkbox"
+              [(ngModel)]="currentType.prescription_required"
+              name="prescription_required"
+            >
+            Ordonnance requise
+          </label>
+        </div>
+
+        <!-- Boutons d'action -->
+        <div class="form-actions">
+          <button type="button" class="cancel-btn" (click)="cancelEdit()">
+            Annuler
+          </button>
+          <button
+            type="submit"
+            class="confirm-btn"
+            [disabled]="typeForm.invalid || !currentType.name || !currentType.description || !currentType.icon"
+          >
+            {{ editingType ? 'Modifier' : 'Ajouter' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}
+
+<!-- Modal de confirmation de suppression -->
+@if (showDeleteModal) {
+  <div class="modal-overlay">
+    <div class="modal-content">
+      <h3>Confirmation de suppression</h3>
+      <p>Êtes-vous sûr de vouloir supprimer cette catégorie ?</p>
+      <div class="form-actions">
+        <button class="cancel-btn" (click)="cancelDelete()">Annuler</button>
+        <button class="delete-btn" (click)="deleteType()">Confirmer</button>
+      </div>
+    </div>
+  </div>
+}

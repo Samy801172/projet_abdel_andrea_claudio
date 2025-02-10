@@ -1,33 +1,43 @@
 <div class="admin-prescriptions-container">
   <h2>Gestion des Ordonnances</h2>
 
-  <table>
-    <thead>
-    <tr>
-      <th>ID</th>
-      <th>Client</th>
-      <th>Prescrit par</th>
-      <th>Détails</th>
-      <th>Statut</th>
-      <th>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let prescription of prescriptions">
-      <td>{{ prescription.id_prescription }}</td>
-      <td>{{ prescription.client_id }}</td>
-      <td>{{ prescription.prescribed_by }}</td>
-      <td>{{ prescription.medication_details }}</td>
-      <td class="status" [ngClass]="prescription.status">{{ getStatusLabel(prescription.status) }}</td>
-      <td>
-        <button *ngIf="prescription.status === 'PENDING'" (click)="updateStatus(prescription.id_prescription, 'VERIFIED')">
-          ✅ Valider
+  <div *ngIf="prescriptions.length > 0; else noPrescriptions" class="prescriptions-list">
+    <div *ngFor="let prescription of prescriptions" class="prescription-card">
+      <div class="card-header">
+        <h3>Ordonnance #{{ prescription.id_prescription }}</h3>
+        <span class="status" [ngClass]="prescription.status">
+          {{ getStatusLabel(prescription.status) }}
+        </span>
+      </div>
+      <div class="card-body">
+        <p>
+          <strong>Client :</strong>
+          {{ prescription.client?.firstName || 'Inconnu' }} {{ prescription.client?.lastName || 'Inconnu' }}
+        </p>
+        <p><strong>Prescrit par :</strong> {{ prescription.prescribed_by }}</p>
+        <p><strong>Détails :</strong> {{ prescription.medication_details }}</p>
+      </div>
+      <div class="card-footer">
+        <button
+          *ngIf="prescription.status === 'PENDING'"
+          class="btn btn-success"
+          (click)="updateStatus(prescription.id_prescription, 'VERIFIED')"
+        >
+          <i class="fas fa-check"></i> Valider
         </button>
-        <button *ngIf="prescription.status === 'PENDING'" (click)="updateStatus(prescription.id_prescription, 'REJECTED')">
-          ❌ Rejeter
+        <button
+          *ngIf="prescription.status === 'PENDING'"
+          class="btn btn-danger"
+          (click)="updateStatus(prescription.id_prescription, 'REJECTED')"
+        >
+          <i class="fas fa-times"></i> Rejeter
         </button>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Message si aucune ordonnance -->
+  <ng-template #noPrescriptions>
+    <p class="no-prescriptions-message">Aucune ordonnance à afficher.</p>
+  </ng-template>
 </div>

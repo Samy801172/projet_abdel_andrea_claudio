@@ -60,4 +60,5 @@ export class Client {
   credentialId: string;
   @OneToMany(() => Prescription, (prescription) => prescription.client)
   prescriptions: Prescription[];
+
 }

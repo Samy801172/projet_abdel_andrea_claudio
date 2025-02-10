@@ -34,6 +34,7 @@ export class AdminPrescriptionsComponent implements OnInit {
     });
   }
 
+  // Les différents status de prescriptions
   getStatusLabel(status: string): string {
     const statusMap: { [key: string]: string } = {
       PENDING: 'En attente',

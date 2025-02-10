@@ -8,7 +8,10 @@ import { HomeComponent } from '../components/home/home.component';
 import {OrderConfirmationComponent} from '../components/order-confirmation/order-confirmation.component';
 import {PaymentSuccessComponent} from '../components/payment/payment-success.component';
 import {ClientProfileComponent} from '../feature/dashboard/DashboardComponent/client/profile/client-profile.component';
-
+import { ManufacturingManagementComponent } from '../feature/dashboard/DashboardComponent/admin/manufacturing/manufacturing-management.component';
+import { ManufacturingPaymentComponent } from '../feature/dashboard/DashboardComponent/manufacturing/manufacturing-payment.component';
+import { ManufacturingDetailsComponent } from '../components/manufacturing-details/manufacturing-details.component';
+import { CustomManufacturingComponent } from '../feature/dashboard/DashboardComponent/manufacturing/custom-manufacturing.component';
 
 export const routes: Routes = [
   {
@@ -32,6 +35,30 @@ export const routes: Routes = [
     component: RegisterComponent,
     canActivate: [NoAuthGuard]
   },
+
+
+{
+    path: 'manufacturing',
+    children: [
+      {
+        path: 'custom',
+        component: CustomManufacturingComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: ':id',
+        component: ManufacturingDetailsComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: ':id/payment',
+        component: ManufacturingPaymentComponent,
+        canActivate: [AuthGuard]
+      }
+    ]
+  },
+
+
   {
     path: 'client',
     loadChildren: () => import('../feature/dashboard/DashboardComponent/client/client.routes')

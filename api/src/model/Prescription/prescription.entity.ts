@@ -4,8 +4,8 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
-  CreateDateColumn,
-} from 'typeorm';
+  CreateDateColumn, JoinColumn
+} from "typeorm";
 import { Client } from 'model/Client/client.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -23,7 +23,9 @@ export class Prescription {
   id_prescription: number;
 
   @ManyToOne(() => Client, (client) => client.prescriptions)
+  @JoinColumn({ name: 'client_id' }) // Facultatif si tu veux un contrôle explicite
   client: Client;
+
 
   @Column()
   @ApiProperty()

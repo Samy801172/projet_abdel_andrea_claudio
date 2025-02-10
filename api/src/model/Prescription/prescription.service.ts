@@ -40,8 +40,14 @@ export class PrescriptionService {
 
   // Récupère toutes les prescriptions
   async findAll(): Promise<Prescription[]> {
-    return await this.prescriptionRepository.find();
+    const prescriptions = await this.prescriptionRepository.find({
+      relations: ['client'], // Charge la relation avec Client
+    });
+    console.log('Prescriptions retournées :', prescriptions);
+    return prescriptions;
   }
+
+
 
   //Récupérer les prescriptions pour l'admin
   // Mettre à jour le statut d'une prescription

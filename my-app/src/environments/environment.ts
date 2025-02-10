@@ -11,6 +11,8 @@ export const environment = {
     orders: '/orders',
     auth: '/auth',
     users: '/users',
-    promotions:'/promotions'
+    promotions:'/promotions',
+    manufacturing: '/manufacturing',
+    paypal: '/paypal'
   }
 };
