@@ -1,71 +1,73 @@
 .profile-container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  font-family: Arial, sans-serif;
+  max-width: 600px; // Définit la largeur maximale du profil
+  margin: 0 auto; // Centre le conteneur horizontalement
+  padding: 20px; // Ajoute un espace intérieur autour du contenu
+  background-color: #ffffff; // Fond blanc pour une apparence propre
+  border-radius: 10px; // Bords arrondis pour un effet plus doux
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); // Ombre légère pour un effet de profondeur
+  font-family: Arial, sans-serif; // Police de caractères par défaut
 
   h2 {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: #333;
+    text-align: center; // Centre le titre
+    font-size: 2rem; // Agrandit la taille de la police
+    margin-bottom: 20px; // Espacement sous le titre
+    color: #333; // Couleur du texte
   }
 
+  // Section affichant la date de création du compte
   .account-created {
     margin-top: 2rem;
-    text-align: center;
-    font-size: 1rem;
-    background: #f8f9fa;
-    padding: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    color: #333;
+    text-align: center; // Centre le texte
+    font-size: 1rem; // Ajuste la taille du texte
+    background: #f8f9fa; // Fond légèrement gris pour contraster
+    padding: 1rem; // Ajoute un espacement intérieur
+    border-radius: 8px; // Bords arrondis pour uniformiser le design
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Ajoute une légère ombre
+    color: #333; // Couleur du texte
+
+    p {
+      margin: 0; // Supprime les marges par défaut du paragraphe
+      font-size: 1rem;
+    }
+
+    strong {
+      font-weight: bold;
+      color: #0066CC; // Met en avant la date avec un bleu distinctif
+    }
   }
 
-  .account-created p {
-    margin: 0;
-    font-size: 1rem;
-  }
-
-  .account-created strong {
-    font-weight: bold;
-    color: #0066CC; /* Met en avant la date */
-  }
-
-
-
+  // Informations du profil (nom, prénom, email, etc.)
   .profile-info {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 15px; // Ajoute un espacement entre les éléments
 
+    // Section contenant l'avatar du profil
     .avatar-container {
       display: flex;
-      justify-content: center;
+      justify-content: center; // Centre l'image d'avatar horizontalement
       margin-bottom: 15px;
 
       img {
         width: 120px;
         height: 120px;
-        border-radius: 50%;
-        border: 2px solid #007bff;
-        object-fit: cover;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 50%; // Rend l'image circulaire
+        border: 2px solid #007bff; // Ajoute une bordure bleue autour
+        object-fit: cover; // S'assure que l'image remplit bien son cadre
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Ajoute une ombre légère
       }
     }
 
+    // Groupes d'informations utilisateur
     .info-group {
       display: flex;
-      justify-content: space-between;
+      justify-content: space-between; // Aligne le texte et le label sur les côtés
       align-items: center;
       padding: 10px;
-      background-color: #f9f9f9;
+      background-color: #f9f9f9; // Fond gris clair pour distinguer les infos
       border-radius: 5px;
-      border: 1px solid #e0e0e0;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e0e0e0; // Ajoute une bordure subtile
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); // Ombre douce pour un effet 3D
 
       label {
         font-weight: bold;
@@ -80,9 +82,10 @@
       }
     }
 
+    // Bouton permettant de modifier le profil
     .edit-btn {
       display: block;
-      margin: 20px auto 0;
+      margin: 20px auto 0; // Centre le bouton
       padding: 12px 24px;
       background-color: #007bff;
       color: #fff;
@@ -93,22 +96,24 @@
       transition: background-color 0.3s ease;
 
       &:hover {
-        background-color: #0056b3;
+        background-color: #0056b3; // Change de couleur au survol
       }
     }
   }
 
+  // Formulaire de modification du profil
   .edit-form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 15px; // Ajoute un espacement entre les éléments du formulaire
 
+    // Groupes de champs dans le formulaire
     .form-group {
       display: flex;
       flex-direction: column;
 
       label {
-        margin-bottom: 5px;
+        margin-bottom: 5px; // Espacement entre le label et l'input
         font-weight: bold;
         color: #555;
         font-size: 0.9rem;
@@ -123,9 +128,9 @@
         transition: border-color 0.3s ease, box-shadow 0.3s ease;
 
         &:focus {
-          border-color: #007bff;
+          border-color: #007bff; // Change la couleur de la bordure en bleu
           outline: none;
-          box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+          box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); // Ajoute un effet lumineux
         }
       }
 
@@ -135,6 +140,7 @@
       }
     }
 
+    // Boutons d'action (Enregistrer et Annuler)
     .form-actions {
       display: flex;
       justify-content: space-between;
@@ -142,7 +148,7 @@
 
       .save-btn,
       .cancel-btn {
-        flex: 1;
+        flex: 1; // Ajuste la taille pour que les deux boutons aient la même largeur
         padding: 12px;
         font-size: 1rem;
         font-weight: bold;
@@ -152,14 +158,15 @@
         transition: background-color 0.3s ease, transform 0.2s ease;
 
         &:hover {
-          transform: translateY(-2px);
+          transform: translateY(-2px); // Légère élévation au survol
         }
 
         &:active {
-          transform: translateY(0);
+          transform: translateY(0); // Effet d'appui
         }
       }
 
+      // Bouton Enregistrer (vert)
       .save-btn {
         background-color: #28a745;
         color: #fff;
@@ -169,6 +176,7 @@
         }
       }
 
+      // Bouton Annuler (rouge)
       .cancel-btn {
         background-color: #dc3545;
         color: #fff;

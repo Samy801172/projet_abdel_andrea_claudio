@@ -1,33 +1,42 @@
 <div class="appointments-container">
-  <!-- En-tête -->
+  <!-- En-tête de la page -->
   <header class="page-header">
     <h2>Gestion des Rendez-vous</h2>
   </header>
 
-  <!-- Section En Attente -->
+  <!-- Section des rendez-vous en attente -->
   <section class="appointments-section">
     <h3>
       Rendez-vous en Attente
+      <!-- Affiche une notification avec le nombre de rendez-vous en attente -->
       <span *ngIf="getAppointmentsByStatus('en attente').length > 0" class="notification-badge">
-      {{ getAppointmentsByStatus('en attente').length }}
-    </span>
+        {{ getAppointmentsByStatus('en attente').length }}
+      </span>
     </h3>
+
+    <!-- Message affiché s'il n'y a aucun rendez-vous en attente -->
     <div *ngIf="getAppointmentsByStatus('en attente').length === 0" class="no-data">
       Aucun rendez-vous en attente
     </div>
+
+    <!-- Affichage des rendez-vous en attente -->
     <div *ngIf="getAppointmentsByStatus('en attente').length > 0" class="appointments-grid">
       <div *ngFor="let appointment of getAppointmentsByStatus('en attente')" class="appointment-card">
-        <!-- Contenu du rendez-vous -->
+        <!-- En-tête du rendez-vous -->
         <div class="appointment-header">
           <h4>Rendez-vous #{{ appointment.appointmentId }}</h4>
           <p>{{ appointment.appointmentDate | date: 'dd/MM/yyyy' }} à {{ appointment.time }}</p>
         </div>
+
+        <!-- Corps du rendez-vous avec les informations du client et du service -->
         <div class="appointment-body">
           <p><strong>Client :</strong> {{ appointment.client?.lastName }} {{ appointment.client?.firstName }}</p>
           <p><strong>Service :</strong> {{ appointment.service?.name }}</p>
           <p><strong>Note du client :</strong> {{ appointment.note || 'aucune'}}</p>
           <p class="status pending">Statut : En Attente</p>
         </div>
+
+        <!-- Actions disponibles pour chaque rendez-vous -->
         <div class="appointment-actions">
           <button class="confirm-btn" (click)="confirmAppointment(appointment)">
             Confirmer
@@ -40,27 +49,36 @@
     </div>
   </section>
 
-  <!-- Sections par statut -->
+  <!-- Section contenant toutes les catégories de rendez-vous -->
   <div class="appointments-sections">
-    <!-- Section Confirmé -->
+
+    <!-- Section des rendez-vous confirmés -->
     <section class="appointments-section">
       <h3>Rendez-vous Confirmés</h3>
+
+      <!-- Message affiché si aucun rendez-vous confirmé -->
       <div *ngIf="getAppointmentsByStatus('confirmé').length === 0" class="no-data">
         Aucun rendez-vous confirmé
       </div>
+
+      <!-- Liste des rendez-vous confirmés -->
       <div *ngIf="getAppointmentsByStatus('confirmé').length > 0" class="appointments-grid">
         <div *ngFor="let appointment of getAppointmentsByStatus('confirmé')" class="appointment-card">
-          <!-- Contenu du rendez-vous -->
+          <!-- En-tête du rendez-vous -->
           <div class="appointment-header">
             <h4>Rendez-vous #{{ appointment.appointmentId }}</h4>
             <p>{{ appointment.appointmentDate | date: 'dd/MM/yyyy' }} à {{ appointment.time }}</p>
           </div>
+
+          <!-- Détails du rendez-vous -->
           <div class="appointment-body">
             <p><strong>Client :</strong> {{ appointment.client?.lastName }} {{ appointment.client?.firstName }}</p>
             <p><strong>Service :</strong> {{ appointment.service?.name }}</p>
             <p><strong>Note du client :</strong> {{ appointment.note || 'aucune'}}</p>
             <p class="status confirmed">Statut : Confirmé</p>
           </div>
+
+          <!-- Actions disponibles -->
           <div class="appointment-actions">
             <button class="cancel-btn" (click)="cancelAppointment(appointment)">
               Annuler
@@ -73,25 +91,33 @@
       </div>
     </section>
 
-    <!-- Section Annulé -->
+    <!-- Section des rendez-vous annulés -->
     <section class="appointments-section">
       <h3>Rendez-vous Annulés</h3>
+
+      <!-- Message affiché si aucun rendez-vous annulé -->
       <div *ngIf="getAppointmentsByStatus('annulé').length === 0" class="no-data">
         Aucun rendez-vous annulé
       </div>
+
+      <!-- Liste des rendez-vous annulés -->
       <div *ngIf="getAppointmentsByStatus('annulé').length > 0" class="appointments-grid">
         <div *ngFor="let appointment of getAppointmentsByStatus('annulé')" class="appointment-card">
-          <!-- Contenu du rendez-vous -->
+          <!-- En-tête du rendez-vous -->
           <div class="appointment-header">
             <h4>Rendez-vous #{{ appointment.appointmentId }}</h4>
             <p>{{ appointment.appointmentDate | date: 'dd/MM/yyyy' }} à {{ appointment.time }}</p>
           </div>
+
+          <!-- Détails du rendez-vous -->
           <div class="appointment-body">
             <p><strong>Client :</strong> {{ appointment.client?.lastName }} {{ appointment.client?.firstName }}</p>
             <p><strong>Service :</strong> {{ appointment.service?.name }}</p>
             <p><strong>Note du client :</strong> {{ appointment.note || 'aucune' }}</p>
             <p class="status canceled">Statut : Annulé</p>
           </div>
+
+          <!-- Bouton de suppression uniquement -->
           <div class="appointment-actions">
             <button class="delete-btn" (click)="deleteAppointment(appointment)">
               Supprimer

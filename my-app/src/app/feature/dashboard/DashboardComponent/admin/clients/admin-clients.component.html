@@ -1,14 +1,19 @@
 <div class="admin-layout">
 
-  <!-- Main Content -->
+  <!-- Contenu principal de la page d'administration -->
   <main class="main-content">
+
+    <!-- Barre supérieure avec le titre de la page -->
     <header class="top-bar">
       <h1>Administration Ghoan Medic - Client</h1>
     </header>
 
     <div class="content">
 
+      <!-- Conteneur de la table des clients -->
       <div class="table-container">
+
+        <!-- Barre de filtres pour rechercher un client et filtrer par statut -->
         <div class="filter-bar">
           <input
             type="text"
@@ -23,6 +28,7 @@
           </select>
         </div>
 
+        <!-- Tableau des clients -->
         <table>
           <thead>
           <tr>
@@ -41,6 +47,7 @@
           <ng-container *ngFor="let client of filteredClients">
             <tr>
               <td>
+                <!-- Affichage de l'avatar du client, ou image par défaut -->
                 <img
                   [src]="PathUrl + client.avatar || 'assets/default.jpg'"
                   class="avatar-img"
@@ -52,13 +59,15 @@
               <td>{{ client.credential?.mail || 'Erreur' }}</td>
               <td>{{ client.address }}</td>
               <td>
+                <!-- Affichage du statut du client (banni ou en règle) -->
                 <span [ngClass]="{'text-red': client.credential.ban, 'text-green': !client.credential.ban}">
-                  {{ client.credential.ban ? 'Banni' : 'En règle' }}
-                </span>
+                    {{ client.credential.ban ? 'Banni' : 'En règle' }}
+                  </span>
               </td>
-              <td>{{client.credential.active ? 'actif' : 'désactivé'}}</td>
+              <td>{{ client.credential.active ? 'actif' : 'désactivé' }}</td>
               <td>{{ client.credential.isAdmin ? 'Oui' : 'Non' }}</td>
               <td class="actions">
+                <!-- Actions disponibles pour chaque client -->
                 <button class="edit" (click)="openEditClientModal(client)">
                   <i class="fas fa-edit"></i> Modifier
                 </button>
@@ -87,12 +96,13 @@
     </div>
   </main>
 
-  <!-- Fenêtre modale pour les commandes -->
+  <!-- Fenêtre modale pour afficher les commandes d'un client -->
   <div class="modal" *ngIf="isModalOpen">
     <div class="modal-content">
       <span class="close" (click)="closeModal()">&times;</span>
       <h2>Commandes de {{ selectedClient?.firstName }} {{ selectedClient?.lastName }}</h2>
 
+      <!-- Affichage des commandes du client -->
       <table class="orders-table" *ngIf="selectedClientOrders.length > 0">
         <thead>
         <tr>
@@ -108,6 +118,7 @@
           <td>{{ order.date_order | date: 'dd/MM/yyyy' }}</td>
           <td>{{ order.montant_total | currency: 'EUR' }}</td>
           <td>
+            <!-- Affichage du statut de la commande avec une conversion -->
             {{ order.id_statut === 1 ? 'Pending' :
             order.id_statut === 2 ? 'Paid' :
               order.id_statut === 3 ? 'Processing' :
@@ -120,19 +131,21 @@
         </tbody>
       </table>
 
+      <!-- Message si aucune commande n'a été trouvée -->
       <p *ngIf="selectedClientOrders.length === 0">
         Aucune commande trouvée.
       </p>
     </div>
   </div>
 
-  <!-- Fenêtre modale pour l'édition -->
+  <!-- Fenêtre modale pour modifier les informations d'un client -->
   <div class="modal" *ngIf="isEditModalOpen">
     <div class="modal-content">
       <span class="close" (click)="closeEditModal()">&times;</span>
       <h2>Modifier le client</h2>
       <p>{{ selectedClient?.firstName }} {{ selectedClient?.lastName }}</p>
 
+      <!-- Formulaire pour éditer les informations d'un client -->
       <form (ngSubmit)="saveClientEdits()" class="edit-form">
         <div class="form-group">
           <label for="firstName">Prénom :</label>
@@ -165,6 +178,7 @@
           ></textarea>
         </div>
 
+        <!-- Boutons d'action pour enregistrer ou annuler -->
         <div class="modal-actions">
           <button type="button" class="btn cancel" (click)="closeEditModal()">Annuler</button>
           <button type="submit" class="btn save">Enregistrer</button>

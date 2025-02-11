@@ -1,58 +1,58 @@
-// feature/Dashboard/DashboardComponent/client/profile/client-profile.component.ts
-import { Component, OnInit } from '@angular/core';
+// Importations nécessaires pour le composant
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ClientService } from '../../../../../services';
 import { Client } from '../../../../../models/client/client.model';
 import { User } from '../../../../../models/user/user.model';
-import { ChangeDetectorRef } from '@angular/core';
 import { NotificationService } from '../../../../../services/notification/notification.service';
 import { Router, RouterModule } from '@angular/router';
-import {createMessageDiagnostic} from "@angular/compiler-cli/src/transformers/util";
 
-
+// Interface étendant Client pour inclure User
 interface ClientWithUser extends Client {
-  user: User; // On force le user à être non-null
+  user: User; // On force 'user' à être non-null
 }
 
 @Component({
-  selector: 'app-client-profile',
-  standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
-  templateUrl: 'client-profile.component.html',
-  styleUrl : 'client-profile.component.scss'
+  selector: 'app-client-profile', // Sélecteur du composant
+  standalone: true, // Permet d'utiliser ce composant indépendamment d'un module
+  imports: [CommonModule, FormsModule, RouterModule], // Modules nécessaires
+  templateUrl: 'client-profile.component.html', // Lien vers le fichier HTML
+  styleUrl: 'client-profile.component.scss' // Lien vers le fichier SCSS
 })
 export class ClientProfileComponent implements OnInit {
-  //client: ClientWithUser | null = null;
-  client: any;
-  editMode = false;
-  editForm: any = {}; // Initialisation de l'objet utilisé pour l'édition
-  credential: string | null = localStorage.getItem("clientId");
-  baseUrl: string = "http://localhost:2024";
-  avatar: string = ""; // URL de l'avatar actuel
+  client: any; // Stocke les informations du client
+  editMode = false; // Détermine si le mode édition est activé
+  editForm: any = {}; // Objet utilisé pour l'édition du profil
+  credential: string | null = localStorage.getItem("clientId"); // Récupération de l'ID du client
+  baseUrl: string = "http://localhost:2024"; // URL de base du serveur
+  avatar: string = ""; // Stocke l'URL de l'avatar du client
 
-  constructor(private clientService: ClientService,
-              private cdr: ChangeDetectorRef,
-              private notification: NotificationService,
-              private router: Router
+  constructor(
+    private clientService: ClientService, // Service client pour les requêtes API
+    private cdr: ChangeDetectorRef, // Permet de détecter les changements manuellement
+    private notification: NotificationService, // Service pour afficher des notifications
+    private router: Router // Service de navigation Angular
   ) {}
 
   ngOnInit(): void {
-    this.loadProfile();
+    this.loadProfile(); // Charge le profil du client au démarrage
   }
 
-  // charge le profile de l'utilisateur (Claudio)
+  /**
+   * Charge le profil du client en utilisant son ID.
+   */
   loadProfile(): void {
     if (this.credential == null) {
       console.warn('Credential non défini, impossible de charger le profil.');
-      console.log(this.credential);
       return;
     }
+
     this.clientService.getClientProfile(Number(this.credential)).subscribe({
       next: (data) => {
-        this.client = data;
-        this.editForm = { ...this.client }; // Copie les données du client dans editForm
-        this.avatar = this.client.avatar;
+        this.client = data; // Stocke les données du client
+        this.editForm = { ...this.client }; // Copie les données du client dans editForm pour modification
+        this.avatar = this.client.avatar; // Stocke l'avatar du client
       },
       error: (error) => {
         console.error('Erreur chargement profil :', error);
@@ -61,46 +61,52 @@ export class ClientProfileComponent implements OnInit {
     });
   }
 
-  // Upload de l'avatar
+  /**
+   * Gère l'upload d'un avatar.
+   */
   onAvatarSelected(event: Event) {
     const input = event.target as HTMLInputElement;
+
     if (input.files && input.files.length > 0) {
-      const file = input.files[0];
+      const file = input.files[0]; // Récupère le fichier sélectionné
       console.log('Fichier sélectionné :', file);
 
-      // Appel du service pour uploader l'avatar
+      // Envoi du fichier au serveur pour mise à jour de l'avatar
       this.clientService.uploadAvatar(this.client.clientId, file).subscribe({
         next: (response) => {
           console.log('Réponse de l\'upload :', response);
 
-          // Vérifiez si avatarPath existe dans la réponse
-            this.avatar = response.avatarPath;
-          console.log('Ayaaaaaaaa :', response);
-            console.log('Avatar mis à jour :', this.avatar);
-
+          // Vérification de la présence de l'avatar dans la réponse
+          this.avatar = response.avatarPath;
+          console.log('Avatar mis à jour :', this.avatar);
         },
         error: (err) => {
           console.error('Erreur lors de l\'upload de l\'avatar :', err);
+          this.notification.error('Erreur lors du téléchargement de l\'avatar.');
         },
       });
     }
   }
 
-  // Pour mettre à jour le profile
+  /**
+   * Met à jour le profil du client.
+   */
   updateProfile(): void {
     if (this.client && this.editForm) {
-      // Appel du service pour mettre à jour le profil
+      // Appel API pour mettre à jour les informations du client
       this.clientService.updateProfile(this.client.clientId, this.editForm).subscribe({
         next: (updatedClient: any) => {
           if (updatedClient && updatedClient.user) {
-            this.client = updatedClient; // Mise à jour de l'objet client
+            this.client = updatedClient; // Mise à jour des données du client
             this.editMode = false; // Désactivation du mode édition
           }
-          // Ajout d'un délai avant de recharger la page
+
+          // Ajout d'un délai avant rechargement de la page
           setTimeout(() => {
-            window.location.reload(); // Actualiser la page
-          }, 1000); // après 1 seconde
-          this.notification.success('Profile mis à jour avec succès !');
+            window.location.reload(); // Recharge la page après 1 seconde
+          }, 1000);
+
+          this.notification.success('Profil mis à jour avec succès !');
           console.log(this.avatar);
         },
         error: (error) => {
@@ -109,9 +115,9 @@ export class ClientProfileComponent implements OnInit {
         }
       });
 
-      // Navigation après soumission
+      // Redirection après soumission du formulaire
       this.router.navigate(['/client/profile']);
-      console.log('vers profiles');
+      console.log('Redirection vers le profil.');
     }
   }
 }

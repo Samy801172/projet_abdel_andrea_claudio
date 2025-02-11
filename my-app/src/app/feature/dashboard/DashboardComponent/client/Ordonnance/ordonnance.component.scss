@@ -1,21 +1,22 @@
 .upload-prescription-container {
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 20px;
-  background: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  max-width: 600px; // Largeur maximale du conteneur
+  margin: 20px auto; // Centre l'élément horizontalement avec un espace en haut et en bas
+  padding: 20px; // Ajoute un padding intérieur pour l'espacement
+  background: #ffffff; // Fond blanc pour un style propre et moderne
+  border-radius: 8px; // Coins arrondis pour une meilleure esthétique
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Ombre légère pour un effet de profondeur
+  text-align: center; // Centre le texte dans le conteneur
 
   h2, h3 {
-    color: #333;
-    margin-bottom: 20px;
+    color: #333; // Texte en gris foncé pour un bon contraste
+    margin-bottom: 20px; // Ajoute un espace sous les titres
   }
 
+  // Bouton pour afficher/masquer le formulaire d'upload
   .toggle-form-btn {
-    width: 100%;
+    width: 100%; // Le bouton prend toute la largeur du conteneur
     padding: 10px;
-    background-color: #28a745;
+    background-color: #28a745; // Vert pour indiquer une action positive
     color: white;
     border: none;
     border-radius: 4px;
@@ -24,40 +25,41 @@
     transition: background-color 0.3s;
 
     &:hover {
-      background-color: #218838;
+      background-color: #218838; // Assombrit la couleur au survol
     }
   }
 
+  // Style du formulaire d'upload
   form {
     display: flex;
     flex-direction: column;
     margin-top: 20px;
     padding: 15px;
-    background: #f9f9f9;
+    background: #f9f9f9; // Fond gris clair pour différencier du reste du conteneur
     border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); // Ombre pour une légère élévation visuelle
 
     .form-group {
-      margin-bottom: 15px;
-      text-align: left;
+      margin-bottom: 15px; // Espacement entre chaque champ
+      text-align: left; // Aligne le texte à gauche
 
       label {
         display: block;
         margin-bottom: 5px;
         font-weight: bold;
-        color: #555;
+        color: #555; // Gris moyen pour une meilleure lisibilité
       }
 
       input {
-        width: 100%;
+        width: 100%; // Le champ prend toute la largeur
         padding: 10px;
-        border: 1px solid #ddd;
+        border: 1px solid #ddd; // Bordure grise discrète
         border-radius: 4px;
       }
     }
 
     button {
-      background-color: #007bff;
+      background-color: #007bff; // Bleu principal pour les boutons
       color: white;
       padding: 10px;
       border: none;
@@ -66,36 +68,38 @@
       transition: background-color 0.3s;
 
       &:hover {
-        background-color: #0056b3;
+        background-color: #0056b3; // Assombrit la couleur au survol
       }
 
       &:disabled {
-        background-color: #ccc;
+        background-color: #ccc; // Désactive le bouton si aucune ordonnance n'est sélectionnée
         cursor: not-allowed;
       }
     }
   }
 
+  // Conteneur pour la liste des ordonnances déjà uploadées
   .uploaded-prescriptions-container {
     margin-top: 30px;
-    text-align: left;
+    text-align: left; // Alignement à gauche du texte
 
     ul {
-      list-style: none;
+      list-style: none; // Supprime les puces de la liste
       padding: 0;
 
       li {
-        background: #f9f9f9;
+        background: #f9f9f9; // Fond gris clair pour chaque élément
         padding: 15px;
-        margin-bottom: 10px;
+        margin-bottom: 10px; // Espacement entre chaque ordonnance
         border-radius: 4px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Ombre légère pour démarquer chaque élément
       }
     }
   }
 
+  // Style des liens vers les ordonnances
   a {
-    color: #007bff;
+    color: #007bff; // Bleu principal
     font-weight: bold;
     text-decoration: none;
     padding: 5px 10px;
@@ -104,15 +108,16 @@
 
     &:hover {
       color: white;
-      background-color: #007bff;
+      background-color: #007bff; // Inverse les couleurs au survol
       text-decoration: none;
     }
 
     &:active {
-      background-color: #0056b3;
+      background-color: #0056b3; // Assombrit le fond lorsque le lien est cliqué
     }
   }
 
+  // Indicateur de statut des ordonnances
   .status {
     display: inline-block;
     padding: 5px 10px;
@@ -120,31 +125,31 @@
     font-weight: bold;
     border-radius: 4px;
     text-align: center;
-    width: 120px;
+    width: 120px; // Largeur fixe pour uniformiser les statuts
   }
 
+  // Différents styles pour les statuts d'ordonnance
   .PENDING {
-    background-color: #fff3cd;
-    color: #856404;
-    border: 1px solid #ffeeba;
+    background-color: #fff3cd; // Fond jaune pâle
+    color: #856404; // Texte marron foncé pour un bon contraste
+    border: 1px solid #ffeeba; // Bordure jaune plus foncée
   }
 
   .VERIFIED {
-    background-color: #d4edda;
-    color: #155724;
+    background-color: #d4edda; // Fond vert clair
+    color: #155724; // Texte vert foncé pour une bonne lisibilité
     border: 1px solid #c3e6cb;
   }
 
   .REJECTED {
-    background-color: #f8d7da;
-    color: #721c24;
+    background-color: #f8d7da; // Fond rouge clair
+    color: #721c24; // Texte rouge foncé
     border: 1px solid #f5c6cb;
   }
 
   .EXPIRED {
-    background-color: #e2e3e5;
-    color: #6c757d;
+    background-color: #e2e3e5; // Fond gris clair
+    color: #6c757d; // Texte gris foncé
     border: 1px solid #d6d8db;
   }
-
 }

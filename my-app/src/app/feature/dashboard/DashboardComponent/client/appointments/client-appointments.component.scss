@@ -1,56 +1,51 @@
 .appointments-container {
-  font-family: 'Roboto', sans-serif;
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 20px;
-  background: linear-gradient(to right, #f8f9fa, #ffffff);
-  border-radius: 15px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  font-family: 'Roboto', sans-serif; // Utilisation de la police Roboto pour un style moderne
+  max-width: 1000px; // Largeur maximale pour éviter que le contenu soit trop étendu
+  margin: 0 auto; // Centre le conteneur horizontalement
+  padding: 20px; // Espacement intérieur pour éviter que le contenu soit collé aux bords
+  background: linear-gradient(to right, #f8f9fa, #ffffff); // Dégradé léger pour un design moderne
+  border-radius: 15px; // Coins arrondis pour une meilleure esthétique
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); // Ombre pour donner du relief au conteneur
 }
 
+// En-tête de la section des rendez-vous
 .appointments-header {
-  text-align: center;
-  margin-bottom: 30px;
+  text-align: center; // Centre le texte dans l'en-tête
+  margin-bottom: 30px; // Espacement sous l'en-tête
 }
 
-.subtitle {
-  font-size: 14px;
-  color: #555;
+// Texte sous-titre pour donner des indications supplémentaires
+.subtitle,
+.form-instructions {
+  font-size: 14px; // Taille plus petite pour donner moins d'importance
+  color: #555; // Gris foncé pour une meilleure lisibilité
   margin-bottom: 20px;
 }
 
-.big-title {
-  font-size: 28px;
-  color: #555;
-  margin-bottom: 20px;
-}
-
+// Titres principaux et secondaires
+.big-title,
 .title2 {
   font-size: 28px;
   color: #555;
   margin-bottom: 20px;
 }
 
-.form-instructions {
-  font-size: 14px;
-  color: #555;
-  margin-bottom: 20px;
-}
-
+// Bouton pour ajouter un nouveau rendez-vous
 .new-appointment-btn {
-  background: #007bff;
+  background: #007bff; // Bleu principal
   color: white;
   padding: 12px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background 0.3s;
+
+  &:hover {
+    background: #0056b3; // Assombrit la couleur au survol
+  }
 }
 
-.new-appointment-btn:hover {
-  background: #0056b3;
-}
-
+// Conteneur du formulaire de prise de rendez-vous
 .appointment-form {
   background: #ffffff;
   padding: 20px;
@@ -59,57 +54,62 @@
   margin-bottom: 30px;
 }
 
-.form-group label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
+// Groupes d'entrée de formulaire
+.form-group {
+  label {
+    display: block; // Affiche les labels en bloc pour qu'ils soient au-dessus des inputs
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%; // Les champs prennent toute la largeur disponible
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ddd;
+// Boutons du formulaire
+.submit-btn,
+.cancel-btn {
+  padding: 10px 15px;
+  border: none;
   border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
 }
 
 .submit-btn {
-  background: #28a745;
+  background: #28a745; // Vert pour valider l'envoi du formulaire
   color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
 
-.submit-btn:hover {
-  background: #218838;
+  &:hover {
+    background: #218838;
+  }
 }
 
 .cancel-btn {
-  background: #dc3545;
+  background: #dc3545; // Rouge pour annuler
   color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s;
   margin-left: 20px;
+
+  &:hover {
+    background: #c82333;
+  }
 }
 
-.cancel-btn:hover {
-  background: #c82333;
-}
-
+// Grille des rendez-vous
 .appointments-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); // Adapte les colonnes en fonction de la largeur disponible
   gap: 20px;
 }
 
+// Carte individuelle pour chaque rendez-vous
 .appointment-card {
   background: white;
   padding: 15px;
@@ -117,47 +117,54 @@
   border: 1px solid #ddd;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s;
+
+  &:hover {
+    transform: scale(1.02); // Effet d'agrandissement au survol
+  }
 }
 
-.asterix{
+// Petit texte informatif (ex : note pour les champs obligatoires)
+.asterix {
   font-size: 12px;
   color: gray;
   margin-top: 20px;
 }
 
-.appointment-card:hover {
-  transform: scale(1.02);
+// Actions disponibles sur chaque rendez-vous
+.appointment-actions {
+  button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
 }
 
-.appointment-actions button {
-  padding: 8px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
+// Bouton pour modifier un rendez-vous
 .edit-btn {
   background: darkorange;
   color: white;
+
+  &:hover {
+    background: #e0a800;
+  }
 }
 
-.edit-btn:hover {
-  background: #e0a800;
-}
-
+// Statuts des rendez-vous
 .text-pending {
-  color: #f59e0b;
+  color: #f59e0b; // Orange pour un rendez-vous en attente
 }
 
 .text-canceled {
-  color: #dc2626;
+  color: #dc2626; // Rouge pour un rendez-vous annulé
 }
 
 .text-confirmed {
-  color: #16a34a;
+  color: #16a34a; // Vert pour un rendez-vous confirmé
 }
 
+// Message affiché si aucun rendez-vous n'est disponible
 .no-data {
   text-align: center;
   font-size: 16px;

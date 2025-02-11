@@ -1,14 +1,24 @@
 <div class="admin-prescriptions-container">
+  <!-- Titre principal de la section -->
   <h2>Gestion des Ordonnances</h2>
 
+  <!-- Vérifie si la liste des ordonnances est non vide -->
   <div *ngIf="prescriptions.length > 0; else noPrescriptions" class="prescriptions-list">
+
+    <!-- Parcours de la liste des ordonnances et affichage de chaque ordonnance -->
     <div *ngFor="let prescription of prescriptions" class="prescription-card">
+
+      <!-- En-tête de la carte contenant l'ID et le statut -->
       <div class="card-header">
         <h3>Ordonnance #{{ prescription.id_prescription }}</h3>
+
+        <!-- Affichage du statut avec une classe CSS dynamique pour le style -->
         <span class="status" [ngClass]="prescription.status">
           {{ getStatusLabel(prescription.status) }}
         </span>
       </div>
+
+      <!-- Corps de la carte affichant les informations de l'ordonnance -->
       <div class="card-body">
         <p>
           <strong>Client :</strong>
@@ -17,7 +27,11 @@
         <p><strong>Prescrit par :</strong> {{ prescription.prescribed_by }}</p>
         <p><strong>Détails :</strong> {{ prescription.medication_details }}</p>
       </div>
+
+      <!-- Pied de carte contenant les boutons d'action -->
       <div class="card-footer">
+
+        <!-- Bouton pour valider une ordonnance (disponible uniquement si le statut est 'PENDING') -->
         <button
           *ngIf="prescription.status === 'PENDING'"
           class="btn btn-success"
@@ -25,6 +39,8 @@
         >
           <i class="fas fa-check"></i> Valider
         </button>
+
+        <!-- Bouton pour rejeter une ordonnance (disponible uniquement si le statut est 'PENDING') -->
         <button
           *ngIf="prescription.status === 'PENDING'"
           class="btn btn-danger"
@@ -33,10 +49,11 @@
           <i class="fas fa-times"></i> Rejeter
         </button>
       </div>
+
     </div>
   </div>
 
-  <!-- Message si aucune ordonnance -->
+  <!-- Message affiché si aucune ordonnance n'est disponible -->
   <ng-template #noPrescriptions>
     <p class="no-prescriptions-message">Aucune ordonnance à afficher.</p>
   </ng-template>

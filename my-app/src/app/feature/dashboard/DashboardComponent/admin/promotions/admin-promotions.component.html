@@ -1,5 +1,7 @@
-<!-- admin-promotions.component.html -->
+<!-- Conteneur principal pour la gestion des promotions -->
 <div class="admin-promotions">
+
+  <!-- En-tête de la section avec le titre et un bouton pour afficher/cacher le formulaire -->
   <div class="header">
     <h1>Gestion des Promotions</h1>
     <button (click)="toggleForm()" class="btn btn-primary">
@@ -7,36 +9,46 @@
     </button>
   </div>
 
+  <!-- Formulaire d'ajout/modification d'une promotion, affiché uniquement si showAddForm est vrai -->
   <div *ngIf="showAddForm" class="form-container">
     <h2>{{ editingPromotion ? 'Modifier' : 'Créer' }} une Promotion</h2>
     <form (ngSubmit)="onSubmit()">
+
+      <!-- Champ pour la description de la promotion -->
       <div class="form-group">
         <label>Description :</label>
         <input type="text" [(ngModel)]="currentPromotion.description" name="description" class="form-control" required>
       </div>
 
+      <!-- Champ pour la date de début de la promotion -->
       <div class="form-group">
         <label>Date de début :</label>
         <input type="date" [(ngModel)]="currentPromotion.startDate" name="startDate" class="form-control" required>
       </div>
 
+      <!-- Champ pour la date de fin de la promotion -->
       <div class="form-group">
         <label>Date de fin :</label>
         <input type="date" [(ngModel)]="currentPromotion.endDate" name="endDate" class="form-control" required>
       </div>
 
+      <!-- Champ pour le pourcentage de réduction -->
       <div class="form-group">
         <label>Réduction (%) :</label>
         <input type="number" [(ngModel)]="currentPromotion.discountPercentage" name="discountPercentage" min="0" max="100" class="form-control" required>
       </div>
 
+      <!-- Boutons d'action : soumission ou annulation -->
       <div class="form-actions">
-        <button type="submit" class="btn btn-success">{{ editingPromotion ? 'Mettre à jour' : 'Créer' }}</button>
+        <button type="submit" class="btn btn-success">
+          {{ editingPromotion ? 'Mettre à jour' : 'Créer' }}
+        </button>
         <button type="button" (click)="cancelEdit()" class="btn btn-danger">Annuler</button>
       </div>
     </form>
   </div>
 
+  <!-- Tableau des promotions existantes -->
   <table class="table promotions-table">
     <thead>
     <tr>
@@ -49,12 +61,19 @@
     </tr>
     </thead>
     <tbody>
+    <!-- Boucle sur la liste des promotions et affiche chaque ligne -->
     <tr *ngFor="let promo of promotions">
       <td>{{ promo.description }}</td>
       <td>{{ promo.startDate | date }}</td>
       <td>{{ promo.endDate | date }}</td>
       <td>{{ promo.discountPercentage }}%</td>
-      <td [class.active]="isActive(promo)"> {{ isActive(promo) ? 'Active' : 'Inactif' }} </td>
+
+      <!-- Affichage du statut avec une classe conditionnelle -->
+      <td [class.active]="isActive(promo)">
+        {{ isActive(promo) ? 'Active' : 'Inactif' }}
+      </td>
+
+      <!-- Boutons pour modifier ou supprimer une promotion -->
       <td>
         <button (click)="editPromotion(promo)" class="btn btn-warning">Modifier</button>
         <button (click)="deletePromotion(promo.id_promotion)" class="btn btn-danger">Supprimer</button>

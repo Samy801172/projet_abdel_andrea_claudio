@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AppointmentsService } from '../../../../../services/appointment/appointment.service';
 import { ServiceService } from '../../../../../services/Service/service.service';
-import { DatePipe } from '@angular/common';
-import { CommonModule } from '@angular/common';
-import {AppointmentStatus} from "../../../../../models/Appointment/appointment-types";
-import {Appointment} from "../../../../../models/Appointment/appointment.model";
+import { DatePipe, CommonModule } from '@angular/common';
+import { AppointmentStatus } from "../../../../../models/Appointment/appointment-types";
+import { Appointment } from "../../../../../models/Appointment/appointment.model";
 import { NotificationService } from '../../../../../services/notification/notification.service';
 
 // Interface représentant un service
@@ -16,28 +15,30 @@ interface Service {
 }
 
 @Component({
-  selector: 'app-appointments',
-  templateUrl: './client-appointments.component.html',
-  styleUrls: ['./client-appointments.component.scss'],
-  imports: [ReactiveFormsModule, DatePipe, CommonModule],
-  standalone: true,
+  selector: 'app-appointments', // Nom du composant Angular
+  templateUrl: './client-appointments.component.html', // Fichier HTML associé
+  styleUrls: ['./client-appointments.component.scss'], // Fichier CSS associé
+  imports: [ReactiveFormsModule, DatePipe, CommonModule], // Modules Angular nécessaires
+  standalone: true, // Permet d'utiliser ce composant indépendamment d'un module
 })
 export class ClientAppointmentsComponent implements OnInit {
-  appointments: Appointment[] = [];
-  services: Service[] = [];
-  availableTimeSlots: string[] = [];
-  appointmentForm: FormGroup;
-  showAddForm: boolean = false;
-  editingAppointment: Appointment | null = null;
-  minDate: string = new Date().toISOString().split('T')[0];
-  clientId: string | null = localStorage.getItem('clientId');
+  appointments: Appointment[] = []; // Liste des rendez-vous récupérés depuis l'API
+  services: Service[] = []; // Liste des services disponibles
+  availableTimeSlots: string[] = []; // Liste des créneaux horaires disponibles
+
+  appointmentForm: FormGroup; // Formulaire pour la prise de rendez-vous
+  showAddForm: boolean = false; // Contrôle l'affichage du formulaire
+  editingAppointment: Appointment | null = null; // Stocke le rendez-vous en cours d'édition
+  minDate: string = new Date().toISOString().split('T')[0]; // Définit la date minimale pour empêcher les dates passées
+  clientId: string | null = localStorage.getItem('clientId'); // Récupère l'ID du client connecté
 
   constructor(
-    private fb: FormBuilder,
-    private appointmentService: AppointmentsService,
-    private serviceService: ServiceService,
-    private notificationService: NotificationService,
+    private fb: FormBuilder, // FormBuilder pour simplifier la gestion des formulaires
+    private appointmentService: AppointmentsService, // Service de gestion des rendez-vous
+    private serviceService: ServiceService, // Service de gestion des services
+    private notificationService: NotificationService, // Service pour les notifications
   ) {
+    // Initialisation du formulaire avec des validations
     this.appointmentForm = this.fb.group({
       serviceId: ['', Validators.required],
       appointmentDate: ['', Validators.required],
@@ -47,16 +48,21 @@ export class ClientAppointmentsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadAppointments();
-    this.loadServices();
+    this.loadAppointments(); // Charge les rendez-vous existants
+    this.loadServices(); // Charge les services disponibles
   }
 
+  // Ouvre ou ferme le formulaire d'ajout/modification d'un rendez-vous
   toggleAddForm(): void {
     this.showAddForm = !this.showAddForm;
-    if (!this.showAddForm) this.resetForm();
-    else this.generateTimeSlots();
+    if (!this.showAddForm) {
+      this.resetForm(); // Réinitialise le formulaire en cas de fermeture
+    } else {
+      this.generateTimeSlots(); // Génère les créneaux horaires disponibles
+    }
   }
 
+  // Charge tous les rendez-vous du client connecté
   loadAppointments(): void {
     const idClient = Number(this.clientId);
     if (isNaN(idClient)) {
@@ -65,55 +71,53 @@ export class ClientAppointmentsComponent implements OnInit {
     }
 
     this.appointmentService.getAll(idClient).subscribe({
-      next: (data: Appointment[]) => (this.appointments = data),
+      next: (data: Appointment[]) => this.appointments = data, // Stocke les rendez-vous récupérés
       error: (err) => console.error('Erreur lors du chargement des rendez-vous :', err),
     });
   }
 
+  // Charge tous les services disponibles
   loadServices(): void {
     this.serviceService.getAllServices().subscribe((data: Service[]) => {
       this.services = data;
     });
   }
 
+  // Confirmation avant d'annuler un rendez-vous
   confirmCancel(appointment: Appointment): void {
-    // Affiche une boîte de confirmation
     const confirmation = window.confirm('Êtes-vous sûr de vouloir annuler ce rendez-vous ?');
 
     if (confirmation) {
-      // Action à effectuer si l'utilisateur confirme
-      console.log('Rendez-vous annulé.');
-      // @ts-ignore
       this.cancelAppointment(appointment);
     } else {
-      // Action si l'utilisateur annule
       console.log('Annulation de rendez-vous annulée.');
     }
   }
 
-// Fonction pour annuler le rendez-vous
+  // Annule un rendez-vous en modifiant son statut
   cancelAppointment(appointment: Appointment): void {
     const updatedAppointment: Appointment = {
       ...appointment,
       status: AppointmentStatus.Canceled,
     };
+
     this.appointmentService.update(appointment.appointmentId!, updatedAppointment).subscribe(() => {
-      this.loadAppointments();
+      this.loadAppointments(); // Recharge la liste des rendez-vous après l'annulation
     });
   }
 
-
+  // Génère les créneaux horaires disponibles
   generateTimeSlots(): void {
     const slots: string[] = [];
     const startHour = 10; // Heure de début : 10h
     const endHour = 16; // Heure de fin : 16h30
 
-    // Générer les créneaux horaires
+    // Générer des créneaux horaires toutes les 30 minutes
     for (let hour = startHour; hour <= endHour; hour++) {
       slots.push(`${hour}:00`, `${hour}:30`);
     }
 
-    // Exclure les créneaux horaires déjà pris
+    // Exclure les créneaux horaires déjà réservés pour la date sélectionnée
     const selectedDate = this.appointmentForm.get('appointmentDate')?.value;
 
     if (selectedDate) {
@@ -124,30 +128,28 @@ export class ClientAppointmentsComponent implements OnInit {
       // Filtrer les créneaux disponibles
       this.availableTimeSlots = slots.filter((slot) => !takenSlots.includes(slot));
     } else {
-      this.availableTimeSlots = slots; // Aucun créneau exclu si la date n'est pas sélectionnée
+      this.availableTimeSlots = slots; // Aucun créneau exclu si aucune date n'est sélectionnée
     }
   }
 
-
+  // Soumission du formulaire pour créer ou mettre à jour un rendez-vous
   submitAppointment(): void {
-    if (!this.appointmentForm.valid) return;
-
-    const formValue = this.appointmentForm.value;
+    if (!this.appointmentForm.valid) return; // Vérifie si le formulaire est valide
 
     const appointmentData: Appointment = {
-      appointmentId: this.editingAppointment?.appointmentId, // Assurez-vous d'inclure l'ID pour un update
+      appointmentId: this.editingAppointment?.appointmentId, // Inclut l'ID en cas de mise à jour
       appointmentDate: this.appointmentForm.get('appointmentDate')?.value,
       time: this.appointmentForm.get('time')?.value,
-      serviceId: Number(this.appointmentForm.get('serviceId')?.value), // Convertir en nombre
-      clientId: Number(localStorage.getItem('clientId')), // Convertir en nombre
+      serviceId: Number(this.appointmentForm.get('serviceId')?.value), // Convertit en nombre
+      clientId: Number(localStorage.getItem('clientId')), // Convertit en nombre
       status: 'en attente',
-      note: this.appointmentForm.get('note')?.value || '', // Vérifiez si "note" est bien pris en compte
+      note: this.appointmentForm.get('note')?.value || '', // Définit une note vide si non renseignée
     };
 
     console.log('Données envoyées :', appointmentData);
 
     if (this.editingAppointment) {
-      console.log(appointmentData.appointmentDate);
+      // Mise à jour d'un rendez-vous existant
       this.appointmentService.update(this.editingAppointment.appointmentId!, appointmentData).subscribe({
         next: () => {
           this.loadAppointments();
@@ -156,6 +158,7 @@ export class ClientAppointmentsComponent implements OnInit {
         error: (err) => console.error('Erreur lors de la modification du rendez-vous.', err),
       });
     } else {
+      // Création d'un nouveau rendez-vous
       this.appointmentService.create(appointmentData).subscribe({
         next: () => {
           this.loadAppointments();
@@ -166,7 +169,7 @@ export class ClientAppointmentsComponent implements OnInit {
     }
   }
 
-
+  // Pré-remplit le formulaire pour modifier un rendez-vous existant
   editAppointment(appointment: Appointment): void {
     this.editingAppointment = appointment;
     this.appointmentForm.patchValue({
@@ -178,6 +181,7 @@ export class ClientAppointmentsComponent implements OnInit {
     this.toggleAddForm();
   }
 
+  // Met à jour les créneaux horaires disponibles lorsqu'une date est sélectionnée
   onDateChange(): void {
     const selectedDate = this.appointmentForm.get('appointmentDate')?.value;
     if (selectedDate) {
@@ -188,6 +192,7 @@ export class ClientAppointmentsComponent implements OnInit {
     }
   }
 
+  // Réinitialise le formulaire et annule l'édition
   resetForm(): void {
     this.editingAppointment = null;
     this.appointmentForm.reset();

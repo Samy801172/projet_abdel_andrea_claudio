@@ -1,94 +1,108 @@
+/* Conteneur principal des promotions */
 .admin-promotions {
   padding: 20px;
-  background-color: #f8f9fa;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #f8f9fa; /* Fond gris clair */
+  border-radius: 10px; /* Coins arrondis */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Ombre légère */
 }
 
+/* En-tête contenant le titre et le bouton d'ajout */
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+  display: flex; /* Disposition en ligne */
+  justify-content: space-between; /* Espace entre le titre et le bouton */
+  align-items: center; /* Alignement vertical */
+  margin-bottom: 20px; /* Espacement sous l'en-tête */
 }
 
+/* Style du titre principal */
 h1 {
   margin: 0;
-  font-size: 1.8rem;
-  color: #343a40;
+  font-size: 1.8rem; /* Taille du texte */
+  color: #343a40; /* Couleur gris foncé */
 }
 
+/* Boutons généraux */
 .btn {
   padding: 10px 15px;
   font-size: 1rem;
-  border-radius: 5px;
+  border-radius: 5px; /* Coins arrondis */
 }
 
+/* Conteneur du formulaire */
 .form-container {
-  background: #ffffff;
+  background: #ffffff; /* Fond blanc */
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-  margin-bottom: 30px;
+  border-radius: 8px; /* Coins arrondis */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Ombre légère */
+  margin-bottom: 30px; /* Espacement sous le formulaire */
 }
 
+/* Groupe de champs du formulaire */
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 15px; /* Espacement entre les champs */
 }
 
+/* Labels des champs */
 label {
-  font-weight: bold;
-  display: block;
-  margin-bottom: 5px;
+  font-weight: bold; /* Texte en gras */
+  display: block; /* Affichage en bloc */
+  margin-bottom: 5px; /* Espacement sous le label */
 }
 
+/* Champs de saisie */
 input {
-  width: 100%;
+  width: 100%; /* Largeur à 100% */
   padding: 10px;
-  border: 1px solid #ced4da;
-  border-radius: 5px;
+  border: 1px solid #ced4da; /* Bordure grise */
+  border-radius: 5px; /* Coins arrondis */
 }
 
+/* Tableaux */
 .table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
+  width: 100%; /* Prend toute la largeur */
+  border-collapse: collapse; /* Supprime les espaces entre les bordures */
+  margin-top: 20px; /* Espacement avec le contenu précédent */
 }
 
+/* En-têtes et cellules des tableaux */
 .table th, .table td {
   padding: 12px;
   text-align: left;
-  border: 1px solid #dee2e6;
+  border: 1px solid #dee2e6; /* Bordure grise claire */
 }
 
+/* Style des en-têtes de tableau */
 .table th {
-  background-color: #343a40;
-  color: #ffffff;
+  background-color: #343a40; /* Fond gris foncé */
+  color: #ffffff; /* Texte blanc */
 }
 
+/* Alternance des lignes */
 .table tr:nth-child(even) {
-  background-color: #f8f9fa;
+  background-color: #f8f9fa; /* Fond gris clair pour une meilleure lisibilité */
 }
 
+/* Texte en vert pour les promotions actives */
 .active {
   color: green;
   font-weight: bold;
 }
 
+/* Styles des boutons */
 .btn-warning {
-  background-color: #ffc107;
+  background-color: #ffc107; /* Jaune */
   color: #fff;
   margin-left: 10px;
 }
 
 .btn-danger {
-  background-color: #dc3545;
+  background-color: #dc3545; /* Rouge */
   color: #fff;
   margin-left: 10px;
 }
 
 .btn-success {
-  background-color: #28a745;
+  background-color: #28a745; /* Vert */
   color: #fff;
   margin-left: 10px;
 }

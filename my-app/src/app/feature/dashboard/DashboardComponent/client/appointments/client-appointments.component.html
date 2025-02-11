@@ -1,10 +1,12 @@
 <div class="appointments-container">
-  <!-- En-tête principale avec design moderne -->
+  <!-- En-tête principale avec un titre et une description -->
   <header class="appointments-header">
     <h1 class="big-title">Bienvenue sur votre espace de rendez-vous</h1>
     <p class="subtitle">
-      Simplifiez votre vie en réservant vos rendez-vous en quelques clics. Suivez les étapes et laissez-nous nous occuper du reste.
+      Simplifiez votre vie en réservant vos rendez-vous en quelques clics.
+      Suivez les étapes et laissez-nous nous occuper du reste.
     </p>
+    <!-- Bouton pour afficher/masquer le formulaire de prise de rendez-vous -->
     <button class="new-appointment-btn" (click)="toggleAddForm()">
       {{ showAddForm ? 'Fermer le formulaire' : 'Prendre un rendez-vous' }}
     </button>
@@ -16,7 +18,10 @@
     <p class="form-instructions">
       Remplissez les champs ci-dessous avec précision pour garantir une réservation réussie.
     </p>
+
+    <!-- Formulaire lié au FormGroup de Angular -->
     <form [formGroup]="appointmentForm" (ngSubmit)="submitAppointment()">
+
       <!-- Sélection du service -->
       <div class="form-group">
         <label for="service">Service *</label>
@@ -36,8 +41,8 @@
           id="date"
           formControlName="appointmentDate"
           required
-          [min]="minDate"
-          (change)="onDateChange()"
+          [min]="minDate" 
+        (change)="onDateChange()"
         />
       </div>
 
@@ -59,11 +64,12 @@
           maxlength="150"
           id="note"
           formControlName="note"
-          placeholder="Ajoutez une note brève pour les pharmaciens..."></textarea>
+          placeholder="Ajoutez une note brève pour les pharmaciens..."
+        ></textarea>
         <p id="charCount">150 caractères maximum.</p>
       </div>
 
-      <!-- Script -->
+      <!-- Script pour afficher le nombre de caractères restants dans la note -->
       <script>
         document.addEventListener('DOMContentLoaded', () => {
           const textarea = document.getElementById('note');
@@ -81,7 +87,6 @@
         });
       </script>
 
-
       <!-- Boutons d'action -->
       <div class="form-actions">
         <button
@@ -95,22 +100,26 @@
           Annuler
         </button>
 
-        <p class="asterix">Le petit (*) signifie que les champs sont obligatoire</p>
+        <p class="asterix">Le petit (*) signifie que les champs sont obligatoires.</p>
       </div>
     </form>
   </div>
 
-  <!-- Liste des rendez-vous -->
+  <!-- Liste des rendez-vous existants -->
   <div class="appointments-list">
     <h2 class="title2">Vos rendez-vous</h2>
     <p class="subtitle">
       Consultez vos rendez-vous ci-dessous. Vous pouvez les modifier ou les
-      annuler si nécessaire. Toutefois les pharmaciens se réseve le droit d'annuler un rendez-vous, veuillez surveiller vos e-mails.
+      annuler si nécessaire. Toutefois, les pharmaciens se réservent le droit d'annuler un rendez-vous, veuillez surveiller vos e-mails.
     </p>
+
+    <!-- Message affiché s'il n'y a aucun rendez-vous -->
     <div *ngIf="appointments.length === 0" class="no-data">
       Aucun rendez-vous trouvé. Cliquez sur "Prendre un rendez-vous" pour en
       ajouter un.
     </div>
+
+    <!-- Affichage des rendez-vous sous forme de carte -->
     <div *ngIf="appointments.length > 0" class="appointments-grid">
       <div *ngFor="let appointment of appointments" class="appointment-card">
         <div class="appointment-details">
@@ -118,6 +127,8 @@
           <p><strong>Date :</strong> {{ appointment.appointmentDate | date: 'dd/MM/yyyy' }}</p>
           <p><strong>Heure :</strong> {{ appointment.time }}</p>
           <p><strong>Notes :</strong> {{ appointment.note || 'Aucune'}}</p>
+
+          <!-- Affichage du statut avec des classes CSS dynamiques -->
           <p
             class="status"
             [ngClass]="{
@@ -129,6 +140,8 @@
             <strong>Statut :</strong> {{ appointment.status }}
           </p>
         </div>
+
+        <!-- Boutons pour modifier ou annuler un rendez-vous -->
         <div class="appointment-actions">
           <button (click)="editAppointment(appointment)" class="edit-btn">Modifier</button>
           <button (click)="confirmCancel(appointment)" class="cancel-btn">Annuler</button>

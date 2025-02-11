@@ -1,104 +1,133 @@
-/* Conteneur général */
+/* ============================================= */
+/* CONTENEUR PRINCIPAL */
+/* ============================================= */
+
 .appointments-container {
-  padding: 30px;
-  max-width: 1200px;
-  margin: 0 auto;
-  background: #f9fafb;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 30px; // Ajoute un espace intérieur pour l'aération
+  max-width: 1200px; // Largeur maximale pour éviter une mise en page trop large
+  margin: 0 auto; // Centre le contenu sur la page
+  background: #f9fafb; // Couleur de fond douce
+  border-radius: 10px; // Arrondi des bords pour un effet plus moderne
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); // Effet d’ombre pour donner du relief
 }
 
-/* Notification badge rouge */
+/* ============================================= */
+/* BADGE DE NOTIFICATION */
+/* ============================================= */
+
 .notification-badge {
-  display: inline-block;
-  margin-left: 10px;
-  padding: 2px 8px;
-  font-size: 0.8rem;
-  font-weight: bold;
-  color: white;
-  background-color: #dc2626; /* Rouge vif */
-  border-radius: 50px;
-  vertical-align: middle;
+  display: inline-block; // Affichage en ligne pour s'intégrer dans le texte
+  margin-left: 10px; // Espacement par rapport au texte
+  padding: 2px 8px; // Taille du badge
+  font-size: 0.8rem; // Réduit la taille du texte pour ne pas être trop imposant
+  font-weight: bold; // Mise en évidence du texte
+  color: white; // Texte blanc pour contraster avec le fond
+  background-color: #dc2626; // Rouge vif pour attirer l’attention
+  border-radius: 50px; // Effet arrondi pour un look élégant
+  vertical-align: middle; // Alignement vertical pour qu’il soit bien positionné
   text-align: center;
   line-height: 1.5;
 }
 
+/* ============================================= */
+/* TITRE PRINCIPAL */
+/* ============================================= */
 
-
-/* Titre principal */
 .page-header h2 {
-  font-size: 2rem;
-  color: #1f2937;
-  margin-bottom: 20px;
-  text-align: center;
+  font-size: 2rem; // Augmente la taille du titre pour plus de visibilité
+  color: #1f2937; // Gris foncé pour une meilleure lisibilité
+  margin-bottom: 20px; // Ajoute de l’espace en dessous du titre
+  text-align: center; // Centre le titre
 }
 
-/* Sections des rendez-vous */
+/* ============================================= */
+/* SECTIONS DE RENDEZ-VOUS */
+/* ============================================= */
+
 .appointments-section {
-  margin-bottom: 40px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 40px; // Espacement entre les sections
+  padding-bottom: 20px; // Espacement à l'intérieur pour la lisibilité
+  border-bottom: 1px solid #e5e7eb; // Ajoute une séparation légère entre les sections
 }
 
 .appointments-section:last-child {
-  border-bottom: none; /* Pas de ligne pour la dernière section */
+  border-bottom: none; // Supprime la bordure pour la dernière section
 }
 
-/* Titre de section */
+/* ============================================= */
+/* TITRES DES SECTIONS */
+/* ============================================= */
+
 .appointments-section h3 {
-  font-size: 1.4rem;
-  color: #1f2937;
+  font-size: 1.4rem; // Taille adaptée pour un sous-titre
+  color: #1f2937; // Gris foncé pour la lisibilité
   margin-bottom: 20px;
-  border-left: 5px solid #4f46e5;
-  padding-left: 10px;
+  border-left: 5px solid #4f46e5; // Ajoute une barre de couleur sur le côté gauche
+  padding-left: 10px; // Espacement entre le texte et la bordure
 }
 
-/* Grille des cartes */
+/* ============================================= */
+/* GRILLE DES RENDEZ-VOUS */
+/* ============================================= */
+
 .appointments-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); // Création d’une grille responsive
+  gap: 20px; // Espacement entre les éléments
 }
 
-/* Cartes de rendez-vous */
+/* ============================================= */
+/* CARTE DES RENDEZ-VOUS */
+/* ============================================= */
+
 .appointment-card {
   background: white;
-  border-radius: 8px;
+  border-radius: 8px; // Coins arrondis pour un design moderne
   padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Ombre légère pour donner du relief
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
+// Effet au survol
 .appointment-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-5px); // Légère élévation pour un effet dynamique
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* En-tête de la carte */
+/* ============================================= */
+/* EN-TÊTE DES CARTES */
+/* ============================================= */
+
 .appointment-header h4 {
   margin: 0;
   font-size: 1.2rem;
-  color: #4f46e5;
+  color: #4f46e5; // Bleu foncé pour se démarquer
 }
 
 .appointment-header p {
   margin: 5px 0;
   font-size: 0.9rem;
-  color: #6b7280;
+  color: #6b7280; // Gris moyen pour une lecture douce
 }
 
-/* Corps de la carte */
+/* ============================================= */
+/* CONTENU DES CARTES */
+/* ============================================= */
+
 .appointment-body p {
   margin: 5px 0;
   font-size: 0.9rem;
-  color: #374151;
+  color: #374151; // Gris foncé pour améliorer la lisibilité
 }
 
 .appointment-body strong {
-  color: #111827;
+  color: #111827; // Noir pour les éléments importants
 }
 
-/* Statuts */
+/* ============================================= */
+/* STATUTS DES RENDEZ-VOUS */
+/* ============================================= */
+
 .status {
   font-weight: bold;
   margin: 10px 0;
@@ -108,26 +137,33 @@
   color: white;
 }
 
+// Statut confirmé (vert)
 .status.confirmed {
   background-color: #16a34a;
 }
 
+// Statut en attente (jaune)
 .status.pending {
   background-color: #facc15;
-  color: black;
+  color: black; // Texte en noir pour une meilleure lisibilité
 }
 
+// Statut annulé (rouge)
 .status.canceled {
   background-color: #dc2626;
 }
 
-/* Actions (boutons) */
+/* ============================================= */
+/* BOUTONS D'ACTIONS */
+/* ============================================= */
+
 .appointment-actions {
   display: flex;
-  justify-content: space-between;
-  gap: 10px;
+  justify-content: space-between; // Répartit les boutons équitablement
+  gap: 10px; // Espacement entre les boutons
 }
 
+// Style général des boutons
 button {
   flex: 1;
   padding: 10px;
@@ -138,33 +174,40 @@ button {
   transition: background 0.3s ease, transform 0.2s;
 }
 
+// Effet de survol des boutons
 button:hover {
   transform: translateY(-2px);
   opacity: 0.9;
 }
 
+// Bouton confirmer (vert)
 .confirm-btn {
   background-color: #16a34a;
   color: white;
 }
 
+// Bouton annuler (rouge)
 .cancel-btn {
   background-color: #dc2626;
   color: white;
 }
 
+// Bouton supprimer (gris foncé)
 .delete-btn {
   background-color: #6b7280;
   color: white;
 }
 
-/* Message pour les données vides */
+/* ============================================= */
+/* MESSAGE EN CAS D'AUCUNE DONNÉE */
+/* ============================================= */
+
 .no-data {
   text-align: center;
   color: #6b7280;
   font-size: 1rem;
   padding: 20px;
-  background: #f3f4f6;
+  background: #f3f4f6; // Couleur de fond plus douce pour un bon contraste
   border-radius: 8px;
   margin-top: 10px;
 }

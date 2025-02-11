@@ -1,13 +1,17 @@
 <div class="profile-container">
+  <!-- Titre principal -->
   <h2>Mon Profil</h2>
 
   <ng-container>
-    <!-- Informations utilisateur -->
+    <!-- Affichage des informations utilisateur (mode lecture) -->
     <div class="profile-info" *ngIf="!editMode">
+
+      <!-- Affichage de l'avatar -->
       <div class="avatar-container">
         <img [src]="baseUrl+avatar || '/api/assets/uploads/default.jpg'" alt="Avatar" class="profile-avatar" />
       </div>
 
+      <!-- Groupe d'informations personnelles -->
       <div class="info-group">
         <label>Nom d'utilisateur</label>
         <p>{{ client?.credential.username || "vide" }}</p>
@@ -29,15 +33,19 @@
         <p>{{ client?.address || "vide" }}</p>
       </div>
 
+      <!-- Bouton pour activer le mode édition -->
       <button (click)="editMode = true" class="edit-btn">Modifier le profil</button>
     </div>
 
-    <!-- Formulaire d'édition -->
+    <!-- Formulaire d'édition (mode modification) -->
     <form *ngIf="editMode" (ngSubmit)="updateProfile()" class="edit-form">
+
+      <!-- Modification de l'avatar -->
       <div class="avatar-container">
         <input type="file" (change)="onAvatarSelected($event)" accept="image/*" />
       </div>
 
+      <!-- Champs modifiables -->
       <div class="form-group">
         <label for="username">Nom d'utilisateur</label>
         <input
@@ -83,6 +91,7 @@
         />
       </div>
 
+      <!-- Boutons d'action -->
       <div class="form-actions">
         <button type="submit" class="save-btn">Enregistrer</button>
         <button type="button" (click)="editMode = false" class="cancel-btn">Annuler</button>
@@ -90,7 +99,7 @@
     </form>
   </ng-container>
 
-  <!-- Date de création du compte placée hors du formulaire -->
+  <!-- Date de création du compte (hors du formulaire) -->
   <div class="account-created">
     <p>Date de création du compte : <strong>{{ client?.credential?.created | date:'dd/MM/yyyy' || "Erreur" }}</strong></p>
   </div>
