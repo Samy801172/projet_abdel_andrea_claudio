@@ -1,6 +1,5 @@
-// Page des médicaments - Permet au client de pouvoir les médicaments +
-// ajouter ou diminuer la quantite et panier
-// et filtrage de médicaments en gestion temps réel
+// Page des médicaments - Permet au client de consulter les médicaments,
+// ajouter ou diminuer la quantité dans le panier et filtrer les médicaments en temps réel.
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -16,25 +15,25 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
-  List<dynamic> _products = []; // Stocke la liste complète des produits récupérés depuis l’API
-  List<dynamic> _filteredProducts = []; // Liste de produits après filtrage (recherche)
-  bool _isLoading = true; // Indique si les données sont en cours de chargement
-  String searchQuery = ''; // Stocke le texte de la recherche
+  List<dynamic> _products = []; // Stocke la liste complète des produits récupérés depuis l’API.
+  List<dynamic> _filteredProducts = []; // Liste des produits après filtrage (recherche).
+  bool _isLoading = true; // Indique si les données sont en cours de chargement.
+  String searchQuery = ''; // Stocke le texte de la recherche.
 
   @override
   void initState() {
     super.initState();
-    loadProducts(); // Charge les produits au démarrage de la page
+    loadProducts(); // Charge les produits au démarrage de la page.
   }
 
-  // Fonction pour récupérer la liste des produits depuis l'API
+  // 🔹 Fonction pour récupérer la liste des produits depuis l'API.
   Future<void> loadProducts() async {
     try {
       List<dynamic> data = await ApiService.fetchProducts(); // Appel API
       setState(() {
         _products = data; // Stocke tous les produits
-        _filteredProducts = data; // Initialise la liste filtrée avec tous les produits
-        _isLoading = false; // Fin du chargement
+        _filteredProducts = data; // Initialise la liste filtrée avec tous les produits.
+        _isLoading = false; // Fin du chargement.
       });
     } catch (e) {
       print("Erreur lors du chargement des produits : $e");
@@ -44,15 +43,15 @@ class _ProductPageState extends State<ProductPage> {
     }
   }
 
-  // Fonction qui filtre les produits en fonction de la recherche
+  // Fonction qui filtre les produits en fonction de la recherche.
   void updateSearch(String query) {
     setState(() {
-      searchQuery = query; // Met à jour le texte entré par l'utilisateur
+      searchQuery = query; // Met à jour le texte entré par l'utilisateur.
 
       if (query.isEmpty) {
-        _filteredProducts = _products; // Si la recherche est vide, affiche tous les produits
+        _filteredProducts = _products; // Si la recherche est vide, affiche tous les produits.
       } else {
-        // Filtrer la liste des produits en fonction du nom
+        // Filtrer la liste des produits en fonction du nom.
         _filteredProducts = _products
             .where((product) =>
             product['name'].toString().toLowerCase().contains(query.toLowerCase()))
@@ -63,17 +62,19 @@ class _ProductPageState extends State<ProductPage> {
 
   @override
   Widget build(BuildContext context) {
-    final cart = Provider.of<CartProvider>(context); // Accès au panier via le provider
+    final cart = Provider.of<CartProvider>(context); // Accès au panier via le provider.
 
     return BaseLayout(
       title: 'Médicaments',
+      requireAuthentication: false, // Permet d'afficher la bannière sans bloquer l'accès total.
       body: Column(
         children: [
-          // Barre de recherche pour filtrer les produits
+
+          // Barre de recherche pour filtrer les produits.
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: TextField(
-              onChanged: updateSearch, // Met à jour la recherche en temps réel
+              onChanged: updateSearch, // Met à jour la recherche en temps réel.
               decoration: InputDecoration(
                 labelText: "Rechercher un médicament",
                 border: OutlineInputBorder(),
@@ -82,23 +83,23 @@ class _ProductPageState extends State<ProductPage> {
             ),
           ),
 
-          // Affichage des produits (soit tous, soit filtrés)
+          // Affichage des produits (soit tous, soit filtrés).
           Expanded(
             child: _isLoading
-                ? Center(child: CircularProgressIndicator(color: Colors.green)) // Affiche un loader si les produits chargent
+                ? Center(child: CircularProgressIndicator(color: Colors.green)) // Chargement en cours.
                 : _filteredProducts.isEmpty
-                ? Center(child: Text('Aucun médicament trouvé.')) // Message si aucun produit ne correspond à la recherche
+                ? Center(child: Text('Aucun médicament trouvé.')) // Aucun résultat trouvé.
                 : GridView.builder(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(5), // Moins de padding pour un affichage plus dense.
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3, // Nombre de colonnes dans la grille
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                childAspectRatio: 0.75, // Ratio largeur/hauteur des cartes produits
+                crossAxisCount: 4, // Nombre de colonne
+                crossAxisSpacing: 5, // Réduit l’espacement horizontal.
+                mainAxisSpacing: 5, // Réduit l’espacement vertical.
+                childAspectRatio: 0.65, // Ajuste la taille des cartes (plus compact).
               ),
-              itemCount: _filteredProducts.length, // Nombre de produits affichés
+              itemCount: _filteredProducts.length, // Nombre de produits affichés.
               itemBuilder: (context, index) {
-                return productCard(context, _filteredProducts[index], cart); // Affiche chaque produit avec sa carte
+                return productCard(context, _filteredProducts[index], cart); // Affichage de chaque produit.
               },
             ),
           ),
@@ -107,83 +108,94 @@ class _ProductPageState extends State<ProductPage> {
     );
   }
 
-  // Widget qui construit un produit sous forme de carte
+  // Widget qui construit un produit sous forme de carte compacte.
   Widget productCard(BuildContext context, Map<String, dynamic> product, CartProvider cart) {
-    final String productId = product['id'].toString(); // Convertir l’ID en String pour éviter les erreurs
-    final String productName = product['name'] ?? 'Produit inconnu'; // Gérer les cas où le nom est null
-    final double productPrice = (product['price'] ?? 0).toDouble(); // Assurer que le prix est bien un double
-    final String productImage = product['image'] ?? 'https://via.placeholder.com/150'; // Image par défaut si absente
-    final quantityInCart = cart.items[productId]?.quantite ?? 0; // Vérifier la quantité du produit dans le panier
+    final String productId = product['id'].toString(); // Convertir l’ID en String pour éviter les erreurs.
+    final String productName = product['name'] ?? 'Produit inconnu'; // Gérer les cas où le nom est null.
+    final double productPrice = double.tryParse(product['price'].toString()) ?? 0.0; // Assurer que le prix est bien un double.
+    final String productImage = product['image'] ?? 'https://via.placeholder.com/150'; // Image par défaut si absente.
+
+    // Vérifie si le produit est déjà dans le panier et initialise `ValueNotifier`
+    final ValueNotifier<int> quantityNotifier = ValueNotifier<int>(
+        cart.items.containsKey(productId) ? cart.items[productId]!.quantite : 0
+    );
 
     return Card(
-      elevation: 4, // Ombre autour de la carte
+      elevation: 2, // Moins d'ombre pour éviter un effet "trop grand".
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10), // Coins arrondis
+        borderRadius: BorderRadius.circular(8), // Coins légèrement arrondis.
       ),
       child: Column(
         children: [
-          // 🔹 Image du produit
+
+          // Image du produit
           Expanded(
-            child: Image.network(
-              productImage,
-              fit: BoxFit.cover,
-              width: double.infinity,
-              errorBuilder: (context, error, stackTrace) {
-                return Image.asset('assets/images/default_product.png'); // Image par défaut si erreur
-              },
+            flex: 3, // Réduit l’espace occupé par l’image
+            child: Padding(
+              padding: const EdgeInsets.all(5),
+              child: Image.network(
+                productImage,
+                fit: BoxFit.cover,
+                width: double.infinity,
+                errorBuilder: (context, error, stackTrace) {
+                  return Image.asset('assets/images/default_product.png', fit: BoxFit.cover);
+                },
+              ),
             ),
           ),
 
-          // Nom du produit
+          //Nom du produit
           Padding(
-            padding: const EdgeInsets.all(5),
+            padding: const EdgeInsets.symmetric(horizontal: 5),
             child: Text(
               productName,
               textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
               maxLines: 2,
-              overflow: TextOverflow.ellipsis, // Coupe le texte trop long
+              overflow: TextOverflow.ellipsis,
             ),
           ),
 
           // Prix du produit
-          Text(
-            '${productPrice.toStringAsFixed(2)}€',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          Padding(
+            padding: const EdgeInsets.only(top: 2),
+            child: Text(
+              '${productPrice.toStringAsFixed(2)}€',
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.green[900]),
+            ),
           ),
 
-          // Boutons pour ajouter ou retirer du panier
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Bouton "Retirer du panier"
-              IconButton(
-                icon: Icon(Icons.remove_circle, color: Colors.red),
-                onPressed: quantityInCart > 0
-                    ? () => cart.removeItem(productId)
-                    : null, // Désactivé si la quantité est 0
-              ),
-
-              // Affichage de la quantité actuelle
-              Text(
-                quantityInCart.toString(),
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-
-              // Bouton "Ajouter au panier"
-              IconButton(
-                icon: Icon(Icons.add_circle, color: Colors.green),
-                onPressed: () {
-                  cart.addItem(CartItem(
-                    id: productId,
-                    nom: productName,
-                    prix: productPrice,
-                    quantite: 1, // Ajoute 1 produit
-                    imageUrl: productImage,
-                  ));
-                },
-              ),
-            ],
+          // Gestion de la quantité avec ValueListenableBuilder
+          ValueListenableBuilder<int>(
+            valueListenable: quantityNotifier, // Écoute les changements de quantité.
+            builder: (context, quantity, child) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.remove_circle, color: Colors.red, size: 18),
+                    onPressed: quantity > 0
+                        ? () {
+                      cart.removeItem(productId);
+                      quantityNotifier.value = cart.items.containsKey(productId)
+                          ? cart.items[productId]!.quantite
+                          : 0;
+                    }
+                        : null,
+                  ),
+                  Text(quantity.toString(), style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                  IconButton(
+                    icon: Icon(Icons.add_circle, color: Colors.green, size: 18),
+                    onPressed: () {
+                      cart.addItem(CartItem(id: productId, nom: productName, prix: productPrice, quantite: 1, imageUrl: productImage));
+                      quantityNotifier.value = cart.items.containsKey(productId)
+                          ? cart.items[productId]!.quantite
+                          : 0;
+                    },
+                  ),
+                ],
+              );
+            },
           ),
         ],
       ),

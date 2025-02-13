@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gohanmedic_flutterprojetmobile/Widgets/Design/BaseLayout.dart';
 import 'package:provider/provider.dart';
 import 'package:gohanmedic_flutterprojetmobile/Provider/AuthentificationProvider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -47,8 +48,15 @@ class _LoginPageState extends State<LoginPage> {
       });
 
       if (success) {
+        print("✅ Connexion réussie !");
+        // 🔥 Vérifier immédiatement si `clientId` et `token` ont bien été stockés
+        checkStoredData();
         // Redirection vers la page d'accueil après une connexion réussie
         Navigator.pushReplacementNamed(context, '/home');
+      }else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Identifiants incorrects. Veuillez réessayer.")),
+        );
       }
     } catch (error) {
       setState(() {
@@ -58,6 +66,18 @@ class _LoginPageState extends State<LoginPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(error.toString())), // Affiche le message d'erreur reçu du provider
       );
+    }
+  }
+
+  Future<void> checkStoredData() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+    String? clientId = prefs.getString('clientId');
+
+    print("🛠️ Vérification stockage : Token=$token, ClientID=$clientId");
+
+    if (clientId == null || clientId == "null") {
+      print("⚠️ `clientId` n'est pas enregistré ou est `null` !");
     }
   }
 

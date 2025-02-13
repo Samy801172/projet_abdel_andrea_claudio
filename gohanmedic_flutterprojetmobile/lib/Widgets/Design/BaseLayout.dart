@@ -103,7 +103,7 @@ class BaseLayout extends StatelessWidget {
       ),
     ];
 
-    // 🔹 Ajoute l'option Déconnexion **seulement si l'utilisateur est connecté**
+    // Ajoute l'option Déconnexion **seulement si l'utilisateur est connecté**
     if (isLoggedIn) {
       items.add(
         const BottomNavigationBarItem(
@@ -130,7 +130,7 @@ class BaseLayout extends StatelessWidget {
         Navigator.pushNamed(context, '/home');
         break;
       case 1: // Produits
-        Navigator.pushNamed(context, '/product');
+        Navigator.pushNamed(context, '/products');
         break;
       case 2: // Ordonnance
         Navigator.pushNamed(context, '/prescription');

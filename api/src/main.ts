@@ -30,7 +30,12 @@ const bootstrap = async () => {
   app.setGlobalPrefix('api');
   app.setGlobalPrefix(configManager.getValue(ConfigKey.APP_BASE_URL));
   app.enableCors({
-    origin: 'http://localhost:4200', // URL de votre frontend Angular
+    origin: [
+      'http://localhost:4200', // URL de votre frontend Angular
+      'http://localhost:5000', // Autorise le Frontend Flutter Web à accéder au backend
+      'http://10.0.2.2:2024', // Autorise Flutter mobile - émulateur android à accéder au backend
+      'http://192.168.0.162:2024', // Autorise Flutter mobile sur appareil physique - Modif IP par IP local wifi
+      ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });

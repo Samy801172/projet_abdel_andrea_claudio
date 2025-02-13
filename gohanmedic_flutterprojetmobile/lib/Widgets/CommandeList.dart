@@ -6,9 +6,9 @@ import '../Pages/CommandeDetailPage.dart';
 import 'package:gohanmedic_flutterprojetmobile/Services/CommandeService.dart';
 
 class CommandeList extends StatefulWidget {
-  final String userId; // ID du client connecté
+  final String clientId; // ID du client connecté
 
-  CommandeList({required this.userId});
+  CommandeList({required this.clientId});
 
   @override
   _CommandeListState createState() => _CommandeListState();
@@ -20,7 +20,7 @@ class _CommandeListState extends State<CommandeList> {
   @override
   void initState() {
     super.initState();
-    futureOrders = CommandeService().fetchOrders(widget.userId);
+    futureOrders = CommandeService().fetchOrders(widget.clientId);
   }
 
   @override

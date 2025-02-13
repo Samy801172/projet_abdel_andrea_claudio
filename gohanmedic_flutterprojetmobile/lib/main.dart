@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gohanmedic_flutterprojetmobile/Pages/DebugPage.dart';
 import 'package:gohanmedic_flutterprojetmobile/Pages/ProfilePage.dart';
 import 'package:gohanmedic_flutterprojetmobile/Widgets/CommandeList.dart';
 import 'package:gohanmedic_flutterprojetmobile/Pages/ProductPage.dart';
@@ -9,51 +10,12 @@ import 'package:provider/provider.dart';
 import 'package:gohanmedic_flutterprojetmobile/Provider/CartProvider.dart';
 import 'package:gohanmedic_flutterprojetmobile/Pages/CartPage.dart';
 import 'package:gohanmedic_flutterprojetmobile/Provider/AuthentificationProvider.dart';
-
-// void main() {
-//  runApp(const MyApp());  // Ajout du const
-// }
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({Key? key}) : super(key: key);  // Ajout du constructeur avec key
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Gohan Medic',
-//       theme: ThemeData(
-//         primarySwatch: Colors.green,
-//         scaffoldBackgroundColor: Colors.green[50],
-//         appBarTheme: AppBarTheme(
-//           backgroundColor: Colors.green[700],
-//           foregroundColor: Colors.white,
-//         ),
-//         elevatedButtonTheme: ElevatedButtonThemeData(
-//           style: ElevatedButton.styleFrom(
-//             backgroundColor: Colors.green[600],
-//             foregroundColor: Colors.white,
-//           ),
-//         ),
-//         textButtonTheme: TextButtonThemeData(
-//           style: TextButton.styleFrom(
-//             foregroundColor: Colors.green[800],
-//           ),
-//         ),
-//       ),
-//       home: LoginPage(),  // Ajout du const
-//       debugShowCheckedModeBanner: false,
-//       routes: {
-//         '/login': (context) => LoginPage(),  // Ajout du const
-//       },
-//     );
-//   }
-// }
-
-
-
+import 'Services/config.dart';
+import 'package:gohanmedic_flutterprojetmobile/Pages/DebugPage.dart'; // 📌 Import de DebugPage
 
 
 void main() {
+  print("🛠️ API URL utilisée : ${Config.apiUrl}"); // Vérifie dans la console
   runApp(
     MultiProvider( // Utilisation de MultiProvider pour inclure la gestion de l'état global
       providers: [
@@ -66,13 +28,14 @@ void main() {
 }
 
 
+// Classe principale de l'application
 class GohanMedicApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'GohanMedic',
-      home: HomePage(),
+      home: DebugPage(),
       theme: ThemeData(
         primarySwatch: Colors.green,
         scaffoldBackgroundColor: Colors.green[50],
@@ -93,8 +56,10 @@ class GohanMedicApp extends StatelessWidget {
         ),
       ),
 
-        initialRoute: '/',
+      // On commence sur HomePage, qu'il soit connecté ou non
+        initialRoute: '/DebugStockage',
         routes: {
+          "/DebugStockage": (context) => DebugPage(), // Ajoute cette ligne
           // Route vers la page de connexion.
           '/login': (context) => LoginPage(),
 
@@ -108,16 +73,16 @@ class GohanMedicApp extends StatelessWidget {
           '/commande': (context) {
             // Récupérer l'ID utilisateur de AuthentificationProvider
             final authentificationprovider = Provider.of<AuthentificationProvider>(context, listen: false);
-            final userId = authentificationprovider.userId;
+            final clientId = authentificationprovider.clientId;
 
-            if (userId == null) {
+            if (clientId == null) {
               // Rediriger vers la page de connexion
               Future.microtask(() => Navigator.pushReplacementNamed(context, '/login'));
               return Scaffold(
                 body: Center(child: CircularProgressIndicator()), // Affichage temporaire
               );
             }
-            return CommandeList(userId: userId);
+            return CommandeList(clientId: clientId);
           },
 
         // Route vers la page du panier.

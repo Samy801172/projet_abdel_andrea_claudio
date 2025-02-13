@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gohanmedic_flutterprojetmobile/Services/config.dart';
+import 'package:gohanmedic_flutterprojetmobile/Services/HttpStatus.dart';
 
 class ApiService {
   // Utilisez l'URL de base définie dans votre fichier config.dart
@@ -17,11 +18,11 @@ class ApiService {
           .get(Uri.parse('$baseUrl/products'))
           .timeout(const Duration(seconds: 10)); // Timeout de 10 secondes
 
-      if (response.statusCode == 200 && response.body.isNotEmpty) {
+      if (response.statusCode == HttpStatus.ok && response.body.isNotEmpty) {
         final List<dynamic> data = json.decode(response.body);
         return data; // Retourne directement les produits
       } else {
-        throw Exception('Erreur: Réponse vide ou statut ${response.statusCode}');
+        throw Exception('Erreur: Réponse vide ou statut ${response.statusCode == HttpStatus.notFound}');
       }
     } on http.ClientException catch (e) {
       print(" Erreur réseau : $e");
@@ -47,7 +48,7 @@ class ApiService {
       headers: {'Content-Type': 'application/json'},
     );
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == HttpStatus.created) {
       return true; // Succès de l'inscription
     } else {
       return false; // Échec de l'inscription
@@ -60,20 +61,45 @@ class ApiService {
     try {
       final response = await http.post(
         Uri.parse('$baseUrl/account/signin'),
-        body: json.encode({'email': email, 'password': password}),
-        headers: {'Content-Type': 'application/json'},
+        body: json.encode({'mail': email, 'password': password}),
+        headers: {'Content-Type': 'application/json; charset=UTF-8'}
       );
 
-      if (response.statusCode == 200) {
-        // Connexion réussie, on peut stocker le token ici si besoin
-        return true;
+      print("📤 Envoi des données : ${json.encode({'mail': email, 'password': password})}");
+      print("📥 Réponse de l'API : ${response.body}");
+      print("📋 Headers: ${response.headers}");
+      print("📥 Statut de l'API : ${response.statusCode}");
+
+
+      // Si connexion réussie, on peut stocker le token
+      if (response.statusCode == HttpStatus.ok || response.statusCode == HttpStatus.created) {
+        final data = json.decode(response.body);
+        final token = data['token'];
+        final clientId = data['clientId'];
+
+        print("✅ JSON décodé avec succès : $data");
+        print("🔍 Vérification des données API -> Token: $token, ClientID: $clientId");
+
+        if (token == null || clientId == null) {
+          print('Erreur API : Réponse invalide (token ou clientId null)');
+          throw Exception("Réponse invalide du serveur");
+        }
+
+        // Sauvegarde le token et l'identifiant utilisateur
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('token', token);
+        await prefs.setString('clientId', clientId.toString());
+
+        print("📝 Vérification stockage : Token=$token, ClientID=${clientId.toString()}");
+
+        return true; // Connexion réussie
       } else {
         print('Échec de la connexion. Code erreur: ${response.statusCode}');
-        return false;
+        throw Exception('Erreur de connexion : ${_handleError(response)}');
       }
     } catch (e) {
       print('Erreur de connexion : $e');
-      return false;
+      throw Exception("Erreur de connexion");
     }
   }
 

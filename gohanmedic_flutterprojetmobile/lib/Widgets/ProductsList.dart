@@ -77,43 +77,70 @@ class _ProductsListState extends State<ProductsList> {
 
         // Class Card qui permet un certain affichage design pour l'appli concernant les détails du médicament
         return Card(
-          color: Colors.green[100],
-          margin: EdgeInsets.all(8.0),
+          color: Colors.green[100], // Couleur de fond du card
+          margin: EdgeInsets.all(8.0), // Marges autour de chaque produit
+
+          // Gestion de l'affichage de l'image du produit
           child: ListTile(
-            leading: Image.network( //récupère l'image via une url internet
-              product['image'],
-              width: 50,
-              height: 50,
-              fit: BoxFit.cover,
+            leading: product['image'] != null && product['image'].isNotEmpty
+                ? Image.network(
+              product['image'], // URL de l'image
+              width: 50, // Largeur de l'image
+              height: 50, // Hauteur de l'image
+              fit: BoxFit.cover, // Adapte l'image pour qu'elle couvre tout l'espace disponible
+              errorBuilder: (context, error, stackTrace) {
+                // Si l'image échoue à se charger
+                return Icon(
+                  Icons.image_not_supported, // Icône indiquant qu'aucune image n'est disponible
+                  size: 50,
+                  color: Colors.grey, // Couleur grise pour une meilleure lisibilité
+                );
+              },
+            )
+
+                : Icon(
+              Icons.image_not_supported, // Icône par défaut si l'URL de l'image est null ou vide
+              size: 50,
+              color: Colors.grey,
             ),
-            title: Text(product['name'] ?? 'Produit',
+
+            // Affichage du titre du produit (nom)
+            title: Text(product['name'] ?? 'Produit', // Nom du produit ou "Produit" par défaut
                 style: TextStyle(color: Colors.green[800], fontWeight: FontWeight.bold)),
+
+            // Affichage de la description et des prix
             subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start, // Aligne tout à gauche
               children: [
-                Text(product['description'] ?? 'Description non disponible'),
+                Text(product['description'] ?? 'Description non disponible'), // Description
+
+                // Si le médicament est en promotion
                 if (hasPromotion  && promoEnd != null) ...[
                   Row(
                     children: [
                       Text(
-                        '${product['price']}€', // Prix barré si promo
-                        style: TextStyle(decoration: TextDecoration.lineThrough, color: Colors.grey),
+                        '${product['price']}€', // Prix normal barré si promo
+                        style: TextStyle(decoration: TextDecoration.lineThrough, color: Colors.grey), // Style barré + gris pour indiquer l'ancien prix
                       ),
-                      SizedBox(width: 5),
+                      SizedBox(width: 5), // Espace entre le prix barré et le prix promotionnel
+
                       Text(
-                        '${product['promotion_price']}€',
+                        '${product['promotion_price']}€', // Prix promotionnel
                         // Si promotion_price est dispo', le prix est barré et
                         // prix promo affiché en rouge et gras
                         style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
+
                   CountdownTimer(endTime: promoEnd), // Affichage du compte à rebours h + m + sec
                   // mise à jour toutes les secondes
                 ] else ...[
+
+                  // Si aucun produit n'est en promotion
                   Text(
                     '${product['price']}€', // Prix normal si pas de promo
-                    style: TextStyle(color: Colors.green[900]),
+                    style: TextStyle(color: Colors.green[900]), // Couleur vert foncé pour le prix standard
                   ),
                 ],
               ],

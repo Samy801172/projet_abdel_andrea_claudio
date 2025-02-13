@@ -3,15 +3,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gohanmedic_flutterprojetmobile/Services/apiservice.dart'; // Assurez-vous que ApiService est bien importé
 
 class AuthentificationProvider with ChangeNotifier {
-  String? _userId;
+  String? _clientId;
   String? _token;
   String? _userEmail;
+  bool _isAuthenticated = false; // Variable privée pour suivre l'état de connexion
 
-  String? get userId => _userId;
+  String? get clientId => _clientId;
   String? get token => _token;
   String? get userEmail => _userEmail;
 
-  bool get isAuthenticated => _token != null; // permet de vérifier si un utilisateur est connecté
+  bool get isAuthenticated => _token != null && _clientId != null; // permet de vérifier si un utilisateur est connecté
 
   AuthentificationProvider() {
     loadUser();
@@ -19,11 +20,18 @@ class AuthentificationProvider with ChangeNotifier {
 
   // Récupérer les infos utilisateur depuis le stockage local
   Future<void> loadUser() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    _userId = prefs.getString('userId');
+    final prefs = await SharedPreferences.getInstance();
+    _clientId = prefs.getString('clientId');
     _token = prefs.getString('token');
     _userEmail = prefs.getString('userEmail');
-    notifyListeners();
+
+    print('🔍 Chargement utilisateur : Token=$_token, ID=$_clientId');
+
+    // Vérifie si les données sont valides
+    // Met à jour l'état d'authentification
+    _isAuthenticated = (_token != null && _clientId != null);// Définit l'utilisateur comme connecté
+
+    notifyListeners(); // Met à jour les widgets dépendants
   }
 
   // Connexion via ApiService
@@ -33,17 +41,17 @@ class AuthentificationProvider with ChangeNotifier {
 
       if (success) {
         // Si la connexion réussit, recharger les infos utilisateur
-        await loadUser();
+        await loadUser(); // Recharge les données après connexion
         notifyListeners();
         return true;
       } else {
-        // Si l'API retourne une erreur (connexion échouée)
-        throw Exception("Échec de la connexion. Vérifiez vos identifiants.");
+        print("Échec de connexion : mauvais identifiants");
+        return false; // Ajouté pour bien signaler l'échec
       }
     } catch (e) {
       // Si une exception est lancée lors de l'appel API ou autre erreur
       print('Erreur de connexion : $e');
-      throw Exception("Une erreur est survenue. Veuillez réessayer.");
+      return false; // Ajouté pour éviter une exception
     }
   }
 
@@ -65,19 +73,20 @@ class AuthentificationProvider with ChangeNotifier {
 
   // Vérifie si un utilisateur est connecté
   bool isUserLoggedIn() {
-    return _userId != null && _token != null;
+    return _clientId != null && _token != null;
   }
 
   // Déconnexion
   Future<void> logout() async {
     try {
-      _userId = null;
+      _clientId = null;
       _token = null;
       _userEmail = null;
+      _isAuthenticated = false; // Marque l'utilisateur comme déconnecté
 
       // Supprime uniquement les données liées à l'utilisateur
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.remove('userId');
+      await prefs.remove('clientId');
       await prefs.remove('token');
       await prefs.remove('userEmail');
 
