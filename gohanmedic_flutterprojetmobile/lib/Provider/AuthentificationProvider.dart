@@ -56,15 +56,9 @@ class AuthentificationProvider with ChangeNotifier {
   }
 
   // Inscription via ApiService
-  Future<bool> register(String name, String email, String password) async {
+  Future<String> register(String name, String email, String password) async {
     try {
-      bool success = await ApiService.register(name, email, password);
-
-      if (success) {
-        return true; // Inscription réussie
-      } else {
-        throw Exception("Erreur lors de l'inscription.");
-      }
+      return await ApiService.register(name, email, password);
     } catch (e) {
       print('Erreur d\'inscription : $e');
       throw Exception("Une erreur est survenue. Veuillez réessayer.");

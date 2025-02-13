@@ -37,24 +37,44 @@ class ApiService {
   }
 
   // Fonction d'inscription (Register)
-  static Future<bool> register(String name, String email, String password) async {
+  static Future<String> register(String name, String email, String password) async {
+    final url = Uri.parse('$baseUrl/account/signup');
+    final body = json.encode({
+      'username': name,  // Assurez-vous que les clés correspondent aux attentes du backend
+      'mail': email,  // ⚠️ Vérifiez que votre API attend "mail" et non "email"
+      'password': password,
+    });
+
+    print('🔵 Envoi de la requête à : $url');
+    print('📤 Données envoyées : $body');
+
     final response = await http.post(
-      Uri.parse('$baseUrl/account/signup'),
-      body: json.encode({
-        'name': name,
-        'email': email,
-        'password': password,
-      }),
+      url,
+      body: body,
       headers: {'Content-Type': 'application/json'},
     );
 
-    if (response.statusCode == HttpStatus.created) {
-      return true; // Succès de l'inscription
-    } else {
-      return false; // Échec de l'inscription
+    print('🔴 Statut HTTP: ${response.statusCode}');
+    print('📩 Réponse API: ${response.body}');
+
+    switch (response.statusCode) {
+      case HttpStatus.created:
+      case HttpStatus.ok:
+        return "Inscription réussie !"; // ✅ Succès
+
+      case HttpStatus.badRequest:
+        return "Requête invalide. Vérifiez vos informations.";
+
+      case HttpStatus.conflict:
+        return "L'utilisateur existe déjà. Essayez un autre email.";
+
+      case HttpStatus.internalServerError:
+        return "Erreur serveur. Réessayez plus tard.";
+
+      default:
+        return "Une erreur est survenue. Code: ${response.statusCode}";
     }
   }
-
 
   // Méthode pour la connexion
   static Future<bool> login(String email, String password) async {

@@ -26,27 +26,25 @@ class _RegisterPageState extends State<RegisterPage> {
 
   // Fonction pour gérer l'inscription du client
   Future<void> _register() async {
-    if (_formKey.currentState!.validate()) { // Vérifie si le formulaire est valide
-      // Récupère le Provider d'authentification
+    if (_formKey.currentState!.validate()) {
       final authProvider = Provider.of<AuthentificationProvider>(context, listen: false);
 
-      bool success = await authProvider.register(
+      String resultMessage = await authProvider.register(
         _nameController.text,
         _emailController.text,
         _passwordController.text,
       );
 
-      if (success) {
-        // Si l'inscription réussit, rediriger vers la page de connexion
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(resultMessage)),
+      );
+
+      if (resultMessage == "Inscription réussie !") {
         Navigator.pushReplacementNamed(context, '/login');
-      } else {
-        // Afficher une erreur si l'inscription échoue
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Échec de l’inscription. Veuillez réessayer.')),
-        );
       }
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
