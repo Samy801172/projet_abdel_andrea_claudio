@@ -17,6 +17,7 @@ export class AdminService {
 
   private appointmentUpdated = new Subject<void>(); // Notifie les changements de rendez-vous
   private orderUpdated = new Subject<void>(); // Notifie les mises à jour des commandes
+  private ordonnanceUpdated = new Subject<void>(); // Notifie les mises à jour des commandes
 
   constructor(private http: HttpClient, private notificationService: NotificationService) { }
 
@@ -48,6 +49,17 @@ export class AdminService {
   // Observable pour écouter les notifications de mise à jour des commandes
   onOrdersUpdated(): Observable<void> {
     return this.orderUpdated.asObservable();
+  }
+
+  // Observable pour écouter les notifications de mise à jour des commandes
+  onOrdonnanceUpdated(): Observable<void> {
+    return this.orderUpdated.asObservable();
+  }
+
+  // Notifie une mise à jour des ordonnances
+  notifyOrdonnanceUpdated(): void {
+    console.log('Notification de mise à jour des ordonnances déclenchée');
+    this.ordonnanceUpdated.next();
   }
 
   updateOrderStatus(id: number, status: string): Observable<void> {

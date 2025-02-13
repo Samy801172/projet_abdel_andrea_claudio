@@ -21,6 +21,7 @@ export class AdminDashboardComponent implements OnInit {
   orders: Order[] = []; // Liste des commandes
   pendingOrders: number = 0;
   pendingAppointments: number = 0;
+  pendingOrdonnances: number = 0;
 
 
   constructor(
@@ -34,16 +35,25 @@ export class AdminDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.LoadAppointmentsNotConfirmed(); // Charger les rendez-vous au démarrage
     this.LoadOrdersNotConfirmed(); // Charger les commandes au démarrage
+    this.LoadOrdonnanceNotConfirmed();
     console.log(this.orders);
 
-    // Écouter les mises à jour des rendez-vous pour mettre à jour la pastille badge
-    this.adminService.onAppointmentUpdated().subscribe(() => {
-      this.LoadAppointmentsNotConfirmed(); // Recharge ou recalcule les rendez-vous
-    });
 
     // Écouter les mises à jour des commandes pour mettre à jour la pastille badge
     this.adminService.onOrdersUpdated().subscribe(() => {
       this.LoadOrdersNotConfirmed(); // Recharge ou recalcule les commandes badges
+    // Écouter les mises à jour des rendez-vous pour mettre à jour la pastille badge
+    this.adminService.onAppointmentUpdated().subscribe(() => {
+      this.LoadAppointmentsNotConfirmed(); // Recharge ou recalcule les rendez-vous
+
+      // Écouter les mises à jour des ordonannces pour mettre à jour la pastille badge
+      this.adminService.onOrdonnanceUpdated().subscribe(() => {
+        this.LoadOrdonnanceNotConfirmed(); // Recharge ou recalcule les ordonnances badges
+
+      });
+
+    });
+
     });
   }
 
@@ -79,6 +89,19 @@ export class AdminDashboardComponent implements OnInit {
       },
       error: (error) => {
         console.error('Erreur lors du chargement des rendez-vous en attente :', error);
+      },
+    });
+  }
+
+  // Charge le nombre de commandes non confirmés via le service public
+  LoadOrdonnanceNotConfirmed(): void {
+    this.publicService.ordonnanceCount().subscribe({
+      next: (count: number) => {
+        this.pendingOrdonnances = count ?? 0; // Assure qu'on ne stocke pas undefined
+        console.log('Nombre total de ordonnance non confirmés:', this.pendingOrdonnances);
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des ordonnances :', error);
       },
     });
   }

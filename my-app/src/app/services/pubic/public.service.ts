@@ -66,6 +66,17 @@ export class PublicService {
     );
   }
 
+  // Méthode pour récupérer le nombre de d'ordonnance en attente
+  ordonnanceCount(): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/ordonnance-pending-count`).pipe(
+      tap((response) => console.log('On a donc tout ça :', response)),
+      catchError((error) => {
+        console.error('Erreur dans le service frontend :', error);
+        throw error;
+      })
+    );
+  }
+
   // Méthode pour récupérer le nombre de rendez-vous confirmés
   ordersCountConfirmed(): Observable<number> {
     return this.http.get<number>(`${this.apiUrl}/orders-confirmed-count`).pipe(

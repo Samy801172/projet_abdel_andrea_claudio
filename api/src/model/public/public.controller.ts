@@ -58,4 +58,12 @@ export class PublicController {
     return this.publicService.orderCountCanceled();
   }
 
+  ////////////////////ORDONNANCE////////////////////////
+
+  // chargement du nombre d'ordonnances en attente
+  @Get('ordonnance-pending-count')
+  async getPendingOrdonnanceCount(): Promise<number> {
+    return this.publicService.ordonnanceCount();
+  }
+
 }
