@@ -1,13 +1,9 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
 @Entity('paypal_payment')
 export class PaypalPayment {
+
   @ApiProperty({ example: 'PAYPAL-ORDER-123' })
   @PrimaryGeneratedColumn()
   id: number;

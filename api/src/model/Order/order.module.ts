@@ -7,10 +7,12 @@ import { Order } from './order.entity';
 import { Client } from '../Client/client.entity'; // Importer l'entité Client
 import { OrderDetail } from './OrderDetail/order-detail.entity';
 import { Product } from 'model/Product/product.entity';
-import { Cart } from 'model/Cart/cart.entity';
+import { Cart } from '../Cart/cart.entity';
 import { ProductPromotion } from 'model/ProductPromotion/productPromotion.entity';
 import { OrderStatus } from 'model/OrderStatus/dto/order-status.enum';
 import { OrderStatusEntity } from 'model/OrderStatus/orderStatus.entity';
+import { CartModule } from '../Cart/cart.module';
+import { ClientModule } from '../Client/client.module';
 
 @Module({
   imports: [
@@ -23,6 +25,8 @@ import { OrderStatusEntity } from 'model/OrderStatus/orderStatus.entity';
       Cart,
       ProductPromotion
     ]),
+    CartModule,
+    ClientModule,
   ],
   controllers: [OrderController],
   providers: [OrderService],

@@ -1,62 +1,80 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { Order } from '../Order/order.entity';
-import { OrderStatus } from '../OrderStatus/dto/order-status.enum';
-import { ApiProperty } from '@nestjs/swagger';
+import { ManufacturingStatus } from './enums/manufacturing-status.enum';
+import { Client } from '../Client/client.entity';
 
-@Entity()
+@Entity('manufacturing')
 export class Manufacturing {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @ApiProperty()
-    @PrimaryGeneratedColumn()
-    id: number;
+  @Column({ name: 'client_id', nullable: false })
+  clientId: number;
 
-    @ManyToOne(() => Order)
-    @JoinColumn({ name: 'orderId' })
-    order: Order;
+  @ManyToOne(() => Client)
+  @JoinColumn({ name: 'client_id' })
+  client: Client;
 
-    @Column()
-    orderId: number;
+  @Column({ name: 'order_id', nullable: true })
+  orderId: number;
 
-    @ApiProperty()
-    @Column({ nullable: true })
-    prescriptionUrl: string;
+  @ManyToOne(() => Order)
+  @JoinColumn({ name: 'order_id' })
+  order: Order;
 
-    @ApiProperty()
-    @Column({ type: 'text', nullable: true })
-    notes: string;
+  @Column({
+    type: 'enum',
+    enum: ManufacturingStatus,
+    default: ManufacturingStatus.EN_ATTENTE_ACOMPTE
+  })
+  status: ManufacturingStatus;
 
-    @ApiProperty()
-    @Column()
-    startDate: Date;
+  @Column({ type: 'varchar', nullable: true })
+  type: string;
 
-    @ApiProperty()
-    @Column({ nullable: true })
-    completionDate: Date;
+  @Column({ type: 'text', nullable: true })
+  description: string;
 
-    @ApiProperty()
-    @Column('decimal', { precision: 10, scale: 2 })
-    depositAmount: number;
+  @Column({ type: 'text', nullable: true })
+  instructions: string;
 
-    @ApiProperty()
-    @Column('decimal', { precision: 10, scale: 2 })
-    totalAmount: number;
+  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
+  estimatedPrice: number;
 
-    @ApiProperty()
-    @Column()
-    depositPaid: boolean;
+  @Column({ type: 'varchar', nullable: true })
+  prescriptionPath: string;
 
-    @ApiProperty()
-    @Column({
-        type: 'enum',
-        enum: OrderStatus
-    })
-    status: OrderStatus;
+  @CreateDateColumn()
+  createdAt: Date;
 
-    @ApiProperty()
-    @CreateDateColumn()
-    createdAt: Date;
+  @UpdateDateColumn()
+  updatedAt: Date;
 
-    @ApiProperty()
-    @UpdateDateColumn()
-    updatedAt: Date;
+  @Column({ type: 'timestamp', nullable: true })
+  estimatedCompletionDate: Date;
+
+  @Column({ nullable: true })
+  notes: string;
+
+  @Column({ nullable: true })
+  customRequestId: number;
+
+  @Column('jsonb', { nullable: true })
+  prescriptionDetails: {
+    doctor: {
+      name: string;
+      address: string;
+      rpps: string;
+    };
+    prescription: {
+      date: string;
+      patient: string;
+      composition: Array<{
+        name: string;
+        dosage: string;
+      }>;
+      posology: string;
+      duration: string;
+    };
+  };
 } 

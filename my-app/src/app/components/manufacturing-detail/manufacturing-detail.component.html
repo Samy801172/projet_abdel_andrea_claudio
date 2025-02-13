@@ -1,0 +1,48 @@
+<div class="manufacturing-details" *ngIf="details">
+  <h2>Détails de la fabrication #{{orderId}}</h2>
+  
+  <div class="status-info">
+    <div class="status-header">
+      <p>Statut : <span [class]="'status-badge ' + details.status.toLowerCase()">{{details.status | manufacturingStatus}}</span></p>
+      <div class="progress-bar">
+        <div class="progress" [style.width.%]="getProgressPercentage()"></div>
+        <span class="progress-text">{{getProgressPercentage()}}%</span>
+      </div>
+    </div>
+
+    <div class="dates-info">
+      <p><i class="fas fa-calendar-alt"></i> Date de création : {{details.createdAt | date:'dd/MM/yyyy HH:mm'}}</p>
+      <p><i class="fas fa-hourglass-half"></i> Date estimée de fin : {{details.estimatedCompletionDate | date:'dd/MM/yyyy HH:mm'}}</p>
+    </div>
+
+    <div class="notes-section" *ngIf="details.notes">
+      <h3>Notes</h3>
+      <p>{{details.notes}}</p>
+    </div>
+  </div>
+
+  <div class="actions" *ngIf="isAdmin">
+    <button class="btn btn-primary" (click)="updateStatus('EN_FABRICATION')" 
+            [disabled]="details.status !== 'EN_ATTENTE'">
+      Démarrer la fabrication
+    </button>
+    <button class="btn btn-success" (click)="updateStatus('TERMINE')"
+            [disabled]="details.status !== 'EN_FABRICATION'">
+      Terminer la fabrication
+    </button>
+    <button class="btn btn-info" (click)="updateStatus('PRET_POUR_RETRAIT')"
+            [disabled]="details.status !== 'TERMINE'">
+      Marquer comme prêt
+    </button>
+  </div>
+</div>
+
+<div *ngIf="loading" class="loading">
+  <div class="spinner"></div>
+  <p>Chargement des détails...</p>
+</div>
+
+<div *ngIf="error" class="error">
+  <i class="fas fa-exclamation-circle"></i>
+  {{error}}
+</div> 

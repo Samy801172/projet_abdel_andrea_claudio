@@ -14,6 +14,8 @@ import {ClientAppointmentsComponent} from "./appointments/client-appointments.co
 import {OrderConfirmationComponent} from "../../../../components/order-confirmation/order-confirmation.component";
 import {PaymentSuccessComponent} from "../../../../components/payment/payment-success.component";
 import {UploadPrescriptionComponent} from "./Ordonnance/ordonnance.component";
+import { ManufacturingListComponent } from '../../../../components/manufacturing/manufacturing-list/manufacturing-list.component';
+import { CustomMedicationComponent } from '../../../../components/custom-medication/custom-medication.component';
 
 
 export const clientRoutes: Routes = [
@@ -105,8 +107,21 @@ export const clientRoutes: Routes = [
           title: 'Mes Commandes',
           requiresAuth: true
         }
+      },
 
+      //Manufacturing Client
+      {
+        path: 'manufacturing/list',
+        component: ManufacturingListComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'manufacturing/custom',
+        component: CustomMedicationComponent,
+        canActivate: [AuthGuard]
       }
+
+
     ]
   }
 ];

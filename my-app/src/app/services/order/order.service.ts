@@ -1,46 +1,101 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import {catchError, map, tap} from 'rxjs/operators';
+import { Observable, throwError, switchMap } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { NewOrder, Order } from '../../models/order/order.model';
 import { NotificationService } from '../notification/notification.service';
 import { AuthService } from '../auth/auth.service';
+import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
-  private readonly baseUrl = 'http://localhost:2024/api/orders';
+  private readonly baseUrl = `${environment.apiUrl}/orders`;
 
   constructor(
     private http: HttpClient,
     private notificationService: NotificationService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
-  createOrder(newOrder: NewOrder): Observable<Order> {
-    const headers = this.getAuthHeaders();
 
-    return this.http.post<Order>(this.baseUrl, newOrder, { headers }).pipe(
-      tap((response) => {
+  createOrder(orderData: any): Observable<any> {
+    // Format simplifié pour correspondre exactement au backend
+    const transformedData = {
+      clientId: orderData.clientId,
+      orderLines: orderData.orderLines.map((line: any) => ({
+        id_product: line.productId,
+        quantity: line.quantity
+      })),
+      payment: {
+        method: orderData.payment.method
+      }
+    };
+
+    console.log('Données envoyées au serveur:', JSON.stringify(transformedData, null, 2));
+
+    const headers = new HttpHeaders()
+      .set('Authorization', `Bearer ${this.getAuthToken()}`)
+      .set('Content-Type', 'application/json');
+
+    return this.http.post(this.baseUrl, transformedData, { headers }).pipe(
+      tap(response => {
+        console.log('Commande créée:', response);
         this.notificationService.success('Commande créée avec succès');
       }),
-      catchError((error: HttpErrorResponse) => {
+      catchError(error => {
+        console.error('Erreur détaillée:', error);
+        if (error.status === 401) {
+          this.notificationService.error('Session expirée');
+          this.router.navigate(['/login']);
+        } else {
+          this.notificationService.error(
+            error.error?.message || 'Erreur lors de la création de la commande'
+          );
+        }
+        return throwError(() => error);
+      })
+    );
+  }
+
+  // Nouvelle méthode pour les acomptes de fabrication
+  createManufacturingOrder(orderData: any): Observable<any> {
+    const transformedData = {
+      clientId: orderData.clientId,
+      orderLines: orderData.orderLines,
+      payment: {
+        method: orderData.payment.method,
+        transactionId: orderData.payment.transactionId,
+        status: 'COMPLETED',
+        amount: orderData.payment.amount
+      },
+      date_order: new Date().toISOString(),
+      id_statut: 1
+    };
+
+    const headers = new HttpHeaders()
+      .set('Authorization', `Bearer ${this.getAuthToken()}`)
+      .set('Content-Type', 'application/json');
+
+    return this.http.post(`${environment.apiUrl}/manufacturing/orders`, transformedData, { headers }).pipe(
+      tap(response => {
+        console.log('Commande de fabrication créée:', response);
+        this.notificationService.success('Commande de fabrication créée avec succès');
+      }),
+      catchError(error => {
+        console.error('Erreur détaillée:', error);
         this.notificationService.error(
-          error.error?.message || 'Erreur lors de la création de la commande'
+          error.error?.message || 'Erreur lors de la création de la commande de fabrication'
         );
         return throwError(() => error);
       })
     );
   }
-  // Méthode privée pour créer les headers avec token
-  private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      console.warn('Pas de token trouvé');
-      this.authService.logout();
-      return new HttpHeaders();
-    }
-    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+  private getAuthToken(): string {
+    return localStorage.getItem('token') || '';
   }
 
   getAllOrders(): Observable<Order[]> {
@@ -52,15 +107,6 @@ export class OrderService {
       })
     );
   }
-
-// Fonction utilitaire pour vérifier si le token est expiré
-  private isTokenExpired(token: string): boolean {
-    const payload = JSON.parse(atob(token.split('.')[1])); // Décode la partie payload du token
-    const now = Math.floor(Date.now() / 1000); // Temps actuel en secondes
-    return payload.exp < now; // Vérifie si le temps actuel dépasse la date d'expiration
-  }
-
-
 
   getOrdersByClientId(clientId: number): Observable<Order[]> {
     console.log(`Récupération des commandes pour le client ${clientId}`);
@@ -116,9 +162,6 @@ export class OrderService {
     );
   }
 
-  downloadInvoice(orderId: number) {
-    return this.http.get(`/${orderId}/pdf`, { responseType: 'arraybuffer' });
-  }
 
   updateOrderStatus(orderId: number, newStatus: number): Observable<any> {
     const headers = this.getAuthHeaders();
@@ -132,10 +175,6 @@ export class OrderService {
         return throwError(() => new Error('Impossible de mettre à jour le statut'));
       })
     );
-  }
-
-  deleteProduct(productId: number) {
-    return this.http.delete(`${this.baseUrl}/details/${productId}`);
   }
 
   deleteOrder(orderId: number): Observable<void> {
@@ -247,5 +286,21 @@ export class OrderService {
     return this.http.post(`${this.baseUrl}/payment/confirm`, { orderId });
   }
 
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.warn('Pas de token trouvé');
+      this.authService.logout();
+      return new HttpHeaders();
+    }
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  }
 
+  getClientOrders(): Observable<Order[]> {
+    const clientId = localStorage.getItem('clientId');
+    if (!clientId) {
+      return throwError(() => new Error('Client ID non trouvé'));
+    }
+    return this.getOrdersByClientId(Number(clientId));
+  }
 }

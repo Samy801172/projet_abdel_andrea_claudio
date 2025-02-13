@@ -1,28 +1,26 @@
 // paypal.controller.ts
-import { Controller, Post, Body, Param, Get } from '@nestjs/common';
+import { Controller, Post, Body, Param } from '@nestjs/common';
 import { PaypalService } from './paypal.service';
 import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CreatePaypalOrderDto } from './dto/paypal.dto';
-import { OrderService } from 'model/Order/order.service';
+import { OrderService } from '../Order/order.service';
+import { CreateOrderDto } from '../Payment/dto/payment.dto';
 
 @ApiTags('paypal')
 @Controller('paypal')
 export class PaypalController {
   constructor(
     private paypalService: PaypalService,
-    private orderService: OrderService,
+    private orderService: OrderService
   ) {}
 
-  @Post('create-order')
+  @Post()
   @ApiOperation({ summary: 'Créer une commande PayPal' })
-  @ApiBody({ type: CreatePaypalOrderDto })
-  async createOrder(@Body() createOrderDto: CreatePaypalOrderDto) {
-    const order = await this.orderService.createOrderFromCart(
-      createOrderDto.clientId,
-    );
+  @ApiBody({ type: CreateOrderDto })
+  async createOrder(@Body() createOrderDto: CreateOrderDto) {
+    const order = await this.orderService.getOrderById(createOrderDto.orderId);
     return this.paypalService.createOrder(
       createOrderDto.amount,
-      order.id_order,
+      order.id_order.toString()
     );
   }
 

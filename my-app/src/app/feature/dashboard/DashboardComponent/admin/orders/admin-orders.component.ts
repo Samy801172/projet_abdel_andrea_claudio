@@ -19,8 +19,903 @@ enum OrderStatus {
   selector: 'app-admin-order-details',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: 'admin-orders.component.html',
-  styleUrl: 'admin-orders.component.scss'
+  template: `
+    <!-- Liste des commandes -->
+    <div class="orders-container">
+      <!-- En-tête avec statistiques -->
+      <header class="page-header">
+        <h1>Gestion des Commandes</h1>
+        <div class="stats">
+          <div class="stat-card">
+            <span class="label">Total</span>
+            <span class="value">{{orders.length}}</span>
+          </div>
+          <div class="stat-card">
+            <span class="label">En cours</span>
+            <span class="value">{{getOrdersByStatus(OrderStatus.Processing)}}</span>
+          </div>
+          <div class="stat-card">
+            <span class="label">En attente</span>
+            <span class="value">{{getOrdersByStatus(OrderStatus.Pending)}}</span>
+          </div>
+        </div>
+      </header>
+      <div class="filters">
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="filterOrders()"
+          placeholder="Rechercher une commande..."
+          class="search-input"
+        >
+        <select
+          [(ngModel)]="statusFilter"
+          (change)="filterOrders()"
+          class="status-select"
+        >
+          <option value="all">Tous les statuts</option>
+          <option *ngFor="let status of orderStatuses" [value]="status.id_statut">
+            {{status.label}}
+          </option>
+        </select>
+      </div>
+      <div *ngIf="loading" class="loading">Chargement des commandes...</div>
+
+      <div *ngIf="error" class="error">{{ error }}</div>
+
+      <div *ngIf="!loading && !error">
+        <div *ngIf="filteredOrders.length === 0" class="empty-state">
+          Aucune commande trouvée.
+        </div>
+        <div *ngIf="orders.length > 0" class="orders-grid">
+          <div *ngFor="let order of filteredOrders; trackBy: trackByOrderId" class="order-card">
+            <div class="order-header">
+              <h3>Commande #{{ order.id_order }}</h3>
+              <div class="order-info">
+                <span class="order-date">{{ order.date_order | date:'dd/MM/yyyy' }}</span>
+                <span [class]="getStatusClass(order.id_statut)">
+                  {{ getStatusLabel(order.id_statut) }}
+                </span>
+              </div>
+            </div>
+
+            <div *ngIf="order.orderDetails && order.orderDetails.length > 0" class="order-products">
+              <div *ngFor="let detail of order.orderDetails; trackBy: trackByOrderDetailId" class="product-item">
+                <span class="product-name">{{ detail.product.name }}</span>
+                <span class="product-quantity">x{{ detail.quantity }}</span>
+                <span class="product-price">{{ detail.unit_price | currency:'EUR' }}</span>
+              </div>
+            </div>
+
+            <div class="order-footer">
+              <div class="order-totals">
+                <span class="order-total">Total: {{ order.montant_total | currency:'EUR' }}</span>
+              </div>
+              <button class="details-btn" (click)="openOrderDetails(order)">
+                Modifier
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-overlay" *ngIf="selectedOrder">
+      <div class="modal-content">
+        <!-- En-tête -->
+        <div class="modal-header">
+          <div class="header-content">
+            <h3>Détails de la commande #{{selectedOrder.id_order}}</h3>
+            <div class="status-badge" [class]="getStatusClass(selectedOrder.id_statut)">
+              {{ getStatusLabel(selectedOrder.id_statut) }}
+            </div>
+          </div>
+          <button class="close-btn" (click)="closeModal()">×</button>
+        </div>
+
+        <!-- Corps -->
+        <div class="modal-body">
+          <!-- Informations client -->
+          <div class="card info-section">
+            <h4>Informations client</h4>
+            <div class="client-info">
+              <div class="info-row">
+                <span class="label">Client:</span>
+                <span class="value">{{ selectedOrder.client?.firstName }} {{ selectedOrder.client?.lastName }}</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Date:</span>
+                <span class="value">{{ selectedOrder.date_order | date:'dd/MM/yyyy HH:mm' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Produits -->
+          <div class="card product-section">
+            <h4>Produits commandés</h4>
+            <div class="table-responsive">
+              <table>
+                <thead>
+                <tr>
+                  <th>Produit</th>
+                  <th>Quantité</th>
+                  <th>Prix unitaire</th>
+                  <th>Total</th>
+                  <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let detail of selectedOrder.orderDetails; trackBy: trackByOrderDetailId">
+                  <td>{{ detail.product.name }}</td>
+                  <td>
+                    <div class="quantity-control">
+                      <button class="qty-btn" (click)="updateQuantity(detail, -1)" [disabled]="detail.quantity <= 1">-</button>
+                      <input
+                        type="number"
+                        [(ngModel)]="detail.quantity"
+                        min="1"
+                        (change)="validateAndUpdateQuantity(detail)"
+                        class="qty-input"
+                      >
+                      <button class="qty-btn" (click)="updateQuantity(detail, 1)">+</button>
+                    </div>
+                  </td>
+                  <td>{{ detail.unit_price | currency:'EUR' }}</td>
+                  <td>{{ detail.quantity * detail.unit_price | currency:'EUR' }}</td>
+                  <td>
+                    <button class="delete-btn" (click)="removeProduct(detail)">
+                      Supprimer
+                    </button>
+                  </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                  <td colspan="3" class="total-label">Total</td>
+                  <td colspan="2" class="total-value">{{ selectedOrder.montant_total | currency:'EUR' }}</td>
+                </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+
+          <!-- Gestion du statut -->
+          <div class="card status-section">
+            <h4>Gestion du statut</h4>
+            <div class="status-control">
+              <select
+                [(ngModel)]="newStatus"
+                [disabled]="processing"
+                class="status-select"
+              >
+                <option [ngValue]="null">Sélectionner un nouveau statut</option>
+                <option
+                  *ngFor="let status of getAvailableStatuses(selectedOrder)"
+                  [ngValue]="status.id_statut"
+                >
+                  {{ status.label }}
+                </option>
+              </select>
+              <button
+                class="action-btn primary"
+                [disabled]="!newStatus || processing || newStatus === selectedOrder.id_statut"
+                (click)="updateOrderStatus()"
+              >
+                {{ processing ? 'Mise à jour...' : 'Mettre à jour le statut' }}
+              </button>
+            </div>
+            <div *ngIf="statusError" class="error-message">{{ statusError }}</div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="modal-footer">
+          <button class="action-btn secondary" (click)="closeModal()">
+            Annuler
+          </button>
+          <button
+            class="action-btn primary"
+            [disabled]="processing || !hasChanges()"
+            (click)="saveChanges()"
+          >
+            {{ processing ? 'Enregistrement...' : 'Sauvegarder' }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+  `,
+  styles: [`
+
+    .details-btn {
+      background: #2563eb;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 0.375rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+
+      &:hover {
+        background: #1d4ed8;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+
+    // Pour le montant total
+    .order-total {
+      font-weight: 600;
+      color: #1a56db;
+      font-size: 1.125rem;
+      padding: 0.5rem;
+      background: #f3f4f6;
+      border-radius: 0.375rem;
+    }
+
+    // Pour le bouton de mise à jour du statut
+    .update-status-btn {
+      background: #3b82f6;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 0.375rem;
+      font-weight: 500;
+      transition: all 0.2s;
+
+      &:hover {
+        background: #2563eb;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+
+    // Pour les boutons d'action en bas de la modal
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      padding: 1rem;
+      border-top: 1px solid #e5e7eb;
+      background: #f9fafb;
+
+      button {
+        padding: 0.5rem 1.5rem;
+        border-radius: 0.375rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &.cancel {
+          background: #f3f4f6;
+          color: #374151;
+          border: 1px solid #d1d5db;
+
+          &:hover {
+            background: #e5e7eb;
+          }
+        }
+
+        &.save {
+          background: #2563eb;
+          color: white;
+          border: none;
+
+          &:hover {
+            background: #1d4ed8;
+          }
+        }
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+      }
+    }
+
+    // Pour le select de statut
+    .status-select {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.375rem;
+      background-color: white;
+      font-size: 0.875rem;
+      color: #374151;
+      cursor: pointer;
+      transition: all 0.2s;
+
+      &:focus {
+        outline: none;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+      }
+
+      &:disabled {
+        background-color: #f3f4f6;
+        cursor: not-allowed;
+      }
+    }
+    .orders-container {
+      padding: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      background: #f8f9fa;
+    }
+    .stats-container {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: flex-end;
+      gap: 2rem;
+
+      .stat-item {
+        text-align: center;
+
+        .value {
+          font-size: 1.5rem;
+          font-weight: bold;
+          color: #2563eb;
+
+          &.processing { color: #0369a1; }
+          &.pending { color: #92400e; }
+        }
+
+        .label {
+          font-size: 0.875rem;
+          color: #6b7280;
+        }
+      }
+    }
+    .filters {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+
+      .search-input {
+        flex: 1;
+        padding: 0.625rem 1rem;
+        border: 1px solid #E5E7EB;
+        border-radius: 6px;
+        min-width: 250px;
+
+        &:focus {
+          outline: none;
+          border-color: #0066CC;
+        }
+      }
+      .stats {
+        display: flex;
+        gap: 1.5rem;
+
+        .stat-card {
+          background: white;
+          padding: 1rem 1.5rem;
+          border-radius: 8px;
+          box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+          min-width: 120px;
+          text-align: center;
+
+          .value {
+            color: #0066CC;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+          }
+
+          .label {
+            color: #6B7280;
+            font-size: 0.875rem;
+          }
+        }
+      }
+
+      .status-select {
+        padding: 0.625rem 1rem;
+        border: 1px solid #E5E7EB;
+        border-radius: 6px;
+        min-width: 200px;
+        background: white;
+        cursor: pointer;
+
+        &:focus {
+          outline: none;
+          border-color: #0066CC;
+        }
+      }
+    }
+    .page-header {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      h2 {
+        color: #0066CC;
+        font-size: 1.5rem;
+        margin: 0;
+        font-weight: 500;
+      }
+    }
+
+    .stats {
+      display: flex;
+      gap: 1.5rem;
+
+      .stat-card {
+        background: white;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        min-width: 120px;
+        text-align: center;
+
+        .value {
+          color: #0066CC;
+          font-size: 1.5rem;
+          font-weight: bold;
+          margin-bottom: 0.25rem;
+        }
+
+        .label {
+          color: #6B7280;
+          font-size: 0.875rem;
+        }
+      }
+    }
+
+    .orders-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .order-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      overflow: hidden;
+
+      .order-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.25rem;
+        background: #f8f9fa;
+        border-bottom: 1px solid #e5e7eb;
+
+        h3 {
+          margin: 0;
+          color: #111827;
+          font-size: 1rem;
+          font-weight: 500;
+        }
+
+        .status {
+          padding: 0.375rem 0.75rem;
+          border-radius: 9999px;
+          font-size: 0.875rem;
+          font-weight: 500;
+
+          &.status-1 { background: #FEF3C7; color: #92400E; }  // En attente
+          &.status-2 { background: #DBEAFE; color: #1E40AF; }  // En cours
+          &.status-3 { background: #D1FAE5; color: #065F46; }  // Expédié
+          &.status-4 { background: #BBF7D0; color: #166534; }  // Livré
+          &.status-5 { background: #FEE2E2; color: #991B1B; }  // Annulé
+        }
+      }
+
+      .order-details {
+        padding: 1.25rem;
+
+        table {
+          width: 100%;
+          border-collapse: collapse;
+
+          th {
+            text-align: left;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e5e7eb;
+            font-weight: 500;
+            color: #374151;
+          }
+
+          td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #e5e7eb;
+          }
+        }
+      }
+
+      .product-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem;
+        border-bottom: 1px solid #e5e7eb;
+
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1rem;
+
+      button {
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-weight: 500;
+        cursor: pointer;
+        border: none;
+        transition: all 0.2s;
+
+        &.update-btn {
+          background: #0066CC;
+          color: white;
+          &:hover { background: #0052a3; }
+        }
+
+        &.cancel-btn {
+          background: #DC2626;
+          color: white;
+          &:hover { background: #B91C1C; }
+        }
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+      }
+    }
+
+    .quantity-control {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      input {
+        width: 60px;
+        text-align: center;
+        padding: 0.25rem;
+        border: 1px solid #D1D5DB;
+        border-radius: 4px;
+      }
+
+      button {
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        background: #F3F4F6;
+        cursor: pointer;
+        border-radius: 4px;
+
+        &:hover {
+          background: #E5E7EB;
+        }
+      }
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: grid;
+      place-items: center;
+      z-index: 50;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 800px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: grid;
+      place-items: center;
+      z-index: 50;
+      padding: 1rem;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 0.75rem;
+      width: 100%;
+      max-width: 900px;
+      max-height: calc(100vh - 2rem);
+      overflow-y: auto;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+      padding: 1.25rem;
+      border-bottom: 1px solid #e5e7eb;
+      background: #f8fafc;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .header-content {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      h3 {
+        margin: 0;
+        font-size: 1.25rem;
+        color: #0f172a;
+      }
+
+      .close-btn {
+        background: transparent;
+        border: none;
+        font-size: 1.5rem;
+        color: #64748b;
+        cursor: pointer;
+        padding: 0.25rem;
+        line-height: 1;
+
+        &:hover {
+          color: #0f172a;
+        }
+      }
+    }
+
+    .card {
+      background: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+
+      h4 {
+        margin: 0 0 1rem 0;
+        font-size: 1rem;
+        color: #0f172a;
+      }
+    }
+
+    .info-section {
+      .client-info {
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .info-row {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        .label {
+          color: #64748b;
+          min-width: 80px;
+        }
+
+        .value {
+          color: #0f172a;
+          font-weight: 500;
+        }
+      }
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+      margin: 0 -1.25rem;
+      padding: 0 1.25rem;
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        white-space: nowrap;
+
+        th {
+          background: #f8fafc;
+          padding: 0.75rem 1rem;
+          text-align: left;
+          color: #64748b;
+          font-weight: 500;
+          border-bottom: 1px solid #e2e8f0;
+        }
+
+        td {
+          padding: 0.75rem 1rem;
+          border-bottom: 1px solid #e2e8f0;
+          vertical-align: middle;
+        }
+
+        tfoot {
+          font-weight: 600;
+
+          .total-label {
+            text-align: right;
+            color: #64748b;
+          }
+
+          .total-value {
+            color: #0f172a;
+          }
+        }
+      }
+    }
+
+    .quantity-control {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+
+      .qty-input {
+        width: 60px;
+        text-align: center;
+        padding: 0.375rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.375rem;
+
+        &:focus {
+          outline: none;
+          border-color: #3b82f6;
+          box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+        }
+      }
+
+      .qty-btn {
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #e2e8f0;
+        background: white;
+        border-radius: 0.375rem;
+        cursor: pointer;
+        color: #64748b;
+        padding: 0;
+
+        &:hover:not(:disabled) {
+          background: #f8fafc;
+          color: #0f172a;
+        }
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+      }
+    }
+
+    .status-section {
+      .status-control {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+      }
+
+      .status-select {
+        flex: 1;
+        padding: 0.5rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.375rem;
+        background: white;
+
+        &:focus {
+          outline: none;
+          border-color: #3b82f6;
+          box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+        }
+
+        &:disabled {
+          background: #f8fafc;
+          cursor: not-allowed;
+        }
+      }
+    }
+
+    .action-btn {
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      &.primary {
+        background: #3b82f6;
+        color: white;
+        border: none;
+
+        &:hover:not(:disabled) {
+          background: #2563eb;
+        }
+      }
+
+      &.secondary {
+        background: white;
+        color: #64748b;
+        border: 1px solid #e2e8f0;
+
+        &:hover:not(:disabled) {
+          background: #f8fafc;
+          color: #0f172a;
+        }
+      }
+    }
+
+    .delete-btn {
+      padding: 0.375rem 0.75rem;
+      background: #ef4444;
+      color: white;
+      border: none;
+      border-radius: 0.375rem;
+      cursor: pointer;
+
+      &:hover {
+        background: #dc2626;
+      }
+    }
+
+    .status-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 500;
+
+      &.status-1 { background: #fef3c7; color: #92400e; }
+      &.status-2 { background: #dbeafe; color: #1e40af; }
+      &.status-3 { background: #d1fae5; color: #065f46; }
+      &.status-4 { background: #bbf7d0; color: #166534; }
+      &.status-5 { background: #fee2e2; color: #991b1b; }
+    }
+
+    .error-message {
+      color: #ef4444;
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+    }
+
+    .modal-footer {
+      padding: 1.25rem;
+      border-top: 1px solid #e2e8f0;
+      background: #f8fafc;
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;}
+  `]
 })
 export class AdminOrdersComponent implements OnInit {
   // Propriétés existantes
@@ -301,20 +1196,16 @@ export class AdminOrdersComponent implements OnInit {
       return;
     }
 
-    console.log('Détails du produit à supprimer:', detail); // Affiche l'objet dans la console
-
-    const detailId = detail.id_order_detail || detail.product_id; // Essaye les deux
-
+    const detailId = detail.id_order_detail;
     if (!detailId) {
-      console.error('Données du détail de commande:', detail); // Debugging
       this.notificationService.error('Impossible de supprimer le produit : identifiant manquant');
       return;
     }
 
-    console.log('Suppression du produit avec ID:', detailId);
+    console.log('Suppression du produit avec id_order_detail:', detailId);
 
     this.processing = true;
-    this.orderService.deleteProduct(detailId).subscribe({
+    this.orderService.deleteOrderDetail(detailId).subscribe({
       next: () => {
         if (this.selectedOrder) {
           this.selectedOrder.orderDetails = this.selectedOrder.orderDetails.filter(
@@ -325,7 +1216,7 @@ export class AdminOrdersComponent implements OnInit {
         this.notificationService.success('Produit supprimé avec succès');
       },
       error: (error) => {
-        console.error('Erreur lors de la suppression du produit:', error); // 🔍 Affichage de l'erreur complète
+        console.error('Erreur lors de la suppression du produit:', error);
         this.notificationService.error('Erreur lors de la suppression du produit');
       },
       complete: () => {
@@ -333,7 +1224,6 @@ export class AdminOrdersComponent implements OnInit {
       }
     });
   }
-
 
   filterOrders(): void {
     this.filteredOrders = this.orders.filter(order => {
@@ -404,4 +1294,4 @@ export class AdminOrdersComponent implements OnInit {
     this.newStatus = null;
     this.statusError = null;
   }
-  }
+}

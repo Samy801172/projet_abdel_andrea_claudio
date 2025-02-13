@@ -18,6 +18,26 @@
     gap: 15px;
   }
 
+  // Style des liens vers les ordonnances
+  a {
+    color: #007bff; // Bleu principal
+    font-weight: bold;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      color: white;
+      background-color: #007bff; // Inverse les couleurs au survol
+      text-decoration: none;
+    }
+
+    &:active {
+      background-color: #0056b3; // Assombrit le fond lorsque le lien est cliqué
+    }
+  }
+
   .prescription-card {
     border: 1px solid #ddd;
     border-radius: 8px;

@@ -35,6 +35,7 @@
     "file-saver": "^2.0.5",
     "google-auth-library": "^9.15.0",
     "jwt-decode": "^4.0.0",
+    "ngx-socket-io": "^4.8.4",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
@@ -47,6 +48,7 @@
     "@types/gapi.auth2": "^0.0.61",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^22.10.9",
+    "@types/socket.io-client": "^1.4.36",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",

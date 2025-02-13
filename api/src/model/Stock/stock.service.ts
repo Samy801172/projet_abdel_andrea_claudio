@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
-import { DataSource, Repository } from 'typeorm';
-import { StockAlert } from './stock.entity';
+import { Injectable } from "@nestjs/common";
+import { InjectDataSource, InjectRepository } from "@nestjs/typeorm";
+import { DataSource, Repository } from "typeorm";
+import { StockAlert } from "./stock.entity";
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -10,21 +10,21 @@ import * as path from 'path';
 //StockAlert : Il s'agit d'une entité définissant les alertes de stock, possiblement liée à d'autres entités (comme Product).
 
 // src/model/Stock/stock.service.ts
-@Injectable() //Indique que cette classe peut être injectée comme dépendance dans d'autres parties de l'application NestJS.
+@Injectable()//Indique que cette classe peut être injectée comme dépendance dans d'autres parties de l'application NestJS.
 export class StockService {
   constructor(
-    @InjectRepository(StockAlert) //Injecte le repository de l'entité StockAlert pour manipuler les données liées aux alertes de stock via TypeORM.
+    @InjectRepository(StockAlert)//Injecte le repository de l'entité StockAlert pour manipuler les données liées aux alertes de stock via TypeORM.
     private stockAlertRepository: Repository<StockAlert>,
-    @InjectDataSource() //Injecte une instance de la source de données pour exécuter des requêtes SQL.
-    private dataSource: DataSource,
+    @InjectDataSource()//Injecte une instance de la source de données pour exécuter des requêtes SQL.
+    private dataSource: DataSource
   ) {}
 
-  //Cette méthode exécute une procédure stockée (CALL update_stock_after_sale) dans la base de données pour mettre à jour
-  // le stock d'un produit après une vente.
+//Cette méthode exécute une procédure stockée (CALL update_stock_after_sale) dans la base de données pour mettre à jour
+// le stock d'un produit après une vente.
   async updateStockAfterSale(productId: number, quantity: number) {
     await this.dataSource.query(
       'CALL update_stock_after_sale($1, $2)',
-      [productId, quantity], //productId : Identifiant du produit vendu.
+      [productId, quantity]//productId : Identifiant du produit vendu.
       //quantity : Quantité vendue.
     );
   }
@@ -50,7 +50,7 @@ export class StockService {
         csvContent += `"${product.name.replace(/"/g, '""')}",`;
         csvContent += `"${product.description.replace(/"/g, '""')}",`;
         csvContent += `${product.stock},`;
-        csvContent += `${product.price}\n`; // Le prix est déjà formaté par la requête SQL
+        csvContent += `${product.price}\n`;  // Le prix est déjà formaté par la requête SQL
       });
 
       // Ajouter BOM pour UTF-8
@@ -73,7 +73,21 @@ export class StockService {
   }
   async getStockAlerts() {
     return this.stockAlertRepository.find({
-      relations: ['product'],
+      relations: ['product']
     });
+  }
+
+  async updateStockForManufacturing(manufacturingId: number, quantity: number) {
+    try {
+      // Utiliser la procédure stockée existante
+      await this.dataSource.query(
+        'CALL update_stock_after_manufacturing($1, $2)',
+        [manufacturingId, quantity]
+      );
+      return true;
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour du stock:', error);
+      throw error;
+    }
   }
 }

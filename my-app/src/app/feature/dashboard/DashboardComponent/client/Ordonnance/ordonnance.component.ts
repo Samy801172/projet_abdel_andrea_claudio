@@ -25,14 +25,22 @@ export class UploadPrescriptionComponent implements OnInit {
     clientId: localStorage.getItem('clientId'), // Récupération de l'ID du client
     prescribed_by: '', // Nom du médecin
     medication_details: '', // Détails du médicament
-    expiry_date: null, // Date d'expiration (peut être null)
+    expiry_date: this.getFutureDate(7), // Définit la date d'expiration par défaut à aujourd'hui +7 jours
   };
 
-  constructor(private http: HttpClient) {} // Injection du service HttpClient pour faire des requêtes API
+  constructor(private http: HttpClient, private notificationService : NotificationService) {} // Injection du service HttpClient pour faire des requêtes API
 
   ngOnInit() {
     this.loadPrescriptions(); // Charge les ordonnances au chargement du composant
   }
+
+  // Cette méthode permet d'ajouter 7 jours à la date de validation (en gros elle sera valide 7 jours)
+  getFutureDate(days: number): string {
+    const futureDate = new Date();
+    futureDate.setDate(futureDate.getDate() + days);
+    return futureDate.toISOString().split('T')[0]; // Retourne la date au format YYYY-MM-DD
+  }
+
 
   /**
    * Capture le fichier sélectionné par l'utilisateur.
@@ -96,11 +104,12 @@ export class UploadPrescriptionComponent implements OnInit {
     this.http.post('http://localhost:2024/api/prescriptions/upload', formData).subscribe({
       next: () => {
         this.loadPrescriptions(); // Recharge les ordonnances après l'upload
-        alert('Ordonnance uploadée avec succès.');
+        this.toggleForm();
+        this.notificationService.success("Fichier chargé avec succès, attendez l'approbation d'un pharmacien.")
       },
       error: (err) => {
         console.error('Erreur lors de l\'upload :', err);
-        alert('Erreur lors de l\'upload de l\'ordonnance.');
+        this.notificationService.error("Une erreur s'est produite lors du chargement de votre fichier !")
       },
     });
   }

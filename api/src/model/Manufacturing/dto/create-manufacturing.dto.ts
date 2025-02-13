@@ -1,18 +1,36 @@
-import { IsNumber, IsNotEmpty } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { IsString, IsNotEmpty, IsOptional, IsNumber, IsEnum } from 'class-validator';
+import { ManufacturingStatus } from '../enums/manufacturing-status.enum';
 
 export class CreateManufacturingDto {
-    @ApiProperty()
-    @IsNotEmpty()
-    orderId: number;
-    
-    @ApiProperty()
-    @IsNumber()
-    @IsNotEmpty()
-    depositAmount: number;
+  @IsString()
+  @IsNotEmpty()
+  type: string;
 
-    @ApiProperty()
-    @IsNumber()
-    @IsNotEmpty()
-    totalAmount: number;
+  @IsString()
+  @IsNotEmpty()
+  description: string;
+
+  @IsString()
+  @IsOptional()
+  instructions?: string;
+
+  @IsString()
+  @IsOptional()
+  prescriptionPath?: string;
+
+  @IsNumber()
+  @IsOptional()
+  clientId?: number;
+
+  @IsNumber()
+  @IsOptional()
+  estimatedPrice?: number;
+
+  @IsNumber()
+  @IsOptional()
+  depositAmount?: number;
+
+  @IsEnum(ManufacturingStatus)
+  @IsOptional()
+  status?: ManufacturingStatus;
 } 

@@ -1,12 +1,5 @@
 // src/dto/update-order.dto.ts
-import {
-  IsArray,
-  IsDate,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  ValidateNested,
-} from 'class-validator';
+import { IsArray, IsDate, IsNotEmpty, IsNumber, IsOptional, ValidateNested } from 'class-validator';
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateOrderDto } from './create-order.dto';
 import { Type } from 'class-transformer';

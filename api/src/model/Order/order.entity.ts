@@ -1,12 +1,5 @@
 // src/model/Order/order.entity.ts
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-  OneToMany,
-  JoinColumn,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
 import { Client } from '../Client/client.entity';
 import { OrderStatusEntity } from '../OrderStatus/orderStatus.entity';
 import { Invoice } from '../Invoice/invoice.entity';
@@ -18,7 +11,7 @@ export class Order {
   @PrimaryGeneratedColumn()
   id_order: number;
 
-  @Column({ name: 'id_client' })
+  @Column({ nullable: false })
   id_client: number;
 
   @Column({ name: 'id_statut' })
@@ -46,5 +39,4 @@ export class Order {
 
   @OneToMany(() => Payment, (payment) => payment.order)
   payments: Payment[];
-  products: any;
 }
