@@ -18,7 +18,7 @@ class CartItem {
   // Convertir en JSON pour l'envoyer à l'API
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      'id_product': id,
       'name': nom,
       'price': prix,
       'quantity': quantite,
@@ -29,7 +29,7 @@ class CartItem {
   // Construire un objet CartItem depuis un JSON (Réponse de l'API)
   factory CartItem.fromJson(Map<String, dynamic> json) {
     return CartItem(
-      id: json['id'],
+      id: json['id_product'].toString(),
       nom: json['name'],
       prix: json['price'].toDouble(),
       quantite: json['quantity'],

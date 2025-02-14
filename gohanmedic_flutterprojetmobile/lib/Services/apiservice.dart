@@ -20,18 +20,37 @@ class ApiService {
 
       if (response.statusCode == HttpStatus.ok && response.body.isNotEmpty) {
         final List<dynamic> data = json.decode(response.body);
-        return data; // Retourne directement les produits
+
+        // 🔹 Transformation des données pour uniformiser l'ID
+        List<dynamic> transformedData = data.map((product) {
+          return {
+            'id': product['id_product'], // ✅ Remplace `id_product` par `id`
+            'name': product['name'],
+            'description': product['description'],
+            'price': product['price'],
+            'stock': product['stock'],
+            'active': product['active'],
+            'requiresPrescription': product['requiresPrescription'],
+            'image': product['image'] ?? 'assets/images/defautproduit.png', // Image par défaut si absente
+            'promotion': product['promotion'] ?? {},
+          };
+        }).toList();
+
+        print("✅ Produits transformés : ${jsonEncode(transformedData)}"); // 🔥 Debug
+
+        return transformedData; // ✅ Retourne la liste des produits transformés
       } else {
-        throw Exception('Erreur: Réponse vide ou statut ${response.statusCode == HttpStatus.notFound}');
+        throw Exception(
+            'Erreur: Réponse vide ou statut ${response.statusCode}');
       }
     } on http.ClientException catch (e) {
-      print(" Erreur réseau : $e");
+      print("❌ Erreur réseau : $e");
       throw Exception("Erreur réseau");
     } on TimeoutException {
-      print(" Temps d’attente dépassé : L’API ne répond pas");
+      print("⏳ Temps d’attente dépassé : L’API ne répond pas");
       throw Exception("Temps d’attente dépassé");
     } catch (e) {
-      print(" Erreur inconnue : $e");
+      print("❌ Erreur inconnue : $e");
       throw Exception("Erreur inconnue");
     }
   }

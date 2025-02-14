@@ -1,6 +1,7 @@
 // Page des médicaments - Permet au client de consulter les médicaments,
 // ajouter ou diminuer la quantité dans le panier et filtrer les médicaments en temps réel.
 
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:gohanmedic_flutterprojetmobile/Models/CartItem.dart';
@@ -15,43 +16,44 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
-  List<dynamic> _products = []; // Stocke la liste complète des produits récupérés depuis l’API.
-  List<dynamic> _filteredProducts = []; // Liste des produits après filtrage (recherche).
-  bool _isLoading = true; // Indique si les données sont en cours de chargement.
-  String searchQuery = ''; // Stocke le texte de la recherche.
+  List<dynamic> _products = []; // Stocke la liste complète des médicaments
+  List<dynamic> _filteredProducts = []; // Liste filtrée pour la recherche
+  bool _isLoading = true; // Indique si les données sont en cours de chargement
+  String searchQuery = ''; // Stocke le texte de la recherche
 
   @override
   void initState() {
     super.initState();
-    loadProducts(); // Charge les produits au démarrage de la page.
+    loadProducts();
   }
 
-  // 🔹 Fonction pour récupérer la liste des produits depuis l'API.
+  // 🔹 Charge les médicaments depuis l'API
   Future<void> loadProducts() async {
     try {
       List<dynamic> data = await ApiService.fetchProducts(); // Appel API
+      print("🔍 Produits récupérés depuis l'API : ${jsonEncode(data)}"); // 🔥 Debug API
+
       setState(() {
-        _products = data; // Stocke tous les produits
-        _filteredProducts = data; // Initialise la liste filtrée avec tous les produits.
-        _isLoading = false; // Fin du chargement.
+        _products = data;
+        _filteredProducts = data;
+        _isLoading = false;
       });
     } catch (e) {
-      print("Erreur lors du chargement des produits : $e");
+      print("❌ Erreur lors du chargement des produits : $e");
       setState(() {
         _isLoading = false;
       });
     }
   }
 
-  // Fonction qui filtre les produits en fonction de la recherche.
+  // 🔹 Filtrage des produits selon la recherche
   void updateSearch(String query) {
     setState(() {
-      searchQuery = query; // Met à jour le texte entré par l'utilisateur.
+      searchQuery = query;
 
       if (query.isEmpty) {
-        _filteredProducts = _products; // Si la recherche est vide, affiche tous les produits.
+        _filteredProducts = _products;
       } else {
-        // Filtrer la liste des produits en fonction du nom.
         _filteredProducts = _products
             .where((product) =>
             product['name'].toString().toLowerCase().contains(query.toLowerCase()))
@@ -62,19 +64,18 @@ class _ProductPageState extends State<ProductPage> {
 
   @override
   Widget build(BuildContext context) {
-    final cart = Provider.of<CartProvider>(context); // Accès au panier via le provider.
+    final cart = Provider.of<CartProvider>(context, listen: true); // 🔥 Mise à jour dynamique du panier
 
     return BaseLayout(
       title: 'Médicaments',
-      requireAuthentication: false, // Permet d'afficher la bannière sans bloquer l'accès total.
+      requireAuthentication: false,
       body: Column(
         children: [
-
-          // Barre de recherche pour filtrer les produits.
+          // 🔍 Barre de recherche
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: TextField(
-              onChanged: updateSearch, // Met à jour la recherche en temps réel.
+              onChanged: updateSearch,
               decoration: InputDecoration(
                 labelText: "Rechercher un médicament",
                 border: OutlineInputBorder(),
@@ -83,23 +84,23 @@ class _ProductPageState extends State<ProductPage> {
             ),
           ),
 
-          // Affichage des produits (soit tous, soit filtrés).
+          // 📦 Affichage des médicaments sous forme de grille
           Expanded(
             child: _isLoading
-                ? Center(child: CircularProgressIndicator(color: Colors.green)) // Chargement en cours.
+                ? Center(child: CircularProgressIndicator(color: Colors.green))
                 : _filteredProducts.isEmpty
-                ? Center(child: Text('Aucun médicament trouvé.')) // Aucun résultat trouvé.
+                ? Center(child: Text('Aucun médicament trouvé.'))
                 : GridView.builder(
-              padding: const EdgeInsets.all(5), // Moins de padding pour un affichage plus dense.
+              padding: const EdgeInsets.all(5),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4, // Nombre de colonne
-                crossAxisSpacing: 5, // Réduit l’espacement horizontal.
-                mainAxisSpacing: 5, // Réduit l’espacement vertical.
-                childAspectRatio: 0.65, // Ajuste la taille des cartes (plus compact).
+                crossAxisCount: 4, // Nombre de colonnes
+                crossAxisSpacing: 5,
+                mainAxisSpacing: 5,
+                childAspectRatio: 0.65,
               ),
-              itemCount: _filteredProducts.length, // Nombre de produits affichés.
+              itemCount: _filteredProducts.length,
               itemBuilder: (context, index) {
-                return productCard(context, _filteredProducts[index], cart); // Affichage de chaque produit.
+                return ProductCard(product: _filteredProducts[index]); // ✅ Utilisation du widget `ProductCard`
               },
             ),
           ),
@@ -107,30 +108,45 @@ class _ProductPageState extends State<ProductPage> {
       ),
     );
   }
+}
 
-  // Widget qui construit un produit sous forme de carte compacte.
-  Widget productCard(BuildContext context, Map<String, dynamic> product, CartProvider cart) {
-    final String productId = product['id'].toString(); // Convertir l’ID en String pour éviter les erreurs.
-    final String productName = product['name'] ?? 'Produit inconnu'; // Gérer les cas où le nom est null.
-    final double productPrice = double.tryParse(product['price'].toString()) ?? 0.0; // Assurer que le prix est bien un double.
-    final String productImage = product['image'] ?? 'https://via.placeholder.com/150'; // Image par défaut si absente.
+// 🏷️ `ProductCard` - Gère l'affichage et la gestion des quantités d'un médicament
+class ProductCard extends StatelessWidget {
+  final Map<String, dynamic> product;
 
-    // Vérifie si le produit est déjà dans le panier et initialise `ValueNotifier`
-    final ValueNotifier<int> quantityNotifier = ValueNotifier<int>(
-        cart.items.containsKey(productId) ? cart.items[productId]!.quantite : 0
-    );
+  ProductCard({required this.product});
+
+  @override
+  Widget build(BuildContext context) {
+    final cart = Provider.of<CartProvider>(context, listen: true);
+
+    // ✅ Récupère bien `id`, qui est maintenant correctement mappé
+    final String? productId = product['id']?.toString();
+
+    final String productName = product['name'] ?? 'Produit inconnu';
+    final double productPrice = double.tryParse(product['price'].toString()) ?? 0.0;
+    final String productImage = product['image'] ?? 'assets/images/defautproduit.png';
+
+    // 🔍 Vérification dans la console
+    print("📌 Produit affiché : $productName, ID = $productId");
+
+    if (productId == null) {
+      print("❌ ERREUR : L'ID du produit est NULL !");
+      return SizedBox(); // Évite d'afficher un produit sans ID
+    }
+
+    int quantity = cart.items.containsKey(productId) ? cart.items[productId]!.quantite : 0;
 
     return Card(
-      elevation: 2, // Moins d'ombre pour éviter un effet "trop grand".
+      elevation: 2,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8), // Coins légèrement arrondis.
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
         children: [
-
-          // Image du produit
+          // 📸 Image du produit
           Expanded(
-            flex: 3, // Réduit l’espace occupé par l’image
+            flex: 3,
             child: Padding(
               padding: const EdgeInsets.all(5),
               child: Image.network(
@@ -138,13 +154,13 @@ class _ProductPageState extends State<ProductPage> {
                 fit: BoxFit.cover,
                 width: double.infinity,
                 errorBuilder: (context, error, stackTrace) {
-                  return Image.asset('assets/images/default_product.png', fit: BoxFit.cover);
+                  return Image.asset('assets/images/defautproduit.png', fit: BoxFit.cover);
                 },
               ),
             ),
           ),
 
-          //Nom du produit
+          // 🏷️ Nom du produit
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: Text(
@@ -156,7 +172,7 @@ class _ProductPageState extends State<ProductPage> {
             ),
           ),
 
-          // Prix du produit
+          // 💰 Prix du produit
           Padding(
             padding: const EdgeInsets.only(top: 2),
             child: Text(
@@ -165,37 +181,31 @@ class _ProductPageState extends State<ProductPage> {
             ),
           ),
 
-          // Gestion de la quantité avec ValueListenableBuilder
-          ValueListenableBuilder<int>(
-            valueListenable: quantityNotifier, // Écoute les changements de quantité.
-            builder: (context, quantity, child) {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.remove_circle, color: Colors.red, size: 18),
-                    onPressed: quantity > 0
-                        ? () {
-                      cart.removeItem(productId);
-                      quantityNotifier.value = cart.items.containsKey(productId)
-                          ? cart.items[productId]!.quantite
-                          : 0;
-                    }
-                        : null,
-                  ),
-                  Text(quantity.toString(), style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
-                  IconButton(
-                    icon: Icon(Icons.add_circle, color: Colors.green, size: 18),
-                    onPressed: () {
-                      cart.addItem(CartItem(id: productId, nom: productName, prix: productPrice, quantite: 1, imageUrl: productImage));
-                      quantityNotifier.value = cart.items.containsKey(productId)
-                          ? cart.items[productId]!.quantite
-                          : 0;
-                    },
-                  ),
-                ],
-              );
-            },
+          // ➖➕ Gestion des quantités
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                icon: Icon(Icons.remove_circle, color: Colors.red, size: 18),
+                onPressed: quantity > 0 ? () => cart.removeItem(productId) : null,
+              ),
+              Text(
+                quantity.toString(),
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+              ),
+              IconButton(
+                icon: Icon(Icons.add_circle, color: Colors.green, size: 18),
+                onPressed: () {
+                  cart.addItem(CartItem(
+                    id: productId, // ✅ Correction ici : Utilisation de `id`
+                    nom: productName,
+                    prix: productPrice,
+                    quantite: 1,
+                    imageUrl: productImage,
+                  ));
+                },
+              ),
+            ],
           ),
         ],
       ),
