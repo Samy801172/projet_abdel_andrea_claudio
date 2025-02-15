@@ -49,19 +49,25 @@
     <!-- Graphiques -->
     <div class="charts-section">
       <div class="chart-card">
-        <h3>🌐 Répartition des Sessions</h3>
-        <ul>
-          <li>Email : <span>23%</span></li>
-          <li>Réseaux sociaux : <span>34%</span></li>
-          <li>Direct : <span>43%</span></li>
-        </ul>
-        <p>Les canaux directs sont les plus performants ce mois-ci.</p>
+        <h3>⏳ Ordonnance(s) en Attente</h3>
+        <p>
+          <span *ngIf="pendingOrdonnance > 0">Encore <strong>{{ pendingOrdonnance }}</strong> Ordonnance(s) à approuver.</span>
+          <span *ngIf="pendingOrdonnance == 0">Tout est approuvé, bravo !</span>
+        </p>
+        <!-- Bouton stylé -->
+        <button *ngIf="pendingOrdonnance > 0" class="action-btn" (click)="onManageOrdonnance()">
+          Gérer les ordonnances
+        </button>
       </div>
-      <div class="chart-card">
-        <h3>📊 Analyse des Ventes</h3>
-        <img src="assets/graph-placeholder.png" alt="Graphique d'analyse des ventes" />
-        <p>Les ventes ont grimpé de <strong>10%</strong>. Continuez sur cette lancée !</p>
+      <div class="chart-card" *ngIf="weatherData">
+        <h3>🌤️ Météo à {{ city }}</h3>
+        <p>☁️ Conditions : <strong>{{ getWeatherDescription(weatherData.weathercode) }}</strong></p>
+        <p>🌡️ Température actuelle : <strong>{{ weatherData.temperature }}°C</strong></p>
+        <p>🌬️ Vent : <strong>{{ weatherData.windspeed }} km/h</strong></p>
+        <p>💧 Humidité : <strong>{{ weatherData.humidity }}%</strong></p>
       </div>
+
+
       <div class="chart-card">
         <h3>❌ Annulations de Rendez-vous</h3>
         <p>Total : <span>{{totalAppointment}}</span></p>

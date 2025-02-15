@@ -16,8 +16,6 @@ declare var paypal: any;
 })
 export class PaypalButtonComponent implements OnInit {
   @Input() amount: number = 0;
-  @Input() manufacturingRequestId!: number;
-  @Input() isDeposit!: boolean;
 
   constructor(
     private paymentService: PaymentService,
@@ -31,7 +29,7 @@ export class PaypalButtonComponent implements OnInit {
       createOrder: async () => {
         try {
           const response = await firstValueFrom(
-            this.paymentService.createPayPalOrder('test')
+            this.paymentService.createPaypalOrder(this.amount)
           );
           return response.id;
         } catch (error) {
@@ -42,7 +40,7 @@ export class PaypalButtonComponent implements OnInit {
       onApprove: async (data: { orderID: string }) => {
         try {
           const captureResult = await firstValueFrom(
-            this.paymentService.createPayPalOrder(data.orderID)
+            this.paymentService.capturePaypalPayment(data.orderID)
           );
           await firstValueFrom(this.cartService.clearCart()); // Ajouter cette ligne
           this.notificationService.success('Paiement effectué avec succès !');

@@ -1,51 +1,56 @@
 // payment.entity.ts
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  CreateDateColumn,
+  JoinColumn,
+} from 'typeorm';
 import { Order } from '../Order/order.entity';
-import { PaymentMethodEnum, PaymentStatusEnum } from './enums/payment.enums';
-import { ManufacturingCustomRequest } from '../Manufacturing/entities/manufacturing-custom-request.entity';
+import { ApiProperty } from '@nestjs/swagger';
+import { PaymentMethodEnum, PaymentStatusEnum } from './dto/create-payment.dto';
 
 @Entity('payment')
 export class Payment {
+  @ApiProperty()
   @PrimaryGeneratedColumn()
-  id: number;
+  id_payment: number;
 
-  @Column('decimal', { precision: 10, scale: 2 })
-  amount: number;
+  @ApiProperty()
+  @ManyToOne(() => Order, (order) => order.payments, { nullable: false })
+  @JoinColumn({ name: 'order_id' })
+  order: Order;
 
-  @Column({ default: 'EUR' })
-  currency: string;
-
+  @ApiProperty({ enum: PaymentMethodEnum })
   @Column({
     type: 'enum',
     enum: PaymentMethodEnum,
-    default: PaymentMethodEnum.PAYPAL
+    default: PaymentMethodEnum.PAYPAL,
   })
   paymentMethod: PaymentMethodEnum;
 
+  @ApiProperty()
+  @Column('decimal', { precision: 10, scale: 2 })
+  amount: number;
+
+  @ApiProperty({ enum: PaymentStatusEnum })
   @Column({
     type: 'enum',
     enum: PaymentStatusEnum,
-    default: PaymentStatusEnum.PENDING
+    default: PaymentStatusEnum.PENDING,
   })
   paymentStatus: PaymentStatusEnum;
 
+  @ApiProperty()
+  @CreateDateColumn()
+  paymentDate: Date;
+
+  @ApiProperty()
   @Column({ nullable: true })
   paypalOrderId: string;
 
-  @ManyToOne(() => Order)
-  @JoinColumn({ name: 'orderId' })
-  order: Order;
-
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  createdAt: Date;
-
-  @Column({ default: false })
-  isDeposit: boolean;
-
-  @Column({ name: 'manufacturing_request_id', nullable: true })
-  manufacturingRequestId: number;
-
-  @ManyToOne(() => ManufacturingCustomRequest, { nullable: true })
-  @JoinColumn({ name: 'manufacturing_request_id' })
-  manufacturingRequest: ManufacturingCustomRequest;
+  @ApiProperty()
+  @Column({ nullable: true })
+  transactionId: string;
 }

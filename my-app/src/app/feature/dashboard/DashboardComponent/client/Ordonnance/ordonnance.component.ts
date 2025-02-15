@@ -42,9 +42,7 @@ export class UploadPrescriptionComponent implements OnInit {
   }
 
 
-  /**
-   * Capture le fichier sélectionné par l'utilisateur.
-   */
+  //Capture le fichier sélectionné par l'utilisateur.
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
@@ -52,9 +50,7 @@ export class UploadPrescriptionComponent implements OnInit {
     }
   }
 
-  /**
-   * Convertit le statut de l'ordonnance en un libellé lisible.
-   */
+  //Convertit le statut de l'ordonnance en un libellé lisible.
   getStatusLabel(status: string): string {
     const statusMap: { [key: string]: string } = {
       PENDING: 'En attente',
@@ -65,16 +61,12 @@ export class UploadPrescriptionComponent implements OnInit {
     return statusMap[status] || 'Inconnu'; // Retourne 'Inconnu' si le statut ne correspond à rien
   }
 
-  /**
-   * Affiche ou masque le formulaire d'upload.
-   */
+  //Affiche ou masque le formulaire d'upload.
   toggleForm() {
     this.showForm = !this.showForm;
   }
 
-  /**
-   * Upload une nouvelle ordonnance.
-   */
+  //Upload une nouvelle ordonnance.
   onUpload() {
     if (!this.selectedFile) {
       alert('Veuillez sélectionner un fichier.');
@@ -114,9 +106,7 @@ export class UploadPrescriptionComponent implements OnInit {
     });
   }
 
-  /**
-   * Charge les ordonnances de l'utilisateur connecté.
-   */
+  //Charge les ordonnances de l'utilisateur connecté.
   loadPrescriptions() {
     const clientId = localStorage.getItem('clientId'); // Récupère l'ID du client
     if (!clientId) {

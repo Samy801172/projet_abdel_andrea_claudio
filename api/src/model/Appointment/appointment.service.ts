@@ -21,10 +21,11 @@ export class AppointmentService {
     private readonly clientRepository: Repository<Client>,
   ) {}
 
+  // Création d'un rendez-vous
   async create(createAppointmentDto: CreateAppointmentDto): Promise<Appointment> {
     // Vérifie si le service existe
     const service = await this.serviceRepository.findOneBy({
-      id: createAppointmentDto.serviceId, // Vérification sur le Service
+      id: createAppointmentDto.serviceId,
     });
     if (!service) {
       throw new NotFoundException(`Service avec l'ID ${createAppointmentDto.serviceId} introuvable.`);
@@ -32,7 +33,7 @@ export class AppointmentService {
 
     // Vérifie si le client existe
     const client = await this.clientRepository.findOneBy({
-      clientId: createAppointmentDto.clientId, // Vérification sur le Client
+      clientId: createAppointmentDto.clientId,
     });
     if (!client) {
       throw new NotFoundException(`Client avec l'ID ${createAppointmentDto.clientId} introuvable.`);
@@ -68,13 +69,14 @@ export class AppointmentService {
     return this.appointmentRepository.save(appointment);
   }
 
-  // Pour récupérer tous les rendez vous
+  // Récupération de tous les rendez-vous
   async findAll(): Promise<Appointment[]> {
     return this.appointmentRepository.find({
       relations: ['service', 'client'],
     });
   }
 
+  // Récupérer un rendez-vous par son ID
   async findOne(id: number): Promise<Appointment> {
     const appointment = await this.appointmentRepository.findOne({
       where: { appointmentId: id },
@@ -86,22 +88,23 @@ export class AppointmentService {
     return appointment;
   }
 
+  // Mise à jour d'un rendez-vous
   async update(id: number, updateAppointmentDto: UpdateAppointmentDto): Promise<Appointment> {
-    const appointment = await this.findOne(id); // Charge l'entité existante
+    const appointment = await this.findOne(id);
     if (!appointment) {
       throw new NotFoundException(`Appointment with ID ${id} not found.`);
     }
-    Object.assign(appointment, updateAppointmentDto); // Met à jour les champs
-    return this.appointmentRepository.save(appointment); // Met à jour l'entité existante
+    Object.assign(appointment, updateAppointmentDto);
+    return this.appointmentRepository.save(appointment);
   }
 
-
+  // Suppression d'un rendez-vous
   async remove(id: number): Promise<void> {
     const appointment = await this.findOne(id);
     await this.appointmentRepository.remove(appointment);
   }
 
-  // Change le status de rendez vous
+  // Changer le statut d'un rendez-vous
   async updateStatus(id: number, status: string): Promise<Appointment> {
     const appointment = await this.appointmentRepository.findOneBy({ appointmentId: id });
 
@@ -113,15 +116,11 @@ export class AppointmentService {
     return this.appointmentRepository.save(appointment);
   }
 
-  // trouve tous les rendez vous concernant un client par son id
+  // Récupérer les rendez-vous d'un client spécifique
   async findByClient(clientId: number): Promise<Appointment[]> {
     return this.appointmentRepository.find({
       where: { clientId },
-      relations: ['service'], // Inclure les relations si nécessaire (comme le service associé)
+      relations: ['service'],
     });
   }
-
-
-
-
 }

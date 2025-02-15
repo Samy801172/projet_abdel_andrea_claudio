@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { OrderService } from '../../services';
+import { OrderService } from '../../services/order/order.service';
 import { NotificationService } from '../../services/notification/notification.service';
 import { Order } from '../../models/order/order.model';
 

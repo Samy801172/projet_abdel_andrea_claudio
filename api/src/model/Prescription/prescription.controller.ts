@@ -16,16 +16,18 @@ import { PrescriptionService } from './prescription.service';
 import { CreatePrescriptionDto } from './dto/create-prescription.dto';
 import { HttpException, HttpStatus } from '@nestjs/common';
 
+// Ce décorateur définit un contrôleur dans NestJS pour gérer les routes liées aux prescriptions.
 @Controller('prescriptions')
 export class PrescriptionController {
   constructor(private readonly prescriptionService: PrescriptionService) {}
-
 
   ///////////////////////CLIENT////////////////////////////////////
 
   @Post('upload')
   @UseInterceptors(
+    // Utilisation de Multer pour gérer l'upload des fichiers. Ici, 'file' correspond au champ du fichier dans la requête.
     FileInterceptor('file', {
+      // Configuration du stockage des fichiers sur le disque local avec un nom de fichier unique basé sur UUID.
       storage: diskStorage({
         destination: './assets/uploads/prescriptions',
         filename: (req, file, callback) => {
@@ -78,6 +80,7 @@ export class PrescriptionController {
   }
 
   @Get(':client_id')
+  // Cette route permet de récupérer toutes les ordonnances d'un client spécifique en fonction de son ID.
   async findByClient(@Param('client_id') clientId: number) {
     try {
       const prescriptions = await this.prescriptionService.findByClient(clientId);
@@ -91,9 +94,9 @@ export class PrescriptionController {
     }
   }
 
-
   @Get()
   async findAll() {
+    // Cette méthode récupère toutes les prescriptions disponibles en base de données.
     return this.prescriptionService.findAll();
   }
 
@@ -102,10 +105,9 @@ export class PrescriptionController {
     return this.prescriptionService.remove(+id);
   }
 
-
   ///////////////////////ADMIN////////////////////////////////////
 
-  // 🔹 Mettre à jour le statut d’une prescription
+  // 🔹 Cette route permet à un administrateur de mettre à jour le statut d’une ordonnance.
   @Put(':id/update-status')
   async updateStatus(
     @Param('id') id: number,
@@ -118,5 +120,4 @@ export class PrescriptionController {
 
     return this.prescriptionService.updateStatus(id, status, verifiedBy);
   }
-
 }

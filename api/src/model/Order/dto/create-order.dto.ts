@@ -1,9 +1,8 @@
-import { IsNotEmpty, IsNumber, Min } from "class-validator";
+import { IsNotEmpty, IsNumber, Min } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 // src/model/Order/dto/create-order.dto.ts
 export class CreateOrderDto {
-
   @ApiProperty()
   @IsNotEmpty()
   clientId: number;

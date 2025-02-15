@@ -39,9 +39,7 @@ export class ClientProfileComponent implements OnInit {
     this.loadProfile(); // Charge le profil du client au démarrage
   }
 
-  /**
-   * Charge le profil du client en utilisant son ID.
-   */
+  //Charge le profil du client en utilisant son ID.
   loadProfile(): void {
     if (this.credential == null) {
       console.warn('Credential non défini, impossible de charger le profil.');
@@ -61,9 +59,7 @@ export class ClientProfileComponent implements OnInit {
     });
   }
 
-  /**
-   * Gère l'upload d'un avatar.
-   */
+  //Gère l'upload d'un avatar.
   onAvatarSelected(event: Event) {
     const input = event.target as HTMLInputElement;
 
@@ -88,9 +84,7 @@ export class ClientProfileComponent implements OnInit {
     }
   }
 
-  /**
-   * Met à jour le profil du client.
-   */
+  //Met à jour le profil du client.
   updateProfile(): void {
     if (this.client && this.editForm) {
       // Appel API pour mettre à jour les informations du client

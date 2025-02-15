@@ -191,7 +191,7 @@ export class SecurityService {
           firstName: payload.username,
           lastName: '',
           address: '',
-          avatar: '/api/assets/uploads/default.jpg', // Ajout de l'avatar par défaut
+          avatar: '/api/assets/uploads/default.jpg', // Ajout de l'avatar par défaut à la création
           credential: savedCredential as DeepPartial<Credential>, // Utiliser DeepPartial<Credential>
         });
 

@@ -16,7 +16,6 @@ import {AdminGuard} from "../../guard/admin.guard";
 import {PromotionComponent} from "../../../../components/Promotion/promotion.component";
 import {AdminPromotionsComponent} from "./promotions/admin-promotions.component";
 import {AdminPrescriptionsComponent} from "./prescriptions/admin-prescriptions.component";
-import { AdminManufacturingListComponent } from './manufacturing/admin-manufacturing-list.component';
 
 
 export const adminRoutes: Routes = [
@@ -85,10 +84,6 @@ export const adminRoutes: Routes = [
       {
         path: 'prescriptions',
         component: AdminPrescriptionsComponent
-      },
-      {
-        path: 'manufacturing',
-        component: AdminManufacturingListComponent
       }
     ]
   }

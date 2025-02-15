@@ -1,10 +1,15 @@
+// paypal.module.ts
 import { Module } from '@nestjs/common';
-import { PaypalService } from './paypal.service';
 import { ConfigModule } from '@nestjs/config';
+import { PaypalService } from './paypal.service';
 
 @Module({
-  imports: [ConfigModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+  ],
   providers: [PaypalService],
-  exports: [PaypalService]
+  exports: [PaypalService],
 })
 export class PaypalModule {}

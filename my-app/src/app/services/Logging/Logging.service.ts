@@ -19,6 +19,7 @@ export class LoggingService {
       }
 
       if (event instanceof NavigationError) {
+        this.logRouteConfig(); // Ajoute ceci pour voir toutes les routes enregistrées
         console.error('Erreur de navigation:', {
           url: event.url,
           error: event.error
