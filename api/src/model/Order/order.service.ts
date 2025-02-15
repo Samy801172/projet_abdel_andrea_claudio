@@ -225,12 +225,16 @@ export class OrderService {
     await queryRunner.connect();
     await queryRunner.startTransaction();
 
+    console.log(`🔍 Vérification - clientId reçu: ${clientId}`);
+
     try {
       // 1. Récupérer les éléments du panier
       const cartItems = await this.cartRepository.find({
         where: { clientId },
         relations: ['product', 'product.promotion'], // Ajout de la relation promotion
       });
+
+      console.log(`🛒 Nombre d'articles trouvés dans le panier: ${cartItems.length}`);
 
       if (!cartItems.length) {
         throw new BadRequestException('Le panier est vide');

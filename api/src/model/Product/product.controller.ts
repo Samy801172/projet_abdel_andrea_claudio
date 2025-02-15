@@ -27,7 +27,12 @@ export class ProductController {
   // Récupérer tous les produits
   @Get()
   async findAll() {
-    return this.productService.findAll();
+    const products = await this.productService.findAll();
+
+    // DEBUG: Afficher les produits envoyés dans la console
+    console.log("🛠️ DEBUG - Produits envoyés par l'API :", JSON.stringify(products, null, 2));
+
+    return products;
   }
 
   // Récupérer un produit par son ID

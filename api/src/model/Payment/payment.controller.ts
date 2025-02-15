@@ -30,7 +30,12 @@ export class PaymentController {
   @Post('paypal/create')
   async createPaypalOrder(@Body() data: { amount: number; clientId: number }) {
     try {
+      console.log(`🟢 Création de commande avec clientId: ${data.clientId}`);
+
       const order = await this.orderService.createOrderFromCart(data.clientId);
+
+      console.log(`✅ Commande créée avec succès - ID: ${order.id_order}`);
+
       return await this.paypalService.createOrder(data.amount, order.id_order);
     } catch (error) {
       console.error('PayPal create order error:', error);
