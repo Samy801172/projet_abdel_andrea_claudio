@@ -8,6 +8,7 @@ import {provideAnimations} from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import {AdminService} from "./app/services";
 import {AppointmentService} from "./app/services/appointment/appointment.service";
+import { WindDirectionPipe } from './app/pipes/wind-direction.pipe';
 
 
 bootstrapApplication(AppComponent, {
@@ -16,6 +17,7 @@ bootstrapApplication(AppComponent, {
     provideHttpClient(),
     NgModule,
     provideAnimations(),
+    WindDirectionPipe,
     AdminService,
     AppointmentService // ajout pour pouvoir faire fonctionner le service pour la notification par exemple
   ]

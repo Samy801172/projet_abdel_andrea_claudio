@@ -8,6 +8,7 @@ import { NotificationService } from '../../../../../services/notification/notifi
 import { WeatherService } from '../../../../../services/weather/weather.service'; // Service météo
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import {WindDirectionPipe} from "../../../../../pipes/wind-direction.pipe"; // ceci est la pipes pour le vent (direction), importé dans main.ts aussi.
 
 @Component({
   selector: 'app-dash',
@@ -16,13 +17,13 @@ import { Router } from '@angular/router';
   imports: [
     NgClass,
     DatePipe,
-    CommonModule
+    CommonModule,
+    WindDirectionPipe
   ],
   styleUrl: './admin-dash.component.scss'
 })
 export class AdminDashComponent implements OnInit {
   title: string = 'Tableau de bord'; // Titre affiché
-  currentTime: string = ''; // Heure actuelle
   isLoading: boolean = true; // Indicateur de chargement
 
   // Statistiques générales
@@ -57,6 +58,9 @@ export class AdminDashComponent implements OnInit {
   city: string = 'Liège'; // Ville par défaut
   latitude: number = 50.63373; // Coordonnées GPS pour Paris
   longitude: number = 5.56749;
+  // Heure
+  currentTime = new Date();
+
 
   constructor(
     private clientService: ClientService,
@@ -68,13 +72,9 @@ export class AdminDashComponent implements OnInit {
     private router: Router
   ) { }
 
-  /**
-   * Exécuté à l'initialisation du composant.
-   * Charge toutes les données du tableau de bord.
-   */
+  //Charge toutes les données du tableau de bord.
   ngOnInit(): void {
     this.loadDashboardData();
-    this.updateCurrentTime();
     this.loadNickname();
     this.LoadAppointmentsNotConfirmed();
     this.LoadAppointmentsConfirmed();
@@ -86,16 +86,23 @@ export class AdminDashComponent implements OnInit {
     this.loadOrdonnanceCount();
     this.LoadOrdonnanceNotConfirmed();
     this.loadWeather(); // 🔥 Charge la météo
+
+    //Ceci pour l'heure actualise toutes les secondes
+    setInterval(() => {
+      this.currentTime = new Date();
+    }, 1000); // Met à jour toutes les secondes
   }
 
-  /**
-   * Récupère la météo en utilisant Open-Meteo (100% gratuit et sans clé API).
-   */
+  //Récupère la météo en utilisant Open-Meteo (100% gratuit et sans clé API).
   loadWeather(): void {
     this.weatherService.getWeather(this.latitude, this.longitude).subscribe({
       next: (data: { current_weather: any; }) => {
         console.log("Données météo :", data);
         this.weatherData = data.current_weather; // Stocke uniquement la météo actuelle
+        console.log(JSON.stringify(this.weatherData, null, 2));
+        this.weatherData.time = this.weatherData.time + 'Z'; // Ajoute UTC
+        this.weatherData.time = new Date(this.weatherData.time);
+
       },
       error: (error: any) => {
         console.error('Erreur lors du chargement des données météo', error);
@@ -103,9 +110,7 @@ export class AdminDashComponent implements OnInit {
     });
   }
 
-  /**
-   * Retourne une description en français selon le code météo d'Open-Meteo.
-   */
+  //Retourne une description en français selon le code météo d'Open-Meteo.
   getWeatherDescription(code: number): string {
     const descriptions: { [key: number]: string } = {
       0: "Ciel dégagé ☀️",
@@ -134,19 +139,7 @@ export class AdminDashComponent implements OnInit {
   }
 
 
-  /**
-   * Met à jour l'heure toutes les secondes.
-   */
-  updateCurrentTime(): void {
-    this.currentTime = new Date().toLocaleTimeString();
-    setInterval(() => {
-      this.currentTime = new Date().toLocaleTimeString();
-    }, 1000);
-  }
-
-  /**
-   * Charge le profil du client connecté.
-   */
+  //Charge le profil du client connecté.
   loadNickname(): void {
     if (!this.credential) {
       console.warn('Credential non défini, impossible de charger le profil.');
@@ -163,9 +156,7 @@ export class AdminDashComponent implements OnInit {
     });
   }
 
-  /**
-   * Charge les statistiques générales du tableau de bord.
-   */
+  //Charge les statistiques générales du tableau de bord.
   loadDashboardData(): void {
     this.isLoading = true;
     setTimeout(() => {
@@ -180,7 +171,6 @@ export class AdminDashComponent implements OnInit {
   }
 
   // 📌 Méthodes pour charger les commandes et rendez-vous
-
   loadOrderCount(): void {
     this.publicService.orderCount().subscribe({
       next: (count: number) => this.orderTotal = count,
@@ -188,6 +178,7 @@ export class AdminDashComponent implements OnInit {
     });
   }
 
+  // 📌 Méthodes pour charger les rendez-vous non traités
   LoadAppointmentsNotConfirmed(): void {
     this.publicService.appointmentsCount().subscribe({
       next: (count: number) => this.pendingAppointments = count,
@@ -195,6 +186,7 @@ export class AdminDashComponent implements OnInit {
     });
   }
 
+  //Méthodes pour compter le nombre de rendez-vous confirmés
   LoadAppointmentsConfirmed(): void {
     this.publicService.appointmentsCountConfirmed().subscribe({
       next: (count: number) => {
@@ -205,6 +197,7 @@ export class AdminDashComponent implements OnInit {
     });
   }
 
+  //Méthodes pour compter le nombre de rendez-vous annulés
   LoadAppointmentsCanceled(): void {
     this.publicService.appointmentsCountConfirmed().subscribe({
       next: (count: number) => {
@@ -215,6 +208,7 @@ export class AdminDashComponent implements OnInit {
     });
   }
 
+  //Méthodes pour compter le nombre de commande non traités
   LoadOrdersNotConfirmed(): void {
     this.publicService.ordersCount().subscribe({
       next: (count: number) => this.pendingOrders = count,
@@ -222,6 +216,7 @@ export class AdminDashComponent implements OnInit {
     });
   }
 
+  //Méthodes pour compter le nombre de commandes confirmées
   LoadOrdersConfirmed(): void {
     this.publicService.ordersCountConfirmed().subscribe({
       next: (count: number) => {
@@ -232,6 +227,7 @@ export class AdminDashComponent implements OnInit {
     });
   }
 
+  //Méthodes pour compter le nombre de commandes annulées
   LoadOrdersCanceled(): void {
     this.publicService.ordersCountConfirmed().subscribe({
       next: (count: number) => {
@@ -242,6 +238,7 @@ export class AdminDashComponent implements OnInit {
     });
   }
 
+  //Méthodes pour compter le nombre d'ordonnances confirmées
   loadOrdonnanceCount(): void {
     this.publicService.ordonnanceCount().subscribe({
       next: (count: number) => this.ordonnanceTotal = count,
@@ -249,6 +246,7 @@ export class AdminDashComponent implements OnInit {
     });
   }
 
+  //Méthodes pour compter le nombre d'ordonnances non approuvées
   LoadOrdonnanceNotConfirmed(): void {
     this.publicService.ordonnanceCount().subscribe({
       next: (count: number) => this.pendingOrdonnance = count,
@@ -257,7 +255,6 @@ export class AdminDashComponent implements OnInit {
   }
 
   // 📌 Méthodes de navigation
-
   onManageAppointments(): void {
     this.router.navigate(['admin/appointments']);
   }

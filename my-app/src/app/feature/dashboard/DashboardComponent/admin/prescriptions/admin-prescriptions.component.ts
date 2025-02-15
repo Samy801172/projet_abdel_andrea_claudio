@@ -1,41 +1,45 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { NgClass, NgForOf, NgIf } from "@angular/common";
+import { PrescriptionService } from '../../../../../services/prescription/prescription.service'; // Import du service
 
 @Component({
-  selector: 'app-admin-prescriptions', // Sélecteur du composant
-  templateUrl: './admin-prescriptions.component.html', // Fichier HTML associé
-  styleUrls: ['./admin-prescriptions.component.scss'], // Fichier CSS associé
+  selector: 'app-admin-prescriptions',
+  templateUrl: './admin-prescriptions.component.html',
+  styleUrls: ['./admin-prescriptions.component.scss'],
   imports: [
-    NgClass, // Permet d'appliquer des classes dynamiques
-    NgForOf, // Permet d'itérer sur une liste dans le HTML
-    NgIf // Permet d'afficher ou masquer des éléments
+    NgClass,
+    NgForOf,
+    NgIf
   ],
-  standalone: true // Indique que ce composant est indépendant
+  standalone: true
 })
 export class AdminPrescriptionsComponent implements OnInit {
-  prescriptions: any[] = []; // Stocke la liste des ordonnances
-  clientId: string | null = localStorage.getItem('clientId'); // Récupère l'ID du client connecté
+  prescriptions: any[] = []; // Liste des ordonnances
+  clientId: string | null = localStorage.getItem('clientId'); // ID du client connecté
 
-  constructor(private http: HttpClient) {} // Injection du service HttpClient pour interagir avec l'API
+  constructor(private prescriptionService: PrescriptionService) {} // Injection du service
 
+  //Charge les préscriptions du client au démarrage de la page
   ngOnInit() {
     this.loadPrescriptions(); // Charge les ordonnances au démarrage
   }
 
-  // Récupère les ordonnances depuis l'API
+  //Récupère la liste des ordonnances via le service
   loadPrescriptions() {
-    this.http.get('http://localhost:2024/api/prescriptions').subscribe({
+    this.prescriptionService.getPrescriptions().subscribe({
       next: (data: any) => {
-        this.prescriptions = data; // Stocke les ordonnances récupérées
+        this.prescriptions = data;
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Erreur lors du chargement des ordonnances :', err);
       },
     });
   }
 
-  // Retourne un libellé lisible pour le statut d'une ordonnance
+   //Retourne un libellé lisible pour le statut d'une ordonnance
+   //@param status - Statut de l'ordonnance en anglais
+   //@returns - Traduction en français
+   //
   getStatusLabel(status: string): string {
     const statusMap: { [key: string]: string } = {
       PENDING: 'En attente',
@@ -43,22 +47,22 @@ export class AdminPrescriptionsComponent implements OnInit {
       REJECTED: 'Rejeté',
       EXPIRED: 'Expiré',
     };
-    return statusMap[status] || 'Inconnu'; // Retourne 'Inconnu' si le statut n'existe pas
+    return statusMap[status] || 'Inconnu';
   }
 
-  // Met à jour le statut d'une ordonnance
-  updateStatus(id: number, status: string) {
-    const clientId = this.clientId; // Récupère l'ID du client (utilisateur qui valide)
 
-    this.http.put(`http://localhost:2024/api/prescriptions/${id}/update-status`, {
-      status: status,
-      verified_by: clientId, // Indique quel admin a validé/rejeté l'ordonnance
-    }).subscribe({
+   //Met à jour le statut d'une ordonnance via le service
+   //@param id - ID de l'ordonnance
+   //@param status - Nouveau statut
+  updateStatus(id: number, status: string) {
+    const clientId = this.clientId; // Récupération de l'ID du client connecté
+
+    this.prescriptionService.updateStatus(id, status, clientId).subscribe({
       next: () => {
-        this.loadPrescriptions(); // Recharge la liste des ordonnances après modification
+        this.loadPrescriptions(); // Recharge la liste après mise à jour
         alert(`Prescription ${status === 'VERIFIED' ? 'validée' : 'rejetée'} avec succès !`);
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Erreur lors de la mise à jour du statut :', err);
       },
     });

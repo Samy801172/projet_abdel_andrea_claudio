@@ -1,33 +1,42 @@
 <div class="dashboard">
-  <!-- En-tête -->
+  <!-- En-tête du tableau de bord -->
   <header class="dashboard-header">
     <div class="header-left">
       <h1>Bienvenue sur Gohan Medic - Votre Tableau de Bord</h1>
-      <p>Heureux de vous revoir, {{ client.firstName }} !</p>
+      <p>
+        <!-- Affichage du nom du client et de la date/heure actuelle -->
+        Heureux de vous revoir, {{ client.firstName }}, nous sommes le {{ currentTime | date:'dd/MM/yyyy' }}
+        et il est {{ currentTime | date:'HH:mm:ss' }}
+      </p>
     </div>
+
     <div class="header-right">
+      <!-- Bouton d'aide pour l'utilisateur -->
       <button class="btn btn-help">Besoin d'aide ?</button>
     </div>
   </header>
 
-  <!-- Contenu principal -->
+  <!-- Contenu principal du tableau de bord -->
   <div class="dashboard-content">
-    <!-- Statistiques principales -->
+    <!-- Section des statistiques principales -->
     <div class="stats-section">
       <div class="stat-card">
         <h3>💼 Total des commandes</h3>
         <div class="progress-circle">
+          <!-- Affichage du nombre total de commandes -->
           <span>{{ orderTotal }}</span>
         </div>
         <p>Vous avez géré <strong></strong> ce mois-ci. Bravo !</p>
       </div>
+
       <div class="stat-card">
         <h3>⏳ Rendez-vous en Attente</h3>
         <p>
+          <!-- Vérification du nombre de rendez-vous en attente -->
           <span *ngIf="pendingAppointments > 0">Encore <strong>{{ pendingAppointments }}</strong> rendez-vous à confirmer.</span>
           <span *ngIf="pendingAppointments == 0">Tout est confirmé, bravo !</span>
         </p>
-        <!-- Bouton stylé -->
+        <!-- Bouton pour gérer les rendez-vous en attente -->
         <button *ngIf="pendingAppointments > 0" class="action-btn" (click)="onManageAppointments()">
           Gérer les Rendez-vous
         </button>
@@ -36,39 +45,41 @@
       <div class="stat-card">
         <h3>⏳ Commande(s) en Attente</h3>
         <p>
+          <!-- Vérification du nombre de commandes en attente -->
           <span *ngIf="pendingOrders > 0">Encore <strong>{{ pendingOrders }}</strong> commande(s) à traiter.</span>
           <span *ngIf="pendingOrders == 0">Tout est traité, bravo !</span>
         </p>
-        <!-- Bouton stylé -->
+        <!-- Bouton pour gérer les commandes en attente -->
         <button *ngIf="pendingOrders > 0" class="action-btn" (click)="onManageOrders()">
           Gérer les commandes
         </button>
       </div>
     </div>
 
-    <!-- Graphiques -->
-    <div class="charts-section">
-      <div class="chart-card">
+    <div class="stats-section">
+      <div class="stat-card">
         <h3>⏳ Ordonnance(s) en Attente</h3>
         <p>
+          <!-- Vérification du nombre d'ordonnances en attente -->
           <span *ngIf="pendingOrdonnance > 0">Encore <strong>{{ pendingOrdonnance }}</strong> Ordonnance(s) à approuver.</span>
           <span *ngIf="pendingOrdonnance == 0">Tout est approuvé, bravo !</span>
         </p>
-        <!-- Bouton stylé -->
+        <!-- Bouton pour gérer les ordonnances en attente -->
         <button *ngIf="pendingOrdonnance > 0" class="action-btn" (click)="onManageOrdonnance()">
           Gérer les ordonnances
         </button>
       </div>
-      <div class="chart-card" *ngIf="weatherData">
+
+      <!-- Carte météo affichée uniquement si les données météo sont disponibles -->
+      <div class="stat-card-meteo" *ngIf="weatherData">
         <h3>🌤️ Météo à {{ city }}</h3>
         <p>☁️ Conditions : <strong>{{ getWeatherDescription(weatherData.weathercode) }}</strong></p>
         <p>🌡️ Température actuelle : <strong>{{ weatherData.temperature }}°C</strong></p>
         <p>🌬️ Vent : <strong>{{ weatherData.windspeed }} km/h</strong></p>
-        <p>💧 Humidité : <strong>{{ weatherData.humidity }}%</strong></p>
+        <p>🧭 Direction du vent : <strong>{{ weatherData.winddirection | windDirection }}</strong></p>
       </div>
 
-
-      <div class="chart-card">
+      <div class="stat-card">
         <h3>❌ Annulations de Rendez-vous</h3>
         <p>Total : <span>{{totalAppointment}}</span></p>
         <p>Confirmé(s) : <span>{{confirmedAppointments}}</span></p>
