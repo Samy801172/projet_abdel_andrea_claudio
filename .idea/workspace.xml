@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b7d382ad-49c7-432b-86f3-9d0a39a078e1" name="Changes" comment="" />
+    <list default="true" id="b7d382ad-49c7-432b-86f3-9d0a39a078e1" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/client/appointments/client-appointments.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/client/appointments/client-appointments.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/client/appointments/client-appointments.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/feature/dashboard/DashboardComponent/client/appointments/client-appointments.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/services/appointment/appointment.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/services/appointment/appointment.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/services/client/client.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/services/client/client.service.ts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -102,6 +108,7 @@
       <workItem from="1739280707029" duration="217000" />
       <workItem from="1739466303431" duration="2694000" />
       <workItem from="1739618068018" duration="72000" />
+      <workItem from="1739623919611" duration="641000" />
     </task>
     <servers />
   </component>

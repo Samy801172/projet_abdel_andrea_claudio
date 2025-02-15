@@ -74,10 +74,9 @@ export class AdminAppointmentsComponent implements OnInit, OnDestroy {
     this.subscriptions.push(sub); // Ajoute l'abonnement à la liste pour le désabonnement ultérieur
   }
 
-  /**
-   * Supprime un rendez-vous depuis le panneau admin.
-   * @param appointment Rendez-vous à supprimer.
-   */
+
+   //Supprime un rendez-vous depuis le panneau admin.
+   //@param appointment Rendez-vous à supprimer.
   deleteAppointment(appointment: Appointment): void {
     if (confirm(`Êtes-vous sûr de vouloir supprimer le rendez-vous #${appointment.appointmentId} ?`)) {
       const sub = this.adminService.deleteAdmin(appointment.appointmentId).subscribe({
@@ -95,20 +94,18 @@ export class AdminAppointmentsComponent implements OnInit, OnDestroy {
     }
   }
 
-  /**
-   * Filtre les rendez-vous en fonction de leur statut pour affichage dans l'interface.
-   * @param status Statut des rendez-vous à récupérer.
-   * @returns Liste filtrée des rendez-vous correspondant au statut donné.
-   */
+
+   //Filtre les rendez-vous en fonction de leur statut pour affichage dans l'interface.
+   //@param status Statut des rendez-vous à récupérer.
+   //@returns Liste filtrée des rendez-vous correspondant au statut donné.
   getAppointmentsByStatus(status: string): Appointment[] {
     return this.filteredAppointments.filter((appointment) => appointment.status === status);
   }
 
-  /**
-   * Retourne l'étiquette textuelle associée à un statut de rendez-vous.
-   * @param status Statut du rendez-vous.
-   * @returns Libellé correspondant au statut.
-   */
+
+   //etourne l'étiquette textuelle associée à un statut de rendez-vous.
+   //@param status Statut du rendez-vous.
+   //@returns Libellé correspondant au statut.
   getStatusLabel(status: string): string {
     const statusLabels: Record<AppointmentStatus, string> = {
       [AppointmentStatus.Pending]: 'En attente',
@@ -120,29 +117,17 @@ export class AdminAppointmentsComponent implements OnInit, OnDestroy {
     return statusLabels[status];
   }
 
-  /**
-   * Retourne la classe CSS associée à un statut pour styliser l'affichage.
-   * @param status Statut du rendez-vous.
-   * @returns Nom de la classe CSS correspondant.
-   */
-  getStatusClass(status: string): string {
-    return getStatusClass(status);
-  }
 
-  /**
-   * Annule un rendez-vous en mettant à jour son statut en "Annulé".
-   * @param appointment Rendez-vous à annuler.
-   */
+   //Annule un rendez-vous en mettant à jour son statut en "Annulé".
+   //@param appointment Rendez-vous à annuler.
   cancelAppointment(appointment: Appointment): void {
     if (confirm(`Êtes-vous sûr de vouloir annuler le rendez-vous #${appointment.appointmentId} ?`)) {
       this.updateStatus(appointment.appointmentId, AppointmentStatus.Canceled);
     }
   }
 
-  /**
-   * Confirme un rendez-vous en mettant à jour son statut en "Confirmé".
-   * @param appointment Rendez-vous à confirmer.
-   */
+   //Confirme un rendez-vous en mettant à jour son statut en "Confirmé".
+   //@param appointment Rendez-vous à confirmer.
   confirmAppointment(appointment: Appointment): void {
     this.adminService.updateStatus(appointment.appointmentId, 'confirmé').subscribe(
       () => {

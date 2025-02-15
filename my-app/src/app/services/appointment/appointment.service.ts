@@ -18,11 +18,9 @@ export class AppointmentsService {
     private notificationService: NotificationService // Service de notification pour afficher des messages
   ) {}
 
-  /**
-   * Récupère tous les rendez-vous d'un client donné
-   * @param id L'identifiant du client
-   * @returns Un Observable contenant une liste de rendez-vous
-   */
+   //Récupère tous les rendez-vous d'un client donné
+   //@param id L'identifiant du client
+   //@returns Un Observable contenant une liste de rendez-vous
   getAll(id: number): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(`${this.apiUrl}/${id}/myAppointments`).pipe(
       tap(() => console.log(`Récupération des rendez-vous pour le client ${id}`)),
@@ -33,11 +31,9 @@ export class AppointmentsService {
     );
   }
 
-  /**
-   * Crée un nouveau rendez-vous
-   * @param appointment Les données du rendez-vous à créer
-   * @returns Un Observable contenant le rendez-vous créé
-   */
+   //Crée un nouveau rendez-vous
+   //@param appointment Les données du rendez-vous à créer
+   //@returns Un Observable contenant le rendez-vous créé
   create(appointment: Appointment): Observable<Appointment> {
     console.log(appointment.clientId, appointment.serviceId, appointment.clientId, appointment.clientId,)
     return this.http.post<Appointment>(`${this.apiUrl}/ajoutRendezVous`, appointment).pipe(
@@ -55,12 +51,10 @@ export class AppointmentsService {
     return this.http.get<Appointment[]>(`http://localhost:2024/api/appointments?date=${date}`);
   }
 
-  /**
-   * Met à jour un rendez-vous existant
-   * @param appointmentId L'identifiant du rendez-vous à modifier
-   * @param appointment Les nouvelles données du rendez-vous
-   * @returns Un Observable contenant le rendez-vous mis à jour
-   */
+   //Met à jour un rendez-vous existant
+   //@param appointmentId L'identifiant du rendez-vous à modifier
+   //@param appointment Les nouvelles données du rendez-vous
+   //@returns Un Observable contenant le rendez-vous mis à jour
   update(appointmentId: number, appointment: Appointment): Observable<Appointment> {
     return this.http.put<Appointment>(
       `${this.apiUrl}/${appointmentId}/miseAjour`,
@@ -74,11 +68,9 @@ export class AppointmentsService {
     );
   }
 
-  /**
-   * Supprime un rendez-vous
-   * @param id L'identifiant du rendez-vous à supprimer
-   * @returns Un Observable vide
-   */
+   //Supprime un rendez-vous
+   //@param id L'identifiant du rendez-vous à supprimer
+   //@returns Un Observable vide
   delete(id: number | undefined): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
       tap(() => this.notificationService.success('Rendez-vous annulé avec succès.')),
@@ -90,35 +82,9 @@ export class AppointmentsService {
     );
   }
 
-  /**
-   * Vérifie la disponibilité d'un créneau horaire
-   * @param date La date du créneau à vérifier
-   * @param time L'heure du créneau à vérifier
-   * @returns Un Observable contenant un booléen indiquant si le créneau est disponible
-   */
-  checkAvailability(date: string, time: string): Observable<boolean> {
-    return this.http.get<boolean>(`${this.apiUrl}/check-availability`, {
-      params: { date, time },
-    }).pipe(
-      tap((available) => {
-        if (available) {
-          console.log(`Le créneau ${date} ${time} est disponible.`);
-        } else {
-          console.log(`Le créneau ${date} ${time} n'est pas disponible.`);
-        }
-      }),
-      catchError((error) => {
-        console.error('Erreur lors de la vérification de la disponibilité :', error);
-        return throwError(() => error);
-      })
-    );
-  }
-
-  /**
-   * Récupère les créneaux horaires disponibles pour une date donnée
-   * @param date La date pour laquelle récupérer les créneaux
-   * @returns Un Observable contenant une liste de créneaux horaires disponibles
-   */
+   //Récupère les créneaux horaires disponibles pour une date donnée
+   //@param date La date pour laquelle récupérer les créneaux
+   //@returns Un Observable contenant une liste de créneaux horaires disponibles
   getAvailableSlots(date: string): Observable<string[]> {
     return this.http.get<string[]>(`${this.apiUrl}/available-slots`, {
       params: { date },
@@ -131,12 +97,9 @@ export class AppointmentsService {
     );
   }
 
-
-  /**
-   * Récupère les rendez-vous d'un client spécifique
-   * @param clientId L'identifiant du client
-   * @returns Un Observable contenant une liste de rendez-vous
-   */
+   //Récupère les rendez-vous d'un client spécifique
+   //@param clientId L'identifiant du client
+   //@returns Un Observable contenant une liste de rendez-vous
   getAppointmentsByClient(clientId: number): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(`${this.apiUrl}/${clientId}/appointments`).pipe(
       tap(() => console.log(`Rendez-vous récupérés pour le client ${clientId}.`)),

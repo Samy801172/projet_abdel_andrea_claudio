@@ -154,18 +154,29 @@ export class ClientAppointmentsComponent implements OnInit {
         next: () => {
           this.loadAppointments();
           this.resetForm();
+          this.showAddForm = !this.showAddForm;
+          this.notificationService.success('Le rendez-vous a été mis à jour, attendez la confirmation du pharmacien');
         },
         error: (err) => console.error('Erreur lors de la modification du rendez-vous.', err),
       });
     } else {
-      // Création d'un nouveau rendez-vous
-      this.appointmentService.create(appointmentData).subscribe({
-        next: () => {
-          this.loadAppointments();
-          this.toggleAddForm();
-        },
-        error: (err) => console.error('Erreur lors de la création du rendez-vous.', err),
-      });
+      // Vérification si l'utilisateur veut créer un autre rendez-vous
+      const confirmCreation = window.confirm(
+        "Voulez-vous vraiment créer ce rendez-vous à cette date ?"
+      );
+      // Création d'un autre rendez-vous
+      if (confirmCreation) {
+        // Création d'un nouveau rendez-vous
+        this.appointmentService.create(appointmentData).subscribe({
+          next: () => {
+            this.loadAppointments();
+            this.toggleAddForm();
+          },
+          error: (err) => console.error('Erreur lors de la création du rendez-vous.', err),
+        });
+      } else {
+        console.log("Création du rendez-vous annulée.");
+      }
     }
   }
 
