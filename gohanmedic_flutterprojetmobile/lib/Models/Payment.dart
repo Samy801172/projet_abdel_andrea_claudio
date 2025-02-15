@@ -20,7 +20,7 @@ class Payment {
   // Méthode pour convertir l'objet Payment en map (utile pour envoyer au backend)
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      'id_payment': id,
       'amount': total,
       'status': status,
       'items': items.map((item) => item.toMap()).toList(),
@@ -32,7 +32,7 @@ class Payment {
   factory Payment.fromMap(Map<String, dynamic> map) {
     var items = (map['items'] as List).map((item) => Product.fromMap(item)).toList();
     return Payment(
-      id: map['id'],
+      id: map['id_payment'],
       total: map['amount'],
       status: map['status'],
       items: items,

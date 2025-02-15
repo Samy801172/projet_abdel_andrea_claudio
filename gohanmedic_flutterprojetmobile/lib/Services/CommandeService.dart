@@ -10,8 +10,8 @@ class CommandeService {
   static const String baseUrl = Config.apiUrl;
 
   // Récupére la liste des commandes du client
-  Future<List<Commande>> fetchOrders(String userId) async {
-    final response = await http.get(Uri.parse('$baseUrl/orders/clients/$userId'));
+  Future<List<Commande>> fetchOrders(String clientId) async {
+    final response = await http.get(Uri.parse('$baseUrl/orders/clients/$clientId'));
 
     if (response.statusCode == 200) {
       List<dynamic> data = json.decode(response.body);

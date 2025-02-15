@@ -1,11 +1,13 @@
-// Permet l'affichage d'un produit dans la page produit et  + - dans panier
+// 📦 Widget ProductCard - Affichage et gestion d'un produit dans le panier
+
 import 'package:flutter/material.dart';
 import 'package:gohanmedic_flutterprojetmobile/Models/CartItem.dart';
 import 'package:gohanmedic_flutterprojetmobile/Provider/CartProvider.dart';
+import 'package:gohanmedic_flutterprojetmobile/Provider/AuthentificationProvider.dart';
 import 'package:provider/provider.dart';
 
 class ProductCard extends StatefulWidget {
-  final Map<String, dynamic> product;
+  final Map<String, dynamic> product; // 📌 Données du produit sous forme de Map
 
   ProductCard({required this.product});
 
@@ -14,49 +16,109 @@ class ProductCard extends StatefulWidget {
 }
 
 class _ProductCardState extends State<ProductCard> {
-  int quantity = 0;
+  int quantity = 0; // 🔢 Quantité du produit dans le panier
 
   @override
   void initState() {
     super.initState();
     final cart = Provider.of<CartProvider>(context, listen: false);
-    quantity = cart.items.containsKey(widget.product['id'].toString())
-        ? cart.items[widget.product['id'].toString()]!.quantite
+    final int productId = widget.product['id'];
+
+    print("🔍 INIT STATE - Produit ID: $productId");
+
+    // 🎯 Vérifie si le produit est déjà dans le panier et récupère sa quantité
+    quantity = cart.items.containsKey(productId)
+        ? cart.items[productId]!.quantite
         : 0;
+
+    print("🛒 INIT STATE - Quantité initiale dans le panier: $quantity");
   }
 
-  void incrementQuantity() {
+  // ➕ Fonction pour ajouter un produit au panier
+  void incrementQuantity() async {
     final cart = Provider.of<CartProvider>(context, listen: false);
-    cart.addItem(CartItem(
-      id: widget.product['id'].toString(),
-      nom: widget.product['name'],
-      prix: double.tryParse(widget.product['price'].toString()) ?? 0.0,
-      quantite: 1,
-      imageUrl: widget.product['image'] ?? 'assets/images/defautproduit.png',
-    ));
+    final auth = Provider.of<AuthentificationProvider>(context, listen: false);
+
+    final String? clientIdStr = auth.clientId;
+
+    if (clientIdStr == null) {
+      print("❌ ERREUR : clientId est NULL, redirection vers la connexion...");
+      Future.microtask(() => Navigator.pushReplacementNamed(context, '/login'));
+      return;
+    }
+
+    final int clientId = int.tryParse(clientIdStr) ?? 0;
+
+    if (clientId == 0) {
+      print("❌ ERREUR : Conversion clientId échouée.");
+      return;
+    }
+
+    final int productId = widget.product['id'];
+    print("➕ AJOUT - Produit ID: $productId");
+
+    await cart.addItem(
+      CartItem(
+        id: productId,
+        nom: widget.product['name'],
+        prix: double.tryParse(widget.product['price'].toString()) ?? 0.0,
+        quantite: 1,
+        imageUrl: widget.product['image'] ?? 'assets/image/defautproduit.png',
+        description: widget.product['description'] ?? "Description non disponible",
+      ),
+      clientId, // ✅ Passe `clientId`
+      context, // ✅ Ajoute `context`
+    );
 
     setState(() {
-      quantity = cart.items[widget.product['id'].toString()]!.quantite;
+      quantity = cart.items[productId]!.quantite;
     });
+
+    print("✅ AJOUT CONFIRMÉ - Nouvelle quantité: $quantity");
   }
 
-  void decrementQuantity() {
+  // ➖ Fonction pour retirer un produit du panier
+  void decrementQuantity() async {
     final cart = Provider.of<CartProvider>(context, listen: false);
-    cart.removeItem(widget.product['id'].toString());
+    final auth = Provider.of<AuthentificationProvider>(context, listen: false);
+
+    final String? clientIdStr = auth.clientId;
+
+    if (clientIdStr == null) {
+      print("❌ ERREUR : clientId est NULL, redirection vers la connexion...");
+      Future.microtask(() => Navigator.pushReplacementNamed(context, '/login'));
+      return;
+    }
+
+    final int clientId = int.tryParse(clientIdStr) ?? 0;
+
+    if (clientId == 0) {
+      print("❌ ERREUR : Conversion clientId échouée.");
+      return;
+    }
+
+    final int productId = widget.product['id'];
+    print("➖ RETRAIT - Produit ID: $productId");
+
+    await cart.removeItem(productId, clientId, context);
 
     setState(() {
-      quantity = cart.items.containsKey(widget.product['id'].toString())
-          ? cart.items[widget.product['id'].toString()]!.quantite
+      quantity = cart.items.containsKey(productId)
+          ? cart.items[productId]!.quantite
           : 0;
     });
+
+    print("✅ RETRAIT CONFIRMÉ - Nouvelle quantité: $quantity");
   }
 
   @override
   Widget build(BuildContext context) {
-    final String productId = widget.product['id'].toString();
+    final int productId = widget.product['id'];
     final String productName = widget.product['name'] ?? 'Produit inconnu';
     final double productPrice = double.tryParse(widget.product['price'].toString()) ?? 0.0;
-    final String productImage = widget.product['image'] ?? 'assets/images/defautproduit.png';
+    final String productImage = widget.product['image'] ?? 'assets/image/defautproduit.png';
+
+    print("🖥️ AFFICHAGE - Produit ID: $productId, Nom: $productName, Prix: $productPrice€");
 
     return Card(
       elevation: 2,
@@ -65,23 +127,20 @@ class _ProductCardState extends State<ProductCard> {
       ),
       child: Column(
         children: [
-          // 📸 Image du produit
           Expanded(
             flex: 3,
             child: Padding(
               padding: const EdgeInsets.all(5),
-              child: Image.asset(
+              child: Image.network(
                 productImage,
                 fit: BoxFit.cover,
                 width: double.infinity,
                 errorBuilder: (context, error, stackTrace) {
-                  return Image.asset('assets/images/defautproduit.png', fit: BoxFit.cover);
+                  return Image.asset('assets/image/defautproduit.png', fit: BoxFit.cover);
                 },
               ),
             ),
           ),
-
-          // 🏷️ Nom du produit
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: Text(
@@ -92,17 +151,13 @@ class _ProductCardState extends State<ProductCard> {
               overflow: TextOverflow.ellipsis,
             ),
           ),
-
-          // 💰 Prix du produit
           Padding(
             padding: const EdgeInsets.only(top: 2),
             child: Text(
-              '${productPrice.toStringAsFixed(2)}€',
+              '\${productPrice.toStringAsFixed(2)}€',
               style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.green[900]),
             ),
           ),
-
-          // ➖➕ Gestion des quantités
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

@@ -7,23 +7,37 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
+import 'package:gohanmedic_flutterprojetmobile/Provider/AuthentificationProvider.dart';
+import 'package:gohanmedic_flutterprojetmobile/Provider/CartProvider.dart';
 import 'package:gohanmedic_flutterprojetmobile/main.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(GohanMedicApp());
+    // 🔄 Crée des instances des providers requis
+    final authProvider = AuthentificationProvider();
+    final cartProvider = CartProvider();
 
-    // Verify that our counter starts at 0.
+    // ⚡️ Injecte les providers dans l'application de test
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => authProvider),
+          ChangeNotifierProvider(create: (_) => cartProvider),
+        ],
+        child: GohanMedicApp(authProvider: authProvider, cartProvider: cartProvider),
+      ),
+    );
+
+    // 📌 Vérifie que le compteur commence à 0
     expect(find.text('0'), findsOneWidget);
     expect(find.text('1'), findsNothing);
 
-    // Tap the '+' icon and trigger a frame.
+    // 🔘 Simule un clic sur l'icône "+"
     await tester.tap(find.byIcon(Icons.add));
     await tester.pump();
 
-    // Verify that our counter has incremented.
+    // ✅ Vérifie que le compteur est bien passé à 1
     expect(find.text('0'), findsNothing);
     expect(find.text('1'), findsOneWidget);
   });

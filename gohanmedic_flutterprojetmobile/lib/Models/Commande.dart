@@ -22,24 +22,24 @@ class Commande {
   // Convertir JSON en objet Order
   factory Commande.fromMap(Map<String, dynamic> data) {
     return Commande(
-      id: data['id'],
-      orderDate: DateTime.parse(data['orderDate']),
+      id: data['order_id'],
+      orderDate: DateTime.parse(data['date_order']),
       status: data['status'],
-      montanttotal: data['totalAmount'].toDouble(),
+      montanttotal: data['amount'].toDouble(),
       items: (data['items'] as List).map((item) => Product.fromMap(item)).toList(),
-      livraisonAddress: data['deliveryAddress'] ?? "",
+      livraisonAddress: data['address'] ?? "",
     );
   }
 
   // Convertir un objet Order en JSON
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
-      'orderDate': orderDate.toIso8601String(),
+      'order_id': id,
+      'date_order': orderDate.toIso8601String(),
       'status': status,
-      'totalAmount': montanttotal,
+      'amount': montanttotal,
       'items': items.map((item) => item.toMap()).toList(),
-      'deliveryAddress': livraisonAddress,
+      'address': livraisonAddress,
     };
   }
 }

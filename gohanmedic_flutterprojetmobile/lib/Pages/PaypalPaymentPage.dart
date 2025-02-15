@@ -17,10 +17,14 @@ class PayPalPaymentPage extends StatefulWidget {
 
 class _PayPalPaymentPageState extends State<PayPalPaymentPage> {
   late final WebViewController _controller;
+  static const String baseUrl = Config.apiUrl;
+
 
   @override
   void initState() {
     super.initState();
+
+    print("📡 WebView charge : ${widget.paymentUrl}");
 
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -36,6 +40,7 @@ class _PayPalPaymentPageState extends State<PayPalPaymentPage> {
 
   // Cette fonction sera appelée lorsque l'utilisateur sera redirigé vers l'URL de confirmation.
   void _onPageStarted(String url) async {
+    // Utilisez l'URL de base définie dans votre fichier config.dart
     if (url.contains("success")) {
       // L'utilisateur a terminé le paiement
       // Récupérer l'ID de paiement et de l'acheteur depuis l'URL
@@ -44,7 +49,7 @@ class _PayPalPaymentPageState extends State<PayPalPaymentPage> {
 
       // Appelle l'API pour vérifier le paiement et créer la commande
       final response = await http.post(
-        Uri.parse('${Config.apiUrl}/payments/paypal/create'),
+        Uri.parse('$baseUrl/payments/paypal/create'),
         body: {'paymentId': paymentId, 'payerId': payerId},
       );
 

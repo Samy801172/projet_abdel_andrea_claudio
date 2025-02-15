@@ -14,7 +14,7 @@ class BaseLayout extends StatelessWidget {
       {Key? key,
         required this.title,
         required this.body,
-      this.requireAuthentication = true,} // Par défaut, toutes les pages sont protégées
+      this.requireAuthentication = true} // Par défaut, toutes les pages sont protégées
       ) : super(key: key);
 
   @override
