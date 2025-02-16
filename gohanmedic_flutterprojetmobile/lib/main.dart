@@ -9,6 +9,7 @@ import 'Pages/RegisterPage.dart';
 import 'package:provider/provider.dart';
 import 'package:gohanmedic_flutterprojetmobile/Provider/CartProvider.dart';
 import 'package:gohanmedic_flutterprojetmobile/Pages/CartPage.dart';
+import 'Pages/PrescriptionPage.dart';
 import 'package:gohanmedic_flutterprojetmobile/Provider/AuthentificationProvider.dart';
 import 'Services/config.dart';
 
@@ -104,6 +105,7 @@ class _GohanMedicAppState extends State<GohanMedicApp> {
         '/cart': (context) => CartPage(), // 🛒 Page du panier
         '/products': (context) => ProductPage(), // 💊 Page des médicaments
         '/profile': (context) => ProfilePage(), // 🧑‍⚕️ Page du profil utilisateur
+        '/prescription': (context) => PrescriptionPage(),
 
         // 📦 **Route vers la liste des commandes (avec redirection si non connecté)**
         '/commande': (context) {

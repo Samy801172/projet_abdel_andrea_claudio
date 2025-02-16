@@ -1,10 +1,11 @@
 // 📦 Représente un article dans le panier + conversion entre JSON et Dart
+
 class CartItem {
   final int id; // 🆔 Identifiant unique du produit
   final String nom; // 🏷️ Nom du médicament
   final double prix; // 💰 Prix avec ou sans promotion
   final int quantite; // 🔢 Quantité demandée
-  final String imageUrl; // 🖼️ URL de l'image
+  final String imageUrl; // 🖼️ URL de l'image du produit
   final String description; // 📝 Description (valeur par défaut si null)
 
   CartItem({
@@ -13,7 +14,7 @@ class CartItem {
     required this.prix,
     required this.quantite,
     required this.imageUrl,
-    this.description = "Description non disponible", // ✅ Ajout de valeur par défaut
+    this.description = "Description non disponible", // ✅ Valeur par défaut si `null`
   });
 
   // 🔄 Convertir un objet `CartItem` en JSON pour l'API
@@ -30,6 +31,9 @@ class CartItem {
 
   // 🔄 Construire un objet `CartItem` depuis une réponse JSON de l'API
   factory CartItem.fromJson(Map<String, dynamic> json) {
+    // ✅ Ajout de logs pour voir les données reçues
+    print("🟢 [CartItem] Création depuis JSON: $json");
+
     return CartItem(
       id: json['id_product'] is int
           ? json['id_product'] // ✅ ID est déjà un int
@@ -45,10 +49,30 @@ class CartItem {
           ? json['quantity']
           : int.tryParse(json['quantity'].toString()) ?? 1, // 🔄 Valeur par défaut = 1
 
-      imageUrl: json['imageUrl'] ??
-          'assets/image/defautproduit.png', // 🖼️ Image par défaut
+      imageUrl: json['imageUrl'] ?? 'assets/image/defautproduit.png', // 🖼️ Image par défaut
 
       description: json['description'] ?? "Description non disponible", // 📝 Valeur par défaut
+    );
+  }
+
+  // ✅ Ajouter la méthode `copyWith()` pour modifier des valeurs sans recréer tout l'objet
+  CartItem copyWith({
+    int? id,
+    String? nom,
+    double? prix,
+    int? quantite,
+    String? imageUrl,
+    String? description,
+  }) {
+    print("🔄 [CartItem] Copie avec modification: id=$id, quantite=$quantite");
+
+    return CartItem(
+      id: id ?? this.id,
+      nom: nom ?? this.nom,
+      prix: prix ?? this.prix,
+      quantite: quantite ?? this.quantite,
+      imageUrl: imageUrl ?? this.imageUrl,
+      description: description ?? this.description,
     );
   }
 }

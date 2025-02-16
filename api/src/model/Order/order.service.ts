@@ -237,8 +237,14 @@ export class OrderService {
       console.log(`🛒 Nombre d'articles trouvés dans le panier: ${cartItems.length}`);
 
       if (!cartItems.length) {
+        console.log(`❌ Aucun article trouvé dans le panier pour clientId: ${clientId}`);
+        console.log(
+          `📌 Vérifie si addToCart() fonctionne et stocke bien les produits en base.`,);
+
         throw new BadRequestException('Le panier est vide');
       }
+
+      console.log(`📦 Détails du panier récupéré: ${JSON.stringify(cartItems, null, 2)}`);
 
       // 2. Créer la commande
       const order = this.orderRepository.create({

@@ -4,20 +4,34 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../Models/Commande.dart';
 import 'config.dart';
-
+import 'HttpStatus.dart'; // ✅ Import de HttpStatus
 
 class CommandeService {
   static const String baseUrl = Config.apiUrl;
 
-  // Récupére la liste des commandes du client
+  // 🔄 Récupère la liste des commandes d'un client
   Future<List<Commande>> fetchOrders(String clientId) async {
-    final response = await http.get(Uri.parse('$baseUrl/orders/clients/$clientId'));
+    try {
+      print("📡 [API] Récupération des commandes pour client ID: $clientId...");
 
-    if (response.statusCode == 200) {
-      List<dynamic> data = json.decode(response.body);
-      return data.map((order) => Commande.fromMap(order)).toList();
-    } else {
-      throw Exception('Erreur lors du chargement des commandes');
+      // ✅ Correction de l'URL
+      final response = await http.get(Uri.parse('$baseUrl/api/clients/$clientId/orders'));
+
+      print("🔵 [API] Statut HTTP reçu: ${response.statusCode}");
+
+      // ✅ Vérification avec HttpStatus
+      if (response.statusCode == HttpStatus.ok) {
+        List<dynamic> data = json.decode(response.body);
+        print("✅ [API] Commandes récupérées : ${data.length} commandes");
+
+        return data.map((order) => Commande.fromMap(order)).toList();
+      } else {
+        print("❌ [API] Erreur - Statut ${response.statusCode}");
+        throw Exception("Erreur API : Statut ${response.statusCode}");
+      }
+    } catch (e) {
+      print("❌ [API] Erreur réseau : $e");
+      throw Exception("Erreur réseau");
     }
   }
 }

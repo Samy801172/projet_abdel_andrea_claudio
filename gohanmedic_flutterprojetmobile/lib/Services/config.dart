@@ -7,7 +7,7 @@ class Config {
   // static const String baseUrl = 'http://10.0.2.2:2024/api'; // => TEST SUR EMULATEUR ANDROID
 
   // Client PayPal
-  static const String paypalClientId = 'AYu0FhU6VKkIsk_x3DYp3ZDBn57Z0JnrYQJShGFcg3DRIquZzZIv0kBEiHw1dNKx2-enGPHWzyfUEtwM';
+  static const String paypalClientId = 'EHmmVjrJMjN-7LYy2yUbZyDV02Dsa6SOcVyckeyep7Jg1-x1q3uPa_fy6AGOwk2TMrDQHwKRgn3wxwmb';
   static const String paypalMode = 'sandbox';  // Mode sandbox ou live
   static const String paypalApiUrl = 'https://api-m.sandbox.paypal.com';
 

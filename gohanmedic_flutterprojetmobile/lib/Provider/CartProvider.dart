@@ -1,13 +1,11 @@
-// 🛒 Gestion du Panier avec Provider
-// Ce fichier gère l'ajout, la suppression et la synchronisation du panier avec l'API backend.
-
 import 'package:flutter/material.dart';
 import '../Models/CartItem.dart';
 import '../Services/apiservice.dart';
 import 'package:flutter/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CartProvider with ChangeNotifier {
-  // 🔄 Stockage des articles du panier (clé = ID du produit, valeur = CartItem)
+  // 🛒 Stockage local des articles du panier (clé = ID du produit, valeur = CartItem)
   final Map<int, CartItem> _items = {};
 
   // 📌 Getter pour récupérer les articles du panier
@@ -18,12 +16,12 @@ class CartProvider with ChangeNotifier {
     return _items.values.fold(0, (sum, item) => sum + (item.prix * item.quantite));
   }
 
-  // 🔵 Récupérer le panier depuis l'API au lancement de l'application
+  // 🔵 Récupérer le panier depuis l'API au démarrage
   Future<void> fetchCartFromServer(int? clientId, BuildContext context) async {
     if (clientId == null || clientId <= 0) {
       print("❌ ERREUR : clientId invalide ($clientId), redirection vers la page de connexion...");
 
-      // 🚨 Rediriger vers la page de connexion si clientId est null
+      // 🚨 Redirection vers `/login` si le clientId est null
       Future.microtask(() {
         Navigator.pushReplacementNamed(context, '/login');
       });
@@ -49,12 +47,10 @@ class CartProvider with ChangeNotifier {
     }
   }
 
-  // 🔄 Ajouter un produit dans l'API et dans le Provider
+  // 🛒 Ajouter un produit dans le panier (local + API)
   Future<void> addItem(CartItem item, int? clientId, BuildContext context) async {
     if (clientId == null) {
       print("❌ ERREUR : clientId est NULL, redirection vers la page de connexion...");
-
-      // 🚨 Redirection vers `/login` si le clientId est null
       Future.microtask(() {
         Navigator.pushReplacementNamed(context, '/login');
       });
@@ -64,36 +60,31 @@ class CartProvider with ChangeNotifier {
     final int productId = item.id;
     print("🛒 Ajout au panier : ${item.nom}, ID = $productId");
 
-    if (_items.containsKey(productId)) {
-      // Si le produit existe déjà, on augmente juste la quantité
-      _items.update(
-        productId,
-            (existingItem) => CartItem(
-          id: existingItem.id,
-          nom: existingItem.nom,
-          prix: existingItem.prix,
-          quantite: existingItem.quantite + 1,
-          imageUrl: existingItem.imageUrl,
-          description: existingItem.description,
-        ),
-      );
-    } else {
-      // Sinon, on l'ajoute
-      _items.putIfAbsent(productId, () => item);
+    try {
+      // 🔄 Envoie à l'API
+      await ApiService.addToCart(clientId, productId, 1);
+
+      // 📦 Mise à jour locale après succès API
+      if (_items.containsKey(productId)) {
+        _items.update(
+          productId,
+              (existingItem) => existingItem.copyWith(quantite: existingItem.quantite + 1),
+        );
+      } else {
+        _items.putIfAbsent(productId, () => item);
+      }
+
+      print("📦 Contenu du panier après ajout : ${_items.keys.toList()}");
+      notifyListeners();
+    } catch (e) {
+      print("❌ [CartProvider] Erreur lors de l'ajout au panier : $e");
     }
-
-    print("📦 Contenu du panier après ajout : ${_items.keys.toList()}");
-
-    // 🔄 Mettre à jour le panier côté serveur
-    await _syncCartWithServer(clientId);
   }
 
-  // 🔴 Supprimer un produit du panier côté API et local
+  // 🔴 Supprimer un produit du panier (local + API)
   Future<void> removeItem(int productId, int? clientId, BuildContext context) async {
     if (clientId == null) {
       print("❌ ERREUR : clientId est NULL, redirection vers la page de connexion...");
-
-      // 🚨 Redirection vers `/login`
       Future.microtask(() {
         Navigator.pushReplacementNamed(context, '/login');
       });
@@ -102,20 +93,15 @@ class CartProvider with ChangeNotifier {
 
     if (_items.containsKey(productId)) {
       if (_items[productId]!.quantite > 1) {
-        // On réduit la quantité du produit
+        // Réduire la quantité du produit
         _items.update(
           productId,
-              (existingItem) => CartItem(
-            id: existingItem.id,
-            nom: existingItem.nom,
-            prix: existingItem.prix,
+              (existingItem) => existingItem.copyWith(
             quantite: existingItem.quantite - 1,
-            imageUrl: existingItem.imageUrl,
-            description: existingItem.description,
           ),
         );
       } else {
-        // Si c'était le dernier, on le supprime
+        // Supprimer le produit si la quantité atteint 0
         _items.remove(productId);
       }
 
@@ -126,12 +112,10 @@ class CartProvider with ChangeNotifier {
     }
   }
 
-  // 🔥 Vider complètement le panier et synchroniser avec l'API
+  // 🔥 Vider complètement le panier (local + API)
   Future<void> clearCart(int? clientId, BuildContext context) async {
     if (clientId == null) {
       print("❌ ERREUR : clientId est NULL, redirection vers la page de connexion...");
-
-      // 🚨 Redirection vers `/login`
       Future.microtask(() {
         Navigator.pushReplacementNamed(context, '/login');
       });
@@ -144,12 +128,25 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // 🔄 Fonction privée pour synchroniser le panier avec l'API
+  // 🔄 Synchronisation du panier avec l'API (mise à jour)
   Future<void> _syncCartWithServer(int clientId) async {
     try {
       print("📡 [API] Synchronisation du panier avec l'API pour client ID : $clientId...");
 
-      await ApiService.updateCart(clientId, _items.values.toList());
+      // 🔥 Récupération du token JWT stocké
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
+
+      if (token == null) {
+        print("❌ Aucun token trouvé !");
+        throw Exception("Utilisateur non authentifié");
+      }
+
+      // 🔄 Mise à jour du panier dans l'API, produit par produit
+      for (var item in _items.values) {
+        print("🔄 Mise à jour API - Produit ID: ${item.id}, Quantité: ${item.quantite}");
+        await ApiService.updateCart(clientId, item.id, item.quantite);
+      }
 
       print("✅ [API] Panier synchronisé avec succès !");
       notifyListeners();

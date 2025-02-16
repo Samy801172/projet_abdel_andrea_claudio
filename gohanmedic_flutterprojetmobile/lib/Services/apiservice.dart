@@ -12,116 +12,207 @@ class ApiService {
   // 🌍 URL de base pour l'API
   static const String baseUrl = Config.apiUrl;
 
-  // 🔄 Fonction pour récupérer la liste des produits depuis l'API
+  // 🔄 Fonction pour rafraîchir le token
+  static Future<bool> refreshToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? refreshToken = prefs.getString('refreshToken');
+
+    if (refreshToken == null) {
+      print("❌ Aucun refresh token trouvé !");
+      return false;
+    }
+
+    try {
+      print("📡 [API] Rafraîchissement du token...");
+      final response = await http.post(
+        Uri.parse('$baseUrl/account/refresh'),
+        body: json.encode({"refresh": refreshToken}),
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      if (response.statusCode == HttpStatus.ok) {
+        final data = json.decode(response.body);
+        String newAccessToken = data['token'];
+        String newRefreshToken = data['refreshToken'];
+
+        await prefs.setString('token', newAccessToken);
+        await prefs.setString('refreshToken', newRefreshToken);
+
+        print("✅ [API] Token rafraîchi avec succès !");
+        return true;
+      } else {
+        print("❌ [API] Erreur lors du refresh token : ${response.body}");
+        return false;
+      }
+    } catch (e) {
+      print("❌ [API] Erreur réseau lors du refresh token : $e");
+      return false;
+    }
+  }
+
+  // 🔑 Vérification et récupération du token valide
+  static Future<String?> getValidToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+
+    if (token == null) {
+      print("🔄 Aucun token trouvé, tentative de refresh...");
+      bool refreshed = await refreshToken();
+      if (!refreshed) return null;
+      token = prefs.getString('token');
+    }
+    return token;
+  }
+
+  // 🛒 Récupérer le panier du client
+  static Future<List<CartItem>> fetchCart(int clientId) async {
+    try {
+      String? token = await getValidToken();
+      if (token == null) return [];
+
+      final response = await http.get(
+        Uri.parse('$baseUrl/cart?clientId=$clientId'),
+        headers: {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'},
+      );
+
+      if (response.statusCode == HttpStatus.ok) {
+        List<dynamic> data = json.decode(response.body);
+        return data.map((item) => CartItem.fromJson(item)).toList();
+      } else if (response.statusCode == HttpStatus.unauthorized) {
+        print("🔄 Token expiré, tentative de refresh...");
+        bool refreshed = await refreshToken();
+        if (refreshed) return fetchCart(clientId);
+      }
+      throw Exception("Erreur API : ${response.statusCode}");
+    } catch (e) {
+      throw Exception("Erreur réseau");
+    }
+  }
+
+  // 🔄 Récupérer les produits
   static Future<List<dynamic>> fetchProducts() async {
     try {
       print("📡 [API] Récupération des produits...");
 
-      final response = await http
-          .get(Uri.parse('$baseUrl/products'))
-          .timeout(const Duration(seconds: 10)); // ⏳ Timeout de 10 secondes
-
-      print("🔵 [API] Statut HTTP reçu: ${response.statusCode}");
-
-      // ✅ Vérification de la réponse API (200 OK ou 201 Created)
-      if ((response.statusCode == HttpStatus.ok || response.statusCode == HttpStatus.created) &&
-          response.body.isNotEmpty) {
-        final List<dynamic> data = json.decode(response.body);
-
-        print("📦 [API] Produits récupérés : ${data.length} articles");
-
-        return data; // 🚀 Retourne la liste des produits
-      } else {
-        print("❌ [API] Erreur - Statut ${response.statusCode}");
-        throw Exception("Erreur API : Statut ${response.statusCode}");
-      }
-    } on http.ClientException catch (e) {
-      print("❌ [API] Erreur réseau : $e");
-      throw Exception("Erreur réseau");
-    } on TimeoutException {
-      print("⏳ [API] Temps d’attente dépassé");
-      throw Exception("Temps d’attente dépassé");
-    } catch (e) {
-      print("❌ [API] Erreur inconnue : $e");
-      throw Exception("Erreur inconnue");
-    }
-  }
-
-  // 🛒 Récupérer le panier du client depuis l'API
-  static Future<List<CartItem>> fetchCart(int clientId) async {
-    try {
-      print("📡 [API] Récupération du panier pour client ID: $clientId...");
-
-      final response = await http
-          .get(Uri.parse('$baseUrl/cart?clientId=$clientId'))
-          .timeout(const Duration(seconds: 10));
-
-      print("🔵 [API] Statut HTTP: ${response.statusCode}");
-
-      if ((response.statusCode == HttpStatus.ok || response.statusCode == HttpStatus.created) &&
-          response.body.isNotEmpty) {
-        List<dynamic> data = json.decode(response.body);
-        List<CartItem> cartItems = data.map((item) => CartItem.fromJson(item)).toList();
-
-        print("✅ [API] Panier récupéré avec succès : ${cartItems.length} articles");
-        return cartItems;
-      } else {
-        print("❌ [API] Erreur - Statut ${response.statusCode}");
-        throw Exception("Erreur API : Statut ${response.statusCode}");
-      }
-    } catch (e) {
-      print("❌ [API] Erreur lors de la récupération du panier : $e");
-      throw Exception("Erreur réseau");
-    }
-  }
-
-  // 🔄 Mettre à jour le panier côté serveur
-  static Future<void> updateCart(int clientId, List<CartItem> cartItems) async {
-    try {
-      print("📡 [API] Mise à jour du panier pour client ID: $clientId...");
-
-      final response = await http.post(
-        Uri.parse('$baseUrl/cart/update'),
-        body: json.encode({
-          "clientId": clientId,
-          "items": cartItems.map((item) => item.toJson()).toList(),
-        }),
+      final response = await http.get(
+        Uri.parse('$baseUrl/products'),
         headers: {'Content-Type': 'application/json'},
       );
 
-      if (response.statusCode == HttpStatus.ok || response.statusCode == HttpStatus.created) {
-        print("✅ [API] Panier mis à jour avec succès !");
-      } else {
-        print("❌ [API] Erreur mise à jour panier : ${response.body}");
-        throw Exception("Erreur lors de la mise à jour du panier");
+      if (response.statusCode == HttpStatus.ok) {
+        return json.decode(response.body);
       }
+      throw Exception("Erreur API : ${response.statusCode}");
     } catch (e) {
-      print("❌ [API] Erreur réseau : $e");
       throw Exception("Erreur réseau");
     }
   }
 
-  // 🗑️ Supprimer un article du panier côté serveur
-  static Future<void> removeFromCart(int clientId, int productId) async {
+  // 🛒 Ajouter un produit au panier côté API
+  static Future<void> addToCart(int clientId, int productId, int quantity) async {
     try {
-      print("📡 [API] Suppression du produit ID: $productId du panier...");
+      String? token = await getValidToken();
+      if (token == null) throw Exception("Utilisateur non authentifié");
 
-      final response = await http.delete(
-        Uri.parse('$baseUrl/cart/remove'),
+      print("📡 [API] Ajout au panier - Produit ID: $productId, Quantité: $quantity");
+
+      final response = await http.post(
+        Uri.parse('$baseUrl/cart'),
         body: json.encode({
           "clientId": clientId,
           "productId": productId,
+          "quantity": quantity,
+        }),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == HttpStatus.ok || response.statusCode == HttpStatus.created) {
+        print("✅ [API] Produit ajouté au panier avec succès !");
+      } else {
+        print("❌ [API] Erreur lors de l'ajout au panier : ${response.body}");
+        throw Exception("Erreur API : ${response.body}");
+      }
+    } catch (e) {
+      print("❌ [API] Erreur réseau lors de l'ajout au panier : $e");
+      throw Exception("Erreur réseau");
+    }
+  }
+
+  // 🛒 Mettre à jour le panier
+  static Future<void> updateCart(int clientId, int cartItemId, int quantity) async {
+    try {
+      String? token = await getValidToken();
+      if (token == null) throw Exception("Utilisateur non authentifié");
+
+      print("📡 [API] Mise à jour du panier - Produit ID: $cartItemId, Nouvelle Quantité: $quantity");
+
+      final response = await http.put(
+        Uri.parse('$baseUrl/cart/$cartItemId/quantity'),
+        body: json.encode({"clientId": clientId, "quantity": quantity}),
+        headers: {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'},
+      );
+
+      if (response.statusCode == HttpStatus.ok) {
+        print("✅ [API] Quantité mise à jour !");
+      } else {
+        print("❌ [API] Erreur lors de la mise à jour : ${response.body}");
+        throw Exception("Erreur API : ${response.body}");
+      }
+    } catch (e) {
+      print("❌ [API] Erreur réseau : $e");
+      throw Exception("Erreur réseau");
+    }
+  }
+
+  // 🔑 Connexion utilisateur
+  static Future<bool> login(String email, String password) async {
+    try {
+      print("📡 [API] Connexion en cours...");
+
+      final response = await http.post(
+        Uri.parse('$baseUrl/account/signin'),
+        body: json.encode({'mail': email, 'password': password}),
+        headers: {'Content-Type': 'application/json; charset=UTF-8'},
+      );
+
+      if (response.statusCode == HttpStatus.ok) {
+        final data = json.decode(response.body);
+        await SharedPreferences.getInstance().then((prefs) {
+          prefs.setString('token', data['token']);
+          prefs.setString('refreshToken', data['refreshToken']);
+          prefs.setString('clientId', data['clientId'].toString());
+        });
+        return true;
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  // 🔄 Fonction d'inscription (Register)
+  static Future<String> register(String name, String email, String password) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/account/signup'),
+        body: json.encode({
+          'username': name,
+          'mail': email,
+          'password': password,
         }),
         headers: {'Content-Type': 'application/json'},
       );
 
-      if (response.statusCode == HttpStatus.ok || response.statusCode == HttpStatus.created) {
-        print("✅ [API] Produit supprimé avec succès !");
+      if (response.statusCode == HttpStatus.created || response.statusCode == HttpStatus.ok) {
+        return "✅ Inscription réussie !";
       } else {
-        print("❌ [API] Erreur suppression produit : ${response.body}");
+        return "❌ Erreur lors de l'inscription : ${response.body}";
       }
     } catch (e) {
-      print("❌ [API] Erreur réseau : $e");
+      return "❌ Erreur réseau : $e";
     }
   }
 
@@ -142,97 +233,6 @@ class ApiService {
       }
     } catch (e) {
       print("❌ [API] Erreur réseau : $e");
-    }
-  }
-
-  // 🔑 Connexion utilisateur et stockage du token
-  static Future<bool> login(String email, String password) async {
-    try {
-      print("📡 [API] Connexion en cours...");
-
-      final response = await http.post(
-        Uri.parse('$baseUrl/account/signin'),
-        body: json.encode({'mail': email, 'password': password}),
-        headers: {'Content-Type': 'application/json; charset=UTF-8'},
-      );
-
-      print("📥 [API] Réponse reçue : ${response.body}");
-
-      if (response.statusCode == HttpStatus.ok || response.statusCode == HttpStatus.created) {
-        final data = json.decode(response.body);
-        final token = data['token'];
-        final clientId = data['clientId'];
-
-        print("✅ [API] Connexion réussie - Token: $token, ClientID: $clientId");
-
-        if (token == null || clientId == null) {
-          print('❌ [API] Erreur : Réponse invalide (token ou clientId null)');
-          throw Exception("Réponse invalide du serveur");
-        }
-
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('token', token);
-        await prefs.setString('clientId', clientId.toString());
-
-        print("📝 [API] Token stocké avec succès !");
-        return true;
-      } else {
-        print('❌ [API] Échec de la connexion. Code erreur: ${response.statusCode}');
-        return false;
-      }
-    } catch (e) {
-      print('❌ [API] Erreur de connexion : $e');
-      return false;
-    }
-  }
-
-  // 📝 Fonction d'inscription (Register)
-  static Future<String> register(String name, String email, String password) async {
-    final url = Uri.parse('$baseUrl/account/signup');
-    final body = json.encode({
-      'username': name,
-      'mail': email,
-      'password': password,
-    });
-
-    print('📡 [API] Envoi de la requête : POST $url');
-    print('📤 [API] Données envoyées : $body');
-
-    final response = await http.post(
-      url,
-      body: body,
-      headers: {'Content-Type': 'application/json'},
-    );
-
-    print('🔵 [API] Statut HTTP: ${response.statusCode}');
-    print('📥 [API] Réponse API: ${response.body}');
-
-    switch (response.statusCode) {
-      case HttpStatus.created:
-      case HttpStatus.ok:
-        return "✅ Inscription réussie !";
-
-      case HttpStatus.badRequest:
-        return "⚠️ Requête invalide. Vérifiez vos informations.";
-
-      case HttpStatus.conflict:
-        return "⚠️ L'utilisateur existe déjà. Essayez un autre email.";
-
-      case HttpStatus.internalServerError:
-        return "❌ Erreur serveur. Réessayez plus tard.";
-
-      default:
-        return "❌ Une erreur est survenue. Code: ${response.statusCode}";
-    }
-  }
-
-  // 📌 Fonction de gestion des erreurs API
-  static String _handleError(http.Response response) {
-    try {
-      final errorData = json.decode(response.body);
-      return errorData['message'] ?? "❌ Erreur inconnue";
-    } catch (e) {
-      return "❌ Erreur inconnue (Code ${response.statusCode})";
     }
   }
 }

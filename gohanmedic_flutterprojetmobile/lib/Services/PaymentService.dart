@@ -69,53 +69,61 @@ class PaymentService {
     );
 
     // 🛑 Vérification de la réponse du backend
-    if (response.statusCode == 200) {
+    if (response.statusCode == HttpStatus.ok || response.statusCode == HttpStatus.created) {
       final data = json.decode(response.body);
       int orderId = data['orderId']; // ✅ Récupération de l'orderId
       print("🛒 Commande créée avec orderId : $orderId");
 
       // 🔄 Maintenant, on envoie les infos de paiement avec orderId
-      await sendPayment(orderId, totalAmount, context);
+      await sendPayment(orderId, totalAmount);
     } else {
       print("❌ Erreur lors de la création de la commande : ${response.body}");
     }
   }
 
-  // 💳 Fonction pour envoyer le paiement
-  Future<void> sendPayment(int orderId, double totalAmount, BuildContext context) async {
-    print("🔵 Envoi du paiement avec orderId: $orderId");
+  // 💳 Capture un paiement PayPal
+  Future<void> sendPayment(int orderId, double totalAmount) async {
+    try {
+      // ✅ Vérifier si `orderId` est bien transmis
+      print("📡 [API] Envoi du paiement...");
+      print("🔍 Vérification de l'orderId : $orderId");
 
-    final Map<String, dynamic> paymentData = {
-      "orderId": orderId,          // ✅ On envoie maintenant l'orderId récupéré
-      "paymentMethod": "PayPal",   // ✅ Enum attendu par le backend
-      "amount": totalAmount,       // ✅ Montant total
-      "paymentStatus": "PENDING",  // ✅ Statut initial du paiement
-    };
+      // ✅ Vérifier l'URL générée
+      final url = Uri.parse('$baseUrl/api/payments/paypal/capture/$orderId');
+      print("🔗 URL générée : $url");
 
-    // 📌 Affichage du JSON envoyé
-    print("📋 JSON envoyé à PayPal : ${jsonEncode(paymentData)}");
+      final Map<String, dynamic> paymentData = {
+        "orderId": orderId,          // ✅ Envoi de l'orderId récupéré
+        "paymentMethod": "PayPal",   // ✅ Enum attendu par le backend
+        "amount": totalAmount,       // ✅ Montant total du paiement
+        "paymentStatus": "PENDING",  // ✅ Statut initial du paiement
+      };
 
-    final response = await http.post(
-      Uri.parse('$baseUrl/payments/paypal/capture/$orderId'),
-      body: json.encode(paymentData),
-      headers: {'Content-Type': 'application/json'},
-    );
+      // 📌 Vérification du JSON avant envoi
+      print("📋 JSON envoyé : ${jsonEncode(paymentData)}");
 
-    if (response.statusCode == 200) {
-      final paymentData = json.decode(response.body);
-      String paypalUrl = paymentData['paypalUrl'];
-
-      print("🔗 Redirection vers PayPal : $paypalUrl");
-
-      // 🔄 Redirection vers la page de paiement PayPal
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => PayPalPaymentPage(paymentUrl: paypalUrl),
-        ),
+      final response = await http.post(
+        url,
+        body: json.encode(paymentData),
+        headers: {'Content-Type': 'application/json'},
       );
-    } else {
-      print("❌ Erreur lors du paiement : ${response.body}");
+
+      // ✅ Vérifier le statut HTTP avec HttpStatus
+      print("🔵 [API] Statut HTTP reçu : ${response.statusCode}");
+
+      if (response.statusCode == HttpStatus.ok || response.statusCode == HttpStatus.created) {
+        final paymentData = json.decode(response.body);
+        String paypalUrl = paymentData['paypalUrl'];
+
+        print("✅ Paiement envoyé avec succès !");
+        print("🔗 Redirection PayPal : $paypalUrl");
+
+      } else {
+        print("❌ Erreur lors du paiement. Statut : ${response.statusCode}");
+        print("❌ Détails de l'erreur : ${response.body}");
+      }
+    } catch (e) {
+      print("❌ [API] Erreur lors de l'envoi du paiement : $e");
     }
   }
 
@@ -132,7 +140,7 @@ class PaymentService {
       headers: {'Content-Type': 'application/json'},
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == HttpStatus.ok || response.statusCode == HttpStatus.created) {
       final paymentData = json.decode(response.body);
       Payment updatedPayment = Payment.fromMap(paymentData);
 
@@ -159,7 +167,7 @@ class PaymentService {
         headers: {'Content-Type': 'application/json'},
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == HttpStatus.ok || response.statusCode == HttpStatus.created) {
         print("✅ Stock mis à jour pour le produit ${item.nom}");
       } else {
         print("❌ Erreur lors de la mise à jour du stock pour ${item.nom}");
