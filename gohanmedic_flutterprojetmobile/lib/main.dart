@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:gohanmedic_flutterprojetmobile/Pages/PaymentErrorPage.dart';
+import 'package:gohanmedic_flutterprojetmobile/Pages/CommandeDetailPage.dart';
 import 'package:gohanmedic_flutterprojetmobile/Pages/DebugPage.dart';
 import 'package:gohanmedic_flutterprojetmobile/Pages/ProfilePage.dart';
 import 'package:gohanmedic_flutterprojetmobile/Widgets/CommandeList.dart';
 import 'package:gohanmedic_flutterprojetmobile/Pages/ProductPage.dart';
-import 'Pages/HomePage.dart';
-import 'Pages/LoginPage.dart';
-import 'Pages/RegisterPage.dart';
-import 'package:provider/provider.dart';
-import 'package:gohanmedic_flutterprojetmobile/Provider/CartProvider.dart';
+import 'package:gohanmedic_flutterprojetmobile/Pages/HomePage.dart';
+import 'package:gohanmedic_flutterprojetmobile/Pages/LoginPage.dart';
+import 'package:gohanmedic_flutterprojetmobile/Pages/RegisterPage.dart';
+import 'package:gohanmedic_flutterprojetmobile/Pages/CommandePage.dart';
 import 'package:gohanmedic_flutterprojetmobile/Pages/CartPage.dart';
-import 'Pages/PrescriptionPage.dart';
-import 'package:gohanmedic_flutterprojetmobile/Provider/AuthentificationProvider.dart';
+import 'package:gohanmedic_flutterprojetmobile/Pages/PrescriptionPage.dart';
+import 'package:provider/provider.dart';
+import 'Models/Commande.dart';
+import 'Provider/CartProvider.dart';
+import 'Provider/AuthentificationProvider.dart';
 import 'Services/config.dart';
 
 void main() async {
@@ -105,18 +109,49 @@ class _GohanMedicAppState extends State<GohanMedicApp> {
         '/cart': (context) => CartPage(), // 🛒 Page du panier
         '/products': (context) => ProductPage(), // 💊 Page des médicaments
         '/profile': (context) => ProfilePage(), // 🧑‍⚕️ Page du profil utilisateur
-        '/prescription': (context) => PrescriptionPage(),
+        '/prescription': (context) => PrescriptionPage(), // Page pour les ordonnances
 
-        // 📦 **Route vers la liste des commandes (avec redirection si non connecté)**
+        '/payment-failed': (context) {
+          final args = ModalRoute.of(context)?.settings.arguments;
+          if (args is int) {
+            return PaymentErrorPage(orderId: args);
+          } else {
+            return Scaffold(
+              body: Center(child: Text("❌ Erreur : ID de commande manquant !")),
+            );
+          }
+        },
+
+        '/commande-page': (context) => CommandePage(), // ✅ Page de confirmation de commande
+
+        '/commande/detail': (context) {
+          final args = ModalRoute.of(context)?.settings.arguments;
+
+          if (args is Map<String, dynamic>) {
+            try {
+              // 🔄 Conversion de la Map en objet Commande
+              Commande commande = Commande.fromJson(args);
+              return CommandeDetailPage(order: commande);
+            } catch (e) {
+              print("❌ ERREUR : Impossible de convertir args en Commande : $e");
+            }
+          }
+
+          // ❌ Gestion d'erreur si les données sont invalides
+          return Scaffold(
+            body: Center(child: Text("❌ Erreur : Détails de commande manquants !")),
+          );
+        },
+
         '/commande': (context) {
           final authProvider = Provider.of<AuthentificationProvider>(context, listen: false);
-          final clientId = authProvider.clientId; // 🔑 Récupération du client ID
+          final clientId = authProvider.clientId;
 
           if (clientId == null) {
             print("🔒 Redirection vers la connexion : utilisateur non authentifié !");
             Future.microtask(() => Navigator.pushReplacementNamed(context, '/login'));
             return Scaffold(
-              body: Center(child: CircularProgressIndicator()), // ⏳ Affichage temporaire
+              body: Center(child: CircularProgressIndicator()),
             );
           }
 

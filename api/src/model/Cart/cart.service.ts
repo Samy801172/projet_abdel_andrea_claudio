@@ -78,6 +78,8 @@ export class CartService {
     });
 
     if (!product) {
+      this.logger.error("❌ [CartService] Produit non trouvé !");
+
       throw new NotFoundException('Product not found');
     }
 

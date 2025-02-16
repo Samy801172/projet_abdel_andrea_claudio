@@ -1,7 +1,6 @@
 // 📦 Page du Panier - Gestion et modification des articles
 
 import 'package:flutter/material.dart';
-import 'package:gohanmedic_flutterprojetmobile/Models/Product.dart';
 import 'package:provider/provider.dart';
 import 'package:gohanmedic_flutterprojetmobile/Widgets/Design/BaseLayout.dart';
 import 'package:gohanmedic_flutterprojetmobile/Provider/CartProvider.dart';
@@ -16,15 +15,10 @@ class CartPage extends StatelessWidget {
 
     // 🔑 Récupération et conversion de clientId
     final String? clientIdStr = authProvider.clientId;
-    int? clientId;
+    int? clientId = clientIdStr != null ? int.tryParse(clientIdStr) : null;
 
-    if (clientIdStr != null) {
-      clientId = int.tryParse(clientIdStr);
-      if (clientId == null) {
-        print("❌ ERREUR : Impossible de convertir clientId ($clientIdStr) en int.");
-      }
-    } else {
-      print("⚠️ clientId est NULL, utilisateur non connecté.");
+    if (clientId == null) {
+      print("⚠️ clientId est NULL ou invalide, utilisateur non connecté.");
     }
 
     return BaseLayout(
@@ -68,24 +62,16 @@ class CartPage extends StatelessWidget {
                     ),
                     SizedBox(height: 10),
                     ElevatedButton(
-                      onPressed: authProvider.isAuthenticated
+                      onPressed: authProvider.isAuthenticated && clientId != null
                           ? () {
                         print("🟢 Bouton 'Passer au paiement' cliqué !");
 
-                        // 🔄 Conversion CartItem -> Product pour PaymentService
-                        List<Product> cartProducts = cart.items.values.map((item) => Product(
-                          id: item.id,
-                          nom: item.nom,
-                          description: item.description ?? "Description non disponible",
-                          prix: item.prix,
-                          quantite: item.quantite,
-                          imageUrl: item.imageUrl,
-                        )).toList();
-
-                        print("📋 Contenu du panier au paiement : ${cart.items.values.toList()}");
-                        print("💰 Total : ${cart.totalPrice}");
-
-                        PaymentService().createPayment(context);
+                        // 🔄 Démarrage du paiement PayPal avec PaymentService
+                        PaymentService.startPayPalPayment(
+                          context,
+                          cart.totalPrice,
+                          clientId!,
+                        );
                       }
                           : null, // ❌ Désactive le bouton si non connecté
                       child: Text('Passer au paiement avec PayPal'),

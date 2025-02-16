@@ -37,6 +37,7 @@ export class PaymentController {
       console.log(`✅ Commande créée avec succès - ID: ${order.id_order}`);
 
       return await this.paypalService.createOrder(data.amount, order.id_order);
+
     } catch (error) {
       console.error('PayPal create order error:', error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
