@@ -18,7 +18,7 @@ import 'Provider/AuthentificationProvider.dart';
 import 'Services/config.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // ⚙ Assure l'initialisation correcte de Flutter
+  WidgetsFlutterBinding.ensureInitialized(); // Assure l'initialisation correcte de Flutter
 
   print("🛠️ API URL utilisée : ${Config.apiUrl}"); // ✅ Vérification de l'URL API
 
@@ -98,7 +98,7 @@ class _GohanMedicAppState extends State<GohanMedicApp> {
       ),
 
       // 📍 **Page de démarrage** - Debug uniquement (Changer pour `/home` en version finale)
-      initialRoute: '/DebugStockage',
+      initialRoute: '/home',
 
       // 🛣️ **Définition des routes**
       routes: {

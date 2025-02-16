@@ -69,6 +69,7 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  // 🔍 **Fonction pour vérifier si les données sont bien stockées localement**
   Future<void> checkStoredData() async {
     final prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
@@ -76,6 +77,7 @@ class _LoginPageState extends State<LoginPage> {
 
     print("🛠️ Vérification stockage : Token=$token, ClientID=$clientId");
 
+    // ⚠️ Vérifie si `clientId` est bien stocké
     if (clientId == null || clientId == "null") {
       print("⚠️ `clientId` n'est pas enregistré ou est `null` !");
     }

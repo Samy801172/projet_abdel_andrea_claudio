@@ -1,6 +1,9 @@
+// Permet l'authentification et de faire le lien avec l'API
+// pour permettre de charger des informations
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:gohanmedic_flutterprojetmobile/Services/apiservice.dart'; // Assurez-vous que ApiService est bien importé
+import 'package:gohanmedic_flutterprojetmobile/Services/apiservice.dart';
 
 class AuthentificationProvider with ChangeNotifier {
   String? _clientId;
@@ -34,7 +37,7 @@ class AuthentificationProvider with ChangeNotifier {
 
     print('🔍 [DEBUG] Chargement utilisateur : Token=$_token, ID=$_clientId');
 
-    _isAuthenticated = (_token != null && parsedClientId != null); // ✅ Vérification correcte
+    _isAuthenticated = (_token != null && parsedClientId != null);
     notifyListeners();
   }
 
@@ -59,7 +62,7 @@ class AuthentificationProvider with ChangeNotifier {
         print("🆔 Client ID: ${prefs.getString('clientId')}");
         print("📧 Email: ${prefs.getString('userEmail')}");
 
-        _isAuthenticated = (_token != null && _clientId != null); // Vérification correcte
+        _isAuthenticated = (_token != null && _clientId != null);
         notifyListeners();
 
         return true;
