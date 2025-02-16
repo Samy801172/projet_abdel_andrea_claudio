@@ -1,3 +1,5 @@
+// Permet la gestion du panier + faire le lien avec le backend
+
 import 'package:flutter/material.dart';
 import '../Models/CartItem.dart';
 import '../Services/apiservice.dart';
