@@ -6,92 +6,110 @@ class AuthentificationProvider with ChangeNotifier {
   String? _clientId;
   String? _token;
   String? _userEmail;
-  bool _isAuthenticated = false; // Variable privée pour suivre l'état de connexion
+  bool _isAuthenticated = false;
 
   String? get clientId => _clientId;
   String? get token => _token;
   String? get userEmail => _userEmail;
 
-  bool get isAuthenticated => _token != null && _clientId != null; // permet de vérifier si un utilisateur est connecté
+  bool get isAuthenticated => _isAuthenticated;
 
   AuthentificationProvider() {
     loadUser();
   }
 
-  // Récupérer les infos utilisateur depuis le stockage local
+  // 📡 **Charger les infos utilisateur stockées localement**
   Future<void> loadUser() async {
     final prefs = await SharedPreferences.getInstance();
+    // 🔄 Vérifier si les valeurs sont bien stockées
+    print("🔑 [DEBUG] Token stocké : ${prefs.getString('token')}");
+    print("🆔 [DEBUG] Client ID stocké : ${prefs.getString('clientId')}");
+
     _clientId = prefs.getString('clientId');
     _token = prefs.getString('token');
     _userEmail = prefs.getString('userEmail');
 
-    print('🔍 Chargement utilisateur : Token=$_token, ID=$_clientId');
+    // 🔄 Convertir `clientId` en `int`
+    int? parsedClientId = _clientId != null ? int.tryParse(_clientId!) : null;
 
-    // Vérifie si les données sont valides
-    // Met à jour l'état d'authentification
-    _isAuthenticated = (_token != null && _clientId != null);// Définit l'utilisateur comme connecté
+    print('🔍 [DEBUG] Chargement utilisateur : Token=$_token, ID=$_clientId');
 
-    notifyListeners(); // Met à jour les widgets dépendants
+    _isAuthenticated = (_token != null && parsedClientId != null); // ✅ Vérification correcte
+    notifyListeners();
   }
 
-  // Connexion via ApiService
+  // 🔑 **Connexion utilisateur avec stockage des infos**
   Future<bool> login(String email, String password) async {
     try {
+      print("📡 [API] Connexion avec mail: $email");
+
       bool success = await ApiService.login(email, password);
 
       if (success) {
-        // Si la connexion réussit, recharger les infos utilisateur
-        await loadUser(); // Recharge les données après connexion
+        await loadUser(); // Recharge les infos après connexion
+        print("✅ Connexion réussie : Client ID=$_clientId, Token=$_token");
+
+        final prefs = await SharedPreferences.getInstance();
+        _clientId = prefs.getString('clientId');
+        _token = prefs.getString('token');
+        _userEmail = prefs.getString('userEmail');
+
+        print("✅ [DEBUG] Données après connexion:");
+        print("🔑 Token: ${prefs.getString('token')}");
+        print("🆔 Client ID: ${prefs.getString('clientId')}");
+        print("📧 Email: ${prefs.getString('userEmail')}");
+
+        _isAuthenticated = (_token != null && _clientId != null); // Vérification correcte
         notifyListeners();
+
         return true;
       } else {
-        print("Échec de connexion : mauvais identifiants");
-        return false; // Ajouté pour bien signaler l'échec
+        print("❌ Échec de connexion : Mauvais identifiants");
+        return false;
       }
     } catch (e) {
-      // Si une exception est lancée lors de l'appel API ou autre erreur
-      print('Erreur de connexion : $e');
-      return false; // Ajouté pour éviter une exception
+      print('❌ Erreur de connexion : $e');
+      return false;
     }
   }
 
-  // Inscription via ApiService
+  // 📝 **Inscription utilisateur**
   Future<String> register(String name, String email, String password) async {
     try {
       return await ApiService.register(name, email, password);
     } catch (e) {
-      print('Erreur d\'inscription : $e');
+      print('❌ Erreur d\'inscription : $e');
       throw Exception("Une erreur est survenue. Veuillez réessayer.");
     }
   }
 
-  // Vérifie si un utilisateur est connecté
+  // ✅ **Vérifier si l'utilisateur est connecté**
   bool isUserLoggedIn() {
-    return _clientId != null && _token != null;
+    return _clientId != null && _clientId!.isNotEmpty && _token != null;
   }
 
-  // Déconnexion
+  // 🔄 **Déconnexion**
   Future<void> logout() async {
     try {
-      _clientId = null;
-      _token = null;
-      _userEmail = null;
-      _isAuthenticated = false; // Marque l'utilisateur comme déconnecté
-
-      // Supprime uniquement les données liées à l'utilisateur
-      SharedPreferences prefs = await SharedPreferences.getInstance();
+      // 📦 **Efface les données utilisateur**
+      final prefs = await SharedPreferences.getInstance();
       await prefs.remove('clientId');
       await prefs.remove('token');
       await prefs.remove('userEmail');
 
-      print("Utilisateur déconnecté.");
+      _clientId = null;
+      _token = null;
+      _userEmail = null;
+      _isAuthenticated = false;
 
+      print("🔴 Utilisateur déconnecté avec succès.");
       notifyListeners();
     } catch (error) {
-      print("Erreur lors de la déconnexion : $error");
+      print("❌ Erreur lors de la déconnexion : $error");
     }
   }
 
+  // 🛑 **Confirmation avant déconnexion**
   Future<bool> confirmLogout(BuildContext context) async {
     return await showDialog(
       context: context,
@@ -101,15 +119,11 @@ class AuthentificationProvider with ChangeNotifier {
           content: const Text("Voulez-vous vraiment vous déconnecter ?"),
           actions: [
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(false); // Annuler
-              },
+              onPressed: () => Navigator.of(context).pop(false), // Annuler
               child: const Text("Annuler"),
             ),
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(true); // Confirmer
-              },
+              onPressed: () => Navigator.of(context).pop(true), // Confirmer
               child: const Text("Oui", style: TextStyle(color: Colors.red)),
             ),
           ],

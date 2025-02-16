@@ -8,6 +8,8 @@ import 'package:gohanmedic_flutterprojetmobile/Services/config.dart';
 import 'package:gohanmedic_flutterprojetmobile/Services/HttpStatus.dart';
 import 'package:gohanmedic_flutterprojetmobile/Models/CartItem.dart';
 
+import '../Provider/AuthentificationProvider.dart';
+
 class ApiService {
   // 🌍 URL de base pour l'API
   static const String baseUrl = Config.apiUrl;
@@ -30,7 +32,7 @@ class ApiService {
         headers: {'Content-Type': 'application/json'},
       );
 
-      if (response.statusCode == HttpStatus.ok) {
+      if (response.statusCode == HttpStatus.ok || response.statusCode == HttpStatus.created) {
         final data = json.decode(response.body);
         String newAccessToken = data['token'];
         String newRefreshToken = data['refreshToken'];
@@ -99,7 +101,7 @@ class ApiService {
         headers: {'Content-Type': 'application/json'},
       );
 
-      if (response.statusCode == HttpStatus.ok) {
+      if (response.statusCode == HttpStatus.ok || response.statusCode == HttpStatus.created) {
         return json.decode(response.body);
       }
       throw Exception("Erreur API : ${response.statusCode}");
@@ -155,7 +157,7 @@ class ApiService {
         headers: {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'},
       );
 
-      if (response.statusCode == HttpStatus.ok) {
+      if (response.statusCode == HttpStatus.ok || response.statusCode == HttpStatus.created) {
         print("✅ [API] Quantité mise à jour !");
       } else {
         print("❌ [API] Erreur lors de la mise à jour : ${response.body}");
@@ -178,17 +180,30 @@ class ApiService {
         headers: {'Content-Type': 'application/json; charset=UTF-8'},
       );
 
-      if (response.statusCode == HttpStatus.ok) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         final data = json.decode(response.body);
-        await SharedPreferences.getInstance().then((prefs) {
-          prefs.setString('token', data['token']);
-          prefs.setString('refreshToken', data['refreshToken']);
-          prefs.setString('clientId', data['clientId'].toString());
-        });
+
+        // 📥 Enregistrer les infos dans SharedPreferences
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+
+        await prefs.setString('token', data['token']);
+        await prefs.setString('refreshToken', data['refreshToken']);
+        await prefs.setString('clientId', data['clientId'].toString());
+        await prefs.setString('userEmail', data['credential']['mail']);
+
+        // ✅ Afficher les valeurs enregistrées pour debug
+        print("✅ [API] Connexion réussie !");
+        print("🔑 Token enregistré : ${prefs.getString('token')}");
+        print("🆔 Client ID enregistré : ${prefs.getString('clientId')}");
+        print("📧 Email enregistré : ${prefs.getString('userEmail')}");
+
         return true;
+      } else {
+        print("❌ [API] Échec de connexion : ${response.body}");
+        return false;
       }
-      return false;
     } catch (e) {
+      print("❌ [API] Erreur de connexion : $e");
       return false;
     }
   }
@@ -213,6 +228,62 @@ class ApiService {
       }
     } catch (e) {
       return "❌ Erreur réseau : $e";
+    }
+  }
+
+  // 🆔 Récupérer le profil utilisateur
+  static Future<Map<String, dynamic>?> fetchProfile() async {
+    try {
+      // 🔑 Récupérer le token et le client ID stockés
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
+      String? clientId = prefs.getString('clientId');
+
+      if (token == null || clientId == null) {
+        print("❌ [API] Erreur: Aucun token ou clientId trouvé !");
+        return null;
+      }
+
+      print("📡 [API] Récupération du profil de l'utilisateur $clientId...");
+
+      final response = await http.get(
+        Uri.parse('$baseUrl/clients/profile/$clientId'),
+        headers: {
+          'Authorization': 'Bearer $token', // ✅ Ajout du token
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        print("✅ [API] Profil récupéré avec succès : $data");
+        return data; // Retourne les données du profil
+      }
+
+      // 🔄 Gestion du token expiré (401 Unauthorized)
+      else if (response.statusCode == 401) {
+        print("🔄 [API] Token expiré, tentative de rafraîchissement...");
+
+        bool refreshed = await refreshToken();
+
+        if (refreshed) {
+          print(
+              "✅ [API] Token rafraîchi avec succès, nouvelle tentative de récupération du profil...");
+          return fetchProfile(); // 🔁 Relance la requête après refresh
+        } else {
+          print("❌ [API] Impossible de rafraîchir le token. Déconnexion nécessaire.");
+          await AuthentificationProvider().logout(); // 🚀 Déconnexion automatique
+          return null;
+        }
+      }
+      // ❌ Autres erreurs API
+      else {
+        print("❌ [API] Erreur lors de la récupération du profil: ${response.body}");
+        return null;
+      }
+    } catch (e) {
+      print("❌ [API] Erreur réseau ou exception lors de la récupération du profil: $e");
+      return null;
     }
   }
 

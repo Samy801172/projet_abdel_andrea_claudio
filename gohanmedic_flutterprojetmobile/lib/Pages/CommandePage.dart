@@ -1,7 +1,6 @@
-// Permet de voir le détail résumé d'une commande
-// lorsque le paiement est validé + retour vers home
+// 📦 Résumé d'une commande validée avec PayPal
+// Permet d'afficher les détails et de revenir à l'accueil
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CommandePage extends StatelessWidget {
@@ -10,7 +9,7 @@ class CommandePage extends StatelessWidget {
     // 🔄 Récupération des données de la commande depuis les arguments
     final Map<String, dynamic>? orderDetails = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
 
-    if (orderDetails == null) {
+    if (orderDetails == null || !orderDetails.containsKey("orderId")) {
       print("❌ ERREUR : Aucune donnée de commande reçue !");
       return Scaffold(
         appBar: AppBar(title: Text('Résumé de la Commande')),
@@ -21,7 +20,7 @@ class CommandePage extends StatelessWidget {
     }
 
     // ✅ Extraction des informations
-    int orderId = orderDetails['orderId'] ?? 0;
+    String orderId = orderDetails['orderId']?.toString() ?? "ID Inconnu";
     double totalAmount = (orderDetails['totalAmount'] as num?)?.toDouble() ?? 0.0;
     List<dynamic> items = orderDetails['items'] ?? [];
 
@@ -32,13 +31,17 @@ class CommandePage extends StatelessWidget {
       body: Column(
         children: [
           SizedBox(height: 20),
+          // ✅ Confirmation de la commande
           Text(
             '✅ Commande validée avec succès !',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.green),
           ),
           SizedBox(height: 10),
           Text('🆔 Numéro de commande : $orderId', style: TextStyle(fontSize: 16)),
-          Text('💰 Montant payé : ${totalAmount.toStringAsFixed(2)}€', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          Text(
+            '💰 Montant payé : ${totalAmount.toStringAsFixed(2)}€',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
           SizedBox(height: 20),
 
           // 📦 Liste des produits achetés
@@ -48,11 +51,25 @@ class CommandePage extends StatelessWidget {
               itemCount: items.length,
               itemBuilder: (context, index) {
                 final item = items[index];
+                String imageUrl = item['imageUrl'] ?? 'assets/image/defautproduit.png';
+                String productName = item['name'] ?? "Produit inconnu";
+                int quantity = item['quantity'] ?? 0;
+                double price = (item['price'] as num?)?.toDouble() ?? 0.0;
+
+                print("🛒 Produit [$index] : $productName, Quantité: $quantity, Prix: $price€");
+
                 return ListTile(
-                  leading: Image.network(item['imageUrl'] ?? 'assets/image/defautproduit.png', width: 50, height: 50), // 🖼️ Image du produit
-                  title: Text(item['name'] ?? "Produit inconnu"), // 🏷️ Nom du produit
-                  subtitle: Text('Quantité: ${item['quantity'] ?? 0}'), // 🔢 Quantité
-                  trailing: Text('${item['price'].toStringAsFixed(2)}€'), // 💰 Prix
+                  leading: Image.network(
+                    imageUrl,
+                    width: 50,
+                    height: 50,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Image.asset('assets/image/defautproduit.png', width: 50, height: 50);
+                    },
+                  ), // 🖼️ Image du produit
+                  title: Text(productName), // 🏷️ Nom du produit
+                  subtitle: Text('Quantité: $quantity'), // 🔢 Quantité
+                  trailing: Text('${price.toStringAsFixed(2)}€'), // 💰 Prix
                 );
               },
             )
@@ -63,7 +80,10 @@ class CommandePage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
-              onPressed: () => Navigator.pushReplacementNamed(context, '/home'),
+              onPressed: () {
+                print("🏠 Retour à l'accueil");
+                Navigator.pushReplacementNamed(context, '/home');
+              },
               child: Text('🏠 Retour à l\'accueil'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,

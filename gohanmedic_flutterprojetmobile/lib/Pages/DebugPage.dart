@@ -61,6 +61,19 @@ class _DebugPageState extends State<DebugPage> {
               style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
               child: Text("🗑️ Réinitialiser stockage"),
             ),
+            ElevatedButton(
+              onPressed: () async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                await prefs.clear();
+                print("🗑️ [DEBUG] Données locales effacées !");
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("✅ Données locales effacées !"),
+                  backgroundColor: Colors.green,
+                ));
+              },
+              child: Text("Réinitialiser les données"),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            ),
           ],
         ),
       ),
