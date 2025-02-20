@@ -5,7 +5,7 @@ import {
   throwError,
   ɵɵdefineInjectable,
   ɵɵinject
-} from "./chunk-6YZETMGJ.js";
+} from "./chunk-3KO5M7KA.js";
 
 // src/app/services/promotion/promotion.service.ts
 var PromotionService = class _PromotionService {
@@ -81,4 +81,4 @@ var PromotionService = class _PromotionService {
 export {
   PromotionService
 };
-//# sourceMappingURL=chunk-VD2MILJP.js.map
+//# sourceMappingURL=chunk-YUHDZK45.js.map

@@ -1,9 +1,9 @@
 import {
   ManufacturingService
-} from "./chunk-FIU234TU.js";
+} from "./chunk-QYWNT2UT.js";
 import {
   PromotionService
-} from "./chunk-VD2MILJP.js";
+} from "./chunk-YUHDZK45.js";
 import {
   ActivatedRoute,
   AdminService,
@@ -86,7 +86,7 @@ import {
   ɵɵtwoWayBindingSet,
   ɵɵtwoWayListener,
   ɵɵtwoWayProperty
-} from "./chunk-6YZETMGJ.js";
+} from "./chunk-3KO5M7KA.js";
 
 // src/app/feature/Dashboard/DashboardComponent/admin/orders/admin-orders.component.ts
 function AdminOrdersComponent_option_25_Template(rf, ctx) {
@@ -3850,4 +3850,4 @@ var adminRoutes = [
 export {
   adminRoutes
 };
-//# sourceMappingURL=chunk-GP32VS7B.js.map
+//# sourceMappingURL=chunk-FKD4W3RM.js.map

@@ -41269,7 +41269,8 @@ var ReactiveFormsModule = class _ReactiveFormsModule {
 // src/environments/environment.ts
 var environment = {
   production: false,
-  apiUrl: "http://localhost:2024/api",
+  apiUrl: "http://localhost:4200/api",
+  baseHref: "/",
   paypalClientId: "AYu0FhU6VKkIsk_x3DYp3ZDBn57Z0JnrYQJShGFcg3DRIquZzZIv0kBEiHw1dNKx2-enGPHWzyfUEtwM",
   paypalMode: "sandbox",
   endpoints: {
@@ -42615,4 +42616,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-6YZETMGJ.js.map
+//# sourceMappingURL=chunk-3KO5M7KA.js.map

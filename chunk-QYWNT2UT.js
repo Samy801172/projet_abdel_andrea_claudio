@@ -20,7 +20,7 @@ import {
   ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵinject
-} from "./chunk-6YZETMGJ.js";
+} from "./chunk-3KO5M7KA.js";
 
 // node_modules/socket.io-client/build/esm/index.js
 var esm_exports2 = {};
@@ -3891,4 +3891,4 @@ export {
   SocketIoModule,
   ManufacturingService
 };
-//# sourceMappingURL=chunk-FIU234TU.js.map
+//# sourceMappingURL=chunk-QYWNT2UT.js.map

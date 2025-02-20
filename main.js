@@ -1,12 +1,12 @@
 import {
   ManufacturingService,
   SocketIoModule
-} from "./chunk-FIU234TU.js";
+} from "./chunk-QYWNT2UT.js";
 import {
   AuthGuard,
   PaypalButtonComponent,
   PromotionTimerComponent
-} from "./chunk-3AESJUZ5.js";
+} from "./chunk-DMRZXG32.js";
 import {
   ANIMATION_MODULE_TYPE,
   ActivatedRoute,
@@ -130,7 +130,7 @@ import {
   ɵɵtwoWayBindingSet,
   ɵɵtwoWayListener,
   ɵɵtwoWayProperty
-} from "./chunk-6YZETMGJ.js";
+} from "./chunk-3KO5M7KA.js";
 
 // src/app/components/Login/login.component.ts
 function LoginComponent_div_6_Template(rf, ctx) {
@@ -2063,14 +2063,14 @@ var routes = [
   {
     path: "admin",
     // Route pour le dashboard administrateur avec une importation paresseuse des sous-routes
-    loadChildren: () => import("./chunk-GP32VS7B.js").then((m) => m.adminRoutes),
+    loadChildren: () => import("./chunk-FKD4W3RM.js").then((m) => m.adminRoutes),
     canActivate: [AuthGuard, AdminGuard]
     // L'utilisateur doit être authentifié et administrateur
   },
   {
     path: "client",
     // Route pour le dashboard client avec une importation paresseuse des sous-routes
-    loadChildren: () => import("./chunk-MVWW6Y6X.js").then((m) => m.clientRoutes),
+    loadChildren: () => import("./chunk-M23GLRPF.js").then((m) => m.clientRoutes),
     canActivate: [AuthGuard]
     // L'utilisateur doit être authentifié pour accéder au dashboard client
   },
